@@ -31,12 +31,13 @@ export default class PaintingList extends Component {
           const painting = paintings[id];
           return (
               <div className={styles.painting}>
-                <img src={painting.attachment.url} alt=""/>
+               <img src={painting.attachment.url} alt=""/>
                 <h2>{painting.title}</h2>
               </div>
             );
         })
       }
+      <button onClick={()=> this.props.loadPaintings(2)}>下一页</button>
     </div>);
   }
 }

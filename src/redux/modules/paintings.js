@@ -29,9 +29,9 @@ export default function reducer(state = {}, action = {}) {
   }
 }
 
-export function load() {
+export function load(pageNumber = 1) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/api/paintings')
+    promise: (client) => client.get('/api/paintings?page=' + pageNumber)
   };
 }
