@@ -7,6 +7,9 @@ import counter from './counter';
 import {reducer as form} from 'redux-form';
 import info from './info';
 import widgets from './widgets';
+import cat from './cat';
+import paintings from './paintings';
+import profiles from './profiles';
 
 export default combineReducers({
   router: routerStateReducer,
@@ -18,5 +21,8 @@ export default combineReducers({
     counter3: counter
   }),
   info,
-  widgets
+  widgets,
+  cat,
+  paintings,
+  profiles
 });

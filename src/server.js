@@ -29,6 +29,8 @@ const proxy = httpProxy.createProxyServer({
   ws: true
 });
 
+console.log('proxyyyyyy', 'http://' + config.apiHost + ':' + config.apiPort);
+
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 
