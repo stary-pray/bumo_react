@@ -1,18 +1,17 @@
 import { combineReducers } from 'redux';
 import multireducer from 'multireducer';
-import { routerStateReducer } from 'redux-router';
+import { routeReducer } from 'react-router-redux';
+import {reducer as reduxAsyncConnect} from 'redux-async-connect';
 
 import auth from './auth';
 import counter from './counter';
 import {reducer as form} from 'redux-form';
 import info from './info';
 import widgets from './widgets';
-import cat from './cat';
-import paintings from './paintings';
-import profiles from './profiles';
 
 export default combineReducers({
-  router: routerStateReducer,
+  routing: routeReducer,
+  reduxAsyncConnect,
   auth,
   form,
   multireducer: multireducer({
@@ -21,8 +20,5 @@ export default combineReducers({
     counter3: counter
   }),
   info,
-  widgets,
-  cat,
-  paintings,
-  profiles
+  widgets
 });

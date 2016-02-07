@@ -1,20 +1,11 @@
 import React, {Component, PropTypes} from 'react';
-import DocumentMeta from 'react-document-meta';
+import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
 import * as widgetActions from 'redux/modules/widgets';
 import {isLoaded, load as loadWidgets} from 'redux/modules/widgets';
 import {initializeWithKey} from 'redux-form';
-import connectData from 'helpers/connectData';
 import { WidgetForm } from 'components';
-import config from '../../config';
 
-function fetchDataDeferred(getState, dispatch) {
-  if (!isLoaded(getState())) {
-    return dispatch(loadWidgets());
-  }
-}
-
-@connectData(null, fetchDataDeferred)
 @connect(
   state => ({
     widgets: state.widgets.data,
@@ -32,6 +23,13 @@ export default class Widgets extends Component {
     editing: PropTypes.object.isRequired,
     load: PropTypes.func.isRequired,
     editStart: PropTypes.func.isRequired
+  };
+
+  static reduxAsyncConnect(params, store) {
+    const {dispatch, getState} = store;
+    if (!isLoaded(getState())) {
+      return dispatch(loadWidgets());
+    }
   }
 
   render() {
@@ -53,7 +51,7 @@ export default class Widgets extends Component {
             <i className={refreshClassName}/> {' '} Reload Widgets
           </button>
         </h1>
-        <DocumentMeta title={config.app.title + ': Widgets'}/>
+        <Helmet title="Widgets"/>
         <p>
           If you hit refresh on your browser, the data loading will take place on the server before the page is returned.
           If you navigated here from another page, the data was fetched from the client after the route transition.
