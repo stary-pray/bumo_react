@@ -1,12 +1,14 @@
 import { createStore as _createStore, applyMiddleware, compose } from 'redux';
 import createMiddleware from './middleware/clientMiddleware';
 import { syncHistory } from 'react-router-redux';
+import sagaMiddleware from 'redux-saga'
+import saga from './saga';
 
 export default function createStore(getRoutes, history, client, data) {
   // Sync dispatched route actions to the history
   const reduxRouterMiddleware = syncHistory(history);
 
-  const middleware = [createMiddleware(client), reduxRouterMiddleware];
+  const middleware = [sagaMiddleware(...saga), createMiddleware(client), reduxRouterMiddleware];
 
   let finalCreateStore;
   if (__DEVELOPMENT__ && __CLIENT__ && __DEVTOOLS__) {

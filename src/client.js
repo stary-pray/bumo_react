@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createStore from './redux/create';
 import ApiClient from './helpers/ApiClient';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import {Provider} from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 import { ReduxAsyncConnect } from 'redux-async-connect';
@@ -18,20 +18,21 @@ const client = new ApiClient();
 const dest = document.getElementById('content');
 const store = createStore(getRoutes, browserHistory, client, window.__data);
 
-function initSocket() {
-  const socket = io('', {path: '/ws'});
-  socket.on('news', (data) => {
-    console.log(data);
-    socket.emit('my other event', { my: 'data from client' });
-  });
-  socket.on('msg', (data) => {
-    console.log(data);
-  });
+// function initSocket() {
+//   const socket = io('', {path: '/ws'});
+//   socket.on('news', (data) => {
+//     console.log(data);
+//     socket.emit('my other event', { my: 'data from client' });
+//   });
+//   socket.on('msg', (data) => {
+//     console.log(data);
+//   });
+//
+//   return socket;
+// }
 
-  return socket;
-}
-
-global.socket = initSocket();
+// disabled socket
+// global.socket = initSocket();
 
 const component = (
   <Router render={(props) =>

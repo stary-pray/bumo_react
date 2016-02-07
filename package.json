@@ -24,19 +24,15 @@
   ],
   "main": "bin/server.js",
   "scripts": {
-    "start": "concurrent --kill-others \"npm run start-prod\" \"npm run start-prod-api\"",
+    "start": "concurrent --kill-others \"npm run start-prod\"",
     "start-prod": "better-npm-run start-prod",
-    "start-prod-api": "better-npm-run start-prod-api",
     "build": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
     "postinstall": "webpack --display-error-details --config webpack/prod.config.js",
-    "lint": "eslint -c .eslintrc src api",
+    "lint": "eslint -c .eslintrc src",
     "start-dev": "better-npm-run start-dev",
-    "start-dev-api": "better-npm-run start-dev-api",
     "watch-client": "better-npm-run watch-client",
-    "dev": "concurrent --kill-others \"npm run watch-client\" \"npm run start-dev\" \"npm run start-dev-api\"",
-    "test": "karma start",
-    "test-node": "./node_modules/mocha/bin/mocha $(find api -name '*-test.js') --compilers js:babel-core/register",
-    "test-node-watch": "./node_modules/mocha/bin/mocha $(find api -name '*-test.js') --compilers js:babel-core/register --watch"
+    "dev": "concurrent --kill-others \"npm run watch-client\" \"npm run start-dev\"",
+    "test": "karma start"
   },
   "betterScripts": {
     "start-prod": {
@@ -45,15 +41,7 @@
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
         "PORT": 8080,
-        "APIPORT": 3030
-      }
-    },
-    "start-prod-api": {
-      "command": "node ./bin/api.js",
-      "env": {
-        "NODE_PATH": "./api",
-        "NODE_ENV": "production",
-        "APIPORT": 3030
+        "APIPORT": 8000
       }
     },
     "start-dev": {
@@ -62,15 +50,7 @@
         "NODE_PATH": "./src",
         "NODE_ENV": "development",
         "PORT": 3000,
-        "APIPORT": 3030
-      }
-    },
-    "start-dev-api": {
-      "command": "node ./bin/api.js",
-      "env": {
-        "NODE_PATH": "./api",
-        "NODE_ENV": "development",
-        "APIPORT": 3030
+        "APIPORT": 8000
       }
     },
     "watch-client": {
@@ -84,6 +64,7 @@
   "dependencies": {
     "babel": "~5.8.29",
     "babel-plugin-typecheck": "^2.0.0",
+    "babel-polyfill": "^6.3.14",
     "body-parser": "^1.14.1",
     "compression": "^1.6.0",
     "express": "^4.13.3",
@@ -108,10 +89,11 @@
     "react-redux": "^4.0.0",
     "react-router": "2.0.0-rc5",
     "react-router-bootstrap": "^0.20.1",
+    "react-router-redux": "^2.1.0",
     "redux": "^3.0.4",
     "redux-async-connect": "^0.1.10",
     "redux-form": "^3.0.12",
-    "react-router-redux": "^2.1.0",
+    "redux-saga": "^0.6.1",
     "serialize-javascript": "^1.1.2",
     "serve-favicon": "^2.3.0",
     "socket.io": "^1.3.7",
