@@ -4,43 +4,42 @@
 import 'babel/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import createHistory from 'history/lib/createBrowserHistory';
-import useScroll from 'scroll-behavior/lib/useStandardScroll';
 import createStore from './redux/create';
 import ApiClient from './helpers/ApiClient';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import {Provider} from 'react-redux';
-import {reduxReactRouter, ReduxRouter} from 'redux-router';
+import { Router, browserHistory } from 'react-router';
+import { ReduxAsyncConnect } from 'redux-async-connect';
 
 import getRoutes from './routes';
-import makeRouteHooksSafe from './helpers/makeRouteHooksSafe';
 
 const client = new ApiClient();
 
-// Three different types of scroll behavior available.
-// Documented here: https://github.com/rackt/scroll-behavior
-const scrollableHistory = useScroll(createHistory);
-
 const dest = document.getElementById('content');
-const store = createStore(reduxReactRouter, makeRouteHooksSafe(getRoutes), scrollableHistory, client, window.__data);
+const store = createStore(getRoutes, browserHistory, client, window.__data);
 
-function initSocket() {
-  const socket = io('', {path: '/api/ws', transports: ['polling']});
-  socket.on('news', (data) => {
-    console.log(data);
-    socket.emit('my other event', { my: 'data from client' });
-  });
-  socket.on('msg', (data) => {
-    console.log(data);
-  });
+// function initSocket() {
+//   const socket = io('', {path: '/ws'});
+//   socket.on('news', (data) => {
+//     console.log(data);
+//     socket.emit('my other event', { my: 'data from client' });
+//   });
+//   socket.on('msg', (data) => {
+//     console.log(data);
+//   });
+//
+//   return socket;
+// }
 
-  return socket;
-}
-
-global.socket = initSocket();
+// disabled socket
+// global.socket = initSocket();
 
 const component = (
-  <ReduxRouter routes={getRoutes(store)} />
+  <Router render={(props) =>
+        <ReduxAsyncConnect {...props} helpers={{client}} />
+      } history={browserHistory}>
+    {getRoutes(store)}
+  </Router>
 );
 
 ReactDOM.render(

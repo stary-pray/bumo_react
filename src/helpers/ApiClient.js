@@ -22,8 +22,9 @@ function formatUrl(path) {
 class _ApiClient {
   constructor(req) {
     methods.forEach((method) =>
-      this[method] = (path, { params, data } = {}) => new Promise((resolve, reject) => {
+      this[method] = (path, {params, data} = {}) => new Promise((resolve, reject) => {
         const request = superagent[method](formatUrl(path));
+        const token = window ? localStorage.getItem('token') : null;
 
         if (params) {
           request.query(params);
@@ -33,11 +34,15 @@ class _ApiClient {
           request.set('cookie', req.get('cookie'));
         }
 
+        if (token) {
+          request.set('Authorization', `JWT ${token}`);
+        }
+
         if (data) {
           request.send(data);
         }
 
-        request.end((err, { body } = {}) => err ? reject(body || err) : resolve(body));
+        request.end((err, {body} = {}) => err ? reject(body || err) : resolve(body));
       }));
   }
 }

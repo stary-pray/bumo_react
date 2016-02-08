@@ -1,18 +1,21 @@
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 import multireducer from 'multireducer';
-import { routerStateReducer } from 'redux-router';
+import {routeReducer} from 'react-router-redux';
+import {reducer as reduxAsyncConnect} from 'redux-async-connect';
 
 import auth from './auth';
 import counter from './counter';
 import {reducer as form} from 'redux-form';
-import info from './info';
+import me from './me';
 import widgets from './widgets';
-import cat from './cat';
-import paintings from './paintings';
-import profiles from './profiles';
+import models from './models/reducer';
+import containers from './containers/reducer';
 
 export default combineReducers({
-  router: routerStateReducer,
+  routing: routeReducer,
+  models,
+  containers,
+  reduxAsyncConnect,
   auth,
   form,
   multireducer: multireducer({
@@ -20,9 +23,6 @@ export default combineReducers({
     counter2: counter,
     counter3: counter
   }),
-  info,
-  widgets,
-  cat,
-  paintings,
-  profiles
+  me,
+  widgets
 });
