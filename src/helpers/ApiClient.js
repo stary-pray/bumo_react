@@ -24,7 +24,7 @@ class _ApiClient {
     methods.forEach((method) =>
       this[method] = (path, {params, data} = {}) => new Promise((resolve, reject) => {
         const request = superagent[method](formatUrl(path));
-        const token = window ? localStorage.getItem('token') : null;
+        const token = !__SERVER__ ? localStorage.getItem('token') : null;
 
         if (params) {
           request.query(params);
@@ -36,6 +36,10 @@ class _ApiClient {
 
         if (token) {
           request.set('Authorization', `JWT ${token}`);
+        }
+
+        if (__SERVER__ && req.get('Authorization')) {
+          request.set('Authorization', req.get('Authorization'));
         }
 
         if (data) {

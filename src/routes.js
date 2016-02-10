@@ -4,6 +4,7 @@ import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
     App,
     Home,
+    PaintingDetail,
     Login,
     NotFound,
   } from 'containers';
@@ -39,6 +40,8 @@ export default (store) => {
 
       { /* Routes */ }
       <Route path="login" component={Login}/>
+
+      <Route path="painting/:paintingId" component={PaintingDetail}/>
 
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />
