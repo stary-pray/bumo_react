@@ -5,13 +5,13 @@ import * as authActions from 'redux/modules/auth';
 
 @connect(
   state => ({
-    user: state.auth.user,
+    userLoad: state.auth.loaded,
     captcha: state.auth.captcha,
   }),
   authActions)
 export default class Login extends Component {
   static propTypes = {
-    user: PropTypes.object,
+    userLoad: PropTypes.bool,
     captcha: PropTypes.string,
     login: PropTypes.func,
     logout: PropTypes.func,
@@ -28,20 +28,20 @@ export default class Login extends Component {
     this.props.login(this.refs.email.value, this.refs.password.value, this.props.captcha, this.refs.captcha.value);
   };
 
-  handleRefreshCaptcha = (event) => {
+  handleGetCaptcha = (event) => {
     event.preventDefault();
-    this.props.refreshCaptcha();
+    this.props.getCaptcha();
     this.refs.captcha.value = '';
   }
 
   render() {
-    const {user, logout, captcha} = this.props;
+    const {userLoad, logout, captcha} = this.props;
     const styles = require('./Login.scss');
     return (
       <div className={styles.loginPage + ' container'}>
         <Helmet title="Login"/>
         <h1>Login</h1>
-        {!user &&
+        {!userLoad &&
         <div>
           <form className="login-form form-inline" onSubmit={this.handleSubmit}>
             <div className="form-group">
@@ -55,7 +55,7 @@ export default class Login extends Component {
             </div>
             { captcha ?
               <div className="form-group">
-                <a onClick={this.handleRefreshCaptcha} href="">
+                <a onClick={this.handleGetCaptcha} href="">
                   <img src={`/api/api/auth/captcha/image/${captcha}/`} alt=""/>
                 </a>
               </div>
@@ -66,9 +66,9 @@ export default class Login extends Component {
           <p>This will "log you in" as this user, storing the email in the session of the API server.</p>
         </div>
         }
-        {user &&
+        {userLoad &&
         <div>
-          <p>You are currently logged in as {user.name}.</p>
+          <p>You are currently logged in as kkk.</p>
 
           <div>
             <button className="btn btn-danger" onClick={logout}><i className="fa fa-sign-out"/>{' '}Log Out</button>

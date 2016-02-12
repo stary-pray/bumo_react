@@ -27,6 +27,7 @@ export default handleActions({
   }),
   [LOGIN_SUCCESS]: (state, action) => ({
     ...state,
+    loaded: true,
     loggingIn: false,
     token: action.result.token
   }),
@@ -98,6 +99,6 @@ export function getCaptcha() {
 export function refreshCaptcha() {
   return {
     types: [REFRESH_CAPTCHA, REFRESH_CAPTCHA_SUCCESS, REFRESH_CAPTCHA_FAIL],
-    promise: (client) => client.post('/api/auth/captcha/refresh/')
+    promise: (client) => client.get('/api/auth/captcha/refresh/')
   };
 }

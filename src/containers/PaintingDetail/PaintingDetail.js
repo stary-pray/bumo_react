@@ -38,6 +38,6 @@ export default class PaintingDetail extends Component {
     const {loaded: loaded} = this.props.component;
     const {paintingDetail, id} = this.props;
 
-    return (loaded) ? ( <div> { paintingDetail[id].title } </div> ) : ( <div> Loading... </div> );
+    return (loaded) ? ( <div><img src={paintingDetail[id].attachment} /> { paintingDetail[id].title } </div> ) : ( <div> Loading... </div> );
   }
 }

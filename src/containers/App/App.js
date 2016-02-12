@@ -56,7 +56,7 @@ export default class App extends Component {
         <Helmet {...config.app.head}/>
         <div className={styles.NavBar}>
           <IndexLink to="/">首页</IndexLink>
-          <Link to="/p/1">用户1</Link>
+          <Link to="/me">用户1</Link>
           <Link to="/login">登录</Link>
         </div>
         <div className={styles.appContent}>
