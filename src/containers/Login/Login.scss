@@ -1,4 +1,4 @@
-.loginPage {
+.Login {
   input {
     padding: 5px 10px;
     border-radius: 5px;
@@ -6,8 +6,5 @@
   }
   form {
     margin: 30px 0;
-    :global(.btn) {
-      margin-left: 10px;
-    }
   }
 }

@@ -6,12 +6,23 @@ const TRULY = true;
 import * as authModule from '../modules/auth';
 import * as meModule from '../modules/me';
 
+function* initialApp() {
+  yield take(authModule.INITIAL_APP);
+  yield put(meModule.load());
+}
+
 function* loginSuccess() {
   while (TRULY) {
     const {result} = yield take(authModule.LOGIN_SUCCESS);
-    if (!__SERVER__) localStorage.setItem('token', result.token);
+    localStorage.setItem('token', result.token);
     yield put(meModule.load());
   }
+}
+
+function* logout() {
+  yield take(authModule.LOGOUT);
+  localStorage.removeItem('token');
+  yield put({type: authModule.LOGOUT_SUCCESS});
 }
 
 function* getCaptcha() {
@@ -23,6 +34,8 @@ function* getCaptcha() {
 }
 
 export default function* root() {
+  yield fork(initialApp);
   yield fork(loginSuccess);
+  yield fork(logout);
   yield fork(getCaptcha);
 }

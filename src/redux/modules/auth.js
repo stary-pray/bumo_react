@@ -1,5 +1,9 @@
 import {handleActions} from 'redux-actions';
 
+import * as meAction from './me';
+
+export const INITIAL_APP = 'bumo/auth/INITIAL_APP';
+
 export const LOGIN = 'bumo/auth/LOGIN';
 export const LOGIN_SUCCESS = 'bumo/auth/LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'bumo/auth/LOGIN_FAIL';
@@ -21,6 +25,14 @@ const initialState = {
 };
 
 export default handleActions({
+  [meAction.LOAD_SUCCESS]: (state) => ({
+    ...state,
+    loaded: true
+  }),
+  [meAction.LOAD_FAIL]: (state) => ({
+    ...state,
+    loaded: false
+  }),
   [LOGIN]: (state) => ({
     ...state,
     loggingIn: true
@@ -39,16 +51,14 @@ export default handleActions({
   }),
   [LOGOUT]: (state) => ({
     ...state,
-    loggingOut: true
   }),
   [LOGOUT_SUCCESS]: (state) => ({
     ...state,
-    loggingOut: false,
-    token: null
+    token: null,
+    loaded: false
   }),
   [LOGOUT_FAIL]: (state, action) => ({
     ...state,
-    loggingOut: false,
     logoutError: action.error
   }),
   // get captcha
@@ -63,6 +73,11 @@ export default handleActions({
   }),
 }, initialState);
 
+export function initialApp(){
+  return {
+    type: INITIAL_APP
+  };
+}
 
 export function isLoaded(globalState) {
   return globalState.auth && globalState.auth.loaded;
@@ -83,10 +98,7 @@ export function login(email, password, captchaHash, captchaAnswer) {
 }
 
 export function logout() {
-  return {
-    types: [LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAIL],
-    promise: (client) => client.get('/logout')
-  };
+  return {type: LOGOUT};
 }
 
 export function getCaptcha() {

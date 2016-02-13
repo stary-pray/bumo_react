@@ -5,12 +5,7 @@ const methods = ['get', 'post', 'put', 'patch', 'del'];
 
 function formatUrl(path) {
   const adjustedPath = path[0] !== '/' ? '/' + path : path;
-  if (__SERVER__) {
-    // Prepend host and port of the API server to the path.
-    return 'http://' + config.apiHost + ':' + config.apiPort + adjustedPath;
-  }
-  // Prepend `/api` to relative URL, to proxy to API server.
-  return '/api' + adjustedPath;
+  return config.serverApi + adjustedPath;
 }
 
 /*
@@ -24,22 +19,14 @@ class _ApiClient {
     methods.forEach((method) =>
       this[method] = (path, {params, data} = {}) => new Promise((resolve, reject) => {
         const request = superagent[method](formatUrl(path));
-        const token = !__SERVER__ ? localStorage.getItem('token') : null;
+        const token = localStorage.getItem('token');
 
         if (params) {
           request.query(params);
         }
 
-        if (__SERVER__ && req.get('cookie')) {
-          request.set('cookie', req.get('cookie'));
-        }
-
         if (token) {
           request.set('Authorization', `JWT ${token}`);
-        }
-
-        if (__SERVER__ && req.get('Authorization')) {
-          request.set('Authorization', req.get('Authorization'));
         }
 
         if (data) {

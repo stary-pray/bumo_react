@@ -1,6 +1,3 @@
-/**
- * Created by akistar on 16/2/10.
- */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';

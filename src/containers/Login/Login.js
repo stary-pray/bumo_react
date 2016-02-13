@@ -2,6 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import * as authActions from 'redux/modules/auth';
+import config from '../../config';
+import './Login.scss';
 
 @connect(
   state => ({
@@ -32,13 +34,12 @@ export default class Login extends Component {
     event.preventDefault();
     this.props.getCaptcha();
     this.refs.captcha.value = '';
-  }
+  };
 
   render() {
     const {userLoad, logout, captcha} = this.props;
-    const styles = require('./Login.scss');
     return (
-      <div className={styles.loginPage + ' container'}>
+      <div className="Login">
         <Helmet title="Login"/>
         <h1>Login</h1>
         {!userLoad &&
@@ -56,7 +57,7 @@ export default class Login extends Component {
             { captcha ?
               <div className="form-group">
                 <a onClick={this.handleGetCaptcha} href="">
-                  <img src={`/api/api/auth/captcha/image/${captcha}/`} alt=""/>
+                  <img src={`${config.serverApi}/api/auth/captcha/image/${captcha}/`} alt=""/>
                 </a>
               </div>
               : '' }

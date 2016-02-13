@@ -1,0 +1,9 @@
+@import "../../containers/colors";
+
+.NavBar {
+  background-color: $lBlack;
+  flex: 0 0 5rem;
+  a {
+    display: block;
+  }
+}

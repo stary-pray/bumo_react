@@ -1,16 +1,14 @@
 import React from 'react';
 import {IndexRoute, Route} from 'react-router';
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
-import {
-  App,
-  Home,
-  PaintingDetail,
-  Login,
-  NotFound,
-  Me,
-} from 'containers';
+import App from 'containers/App/App';
+import Home from 'containers/Home/Home';
+import PaintingDetail from 'containers/PaintingDetail/PaintingDetail';
+import Login from 'containers/Login/Login';
+import NotFound from 'containers/NotFound/NotFound';
+import Me from 'containers/Me/Me';
 
-export default (store) => {
+export default function Router(store) {
   const requireLogin = (nextState, replaceState, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
@@ -50,4 +48,4 @@ export default (store) => {
       <Route path="*" component={NotFound} status={404}/>
     </Route>
   );
-};
+}

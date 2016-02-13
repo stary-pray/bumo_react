@@ -1,17 +1,8 @@
-@import "../foundation";
+@import "../colors";
 
 .App {
   flex-direction: row;
-}
-
-.NavBar {
-  background-color: $lBlack;
-  flex: 0 0 5rem;
-  a {
-    display: block;
+  .Content {
+    margin: 50px 0; // for fixed navbar
   }
-}
-
-.App__Content {
-  margin: 50px 0; // for fixed navbar
 }

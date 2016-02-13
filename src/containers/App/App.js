@@ -1,20 +1,29 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {IndexLink, Link} from 'react-router';
 import Helmet from 'react-helmet';
-import {logout} from 'redux/modules/auth';
+import {logout, initialApp} from 'redux/modules/auth';
 import {isLoaded as isMeLoaded, load as loadMe} from 'redux/modules/me';
 import {routeActions} from 'react-router-redux';
 import config from '../../config';
+import Navbar from '../../components/Navbar/Navbar';
+
+import './App.scss';
 
 @connect(
-  state => ({user: state.auth.user}),
-  {logout, pushState: routeActions.push})
+  state => ({
+    loaded: state.auth.loaded,
+    user: state.auth.user,
+    me: state.me,
+  }),
+  {logout, initialApp, pushState: routeActions.push})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
+    me: PropTypes.object,
     logout: PropTypes.func.isRequired,
+    loaded: PropTypes.bool.isRequired,
+    initialApp: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired
   };
 
@@ -22,25 +31,16 @@ export default class App extends Component {
     store: PropTypes.object.isRequired
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (!this.props.user && nextProps.user) {
-      // login
-      this.props.pushState('/loginSuccess');
-    } else if (this.props.user && !nextProps.user) {
-      // logout
-      this.props.pushState('/');
-    }
+  componentWillMount(){
+    this.props.initialApp();
   }
 
-  static reduxAsyncConnect(params, store) {
-    const {dispatch, getState} = store;
-    const promises = [];
-
-    if (!isMeLoaded(getState())) {
-      promises.push(dispatch(loadMe()));
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.me.id && nextProps.me.id) {
+      this.props.pushState('/me');
+    } else if (this.props.me.id && !nextProps.me.id) {
+      this.props.pushState('/');
     }
-
-    return Promise.all(promises);
   }
 
   handleLogout = (event) => {
@@ -49,17 +49,12 @@ export default class App extends Component {
   };
 
   render() {
-    // const {user} = this.props;
-    const styles = require('./App.scss');
+    const {me, loaded} = this.props;
     return (
-      <div className={styles.App + ' ' + styles['grid-frame'] + ' ' + 'grid-frame'}>
+      <div className="App grid-frame">
         <Helmet {...config.app.head}/>
-        <div className={styles.NavBar}>
-          <IndexLink to="/">首页</IndexLink>
-          <Link to="/me">用户1</Link>
-          <Link to="/login">登录</Link>
-        </div>
-        <div className={styles.appContent}>
+        <Navbar logout={this.handleLogout} me={me} loaded={loaded} />
+        <div className="Content">
           {this.props.children}
         </div>
       </div>

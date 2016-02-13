@@ -39,12 +39,11 @@ export default class Home extends Component {
       <h1>Home</h1>
       <p>Example for all paintings</p>
       <div className={style.PaintingInfo}>
-        { component.loaded ?
+        {component.loaded ?
           component.indexes.map((paintingId)=>(<div key={paintingId}>
             <Link to={'/painting/' + paintingId}><img src={painting[paintingId].attachment} />{ painting[paintingId].title }</Link>
           </div>)) :
-          ''
-        }
+          ''}
       </div>
     </div>);
   }
