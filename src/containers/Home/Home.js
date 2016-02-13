@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {load as loadPainting} from 'redux/modules/models/Painting';
 import {Link} from 'react-router';
-
+import './Home.scss';
 
 @connect(
   state => ({
@@ -32,17 +32,20 @@ export default class Home extends Component {
   }
 
   render() {
-    const style = require('./Home.scss');
     const {painting, component} = this.props;
     console.log('component', component);
-    return (<div>
+    return (<div className="Home">
       <h1>Home</h1>
       <p>Example for all paintings</p>
-      <div className={style.PaintingInfo}>
+      <div className="paintingInfo">
         {component.loaded ?
-          component.indexes.map((paintingId)=>(<div key={paintingId}>
-            <Link to={'/painting/' + paintingId}><img src={painting[paintingId].attachment} />{ painting[paintingId].title }</Link>
-          </div>)) :
+          component.indexes.map((paintingId)=>(
+            <div className="paintings" key={paintingId}>
+              <Link to={'/painting/' + paintingId}>
+                <img src={painting[paintingId].attachment}/>
+                { painting[paintingId].title }
+              </Link>
+            </div>)) :
           ''}
       </div>
     </div>);
