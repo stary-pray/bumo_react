@@ -36,11 +36,13 @@ export default class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    /*
     if (!this.props.me.id && nextProps.me.id) {
       this.props.pushState('/me');
     } else if (this.props.me.id && !nextProps.me.id) {
       this.props.pushState('/');
     }
+    */
   }
 
   handleLogout = (event) => {

@@ -3,6 +3,7 @@ const initialState = {
   profile: {},
   painting: {},
   paintingDetail: {},
+  likes:{},
 };
 
 export default function reducer(state = initialState, action) {

@@ -4,6 +4,7 @@ import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import App from 'containers/App/App';
 import Home from 'containers/Home/Home';
 import PaintingDetail from 'containers/PaintingDetail/PaintingDetail';
+import UserPainting from 'containers/UserPainting/UserPainting';
 import Login from 'containers/Login/Login';
 import NotFound from 'containers/NotFound/NotFound';
 import Me from 'containers/Me/Me';
@@ -43,6 +44,8 @@ export default function Router(store) {
       <Route path="me" component={Me}/>
 
       <Route path="painting/:paintingId" component={PaintingDetail}/>
+
+      <Route path="p/:ownerId" component={UserPainting}/>
 
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404}/>

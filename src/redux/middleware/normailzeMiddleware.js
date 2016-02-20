@@ -5,16 +5,20 @@ const schemas = {
   paintingDetail: new Schema('paintingDetail'),
   profile: new Schema('profile'),
   heat: new Schema('heat'),
+  likes: new Schema('likes'),
+  tags: new Schema('tags'),
 };
 
 schemas.painting.define({
   profile: schemas.profile,
-  heat: schemas.heat,
+  heat: schemas.heat
 });
 
 schemas.paintingDetail.define({
   profile: schemas.profile,
   heat: schemas.heat,
+  tags: arrayOf(schemas.tags),
+  likes: arrayOf(schemas.likes)
 });
 
 export default function normalizeMiddleware() {

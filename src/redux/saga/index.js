@@ -5,6 +5,9 @@ const TRULY = true;
 
 import * as authModule from '../modules/auth';
 import * as meModule from '../modules/me';
+import * as likeModule from '../modules/models/Like';
+import * as paintingDetailModule from '../modules/models/PaintingDetail';
+
 
 function* initialApp() {
   yield take(authModule.INITIAL_APP);
@@ -20,16 +23,24 @@ function* loginSuccess() {
 }
 
 function* logout() {
-  yield take(authModule.LOGOUT);
-  localStorage.removeItem('token');
-  yield put({type: authModule.LOGOUT_SUCCESS});
+  while(TRULY) {
+    yield take(authModule.LOGOUT);
+    localStorage.removeItem('token');
+    yield put({type: authModule.LOGOUT_SUCCESS});
+  }
 }
 
 function* getCaptcha() {
   while (TRULY) {
-    const {result} = yield take(authModule.GET_CAPTCHA_SUCCESS);
-    console.log('captcha key', result);
-    // just do nothing, for example
+    const {result} = yield take(authModule.LOGIN_FAIL);
+    yield put(authModule.getCaptcha());
+  }
+}
+
+function* likeSuccess(action) {
+  while (TRULY) {
+    const paintingId= yield take(likeModule.LIKE_SUCCESS, action.result.id);
+    yield put(paintingDetailModule.load(paintingId));
   }
 }
 
@@ -38,4 +49,5 @@ export default function* root() {
   yield fork(loginSuccess);
   yield fork(logout);
   yield fork(getCaptcha);
+  //yield fork(likeSuccess);
 }

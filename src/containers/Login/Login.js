@@ -9,6 +9,8 @@ import './Login.scss';
   state => ({
     userLoad: state.auth.loaded,
     captcha: state.auth.captcha,
+    loginError: state.auth.loginError,
+
   }),
   authActions)
 export default class Login extends Component {
@@ -19,6 +21,7 @@ export default class Login extends Component {
     logout: PropTypes.func,
     getCaptcha: PropTypes.func,
     refreshCaptcha: PropTypes.func,
+    loginError: PropTypes.object,
   };
 
   componentWillMount() {
@@ -37,7 +40,17 @@ export default class Login extends Component {
   };
 
   render() {
-    const {userLoad, logout, captcha} = this.props;
+    const {userLoad, logout, captcha, loginError} = this.props;
+    let formError = '';
+    if (loginError && loginError.CAPTCHA_WRONG_ERROR) {
+      formError = <span> 验证码错误 </span>;
+    }
+    if (loginError && loginError.non_field_errors) {
+      formError = <span> 用户名或者密码错误 </span>;
+    }
+    if (loginError && loginError.PASSWORD_NEEDED) {
+      formError = <span> 请输入密码 </span>;
+    }
     return (
       <div className="Login">
         <Helmet title="Login"/>
@@ -61,6 +74,7 @@ export default class Login extends Component {
                 </a>
               </div>
               : '' }
+            {formError}
             <button className="btn btn-success" onClick={this.handleSubmit}><i className="fa fa-sign-in"/>{' '}Log In
             </button>
           </form>
