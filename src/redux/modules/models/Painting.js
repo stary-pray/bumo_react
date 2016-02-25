@@ -4,10 +4,11 @@ export const LOAD_FAIL = 'bumo/painting/LOAD_FAIL';
 
 
 
-export function load() {
+export function load(index) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/api/paintings'),
+    promise: (client) => client.get('/api/paintings?page=' + index),
     normalizeSchema: 'painting'
   };
 }
+

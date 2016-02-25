@@ -2,9 +2,11 @@
 
 .App {
   flex-direction: row;
+  position: relative;
   .Content {
     flex: 1 1 auto;
     display: flex;
     overflow: auto;
+    position: relative;
   }
 }

@@ -15,7 +15,8 @@ import {Link} from 'react-router';
     profile: state.models.profile,
     heat: state.models.heat,
     component: state.containers.PaintingDetail,
-    id: +ownProps.params.paintingId
+    id: +ownProps.params.paintingId,
+    likeComponent: state.containers.Like
   }),
   dispatch => bindActionCreators({
     loadPaintingDetail,
@@ -32,7 +33,8 @@ export default class PaintingDetail extends Component {
     heat: PropTypes.object,
     component: PropTypes.object,
     loadPaintingDetail: PropTypes.func,
-    likePainting: PropTypes.func
+    likePainting: PropTypes.func,
+    likeComponent: PropTypes.object
   };
 
   componentWillMount() {
@@ -49,8 +51,15 @@ export default class PaintingDetail extends Component {
 
   render() {
     const {loaded: loaded} = this.props.component;
+    const {like_error} = this.props.likeComponent;
     const {paintingDetail, id, heat, profile} = this.props;
-    const ownerId = paintingDetail[id].owner;
+    const ownerId = paintingDetail[id] ? paintingDetail[id].owner : -1;
+    let likeError = '';
+
+    if (like_error && like_error.NUMBER_WRONG) {
+        likeError = '点赞数必须在1到100之间的整数';
+    }
+
     return (loaded) ? (
       <div>
         {(paintingDetail[id] ?
@@ -66,9 +75,9 @@ export default class PaintingDetail extends Component {
           : '')}
         <form onSubmit={this.handleSubmit}>
           <div>
-            <input type="number" ref = "like_amount" placeholder="点赞数"
-            />
+            <input type="number" ref="like_amount" placeholder="点赞数(1到100之间的整数)"/>
           </div>
+          {likeError}
           <button onClick={this.handleSubmit}>Like
           </button>
         </form>

@@ -1,6 +1,7 @@
 .Home{
   width: 100%;
   backface-visibility: hidden;
+  position: relative;
   > h1, >p {
     padding-left: 2rem;
   }
@@ -11,8 +12,12 @@
     flex-wrap: wrap;
     align-items: baseline;
     .paintings{
+      min-height: 35vh;
       padding: 2rem;
       flex: 0 0 25%;
     }
+  }
+  .waypoint{
+    position: relative;
   }
 }

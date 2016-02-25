@@ -8,6 +8,9 @@ import UserPainting from 'containers/UserPainting/UserPainting';
 import Login from 'containers/Login/Login';
 import NotFound from 'containers/NotFound/NotFound';
 import Me from 'containers/Me/Me';
+import Register from 'containers/Register/Register';
+import EditMe from 'containers/Me/EditMe';
+
 
 export default function Router(store) {
   const requireLogin = (nextState, replaceState, cb) => {
@@ -41,7 +44,11 @@ export default function Router(store) {
       { /* Routes */ }
       <Route path="login" component={Login}/>
 
+      <Route path="register" component={Register}/>
+
       <Route path="me" component={Me}/>
+
+      <Route path="me/edit" component={EditMe}/>
 
       <Route path="painting/:paintingId" component={PaintingDetail}/>
 

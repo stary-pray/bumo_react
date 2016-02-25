@@ -3,6 +3,12 @@ import {handleActions} from 'redux-actions';
 import * as meAction from './me';
 
 export const INITIAL_APP = 'bumo/auth/INITIAL_APP';
+export const INITIAL_AUTH = 'bumo/auth/INITIAL_AUTH';
+
+
+export const REGISTER = 'bumo/auth/REGISTER';
+export const REGISTER_SUCCESS = 'bumo/auth/REGISTER_SUCCESS';
+export const REGISTER_FAIL = 'bumo/auth/REGISTER_FAIL';
 
 export const LOGIN = 'bumo/auth/LOGIN';
 export const LOGIN_SUCCESS = 'bumo/auth/LOGIN_SUCCESS';
@@ -32,6 +38,21 @@ export default handleActions({
   [meAction.LOAD_FAIL]: (state) => ({
     ...state,
     loaded: false
+  }),
+  [REGISTER]: (state) => ({
+    ...state,
+    registeringIn: true
+  }),
+  [REGISTER_SUCCESS]: (state, action) => ({
+    loaded: true,
+    registeringIn: false,
+    token: action.result.token
+  }),
+  [REGISTER_FAIL]: (state, action) => ({
+    ...state,
+    registeringIn: false,
+    token: null,
+    registerError: action.error
   }),
   [LOGIN]: (state) => ({
     ...state,
@@ -79,6 +100,12 @@ export function initialApp(){
   };
 }
 
+export function initialAuth(){
+  return{
+    type: INITIAL_AUTH
+  };
+}
+
 export function isLoaded(globalState) {
   return globalState.auth && globalState.auth.loaded;
 }
@@ -96,6 +123,22 @@ export function login(email, password, captchaHash, captchaAnswer) {
     })
   };
 }
+
+export function register(email, username, password, captchaHash, captchaAnswer) {
+  return {
+    types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
+    promise: (client) => client.post('/api/auth/registration/', {
+      data: {
+        email,
+        username,
+        password,
+        captchaHash,
+        captchaAnswer
+      }
+    })
+  };
+}
+
 
 export function logout() {
   return {type: LOGOUT};

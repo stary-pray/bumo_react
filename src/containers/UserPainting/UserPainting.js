@@ -43,7 +43,7 @@ export default class UserPainting extends Component {
       <div className="paintingInfo">
         {component.loaded ?
           component.indexes.map((paintingId)=>(
-            <div className="paintings" key={paintingId}>
+            <div className="paintings" key={'ownerPainting'+paintingId}>
               <Link to={'/painting/' + paintingId}>
                 <img src={userPainting[paintingId].attachment}/>
                 { userPainting[paintingId].title }
