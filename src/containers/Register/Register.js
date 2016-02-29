@@ -97,6 +97,16 @@ export default class register extends Component {
         }
       });
     }
+    if (registerError && registerError.username) {
+      formError = registerError.username.map((sentence)=> {
+        switch(sentence){
+          case "This username is already taken. Please choose another .":
+            return <span key={sentence}>用户名已存在</span>;
+          default:
+            return <span key={sentence}>{sentence}</span>;
+        }
+      });
+    }
     if (registerError && registerError.password1) {
       formError = <span> {registerError.password1[0]}</span>;
     }
@@ -123,7 +133,7 @@ export default class register extends Component {
             </div>
             <div>
               <div>
-                <label>用户名（只能包括小写字母、数字和下划线, 而且必须以字母开头）</label>
+                <label>用户名（只能包括字母、数字和下划线, 而且必须以字母开头）</label>
                 <input type="name" ref="username" placeholder="username" {...username} />
               </div>
               {username.touched && username.error && <div>{username.error}</div>}

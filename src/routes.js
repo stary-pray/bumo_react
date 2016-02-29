@@ -5,11 +5,13 @@ import App from 'containers/App/App';
 import Home from 'containers/Home/Home';
 import PaintingDetail from 'containers/PaintingDetail/PaintingDetail';
 import UserPainting from 'containers/UserPainting/UserPainting';
+import HotPainting from 'containers/Home/HotPainting';
 import Login from 'containers/Login/Login';
 import NotFound from 'containers/NotFound/NotFound';
 import Me from 'containers/Me/Me';
 import Register from 'containers/Register/Register';
 import EditMe from 'containers/Me/EditMe';
+import Tags from 'containers/Tags/Tags';
 
 
 export default function Router(store) {
@@ -51,6 +53,10 @@ export default function Router(store) {
       <Route path="me/edit" component={EditMe}/>
 
       <Route path="painting/:paintingId" component={PaintingDetail}/>
+
+      <Route path="/hot" component={HotPainting}/>
+
+      <Route path="/tags" component={Tags}/>
 
       <Route path="p/:ownerId" component={UserPainting}/>
 

@@ -14,6 +14,7 @@ export default class Navbar extends Component {
     return (
       <div className="NavBar">
         <IndexLink to="/">首页</IndexLink>
+        <Link to="/tags">标签</Link>
         { loaded ?
           <Link to="/me">{me.nickname}</Link> :
           <Link to="/login">登录</Link>

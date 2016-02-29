@@ -6,6 +6,8 @@ import {isLoaded as isMeLoaded, load as loadMe} from 'redux/modules/me';
 import {routeActions} from 'react-router-redux';
 import config from '../../config';
 import Navbar from '../../components/Navbar/Navbar';
+import NotificationSystem from 'react-notification-system';
+import {createNotification, createNotificationSuccess} from 'redux/modules/notification';
 
 import './App.scss';
 
@@ -14,17 +16,27 @@ import './App.scss';
     loaded: state.auth.loaded,
     user: state.auth.user,
     me: state.me,
+    notification: state.notification,
   }),
-  {logout, initialApp, pushState: routeActions.push})
+  {
+    logout,
+    initialApp,
+    pushState: routeActions.push,
+    createNotification,
+    createNotificationSuccess,
+  })
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
     me: PropTypes.object,
+    notification: PropTypes.object,
     logout: PropTypes.func.isRequired,
     loaded: PropTypes.bool.isRequired,
     initialApp: PropTypes.func.isRequired,
-    pushState: PropTypes.func.isRequired
+    pushState: PropTypes.func.isRequired,
+    createNotification: PropTypes.func.isRequired,
+    createNotificationSuccess: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -35,6 +47,10 @@ export default class App extends Component {
     this.props.initialApp();
   }
 
+  componentDidMount() {
+    this._notificationSystem = this.refs.notificationSystem;
+  }
+
   componentWillReceiveProps(nextProps) {
     /*
     if (!this.props.me.id && nextProps.me.id) {
@@ -43,6 +59,10 @@ export default class App extends Component {
       this.props.pushState('/');
     }
     */
+    if(nextProps.notification){
+      this._notificationSystem.addNotification(nextProps.notification);
+      this.props.createNotificationSuccess();
+    }
   }
 
   handleLogout = (event) => {
@@ -59,6 +79,7 @@ export default class App extends Component {
         <div className="Content">
           {this.props.children}
         </div>
+        <NotificationSystem ref="notificationSystem" />
       </div>
     );
   }

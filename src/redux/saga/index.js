@@ -11,6 +11,9 @@ import * as likeModule from '../modules/models/Like';
 import * as paintingDetailModule from '../modules/models/PaintingDetail';
 import * as PaintingModule from '../modules/models/Painting';
 import * as homeModule from '../modules/containers/Home';
+import * as hotModule from '../modules/containers/HotPainting';
+
+
 
 //const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -23,6 +26,14 @@ function* loginSuccess() {
   while (TRULY) {
     const {result} = yield take(authModule.LOGIN_SUCCESS);
     localStorage.setItem('token', result.token);
+    yield put(meModule.load());
+  }
+}
+
+
+function* updateMe() {
+  while (TRULY) {
+    const {result} = yield take(meModule.UPLOAD_AVATAR_SUCCESS);
     yield put(meModule.load());
   }
 }
@@ -59,6 +70,14 @@ function* homePageLoaded() {
   }
 }
 
+function* hotPageLoaded() {
+  while (TRULY) {
+    yield take(PaintingModule.LOAD_HOT_SUCCESS);
+    // yield delay(2000);
+    yield put({type: hotModule.GoNextPageHot});
+  }
+}
+
 function* getCaptcha() {
   while (TRULY) {
     const {result} = yield take([authModule.LOGIN_FAIL, authModule.REGISTER_FAIL]);
@@ -81,5 +100,7 @@ export default function* root() {
   yield fork(getCaptcha);
   yield fork(registerSuccess);
   yield fork(homePageLoaded);
+  yield fork(updateMe);
+  yield fork(hotPageLoaded);
   //yield fork(likeSuccess);
 }
