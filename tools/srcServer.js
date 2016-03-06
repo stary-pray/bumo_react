@@ -9,8 +9,14 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfigBuilder from '../webpack.config';
 import historyApiFallback from 'connect-history-api-fallback';
 
+import proxyMiddleware from 'http-proxy-middleware';
+import {serverApi} from '../src/config';
+
+
 const webpackConfig = webpackConfigBuilder('development');
 const bundler = webpack(webpackConfig);
+
+const proxy = proxyMiddleware('/api', {target: serverApi, changeOrigin: true});
 
 // Run Browsersync and use middleware for Hot Module Replacement
 browserSync({
@@ -18,6 +24,8 @@ browserSync({
     baseDir: 'src',
 
     middleware: [
+      proxy,
+
       webpackDevMiddleware(bundler, {
         // Dev middleware can't access config, so we provide publicPath
         publicPath: webpackConfig.output.publicPath,

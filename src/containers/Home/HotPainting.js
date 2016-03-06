@@ -5,12 +5,14 @@ import {loadHot as loadHotPainting} from 'redux/modules/models/Painting';
 import {Link} from 'react-router';
 import './Home.scss';
 import Waypoint from 'react-waypoint';
+import PaintingInfo from 'components/PaintingInfo/PaintingInfo';
+
 
 @connect(
   state => ({
     painting: state.models.painting,
     profile: state.models.profile,
-    heat: state.models.heat,
+    paintingHeat: state.models.paintingHeat,
     component: state.containers.HotPainting
   }),
   dispatch => bindActionCreators({
@@ -22,7 +24,7 @@ export default class HotPainting extends Component {
   static propTypes = {
     painting: PropTypes.object,
     profile: PropTypes.object,
-    heat: PropTypes.object,
+    paintingHeat: PropTypes.object,
     component: PropTypes.object,
     paintingDetail: PropTypes.object,
     loadHotPainting: PropTypes.func
@@ -32,13 +34,14 @@ export default class HotPainting extends Component {
   // }
 
   loadMore() {
-    const { page } = this.props.component;
+    const { page, loading } = this.props.component;
+    if(loading) return;
     this.props.loadHotPainting(page);
     console.log('load more', page);
   }
 
   render() {
-    const {painting, component} = this.props;
+    const {painting, component,paintingHeat} = this.props;
     const { page, pageMeta } = this.props.component;
     return (<div className="Home">
       <h1>Home</h1>
@@ -46,19 +49,14 @@ export default class HotPainting extends Component {
       <div className="paintingInfo">
         {component.loaded ?
           component.indexes.map((paintingId)=>(
-            <div className="paintings" key={'painting' + paintingId}>
-              <Link to={'/painting/' + paintingId}>
-                <img src={painting[paintingId].attachment}/>
-                { painting[paintingId].title }
-              </Link>
-            </div>))
+            <PaintingInfo key={'painting' + paintingId} heat={paintingHeat[painting[paintingId].heat]} painting={painting[paintingId]}/>))
           :
           ''}
       </div>
 
       <div>{component.loaded && pageMeta.next === null ?
         <div>已到最后一页</div> :
-        <div>{component.loaded && page % 3 == 0 ?
+        <div>{component.loaded && (page-1) % 2 == 0 ?
           <button onClick={this.loadMore.bind(this)}>加载更多</button> :
           <Waypoint className="waypoint" key={'waypoint' + page} style={{position: 'relative'}}
                     onEnter={this.loadMore.bind(this)}/>}

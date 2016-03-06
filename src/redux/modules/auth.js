@@ -84,12 +84,10 @@ export default handleActions({
   }),
   // get captcha
   [GET_CAPTCHA_SUCCESS]: (state, action) => ({
-    ...state,
     captcha: action.result.key
   }),
 
   [REFRESH_CAPTCHA_SUCCESS]: (state, action) => ({
-    ...state,
     captcha: action.result.key
   }),
 }, initialState);

@@ -20,6 +20,9 @@ export default handleActions({
     ...action.result
   }),
   [LOAD_FAIL]: (state) => state,
+  [UPLOAD_AVATAR_SUCCESS]:(state)=>(
+  {avatar_success: true}
+)
 }, {});
 
 export function isLoaded(globalState) {

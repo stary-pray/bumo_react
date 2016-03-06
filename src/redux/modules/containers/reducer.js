@@ -7,6 +7,7 @@ import Like from './Like';
 import Form from './Form';
 import HotPainting from './HotPainting';
 import Tags from './Tags';
+import User from './User';
 
 export default combineReducers({
   Home,
@@ -15,5 +16,6 @@ export default combineReducers({
   Like,
   Form,
   HotPainting,
-  Tags
+  Tags,
+  User
 });

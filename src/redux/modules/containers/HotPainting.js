@@ -5,11 +5,16 @@ import * as PaintingActions from '../models/Painting';
 export const GoNextPageHot = 'bumo/HotPainting/GoNextPageHot';
 
 export default handleActions({
+  [PaintingActions.LOAD_HOT]: (state, action) => ({
+    ...state,
+    loading: true
+  }),
   [PaintingActions.LOAD_HOT_SUCCESS]: (state, action) => ({
     ...state,
     loaded: true,
     pageMeta: action.result,
-    indexes: [...state.indexes, ...action.normalized.result]
+    indexes: [...state.indexes, ...action.normalized.result],
+    loading: false
   }),
   [GoNextPageHot]: (state, action) =>({
     ...state,
@@ -18,5 +23,6 @@ export default handleActions({
 }, {
   page: 1,
   indexes: [],
-  loaded: false
+  loaded: false,
+  loading: false
 });

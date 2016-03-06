@@ -33,6 +33,7 @@ export default class Me extends Component {
       <div>
         <img src={me.avatar}/>{me.username}
         <div><Link to="me/edit">编辑</Link></div>
+        <div><Link to="me/paintingUpload">上传图片</Link></div>
       </div>
 
     );

@@ -4,7 +4,8 @@ const initialState = {
   painting: {},
   paintingDetail: {},
   likes:{},
-  tags:{}
+  tags:{},
+  users:{},
 };
 
 export default function reducer(state = initialState, action) {

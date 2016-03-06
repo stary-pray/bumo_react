@@ -8,6 +8,8 @@ import notification from './notification';
 import widgets from './widgets';
 import models from './models/reducer';
 import containers from './containers/reducer';
+import paintingUpload from './paintingUpload';
+import tags from './tags';
 
 export default combineReducers({
   routing: routeReducer,
@@ -17,5 +19,7 @@ export default combineReducers({
   form,
   me,
   widgets,
-  notification
+  notification,
+  paintingUpload,
+  tags
 });

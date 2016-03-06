@@ -5,6 +5,8 @@ import {load as loadMe, update as updateMe, uploadAvatar} from 'redux/modules/me
 import {Link} from 'react-router';
 import {reduxForm} from 'redux-form';
 import Dropzone from 'react-dropzone';
+import {createNotification, createNotificationSuccess} from 'redux/modules/notification';
+
 
 //import {loadSpec as loadMyPaintings} from 'redux/models/Painting';
 
@@ -15,7 +17,8 @@ import Dropzone from 'react-dropzone';
   dispatch => bindActionCreators({
     loadMe,//loadMyPaintings
     updateMe,
-    uploadAvatar
+    uploadAvatar,
+    createNotification
   }, dispatch)
 )
 @reduxForm({
@@ -30,7 +33,8 @@ export default class updateMeForm extends Component {
     loadMe: PropTypes.func,
     updateMe: PropTypes.func,
     uploadAvatar: PropTypes.func,
-    fields: PropTypes.object
+    fields: PropTypes.object,
+    createNotification: PropTypes.func
 
   };
 
@@ -85,12 +89,16 @@ export default class updateMeForm extends Component {
           </div>
           <div>
             <label>头像</label><img src={me.avatar}/>
-            <Dropzone ref="avatar" {...avatar} onDrop={ ( filesToUpload, e ) => {
+            <Dropzone ref="avatar" multiple = {false} {...avatar} onDrop={ ( filesToUpload, e ) => {
                 avatar.onChange(filesToUpload);
                 this.uploadAvatar(filesToUpload);
               }
             }
             >
+              {me.avatar_success ? this.props.createNotification({
+                message: <div>头像上传成功</div>,
+                level: 'success'
+              }) : ''}
               <div>Try dropping some files here, or click to select files to upload.</div>
             </Dropzone>
           </div>

@@ -4,27 +4,26 @@ const schemas = {
   painting: new Schema('painting'),
   paintingDetail: new Schema('paintingDetail'),
   profile: new Schema('profile'),
-  heat: new Schema('heat'),
+  paintingHeat: new Schema('paintingHeat'),
   likes: new Schema('likes'),
   tags: new Schema('tags'),
-  paintings: new Schema('paintings'),
   tagHeat: new Schema('tagHeat')
 };
 
 schemas.painting.define({
   profile: schemas.profile,
-  heat: schemas.heat
+  heat: schemas.paintingHeat
 });
 
 schemas.paintingDetail.define({
   profile: schemas.profile,
-  heat: schemas.heat,
+  heat: schemas.paintingHeat,
   tags: arrayOf(schemas.tags),
   likes: arrayOf(schemas.likes)
 });
 
 schemas.tags.define({
-  paintings: arrayOf(schemas.paintings),
+  paintings: arrayOf(schemas.painting),
   heat: schemas.tagHeat
 });
 
@@ -41,6 +40,9 @@ export default function normalizeMiddleware() {
           break;
         case 'tags':
           action.normalized = normalize(action.result.results, arrayOf(schemas.tags));
+          break;
+        case 'profile':
+          action.normalized = normalize(action.result.results, arrayOf(schemas.profile));
           break;
         default:
       }

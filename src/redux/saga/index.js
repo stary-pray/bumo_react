@@ -12,6 +12,7 @@ import * as paintingDetailModule from '../modules/models/PaintingDetail';
 import * as PaintingModule from '../modules/models/Painting';
 import * as homeModule from '../modules/containers/Home';
 import * as hotModule from '../modules/containers/HotPainting';
+import * as userPaintingModule from '../modules/containers/UserPainting';
 
 
 
@@ -27,13 +28,15 @@ function* loginSuccess() {
     const {result} = yield take(authModule.LOGIN_SUCCESS);
     localStorage.setItem('token', result.token);
     yield put(meModule.load());
+    browserHistory.push('/me');
+
   }
 }
 
 
 function* updateMe() {
   while (TRULY) {
-    const {result} = yield take(meModule.UPLOAD_AVATAR_SUCCESS);
+    const {result} = yield take([meModule.UPLOAD_AVATAR_SUCCESS, meModule.UPDATE_SUCCESS]);
     yield put(meModule.load());
   }
 }
@@ -77,6 +80,13 @@ function* hotPageLoaded() {
     yield put({type: hotModule.GoNextPageHot});
   }
 }
+function* userPaintingPageLoaded() {
+  while (TRULY) {
+    yield take(userPaintingModule.LOAD_USER_PAINTING_SUCCESS);
+    // yield delay(2000);
+    yield put({type: userPaintingModule.GoNextUserPage});
+  }
+}
 
 function* getCaptcha() {
   while (TRULY) {
@@ -102,5 +112,6 @@ export default function* root() {
   yield fork(homePageLoaded);
   yield fork(updateMe);
   yield fork(hotPageLoaded);
+  yield fork(userPaintingPageLoaded);
   //yield fork(likeSuccess);
 }

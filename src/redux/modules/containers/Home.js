@@ -5,9 +5,14 @@ import * as PaintingActions from '../models/Painting';
 export const GoNextPage = 'bumo/Home/GoNextPage';
 
 export default handleActions({
+  [PaintingActions.LOAD]: (state, action) => ({
+    ...state,
+    loading: true
+  }),
   [PaintingActions.LOAD_SUCCESS]: (state, action) => ({
     ...state,
     loaded: true,
+    loading: false,
     pageMeta: action.result,
     indexes: [...state.indexes, ...action.normalized.result]
   }),
@@ -18,5 +23,6 @@ export default handleActions({
 }, {
   page: 1,
   indexes: [],
-  loaded: false
+  loaded: false,
+  loading: false
 });

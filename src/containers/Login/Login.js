@@ -6,6 +6,9 @@ import config from '../../config';
 import './Login.scss';
 import {Link} from 'react-router';
 import {reduxForm} from 'redux-form';
+import {createNotification, createNotificationSuccess} from 'redux/modules/notification';
+import {bindActionCreators} from 'redux';
+
 
 const validate = values => {
   const errors = {};
@@ -31,7 +34,8 @@ const validate = values => {
     captcha: state.auth.captcha,
     loginError: state.auth.loginError
   }),
-  authActions)
+  {...authActions, createNotification}
+  )
 
 @reduxForm({
   form: 'Login',
@@ -42,14 +46,15 @@ const validate = values => {
 export default class Login extends Component {
   static propTypes = {
     userLoad: PropTypes.bool,
-    invalid: PropTypes.bool,
+    //invalid: PropTypes.bool,
     captcha: PropTypes.string,
     login: PropTypes.func,
-    logout: PropTypes.func,
+    //logout: PropTypes.func,
     getCaptcha: PropTypes.func,
     refreshCaptcha: PropTypes.func,
     loginError: PropTypes.object,
-    fields: PropTypes.object
+    fields: PropTypes.object,
+    createNotification: PropTypes.func
   };
 
   componentWillMount() {
@@ -68,7 +73,7 @@ export default class Login extends Component {
   };
 
   render() {
-    const {userLoad, logout, captcha, loginError,invalid, fields: {email, password, captcha: captchaField }} = this.props;
+    const {userLoad,captcha, loginError, fields: {email, password, captcha: captchaField }} = this.props;
     let formError = '';
     if (loginError && loginError.CAPTCHA_WRONG_ERROR) {
       formError = <span> 验证码错误 </span>;
@@ -105,22 +110,16 @@ export default class Login extends Component {
                 </a>
               </div>
               : '' }
-            {formError}
+            {loginError? this.props.createNotification({
+              message: <div>{formError}</div>,
+              level: 'success'
+            }) : ''}
+
             <button className="btn btn-success" onClick={this.handleSubmit}><i className="fa fa-sign-in"/>{' '}Log In
             </button>
           </form>
           <Link className="button" to={'register'}>
             Register</Link>
-          <p>This will "log you in" as this user, storing the email in the session of the API server.</p>
-        </div>
-        }
-        {userLoad &&
-        <div>
-          <p>You are currently logged in as {}.</p>
-
-          <div>
-            <button disabled={invalid} className="btn btn-danger" onClick={logout}><i className="fa fa-sign-out"/>{' '}Log Out</button>
-          </div>
         </div>
         }
       </div>

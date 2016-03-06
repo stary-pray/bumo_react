@@ -11,17 +11,17 @@ import moment from 'moment';
 import {createNotification, createNotificationSuccess} from 'redux/modules/notification';
 
 moment.locale('zh-cn');
-const calculateHeat = (last_heat,last_time,like_amount=0) =>{
-  const q = 0.5**((+Date.now()- +new Date(last_time))/(14*24*60*60*1000));
-  console.log(+Date.now()- +new Date(last_time));
-  return Math.round((last_heat+like_amount)*q);
+const calculateHeat = (last_heat, last_time, like_amount = 0) => {
+  const q = 0.5**((+Date.now() - +new Date(last_time)) / (14 * 24 * 60 * 60 * 1000));
+  console.log(+Date.now() - +new Date(last_time));
+  return Math.round((last_heat + like_amount) * q);
 };
 
 @connect(
   (state, ownProps) => ({
     paintingDetail: state.models.paintingDetail,
     profile: state.models.profile,
-    heat: state.models.heat,
+    paintingHeat: state.models.paintingHeat,
     component: state.containers.PaintingDetail,
     id: +ownProps.params.paintingId,
     likeComponent: state.containers.Like,
@@ -40,7 +40,7 @@ export default class PaintingDetail extends Component {
     id: PropTypes.number,
     paintingDetail: PropTypes.object,
     profile: PropTypes.object,
-    heat: PropTypes.object,
+    paintingHeat: PropTypes.object,
     component: PropTypes.object,
     loadPaintingDetail: PropTypes.func,
     likePainting: PropTypes.func,
@@ -58,7 +58,6 @@ export default class PaintingDetail extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.props);
     const like_amount = this.refs.like_amount;
     this.props.likePainting(this.props.id, like_amount.value);
     like_amount.value = '';
@@ -67,7 +66,7 @@ export default class PaintingDetail extends Component {
   render() {
     const {loaded: loaded} = this.props.component;
     const {like_error, like_success, like_amount} = this.props.likeComponent;
-    const {paintingDetail, id, heat, profile, tags} = this.props;
+    const {paintingDetail, id, paintingHeat, profile, tags} = this.props;
     const ownerId = paintingDetail[id] ? paintingDetail[id].owner : -1;
     const tagsArray = paintingDetail[id] ? paintingDetail[id].tags : [];
     let likeError = '';
@@ -75,7 +74,7 @@ export default class PaintingDetail extends Component {
     if (like_error && like_error.NUMBER_WRONG) {
       likeError = '点赞数必须在1到100之间的整数';
     }
-    if (like_error && like_error ==='Not enough QB') {
+    if (like_error && like_error === 'Not enough QB') {
       likeError = '钱数不够';
     }
 
@@ -97,18 +96,29 @@ export default class PaintingDetail extends Component {
                   <p>{tags[id].name}</p>
                 </div>)) :
               '')}
-            <span>热度{calculateHeat(heat[id].point, heat[id].modified,like_amount)}</span>
+            <span>热度{calculateHeat(paintingHeat[id].point, paintingHeat[id].modified, like_amount)}</span>
             <p>时间{moment(paintingDetail[id].modified).fromNow()}</p>
           </div>
           : '')}
         <form onSubmit={this.handleSubmit}>
-          <div>
-            <input type="number" ref="like_amount" placeholder="点赞数(1到100之间的整数)"/>
+          <div><label>点赞数</label>
+            <select defaultValue="1" ref="like_amount" >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
           </div>
-          {like_success ?  this.props.createNotification({
+          {like_success ? this.props.createNotification({
             message: <div>给{paintingDetail[id].title}点了{like_amount}个赞</div>,
             level: 'success'
-          }):''}
+          }) : ''}
           {likeError}
           <button onClick={this.handleSubmit}>Like
           </button>

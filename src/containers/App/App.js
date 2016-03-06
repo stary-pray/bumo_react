@@ -32,7 +32,7 @@ export default class App extends Component {
     me: PropTypes.object,
     notification: PropTypes.object,
     logout: PropTypes.func.isRequired,
-    loaded: PropTypes.bool.isRequired,
+    loaded: PropTypes.bool,
     initialApp: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
     createNotification: PropTypes.func.isRequired,
