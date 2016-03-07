@@ -5,6 +5,7 @@ import App from 'containers/App/App';
 import Home from 'containers/Home/Home';
 import PaintingDetail from 'containers/PaintingDetail/PaintingDetail';
 import UserPainting from 'containers/UserPainting/UserPainting';
+import UserPaintingHot from 'containers/UserPainting/UserPaintingHot';
 import HotPainting from 'containers/Home/HotPainting';
 import Login from 'containers/Login/Login';
 import NotFound from 'containers/NotFound/NotFound';
@@ -60,6 +61,8 @@ export default function Router(store) {
       <Route path="/tags" component={Tags}/>
 
       <Route path="p/:ownerId" component={UserPainting}/>
+
+      <Route path="p/hot/:ownerId" component={UserPaintingHot}/>
 
       <Route path="me/paintingUpload" component={PaintingUpload}/>
 

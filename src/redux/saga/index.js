@@ -82,7 +82,7 @@ function* hotPageLoaded() {
 }
 function* userPaintingPageLoaded() {
   while (TRULY) {
-    yield take(userPaintingModule.LOAD_USER_PAINTING_SUCCESS);
+    yield take([userPaintingModule.LOAD_USER_PAINTING_SUCCESS,userPaintingModule.LOAD_USER_PAINTING_HOT_SUCCESS]);
     // yield delay(2000);
     yield put({type: userPaintingModule.GoNextUserPage});
   }

@@ -45,7 +45,7 @@ export default class HotPainting extends Component {
     const { page, pageMeta } = this.props.component;
     return (<div className="Home">
       <h1>Home</h1>
-      <p>Example for all paintings</p>
+      <p><Link to="">最新作品   </Link><Link to="/hot">   热门作品</Link></p>
       <div className="paintingInfo">
         {component.loaded ?
           component.indexes.map((paintingId)=>(

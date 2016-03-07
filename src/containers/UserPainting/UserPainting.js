@@ -8,15 +8,14 @@ import PaintingInfo from 'components/PaintingInfo/PaintingInfo';
 import Waypoint from 'react-waypoint';
 
 
-
 @connect(
   (state, ownProps) => ({
     userPainting: state.models.painting,
     profile: state.models.profile,
     paintingHeat: state.models.paintingHeat,
     id: +ownProps.params.ownerId,
-    component: state.containers.UserPainting
-
+    component: state.containers.UserPainting,
+    page: state.containers.UserPainting.page
   }),
   dispatch => bindActionCreators({
     loadUserPainting
@@ -30,14 +29,15 @@ export default class UserPainting extends Component {
     profile: PropTypes.object,
     paintingHeat: PropTypes.object,
     loadUserPainting: PropTypes.func,
-    component: PropTypes.object
+    component: PropTypes.object,
+    page: PropTypes.number
   };
 
 
 
   loadMore() {
     const { page, loading } = this.props.component;
-    if(loading) return;
+    if (loading) return;
     this.props.loadUserPainting(this.props.id, page);
     console.log('load more', page);
   }
@@ -49,17 +49,18 @@ export default class UserPainting extends Component {
     console.log(this.props);
     return (<div className="Home">
       <h1>H</h1>
-      <p>Example for all paintings</p>
+      <Link to={'/p/'+ this.props.id}><p>新作</p></Link> <Link to={'/p/hot/'+ this.props.id}><p>热门</p></Link>
       <div className="paintingInfo">
         {component.loaded ?
           component.indexes.map((paintingId)=>(
-          <PaintingInfo key={'painting' + paintingId} heat={paintingHeat[userPainting[paintingId].heat]} painting={userPainting[paintingId]}/>
-           )) :
+            <PaintingInfo key={'painting' + paintingId} heat={paintingHeat[userPainting[paintingId].heat]}
+                          painting={userPainting[paintingId]}/>
+          )) :
           ''}
       </div>
       <div>{component.loaded && pageMeta.next === null ?
         <div>已到最后一页</div> :
-        <div>{component.loaded && (page-1) % 2 == 0 ?
+        <div>{component.loaded && (page - 1) % 2 == 0 ?
           <button onClick={this.loadMore.bind(this)}>加载更多</button> :
           <Waypoint className="waypoint" key={'waypoint' + page} style={{position: 'relative'}}
                     onEnter={this.loadMore.bind(this)}/>}
