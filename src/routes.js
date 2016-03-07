@@ -15,6 +15,7 @@ import EditMe from 'containers/Me/EditMe';
 import Tags from 'containers/Tags/Tags';
 import PaintingUpload from 'containers/PaintingUpload/PaintingUpload';
 import User from 'containers/User/User';
+import TagDetail from 'containers/TagDetail/TagDetail';
 
 export default function Router(store) {
   const requireLogin = (nextState, replaceState, cb) => {
@@ -67,6 +68,8 @@ export default function Router(store) {
       <Route path="me/paintingUpload" component={PaintingUpload}/>
 
       <Route path="user" component={User}/>
+
+      <Route path="/tags/:tagName" component={TagDetail}/>
 
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404}/>

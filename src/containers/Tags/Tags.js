@@ -42,7 +42,7 @@ export default class Tags extends Component {
         <div>
           {component.indexes.map((tagsId) =>
             <div key={'tags'+tagsId}>
-              <h2>{tags[tagsId].name}</h2>
+              <Link to={"/tags/"+ tags[tagsId].name}><h2>{tags[tagsId].name}</h2></Link>
               <h3>{tagHeat[tags[tagsId].heat].point}</h3>
               {tags[tagsId].paintings ? tags[tagsId].paintings.map((id) => (
                 <PaintingInfo key={'painting' + id} heat={paintingHeat[paintings[id].heat]}
