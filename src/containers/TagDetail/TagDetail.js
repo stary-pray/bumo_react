@@ -1,9 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {loadTagDetail} from 'redux/modules/models/TagDetail';
+import {loadTagDetail, loadTagPaintingDetail} from 'redux/modules/models/TagDetail';
 import {Link} from 'react-router';
 import PaintingInfo from 'components/PaintingInfo/PaintingInfo';
+import Waypoint from 'react-waypoint';
+import '../Home/Home.scss';
 
 
 @connect(
@@ -16,7 +18,8 @@ import PaintingInfo from 'components/PaintingInfo/PaintingInfo';
     component: state.containers.TagDetail
   }),
   dispatch => bindActionCreators({
-    loadTagDetail
+    loadTagDetail,
+    loadTagPaintingDetail
   }, dispatch)
 )
 
@@ -26,6 +29,7 @@ export default class TagDetail extends Component {
     name: PropTypes.string,
     tagDetail: PropTypes.object,
     loadTagDetail: PropTypes.func,
+    loadTagPaintingDetail: PropTypes.func,
     component: PropTypes.object,
     painting: PropTypes.object,
     profile: PropTypes.object,
@@ -38,19 +42,39 @@ export default class TagDetail extends Component {
     console.log(this.props);
   }
 
+
+  loadMore() {
+    const { page, paintingLoading } = this.props.component;
+    if(paintingLoading) return;
+    this.props.loadTagPaintingDetail(this.props.tagDetail[this.props.component.tagId].name,this.props.component.page);
+    console.log('load more', page);
+  }
+
   render() {
-    const {loaded, tagId} = this.props.component;
-    const {tagDetail, painting,paintingHeat} = this.props;
-    return ( <div>
-      {loaded ?
+    const {tagLoaded, tagId, paintingLoaded, page, pageMeta} = this.props.component;
+    const {tagDetail, painting,paintingHeat, component} = this.props;
+    return ( <div className="Home">
+      {tagLoaded ?
         <div>
           <h1>{tagDetail[tagId].name}</h1>
-          <div>
-            {tagDetail[tagId].paintings? tagDetail[tagId].paintings.map((paintingId) => (
-              <PaintingInfo key={'painting' + paintingId} heat={paintingHeat[painting[paintingId].heat]}
-                            painting={painting[paintingId]}/>)):''}
+          <div className="paintingInfo">
+            {component.paintingLoaded ?
+              component.indexes.map((paintingId)=>(
+                <PaintingInfo key={'painting' + paintingId} heat={paintingHeat[painting[paintingId].heat]} painting={painting[paintingId]}/>))
+              :
+              ''}
+          </div>
+
+          <div>{paintingLoaded && pageMeta.next === null ?
+            <div>已到最后一页</div> :
+            <div>{paintingLoaded && (page-1) % 2 == 0 ?
+              <button onClick={this.loadMore.bind(this)}>加载更多</button> :
+              <Waypoint className="waypoint" key={'waypoint' + page} style={{position: 'relative'}}
+                        onEnter={this.loadMore.bind(this)}/>}
+            </div>}
           </div>
         </div> : ''}
     </div>);
   }
 }
+

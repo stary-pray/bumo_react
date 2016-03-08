@@ -13,7 +13,8 @@ import * as PaintingModule from '../modules/models/Painting';
 import * as homeModule from '../modules/containers/Home';
 import * as hotModule from '../modules/containers/HotPainting';
 import * as userPaintingModule from '../modules/containers/UserPainting';
-
+import * as tagPaintingModule from '../modules/models/TagDetail';
+import * as tagPaintingModuleCon from '../modules/containers/TagDetail';
 
 
 //const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -80,6 +81,14 @@ function* hotPageLoaded() {
     yield put({type: hotModule.GoNextPageHot});
   }
 }
+function* tagPageLoaded() {
+  while (TRULY) {
+    yield take(tagPaintingModule.LOAD_TAG_PAINTING_DETAIL_SUCCESS);
+    // yield delay(2000);
+    yield put({type: tagPaintingModuleCon.GoNextTagPage});
+  }
+}
+
 function* userPaintingPageLoaded() {
   while (TRULY) {
     yield take([userPaintingModule.LOAD_USER_PAINTING_SUCCESS,userPaintingModule.LOAD_USER_PAINTING_HOT_SUCCESS]);
@@ -113,5 +122,6 @@ export default function* root() {
   yield fork(updateMe);
   yield fork(hotPageLoaded);
   yield fork(userPaintingPageLoaded);
+  yield fork(tagPageLoaded);
   //yield fork(likeSuccess);
 }
