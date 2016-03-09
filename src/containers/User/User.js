@@ -3,12 +3,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {loadUser} from 'redux/modules/containers/User';
 import {Link} from 'react-router';
+import PaintingInfo from 'components/PaintingInfo/PaintingInfo';
 
 @connect(
   (state) => ({
     component: state.containers.User,
     user: state.models.profile,
-    paintingComponent:state.containers.UserSimplePainting,
     painting: state.models.painting,
     paintingHeat:state.models.paintingHeat
   }),
@@ -24,9 +24,7 @@ export default class Tags extends Component {
     loadUserPaintingHot: PropTypes.func,
     user: PropTypes.object,
     component: PropTypes.object,
-    paintingComponent:PropTypes.object,
     painting: PropTypes.object,
-    profile: PropTypes.object,
     paintingHeat: PropTypes.object,
   };
 
@@ -34,11 +32,9 @@ export default class Tags extends Component {
     this.props.loadUser();
   }
 
-  componentDidMount() {
-  }
 
   render() {
-    const {user, component, paintingComponent, painting,profile,paintingHeat} = this.props;
+    const {user, component,painting,paintingHeat} = this.props;
     return (<div className="User">
       <div> {component.loaded ?
         <div>
@@ -48,6 +44,8 @@ export default class Tags extends Component {
                 <h1>{user[userId].nickname}</h1>
                 <img src={user[userId].avatar}/>
               </Link>
+              {component.hotPaintings[userId].map(paintingId =>
+                <PaintingInfo key={'painting' + paintingId} heat={paintingHeat[painting[paintingId].heat]} painting={painting[paintingId]}/>)}
             </div>
           )}
         </div>
