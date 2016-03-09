@@ -83,7 +83,7 @@ function* hotPageLoaded() {
 }
 function* tagPageLoaded() {
   while (TRULY) {
-    yield take(tagPaintingModule.LOAD_TAG_PAINTING_DETAIL_SUCCESS);
+    yield take([tagPaintingModule.LOAD_TAG_PAINTING_DETAIL_SUCCESS,tagPaintingModule.LOAD_TAG_PAINTING_HOT_DETAIL_SUCCESS]);
     // yield delay(2000);
     yield put({type: tagPaintingModuleCon.GoNextTagPage});
   }

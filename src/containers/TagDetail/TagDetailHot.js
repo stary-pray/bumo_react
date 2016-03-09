@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {loadTagDetail, loadTagPaintingDetail} from 'redux/modules/models/TagDetail';
+import {loadTagDetail, loadTagPaintingDetailHot} from 'redux/modules/models/TagDetail';
 import {Link} from 'react-router';
 import PaintingInfo from 'components/PaintingInfo/PaintingInfo';
 import Waypoint from 'react-waypoint';
@@ -19,7 +19,7 @@ import '../Home/Home.scss';
   }),
   dispatch => bindActionCreators({
     loadTagDetail,
-    loadTagPaintingDetail
+    loadTagPaintingDetailHot
   }, dispatch)
 )
 
@@ -29,7 +29,7 @@ export default class TagDetail extends Component {
     name: PropTypes.string,
     tagDetail: PropTypes.object,
     loadTagDetail: PropTypes.func,
-    loadTagPaintingDetail: PropTypes.func,
+    loadTagPaintingDetailHot: PropTypes.func,
     component: PropTypes.object,
     painting: PropTypes.object,
     profile: PropTypes.object,
@@ -46,7 +46,7 @@ export default class TagDetail extends Component {
   loadMore() {
     const { page, paintingLoading } = this.props.component;
     if(paintingLoading) return;
-    this.props.loadTagPaintingDetail(this.props.tagDetail[this.props.component.tagId].name,this.props.component.page);
+    this.props.loadTagPaintingDetailHot(this.props.tagDetail[this.props.component.tagId].name,this.props.component.page);
     console.log('load more', page);
   }
 
@@ -78,4 +78,3 @@ export default class TagDetail extends Component {
     </div>);
   }
 }
-

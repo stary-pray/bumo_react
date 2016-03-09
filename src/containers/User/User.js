@@ -2,15 +2,20 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {loadUser} from 'redux/modules/containers/User';
+import {loadUserPaintingHot} from 'redux/modules/containers/UserPainting';
 import {Link} from 'react-router';
 
 @connect(
   (state) => ({
     component: state.containers.User,
-    user: state.models.profile
+    user: state.models.profile,
+    paintingComponent:state.containers.UserPainting,
+    painting: state.models.painting,
+    paintingHeat:state.models.paintingHeat
   }),
   dispatch => bindActionCreators({
-    loadUser
+    loadUser,
+    loadUserPaintingHot
   }, dispatch)
 )
 
@@ -18,8 +23,13 @@ import {Link} from 'react-router';
 export default class Tags extends Component {
   static propTypes = {
     loadUser: PropTypes.func,
+    loadUserPaintingHot: PropTypes.func,
     user: PropTypes.object,
-    component: PropTypes.object
+    component: PropTypes.object,
+    paintingComponent:PropTypes.object,
+    painting: PropTypes.object,
+    profile: PropTypes.object,
+    paintingHeat: PropTypes.object,
   };
 
   componentWillMount() {
@@ -27,7 +37,7 @@ export default class Tags extends Component {
   }
 
   render() {
-    const {user, component} = this.props;
+    const {user, component, paintingComponent, painting,profile,paintingHeat} = this.props;
     return (<div className="User">
       <div> {component.loaded ?
         <div>

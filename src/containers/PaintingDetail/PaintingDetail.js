@@ -60,8 +60,7 @@ export default class PaintingDetail extends Component {
     event.preventDefault();
     const like_amount = this.refs.like_amount;
     this.props.likePainting(this.props.id, like_amount.value);
-    like_amount.value = '';
-  }
+  };
 
   render() {
     const {loaded: loaded} = this.props.component;
@@ -93,7 +92,7 @@ export default class PaintingDetail extends Component {
             {(paintingDetail[id].tags ?
               tagsArray.map((id) => (
                 <div key={'tags' + id}>
-                  <p>{tags[id].name}</p>
+                  <Link to={"tags/hot/"+tags[id].name}><p>{tags[id].name}</p></Link>
                 </div>)) :
               '')}
             <span>热度{calculateHeat(paintingHeat[id].point, paintingHeat[id].modified, like_amount)}</span>
@@ -102,7 +101,7 @@ export default class PaintingDetail extends Component {
           : '')}
         <form onSubmit={this.handleSubmit}>
           <div><label>点赞数</label>
-            <select defaultValue="1" ref="like_amount" >
+            <select defaultValue="1" ref="like_amount">
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>

@@ -26,6 +26,17 @@ export default handleActions({
     ...state,
     paintingLoading: true
   }),
+  [TagDetailActions.LOAD_TAG_PAINTING_HOT_DETAIL_SUCCESS]: (state, action) => ({   //[]是把字符串當做變量用
+      ...state,
+      paintingLoaded: true,
+      pageMeta: action.result,
+      indexes: [...state.indexes, ...action.normalized.result],
+      paintingLoading: false
+    }),
+    [TagDetailActions.LOAD_TAG_PAINTING_HOT_DETAIL]: (state, action) => ({
+      ...state,
+      paintingLoading: true
+    }),
   [GoNextTagPage]: (state, action) =>({
     ...state,
     page: state.page + 1
