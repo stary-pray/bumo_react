@@ -35,6 +35,12 @@ export default class UserPainting extends Component {
   };
 
 
+  loadMore() {
+   const { page, loading } = this.props.component;
+   if (loading) return;
+    this.props.loadUserPainting(this.props.id, page)
+   }
+
   render() {
     const {userPainting, component, paintingHeat, profile} = this.props;
     const { page, pageMeta } = this.props.component;
@@ -43,8 +49,7 @@ export default class UserPainting extends Component {
     return (<div className="Home">
       <h1>H</h1>
       <Link to={'/p/'+ this.props.id}><p>新作</p></Link> <Link to={'/p/hot/'+ this.props.id}><p>热门</p></Link>
-      <PaintingList param={this.props.id}
-                    load={()=>{this.props.loadUserPainting(this.props.id, page)}}
+      <PaintingList loadMore={this.loadMore.bind(this)}
                     component={component}
                     painting={userPainting}
                     profile={profile}

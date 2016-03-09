@@ -13,7 +13,6 @@ import {createNotification, createNotificationSuccess} from 'redux/modules/notif
 moment.locale('zh-cn');
 const calculateHeat = (last_heat, last_time, like_amount = 0) => {
   const q = 0.5**((+Date.now() - +new Date(last_time)) / (14 * 24 * 60 * 60 * 1000));
-  console.log(+Date.now() - +new Date(last_time));
   return Math.round((last_heat + like_amount) * q);
 };
 
@@ -52,8 +51,18 @@ export default class PaintingDetail extends Component {
 
   componentWillMount() {
     this.props.loadPaintingDetail(this.props.id);
+  }
 
+  componentWillReceiveProps(nextProps){
+    const {like_success, like_amount} = nextProps.likeComponent;
+    const {paintingDetail, id} = nextProps;
 
+    if(like_success){
+      this.props.createNotification({
+        message: <div>给{paintingDetail[id].title}点了{like_amount}个赞</div>,
+        level: 'success'
+      });
+    }
   }
 
   handleSubmit = (event) => {
@@ -114,10 +123,7 @@ export default class PaintingDetail extends Component {
               <option value="10">10</option>
             </select>
           </div>
-          {like_success ? this.props.createNotification({
-            message: <div>给{paintingDetail[id].title}点了{like_amount}个赞</div>,
-            level: 'success'
-          }) : ''}
+
           {likeError}
           <button onClick={this.handleSubmit}>Like
           </button>

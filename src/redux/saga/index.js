@@ -15,6 +15,8 @@ import * as hotModule from '../modules/containers/HotPainting';
 import * as userPaintingModule from '../modules/containers/UserPainting';
 import * as tagPaintingModule from '../modules/models/TagDetail';
 import * as tagPaintingModuleCon from '../modules/containers/TagDetail';
+import * as userModule from '../modules/containers/User';
+
 
 
 //const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -111,6 +113,15 @@ function* likeSuccess(action) {
   }
 }
 
+function* loadHotUserPaintings(){
+  while (TRULY) {
+    const action = yield take(userModule.LOAD_USER_SUCCESS);
+    yield (action.normalized.result.map( profileId =>
+      put(userModule.loadUserPaintingHot(profileId))
+    ))
+  }
+}
+
 export default function* root() {
   yield fork(initialApp);
   yield fork(loginSuccess);
@@ -123,5 +134,6 @@ export default function* root() {
   yield fork(hotPageLoaded);
   yield fork(userPaintingPageLoaded);
   yield fork(tagPageLoaded);
+  yield fork(loadHotUserPaintings);
   //yield fork(likeSuccess);
 }

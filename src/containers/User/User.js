@@ -2,20 +2,18 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {loadUser} from 'redux/modules/containers/User';
-import {loadUserPaintingHot} from 'redux/modules/containers/UserPainting';
 import {Link} from 'react-router';
 
 @connect(
   (state) => ({
     component: state.containers.User,
     user: state.models.profile,
-    paintingComponent:state.containers.UserPainting,
+    paintingComponent:state.containers.UserSimplePainting,
     painting: state.models.painting,
     paintingHeat:state.models.paintingHeat
   }),
   dispatch => bindActionCreators({
-    loadUser,
-    loadUserPaintingHot
+    loadUser
   }, dispatch)
 )
 
@@ -34,6 +32,9 @@ export default class Tags extends Component {
 
   componentWillMount() {
     this.props.loadUser();
+  }
+
+  componentDidMount() {
   }
 
   render() {

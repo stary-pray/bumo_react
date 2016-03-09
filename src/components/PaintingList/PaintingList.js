@@ -8,22 +8,21 @@ import Waypoint from 'react-waypoint';
 
 export default class PaintingList extends Component {
   static propTypes = {
-      param: PropTypes.string,
       painting: PropTypes.object,
       profile: PropTypes.object,
       paintingHeat: PropTypes.object,
-      load: PropTypes.func,
+      loadMore: PropTypes.func,
       component: PropTypes.object,
       page: PropTypes.number
   };
 
 
-  loadMore() {
+  /*loadMore() {
     const { page, loading } = this.props.component;
     if (loading) return;
     this.props.load(this.props.param, page);
     console.log('load more', page);
-  }
+  }*/
 
   render() {
     const {painting, component, paintingHeat} = this.props;
@@ -40,9 +39,9 @@ export default class PaintingList extends Component {
       <div>{component.loaded && pageMeta.next === null ?
         <div>已到最后一页</div> :
         <div>{component.loaded && (page - 1) % 2 == 0 ?
-          <button onClick={this.loadMore.bind(this)}>加载更多</button> :
+          <button onClick={this.props.loadMore}>加载更多</button> :
           <Waypoint className="waypoint" key={'waypoint' + page} style={{position: 'relative'}}
-                    onEnter={this.loadMore.bind(this)}/>}
+                    onEnter={this.props.loadMore}/>}
         </div>}
       </div>
     </div>);

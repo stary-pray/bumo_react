@@ -19,5 +19,5 @@ export default combineReducers({
   HotPainting,
   Tags,
   User,
-  TagDetail
+  TagDetail,
 });
