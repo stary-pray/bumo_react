@@ -6,7 +6,8 @@ const initialState = {
   likes:{},
   tags:{},
   users:{},
-  tagDetail:{}
+  tagDetail:{},
+  bumoStar:{}
 };
 
 export default function reducer(state = initialState, action) {

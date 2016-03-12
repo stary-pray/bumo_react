@@ -8,7 +8,8 @@ const schemas = {
   likes: new Schema('likes'),
   tags: new Schema('tags'),
   tagHeat: new Schema('tagHeat'),
-  tagDetail: new Schema('tagDetail')
+  tagDetail: new Schema('tagDetail'),
+  bumoStar: new Schema('bumoStar')
 };
 
 schemas.painting.define({
@@ -20,7 +21,8 @@ schemas.paintingDetail.define({
   profile: schemas.profile,
   heat: schemas.paintingHeat,
   tags: arrayOf(schemas.tags),
-  likes: arrayOf(schemas.likes)
+  likes: arrayOf(schemas.likes),
+  bumo_star: arrayOf(schemas.bumoStar)
 });
 
 schemas.tags.define({

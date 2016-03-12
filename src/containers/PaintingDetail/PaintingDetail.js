@@ -9,6 +9,7 @@ import {like as likePainting} from 'redux/modules/models/Like';
 import {Link} from 'react-router';
 import moment from 'moment';
 import {createNotification, createNotificationSuccess} from 'redux/modules/notification';
+import BumoStar from 'containers/BumoStar/BumoStar'
 
 moment.locale('zh-cn');
 const calculateHeat = (last_heat, last_time, like_amount = 0) => {
@@ -127,6 +128,7 @@ export default class PaintingDetail extends Component {
           {likeError}
           <button onClick={this.handleSubmit}>Like
           </button>
+          <BumoStar paintingId={id}/>
         </form>
       </div> ) : (
       <div> Loading... </div> );
