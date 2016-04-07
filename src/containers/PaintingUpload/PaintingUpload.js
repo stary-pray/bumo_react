@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {upload} from 'redux/modules/paintingUpload';
+import {upload, toggleExtra} from 'redux/modules/paintingUpload';
 import {Link} from 'react-router';
 import {reduxForm} from 'redux-form';
 import Dropzone from 'react-dropzone';
@@ -13,10 +13,11 @@ import AddTags from 'components/AddTags/AddTags';
 @connect(
   (state) => ({
     paintingUpload: state.paintingUpload,
-    tags: state.tags
+    tags: state.tags,
   }),
   dispatch => bindActionCreators({
-    upload
+    upload,
+    toggleExtra,
   }, dispatch)
 )
 
@@ -29,9 +30,10 @@ import AddTags from 'components/AddTags/AddTags';
 export default class uploadPaintingForm extends Component {
   static propTypes = {
     upload: PropTypes.func,
+    toggleExtra: PropTypes.func,
     fields: PropTypes.object,
     tags: PropTypes.object,
-    paintingUpload: PropTypes.object
+    paintingUpload: PropTypes.object,
   };
 
 
@@ -60,18 +62,10 @@ export default class uploadPaintingForm extends Component {
   };
 
   render() {
-    const {fields:{title, description,file},} = this.props;
+    const {fields:{title, description,file}, paintingUpload, toggleExtra} = this.props;
     return (
       <div>
         <form>
-          <div>
-            <label>标题*</label>
-            <input ref="title"  autoFocus="true" {...title}/>
-          </div>
-          <div>
-            <label>描述*</label>
-            <input ref="description" {...description}/>
-          </div>
           <div>
             <label>上传图片</label>
             <Dropzone ref="file" multiple={false} {...file}
@@ -81,8 +75,17 @@ export default class uploadPaintingForm extends Component {
              }}>
               <div>图片</div>
             </Dropzone>
+
           </div>
-          <AddTags/>
+          <div>
+            <label>标题*</label>
+            <input ref="title"  autoFocus="true" {...title}/>
+          </div>
+          <div>
+            <label>描述*</label>
+            <input ref="description" {...description}/>
+          </div>
+          <AddTags showExtra={paintingUpload.showExtra} toggleExtra={toggleExtra}/>
           <a className="button" onClick={this.handleSubmit}>提交</a>
         </form>
       </div>

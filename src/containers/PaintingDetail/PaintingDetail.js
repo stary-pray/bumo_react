@@ -110,7 +110,7 @@ export default class PaintingDetail extends Component {
           </div>
           : '')}
         <form onSubmit={this.handleSubmit}>
-          <div><label>点赞数</label>
+          <div><label>点祈数</label>
             <select defaultValue="1" ref="like_amount">
               <option value="1">1</option>
               <option value="2">2</option>
@@ -126,7 +126,7 @@ export default class PaintingDetail extends Component {
           </div>
 
           {likeError}
-          <button onClick={this.handleSubmit}>Like
+          <button onClick={this.handleSubmit}>祈
           </button>
           <BumoStar paintingId={id}/>
         </form>

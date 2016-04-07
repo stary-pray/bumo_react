@@ -30,7 +30,7 @@ export default class BumoStar extends Component {
     const {paintingId} = this.props;
     return (
       <div>
-        <button className="btn btn-success" onClick={this.handleSubmit.bind(this)}><i className="fa fa-sign-in"/>{' '}点赞
+        <button className="btn btn-success" onClick={this.handleSubmit.bind(this)}><i className="fa fa-sign-in"/>{' '}星
         </button>
       </div>
 

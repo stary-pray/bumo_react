@@ -9,6 +9,8 @@ import HotPainting from './HotPainting';
 import Tags from './Tags';
 import User from './User';
 import TagDetail from './TagDetail';
+import Deposit from './Deposit';
+import CreateCharge from './CreateCharge'
 
 export default combineReducers({
   Home,
@@ -20,4 +22,6 @@ export default combineReducers({
   Tags,
   User,
   TagDetail,
+  Deposit,
+  CreateCharge
 });

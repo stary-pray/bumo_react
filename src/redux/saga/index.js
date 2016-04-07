@@ -16,8 +16,8 @@ import * as userPaintingModule from '../modules/containers/UserPainting';
 import * as tagPaintingModule from '../modules/models/TagDetail';
 import * as tagPaintingModuleCon from '../modules/containers/TagDetail';
 import * as userModule from '../modules/containers/User';
-
-
+import * as depositModule from '../modules/containers/Deposit'
+import * as getChargeModule from '../modules/models/Deposit';
 
 //const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -73,6 +73,22 @@ function* homePageLoaded() {
     yield take(PaintingModule.LOAD_SUCCESS);
    // yield delay(2000);
     yield put({type: homeModule.GoNextPage});
+  }
+}
+
+function* depositNextPageLoaded() {
+  while (TRULY) {
+    yield take(getChargeModule.GET_CHARGE_SUCCESS);
+    // yield delay(2000);
+    yield put({type: depositModule.GoDepositNextPage});
+  }
+}
+
+function* depositLastPageLoaded() {
+  while (TRULY) {
+    const action = yield take(depositModule.GoDepositLastPage);
+    // yield delay(2000);
+    yield put(getChargeModule.getCharge(action.page-2));
   }
 }
 
@@ -135,5 +151,6 @@ export default function* root() {
   yield fork(userPaintingPageLoaded);
   yield fork(tagPageLoaded);
   yield fork(loadHotUserPaintings);
-  //yield fork(likeSuccess);
+  yield fork(depositNextPageLoaded);
+  yield fork(depositLastPageLoaded);
 }

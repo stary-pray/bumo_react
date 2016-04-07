@@ -1,0 +1,9 @@
+.AddTags{
+  margin-top: 1rem;
+  .tag{
+    display: flex;
+    > div {
+      margin-right: 1rem;
+    }
+  }
+}

@@ -9,7 +9,8 @@ const schemas = {
   tags: new Schema('tags'),
   tagHeat: new Schema('tagHeat'),
   tagDetail: new Schema('tagDetail'),
-  bumoStar: new Schema('bumoStar')
+  bumoStar: new Schema('bumoStar'),
+  deposit: new Schema('deposit'),
 };
 
 schemas.painting.define({
@@ -53,6 +54,9 @@ export default function normalizeMiddleware() {
           break;
         case 'tagDetail':
           action.normalized = normalize(action.result, schemas.tagDetail);
+          break;
+        case 'deposit':
+          action.normalized = normalize(action.result.results, arrayOf(schemas.deposit));
           break;
         default:
       }

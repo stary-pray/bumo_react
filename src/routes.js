@@ -17,6 +17,8 @@ import PaintingUpload from 'containers/PaintingUpload/PaintingUpload';
 import User from 'containers/User/User';
 import TagDetail from 'containers/TagDetail/TagDetail';
 import TagDetailHot from 'containers/TagDetail/TagDetailHot';
+import CreateCharge from 'containers/Deposit/CreateCharge';
+import DepositList from 'containers/Deposit/DepositList';
 
 
 export default function Router(store) {
@@ -75,6 +77,9 @@ export default function Router(store) {
 
       <Route path="/tags/hot/:tagName" component={TagDetailHot}/>
 
+      <Route path="me/depositList" component={DepositList}/>
+
+      <Route path="me/createCharge" component={CreateCharge}/>
 
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404}/>
