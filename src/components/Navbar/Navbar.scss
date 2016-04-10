@@ -1,11 +1,147 @@
 @import "../../containers/colors";
 
-.NavBar {
-  background-color: $lBlack;
-  flex: 0 0 5rem;
-  a {
+#nav-bar{
+  position: relative;
+  background-color: $dBlack;
+  color: white;
+  min-height: 100vh;
+  width: 8rem;
+  .nav-section{
+    padding: 0.75em;
+  }
+  .nav-header{
+    font-size: 0.8em;
+    cursor: default;
+  }
+  .nav-item{
     display: block;
     color: white;
-    padding: 1rem;
+    transition-property: padding, border;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+    &.active{
+      border-left: solid $lCyan 0.2em;
+      margin-left: -0.75em;
+      padding-left: 0.55em;
+    }
+    > .zmdi {
+      width: 1.5em;
+      text-align: center;
+      font-size: 0.9em;
+    }
+    &:hover{
+      color: $lSliver;
+      padding-left: 0.2rem;
+      &.active{
+        padding-left: 0.75rem;
+      }
+    }
+  }
+
+  .br{
+    display: block;
+    border-bottom: 1px solid $dGrey;
+    margin: 0.2rem 0;
+  }
+
+  .account-item{
+    position: absolute;
+    bottom: 0;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 0.75rem;
+    > .avatar{
+      opacity: 0.9;
+      overflow: hidden;
+      &:hover{
+        opacity: 1;
+        >.text{
+          visibility: visible;
+        }
+      }
+      > img{
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 1000px;
+        border: 2px solid white;
+      }
+      >.text{
+        visibility: hidden;
+        color: white;
+      }
+    }
+  }
+  &.fold{
+    position: fixed;
+    background: none;
+    z-index: 5;
+    min-height: 0;
+    height: 3rem;
+    width: 3rem;
+    #logo {
+      height: 3em;
+      > svg, > .svg{
+        transform: scale(1.1);
+      }
+      > .title{
+        display: none;
+      }
+    }
+    .nav-section{
+      display: none;
+    }
+    .avatar{
+      display: none;
+    }
+    &:hover, &:focus, &.focus{
+      background-color: $dBlack;
+      height: 100%;
+      width: 8rem;
+      #logo{
+        height: 4em;
+        padding: 0.75em;
+        > svg, > .svg{
+          transform: scale(1);
+          opacity: 1;
+        }
+        background-color: $lCyan;
+        > .title{
+          display: inline;
+        }
+      }
+      .nav-section{
+        display: block;
+      }
+      .avatar{
+        display: block;
+      }
+    }
+  }
+}
+
+#logo{
+  display: flex;
+  align-items: center;
+  padding: 0.75em;
+  background-color: $lCyan;
+  color: white;
+  text-decoration: none!important;
+  height: 4em;
+  box-sizing: border-box;
+  transition-property: background-color;
+  transition-duration: 0.1s;
+
+  > .title{
+    font-size: 1.5em;
+    padding-left: 0.1em;
+  }
+  &:hover{
+    background-color: lighten($lCyan, 3%);
+  }
+  > svg, > .svg{
+    transform: scale(1);
+    width: 2.5em;
+    transition-property: transform, margin, opacity;
+    transition-duration: 0.1s;
   }
 }

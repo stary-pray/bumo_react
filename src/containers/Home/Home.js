@@ -1,22 +1,23 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {load as loadPainting} from 'redux/modules/models/Painting';
+import {load as loadPainting, loadHot as loadHotPainting} from 'redux/modules/models/Painting';
 import {Link} from 'react-router';
 import './Home.scss';
-import Waypoint from 'react-waypoint';
 import {resize} from 'utils/common';
-import PaintingInfo from 'components/PaintingInfo/PaintingInfo';
+import PaintingList from '../../components/PaintingList/PaintingList';
 
 @connect(
-  state => ({
+  (state, ownProps) => ({
     painting: state.models.painting,
     profile: state.models.profile,
     paintingHeat: state.models.paintingHeat,
-    component: state.containers.Home
+    component: state.containers.Home,
+    path: ownProps.route.path,
   }),
   dispatch => bindActionCreators({
-    loadPainting
+    loadPainting,
+    loadHotPainting
   }, dispatch)
 )
 
@@ -27,45 +28,32 @@ export default class Home extends Component {
     paintingHeat: PropTypes.object,
     component: PropTypes.object,
     paintingDetail: PropTypes.object,
-    loadPainting: PropTypes.func
+    path: PropTypes.string,
+    loadPainting: PropTypes.func,
+    loadHotPainting: PropTypes.func
   };
 
-  // componentWillMount() {
-  // }
-
-  loadMore() {
-    const { page, loading } = this.props.component;
-    if(loading) return;
-    this.props.loadPainting(page);
-    console.log('load more', page);
-  }
-
   render() {
-    const {painting, component, paintingHeat} = this.props;
-    const { page, pageMeta } = this.props.component;
+    const {painting, component, paintingHeat, profile, loadPainting, loadHotPainting, path} = this.props;
+    const isLatest = path && path.indexOf('/latest') > -1;
+    const load = isLatest ? loadPainting : loadHotPainting;
+    
     return (<div className="Home">
       <h1>Home</h1>
       <p>Example for all paintings</p>
 
-      <p><Link to="">最新作品   </Link><Link to="/hot">   热门作品</Link></p>
-      <div className="paintingInfo">
-        {component.loaded ?
-          component.indexes.map((paintingId)=>(
-           <PaintingInfo key={'painting' + paintingId} heat={paintingHeat[painting[paintingId].heat]} painting={painting[paintingId]}/>))
-          :
-          ''}
-      </div>
+      <p>
+        <Link to="/latest">最新作品</Link>
+        <Link to="/"> 热门作品</Link>
+      </p>
 
-      <div>{component.loaded && pageMeta.next === null ?
-        <div>已到最后一页</div> :
-        <div>{component.loaded && (page-1) % 2 == 0 ?
-          <button onClick={this.loadMore.bind(this)}>加载更多</button> :
-          <Waypoint className="waypoint" key={'waypoint' + page} style={{position: 'relative'}}
-                    onEnter={this.loadMore.bind(this)}/>}
-        </div>}
-      </div>
+      <PaintingList
+        painting={painting}
+        component={component}
+        paintingHeat={paintingHeat}
+        profile={profile}
+        loadPainting={load}
+      />
     </div>);
   }
 }
-
-// onClick={() => this.props.loadPaintingDetail(paintingId)}

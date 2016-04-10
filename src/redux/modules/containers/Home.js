@@ -3,8 +3,32 @@ import {handleActions} from 'redux-actions';
 import * as PaintingActions from '../models/Painting';
 
 export const GoNextPage = 'bumo/Home/GoNextPage';
+export const GoNextPageHot = 'bumo/HotPainting/GoNextPageHot';
+const routeChange = '@@router/UPDATE_LOCATION';
+
+const initialState = {
+  page: 1,
+  indexes: [],
+  loaded: false,
+  loading: false
+};
 
 export default handleActions({
+  [PaintingActions.LOAD_HOT]: (state, action) => ({
+    ...state,
+    loading: true
+  }),
+  [PaintingActions.LOAD_HOT_SUCCESS]: (state, action) => ({
+    ...state,
+    loaded: true,
+    pageMeta: action.result,
+    indexes: [...state.indexes, ...action.normalized.result],
+    loading: false
+  }),
+  [GoNextPageHot]: (state, action) =>({
+    ...state,
+    page: state.page + 1,
+  }),
   [PaintingActions.LOAD]: (state, action) => ({
     ...state,
     loading: true
@@ -19,10 +43,6 @@ export default handleActions({
   [GoNextPage]: (state, action) =>({
     ...state,
     page: state.page + 1,
-  })
-}, {
-  page: 1,
-  indexes: [],
-  loaded: false,
-  loading: false
-});
+  }),
+  [routeChange]: (state) => initialState
+}, initialState);

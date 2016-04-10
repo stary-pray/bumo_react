@@ -1,2 +1,10 @@
 @import "settings";
 @import "../../node_modules/foundation-apps/scss/foundation";
+@import "typo";
+
+$zmdi-font-path: '../../node_modules/material-design-iconic-font/dist/fonts';
+@import '../../node_modules/material-design-iconic-font/scss/material-design-iconic-font';
+
+a:hover {
+  text-decoration: none;
+}

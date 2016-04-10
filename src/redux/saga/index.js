@@ -11,7 +11,6 @@ import * as likeModule from '../modules/models/Like';
 import * as paintingDetailModule from '../modules/models/PaintingDetail';
 import * as PaintingModule from '../modules/models/Painting';
 import * as homeModule from '../modules/containers/Home';
-import * as hotModule from '../modules/containers/HotPainting';
 import * as userPaintingModule from '../modules/containers/UserPainting';
 import * as tagPaintingModule from '../modules/models/TagDetail';
 import * as tagPaintingModuleCon from '../modules/containers/TagDetail';
@@ -96,7 +95,7 @@ function* hotPageLoaded() {
   while (TRULY) {
     yield take(PaintingModule.LOAD_HOT_SUCCESS);
     // yield delay(2000);
-    yield put({type: hotModule.GoNextPageHot});
+    yield put({type: homeModule.GoNextPageHot});
   }
 }
 function* tagPageLoaded() {

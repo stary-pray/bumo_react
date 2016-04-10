@@ -1,0 +1,124 @@
+@import "../../containers/colors";
+
+.PaintingInfo {
+  width: 20rem;
+  list-style: none;
+  margin-bottom: 1rem;
+  overflow: hidden;
+
+  /*
+  .bottomInfo, .topInfo {
+    transform: translate(0, 0) !important;
+    opacity: 1 !important;
+  }
+  */
+
+  &:hover {
+    .bottomInfo, .topInfo {
+      transform: translate(0, 0);
+      opacity: 1;
+    }
+  }
+
+  .topInfo {
+    position: absolute;
+    top: 0;
+    height: 6rem;
+    padding-bottom: 2rem;
+
+    width: 100%;
+    background-image: linear-gradient($dBlack, rgba($dBlack, 0.6) 50%, rgba(0, 0, 0, 0) 100%);
+    transform: translate(0, -1rem);
+    opacity: 0;
+    transition-property: transform, opacity;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in;
+
+    display: flex;
+  }
+
+  .bottomInfo {
+    position: absolute;
+    bottom: 0;
+    height: 6rem;
+    padding-top: 2rem;
+    width: 100%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba($dBlack, 0.6) 50%, $dBlack);
+    transform: translate(0, 1rem);
+    opacity: 0;
+    transition-property: transform, opacity;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in;
+
+    display: flex;
+
+    .left {
+      flex: 1 1 auto;
+      margin-left: 1rem;
+      > a {
+        display: block;
+      }
+    }
+
+    .right {
+      flex: 0 0 3rem;
+      padding-right: 1rem;
+    }
+  }
+
+  .title, .nickname {
+    color: white;
+    margin-bottom: 0.2rem;
+  }
+
+  .avatar {
+    position: relative;
+    bottom: -1.3rem;
+    > img{
+      border-radius: 100%;
+    }
+  }
+
+  .heat {
+    font-size: 1.2rem;
+    color: $lRed;
+    flex-grow: 1;
+    padding-top: 0.85rem;
+    padding-left: 1rem;
+    .zmdi {
+      margin-right: 0.2rem;
+    }
+  }
+
+  .buttons {
+    //padding-top: 0.5rem;
+    //float: right;
+    flex-grow: 0;
+  }
+
+  .xing, .qi {
+    .zmdi {
+      font-size: 1.2rem;
+    }
+    border-width: 2px;
+    border-radius: 4px;
+  }
+
+  .xing {
+    //border-color: rgba($lYellow, 0.5);
+    border: 0;
+    color: $dYellow;
+    &:hover {
+      color: $lYellow;
+    }
+  }
+
+  .qi {
+    //border-color: rgba($lRed, 0.5);
+    border: 0;
+    color: $dOrange;
+    &:hover {
+      color: $lOrange;
+    }
+  }
+}

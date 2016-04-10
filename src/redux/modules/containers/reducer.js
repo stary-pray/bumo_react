@@ -5,7 +5,6 @@ import PaintingDetail from './PaintingDetail';
 import UserPainting from './UserPainting';
 import Like from './Like';
 import Form from './Form';
-import HotPainting from './HotPainting';
 import Tags from './Tags';
 import User from './User';
 import TagDetail from './TagDetail';
@@ -18,7 +17,6 @@ export default combineReducers({
   UserPainting,
   Like,
   Form,
-  HotPainting,
   Tags,
   User,
   TagDetail,

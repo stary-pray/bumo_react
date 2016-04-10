@@ -7,3 +7,8 @@ export const resize = (url, minWidth)=>{
     return url;
   }
 };
+
+
+export const imageHeight = (rawWidth, rawHeight, newWidth)=>  newWidth / rawWidth * rawHeight;
+
+export const defaultAvatar = (avatarUrl) => avatarUrl || 'http://7sbq0u.com1.z0.glb.clouddn.com/uploads/user_6/paintings/None_bd9274b3.png';

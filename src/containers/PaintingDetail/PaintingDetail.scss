@@ -1,0 +1,102 @@
+@import "../../containers/colors";
+
+.PaintingDetail {
+  display: flex;
+  width: 100%;
+  .leftPanel {
+    background: rgba($lSliver, 0.8);
+    flex: 1 1 15rem;
+    display: flex;
+    flex-direction: column;
+    .image {
+      margin-left: auto;
+      margin-right: auto;
+      width: auto;
+      height: 85vh;
+      padding-bottom: 0.5rem;
+    }
+    .title {
+      //margin-top: 0.5rem;
+      border-top: 1px solid $dSliver;
+    }
+  }
+  .rightPanel {
+    flex: 0 0 12rem;
+    .avatar {
+      position: relative;
+      height: 12rem;
+      overflow: hidden;
+      &:hover {
+        > .avatarImage > img {
+          transform: translate(0, -0.2rem);
+        }
+
+        .nickname {
+          transform: translate(0, -0.2rem);
+        }
+
+        .avatarBackground {
+          -webkit-filter: blur(30px);
+          filter: blur(30px);
+        }
+      }
+      > .avatarImage {
+        > img {
+          position: relative;
+          left: 3rem;
+          top: 2rem;
+          width: 6rem;
+          height: auto;
+          border-radius: 100%;
+          z-index: 3;
+          transition-property: transform;
+          transition-duration: 0.15s;
+          transition-timing-function: ease-in;
+          transform: translate(0, 0);
+        }
+      }
+      .avatarBackground {
+        position: absolute;
+        left: 0;
+        top: 0;
+
+        -webkit-filter: blur(10px);
+        filter: blur(10px);
+
+        transition-property: filter, -webkit-filter;
+        transition-duration: 0.15s;
+        transition-timing-function: ease-in;
+      }
+      .background {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba($lBlack, 0.7);
+        z-index: 2;
+      }
+      .nickname {
+        position: absolute;
+        top: 8.5rem;
+        width: 100%;
+        text-align: center;
+        z-index: 2;
+        font-weight: 300;
+        > a {
+          color: $lSliver;
+          &:hover {
+            color: white;
+          }
+        }
+        transform: translate(0, 0);
+        transition-property: transform;
+        transition-duration: 0.15s;
+        transition-timing-function: ease-in;
+      }
+    }
+  }
+  .heatForm {
+    display: none;
+  }
+}

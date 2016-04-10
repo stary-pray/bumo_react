@@ -7,16 +7,8 @@
   }
 
   .paintingInfo{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: baseline;
-    .paintings{
-      min-height: 35vh;
-      padding: 2rem;
-      flex: 0 0 25%;
-    }
   }
+
   .waypoint{
     position: relative;
   }
