@@ -1,4 +1,5 @@
 import {handleActions} from 'redux-actions';
+import _ from 'lodash';
 
 import * as PaintingActions from '../models/Painting';
 
@@ -22,7 +23,7 @@ export default handleActions({
     ...state,
     loaded: true,
     pageMeta: action.result,
-    indexes: [...state.indexes, ...action.normalized.result],
+    indexes: _.uniq([...state.indexes, ...action.normalized.result]),
     loading: false
   }),
   [GoNextPageHot]: (state, action) =>({
@@ -38,7 +39,7 @@ export default handleActions({
     loaded: true,
     loading: false,
     pageMeta: action.result,
-    indexes: [...state.indexes, ...action.normalized.result]
+    indexes: _.uniq([...state.indexes, ...action.normalized.result])
   }),
   [GoNextPage]: (state, action) =>({
     ...state,

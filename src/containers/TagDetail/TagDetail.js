@@ -46,13 +46,12 @@ export default class TagPainting extends Component {
     const {id, painting,component, paintingHeat,profile,tags} = this.props;
     const {tagLoaded, page}=this.props.component
     return (<div className="Home">
-      <h1>H</h1>
       <div>
         {
           tagLoaded ?
             component.indexes.map((tagId)=>(
               <div key={'tags' + tagId}>
-                <h2>{tags[tagId].name}</h2>
+                <h2>{tags[tagId].type}_{tags[tagId].name}</h2>
                 {tags[tagId].paintings.map((paintingId)=>(
                   <PaintingInfo
                     key={'painting' + paintingId}

@@ -41,13 +41,13 @@ export default class Tags extends Component {
     return (<div className="Tags">
       <h1>标签</h1>
       <h2>热门标签属性</h2>
-      <Link to="/tags/type/角色"><h3>角色</h3></Link>
-      <Link to="/tags/type/作品"><h3>作品</h3></Link>
+      <Link to="/tag_type/角色"><h3>角色</h3></Link>
+      <Link to="/tag_type/作品"><h3>作品</h3></Link>
       <div> {component.loaded ?
         <div>
           {component.indexes.map((tagsId) =>
             <div key={'tags'+tagsId}>
-              <Link to={"/tags/"+ tags[tagsId].name}><h2>{tags[tagsId].type}_{tags[tagsId].name}</h2></Link>
+              <Link to={"/tags/"+tags[tagsId].type+'/'+ tags[tagsId].name}><h2>{tags[tagsId].type}_{tags[tagsId].name}</h2></Link>
               {tags[tagsId].paintings ? tags[tagsId].paintings.map((id) => (
                 <PaintingInfo
                 key={'painting' + id}
