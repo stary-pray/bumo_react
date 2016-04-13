@@ -17,6 +17,8 @@ import TagDetail from 'containers/TagDetail/TagDetail';
 import TagDetailHot from 'containers/TagDetail/TagDetailHot';
 import CreateCharge from 'containers/Deposit/CreateCharge';
 import DepositList from 'containers/Deposit/DepositList';
+import TagType from 'containers/Tags/TagType'
+import TagName from 'containers/Tags/TagName'
 
 
 export default function Router(store) {
@@ -71,9 +73,15 @@ export default function Router(store) {
 
       <Route path="user" component={User}/>
 
-      <Route path="/tags/:tagName" component={TagDetail}/>
+      <Route path="/tags/:tagType/:tagName" component={TagDetail}/>
 
-      <Route path="/tags/hot/:tagName" component={TagDetailHot}/>
+      <Route path="/tags/:tagType/:tagName/:sub" component={TagDetail}/>
+
+      <Route path="/tags_hot/:tagName" component={TagDetailHot}/>
+
+      <Route path="/tag_type/:tagType" component={TagType}/>
+
+      <Route path="/tag_name/:tagName" component={TagName}/>
 
       <Route path="me/depositList" component={DepositList}/>
 

@@ -59,6 +59,7 @@ export default class Navbar extends Component {
           <a className="avatar">
             <img data-avatar="{{vm.me.data.avatar}}" ng-src="{{ vm.me.data.avatar | userAvatar }}" alt="avatar"/>
             <span className="text"> 账户 </span>
+            <button onClick={logout} type="button" className="button">注销</button>
           </a>
         </section>
         }

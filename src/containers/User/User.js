@@ -45,7 +45,12 @@ export default class Tags extends Component {
                 <img src={user[userId].avatar}/>
               </Link>
               {component.hotPaintings[userId]? component.hotPaintings[userId].map(paintingId =>
-                <PaintingInfo key={'painting' + paintingId} heat={paintingHeat[painting[paintingId].heat]} painting={painting[paintingId]}/>):''}
+              <PaintingInfo
+                key={'painting' + paintingId}
+                heat={paintingHeat[painting[paintingId].heat]}
+                owner={user[userId]}
+                painting={painting[paintingId]}/>
+                ):''}
             </div>
           )}
         </div>
