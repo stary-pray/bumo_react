@@ -10,6 +10,7 @@ import User from './User';
 import TagDetail from './TagDetail';
 import Deposit from './Deposit';
 import CreateCharge from './CreateCharge'
+import MeUpdate from './MeUpdate'
 
 export default combineReducers({
   Home,
@@ -21,5 +22,6 @@ export default combineReducers({
   User,
   TagDetail,
   Deposit,
-  CreateCharge
+  CreateCharge,
+  MeUpdate
 });

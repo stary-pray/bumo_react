@@ -14,11 +14,10 @@ import Tags from 'containers/Tags/Tags';
 import PaintingUpload from 'containers/PaintingUpload/PaintingUpload';
 import User from 'containers/User/User';
 import TagDetail from 'containers/TagDetail/TagDetail';
-import TagDetailHot from 'containers/TagDetail/TagDetailHot';
 import CreateCharge from 'containers/Deposit/CreateCharge';
 import DepositList from 'containers/Deposit/DepositList';
-import TagType from 'containers/Tags/TagType'
-import TagName from 'containers/Tags/TagName'
+import TagType from 'containers/TagDetail/TagType'
+import TagName from 'containers/TagDetail/TagName'
 
 
 export default function Router(store) {
@@ -76,8 +75,6 @@ export default function Router(store) {
       <Route path="/tags/:tagType/:tagName" component={TagDetail}/>
 
       <Route path="/tags/:tagType/:tagName/:sub" component={TagDetail}/>
-
-      <Route path="/tags_hot/:tagName" component={TagDetailHot}/>
 
       <Route path="/tag_type/:tagType" component={TagType}/>
 

@@ -1,7 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {load as loadMe, update as updateMe, uploadAvatar} from 'redux/modules/me';
+import {load as loadMe} from 'redux/modules/me';
+import {update as updateMe, uploadAvatar}from 'redux/modules/containers/MeUpdate';
 import {Link} from 'react-router';
 import {reduxForm} from 'redux-form';
 import Dropzone from 'react-dropzone';
@@ -12,7 +13,8 @@ import {createNotification, createNotificationSuccess} from 'redux/modules/notif
 
 @connect(
   (state) => ({
-    me: state.me
+    me: state.me,
+    component:state.containers.MeUpdate
   }),
   dispatch => bindActionCreators({
     loadMe,//loadMyPaintings
@@ -34,8 +36,8 @@ export default class updateMeForm extends Component {
     updateMe: PropTypes.func,
     uploadAvatar: PropTypes.func,
     fields: PropTypes.object,
-    createNotification: PropTypes.func
-
+    createNotification: PropTypes.func,
+    component: PropTypes.object
   };
 
   compomemtWillMount() {
@@ -63,7 +65,7 @@ export default class updateMeForm extends Component {
 
 
   render() {
-    const {me, fields:{nickname, introduction, description, avatar}} = this.props;
+    const {component, fields:{nickname, introduction, description, avatar},me} = this.props;
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -76,16 +78,16 @@ export default class updateMeForm extends Component {
             {me.email}
           </div>
           <div>
-            <label>昵称</label>
-            <input placeholder={me.nickname} ref="nickname" {...nickname}/>
+            <label>昵称*</label>{component.error ? (component.error.nickname?<div>请输入昵称</div>:''):''}
+            <input value={me.nickname} ref="nickname" {...nickname}/>
           </div>
           <div>
             <label>介绍</label>
-            <input placeholder={me.introduction} ref="introduction" {...introduction}/>
+            <input value={me.introduction} ref="introduction" {...introduction}/>
           </div>
           <div>
             <label>描述</label>
-            <input placeholder={me.description} ref="description" {...description}/>
+            <input value={me.description} ref="description" {...description}/>
           </div>
           <div>
             <label>头像</label><img src={me.avatar}/>
@@ -95,11 +97,11 @@ export default class updateMeForm extends Component {
               }
             }
             >
-              {me.avatar_success ? this.props.createNotification({
+              {component.avatar_success ? this.props.createNotification({
                 message: <div>头像上传成功</div>,
                 level: 'success'
               }) : ''}
-              <div>Try dropping some files here, or click to select files to upload.</div>
+              {component.avatar_uploading ? <div>头像上传中…………</div>:<div>点击这里上传头像</div>}
             </Dropzone>
           </div>
           <button onClick={this.handleSubmit}>提交</button>

@@ -1,11 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {loadTagPaintingDetailHot} from 'redux/modules/models/TagDetail';
+import {loadTagPaintingDetail} from 'redux/modules/models/TagDetail';
 import {Link} from 'react-router';
 import PaintingList from 'components/PaintingList/PaintingList';
 import '../Home/Home.scss';
 import PaintingInfo from 'components/PaintingInfo/PaintingInfo';
+import Masonry from 'react-masonry-component';
+import '../Home/Home.scss';
 
 
 @connect(
@@ -20,7 +22,7 @@ import PaintingInfo from 'components/PaintingInfo/PaintingInfo';
     tags:state.models.tags
   }),
   dispatch => bindActionCreators({
-    loadTagPaintingDetailHot
+    loadTagPaintingDetail
   }, dispatch)
 )
 
@@ -30,7 +32,7 @@ export default class TagPainting extends Component {
     tagName:PropTypes.string,
     profile: PropTypes.object,
     paintingHeat: PropTypes.object,
-    loadTagPaintingDetailHot: PropTypes.func,
+    loadTagPaintingDetail: PropTypes.func,
     component: PropTypes.object,
     page: PropTypes.number,
     subRoute: PropTypes.string,
@@ -39,19 +41,25 @@ export default class TagPainting extends Component {
   };
 
   componentWillMount(){
-    this.props.loadTagPaintingDetailHot(this.props.tagType,this.props.tagName,this.props.component.page)
+    this.props.loadTagPaintingDetail(this.props.tagType,this.props.tagName,this.props.component.page)
   }
 
   render() {
     const {id, painting,component, paintingHeat,profile,tags} = this.props;
     const {tagLoaded, page}=this.props.component
     return (<div className="Home">
-      <div>
+
         {
           tagLoaded ?
             component.indexes.map((tagId)=>(
               <div key={'tags' + tagId}>
                 <h2>{tags[tagId].type}_{tags[tagId].name}</h2>
+                <Masonry
+                  className={'BumoMasonry'}
+                  elementType={'ul'}
+                  options={{ columnWidth: 360, itemSelector: '.PaintingInfo', gutter: 15 }}
+                  disableImagesLoaded={false}
+                >
                 {tags[tagId].paintings.map((paintingId)=>(
                   <PaintingInfo
                     key={'painting' + paintingId}
@@ -59,10 +67,11 @@ export default class TagPainting extends Component {
                     owner={profile[painting[paintingId].profile]}
                     painting={painting[paintingId]}/>
                 ))}
+                </Masonry>
               </div>
             )) : ''
         }
-      </div>
+
     </div>);
   }
 }

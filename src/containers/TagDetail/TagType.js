@@ -51,7 +51,7 @@ export default class TagType extends Component {
             tagLoaded ?
               component.indexes.map((tagId)=>(
                 <div key={'tagType' + tagId}>
-                  <h2>{tags[tagId].name}</h2>
+                  <Link to={'tag_name/'+ tags[tagId].name}><h2>{tags[tagId].name}</h2></Link>
                   {tags[tagId].paintings.map((paintingId)=>(
                     <PaintingInfo
                       key={'painting' + paintingId}
@@ -67,5 +67,3 @@ export default class TagType extends Component {
     )
   }
 }
-
-

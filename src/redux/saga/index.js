@@ -7,6 +7,7 @@ const TRULY = true;
 
 import * as authModule from '../modules/auth';
 import * as meModule from '../modules/me';
+import * as meUpdateModule from '../modules/containers/MeUpdate';
 import * as likeModule from '../modules/models/Like';
 import * as paintingDetailModule from '../modules/models/PaintingDetail';
 import * as PaintingModule from '../modules/models/Painting';
@@ -17,6 +18,7 @@ import * as tagPaintingModuleCon from '../modules/containers/TagDetail';
 import * as userModule from '../modules/containers/User';
 import * as depositModule from '../modules/containers/Deposit'
 import * as getChargeModule from '../modules/models/Deposit';
+import * as PaintingUploadModule from '../modules/paintingUpload';
 
 //const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -35,11 +37,26 @@ function* loginSuccess() {
   }
 }
 
+function* paintingUploadSuccess() {
+  while (TRULY) {
+    const {result} =yield take(PaintingUploadModule.UPLOAD_SUCCESS);
+    console.log('kk',result);
+    browserHistory.push('/painting/'+result.id);
+  }
+}
+
+function* updateAvatar() {
+  while (TRULY) {
+    yield take(meUpdateModule.UPLOAD_AVATAR_SUCCESS);
+    yield put(meModule.load());
+  }
+}
 
 function* updateMe() {
   while (TRULY) {
-    const {result} = yield take([meModule.UPLOAD_AVATAR_SUCCESS, meModule.UPDATE_SUCCESS]);
+    const {result} = yield take( meUpdateModule.UPDATE_SUCCESS);
     yield put(meModule.load());
+    browserHistory.push('/me');
   }
 }
 
@@ -152,4 +169,6 @@ export default function* root() {
   yield fork(loadHotUserPaintings);
   yield fork(depositNextPageLoaded);
   yield fork(depositLastPageLoaded);
+  yield fork(paintingUploadSuccess);
+  yield fork(updateAvatar);
 }

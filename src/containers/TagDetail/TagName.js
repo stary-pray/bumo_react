@@ -5,7 +5,8 @@ import {loadTagNameDetail} from 'redux/modules/models/TagDetail';
 import {Link} from 'react-router';
 import {resize} from 'utils/common';
 import PaintingInfo from 'components/PaintingInfo/PaintingInfo';
-
+import Masonry from 'react-masonry-component';
+import '../Home/Home.scss';
 
 
 @connect(
@@ -44,8 +45,14 @@ export default class TagName extends Component {
   render() {
     const {tagName, component, tags, painting, profile, paintingHeat} = this.props;
     const {tagLoaded, page}=this.props.component
-    return (<div>
+    return (<div className="Home">
         <h1>{tagName}</h1>
+      <Masonry
+        className={'BumoMasonry'}
+        elementType={'ul'}
+        options={{ columnWidth: 360, itemSelector: '.PaintingInfo', gutter: 15 }}
+        disableImagesLoaded={false}
+      >
         <div>
           {
             tagLoaded ?
@@ -62,6 +69,7 @@ export default class TagName extends Component {
               )) : ''
           }
         </div>
+        </Masonry>
       </div>
     )
   }
