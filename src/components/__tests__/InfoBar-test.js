@@ -5,7 +5,7 @@ import { expect} from 'chai';
 import { InfoBar } from 'components';
 import { Provider } from 'react-redux';
 import { browserHistory } from 'react-router';
-import createStore from 'redux/create';
+import createStore from '../../redux/create';
 import ApiClient from 'helpers/ApiClient';
 const client = new ApiClient();
 

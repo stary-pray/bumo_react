@@ -1,23 +1,23 @@
 import React from 'react';
 import {IndexRoute, Route} from 'react-router';
-import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
-import App from 'containers/App/App';
-import Home from 'containers/Home/Home';
-import PaintingDetail from 'containers/PaintingDetail/PaintingDetail';
-import UserPainting from 'containers/UserPainting/UserPainting';
-import Login from 'containers/Login/Login';
-import NotFound from 'containers/NotFound/NotFound';
-import Me from 'containers/Me/Me';
-import Register from 'containers/Register/Register';
-import EditMe from 'containers/Me/EditMe';
-import Tags from 'containers/Tags/Tags';
-import PaintingUpload from 'containers/PaintingUpload/PaintingUpload';
-import User from 'containers/User/User';
-import TagDetail from 'containers/TagDetail/TagDetail';
-import CreateCharge from 'containers/Deposit/CreateCharge';
-import DepositList from 'containers/Deposit/DepositList';
-import TagType from 'containers/TagDetail/TagType'
-import TagName from 'containers/TagDetail/TagName'
+import { isLoaded as isAuthLoaded, load as loadAuth } from './redux/modules/auth';
+import App from './containers/App/App';
+import Home from './containers/Home/Home';
+import PaintingDetail from './containers/PaintingDetail/PaintingDetail';
+import UserPainting from './containers/UserPainting/UserPainting';
+import Login from './containers/Login/Login';
+import NotFound from './containers/NotFound/NotFound';
+import Me from './containers/Me/Me';
+import Register from './containers/Register/Register';
+import EditMe from './containers/Me/EditMe';
+import Tags from './containers/Tags/Tags';
+import PaintingUpload from './containers/PaintingUpload/PaintingUpload';
+import User from './containers/User/User';
+import TagDetail from './containers/TagDetail/TagDetail';
+import CreateCharge from './containers/Deposit/CreateCharge';
+import DepositList from './containers/Deposit/DepositList';
+import TagType from './containers/TagDetail/TagType'
+import TagName from './containers/TagDetail/TagName'
 
 
 export default function Router(store) {

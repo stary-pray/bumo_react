@@ -4,12 +4,12 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {load as loadPaintingDetail} from 'redux/modules/models/PaintingDetail';
-import {like as likePainting} from 'redux/modules/models/Like';
+import {load as loadPaintingDetail} from '../../redux/modules/models/PaintingDetail';
+import {like as likePainting} from '../../redux/modules/models/Like';
 import {Link} from 'react-router';
 import moment from 'moment';
-import {createNotification, createNotificationSuccess} from 'redux/modules/notification';
-import BumoStar from 'containers/BumoStar/BumoStar'
+import {createNotification, createNotificationSuccess} from '../../redux/modules/notification';
+import BumoStar from '../../containers/BumoStar/BumoStar'
 import './PaintingDetail.scss';
 import {resize, defaultAvatar} from '../../utils/common';
 
@@ -24,6 +24,7 @@ const calculateHeat = (last_heat, last_time, like_amount = 0) => {
     paintingDetail: state.models.paintingDetail,
     profile: state.models.profile,
     paintingHeat: state.models.paintingHeat,
+    tagHeat: state.models.tagHeat,
     component: state.containers.PaintingDetail,
     id: +ownProps.params.paintingId,
     likeComponent: state.containers.Like,
@@ -48,6 +49,7 @@ export default class PaintingDetail extends Component {
     likePainting: PropTypes.func,
     likeComponent: PropTypes.object,
     tags: PropTypes.object,
+    tagHeat: PropTypes.object,
     createNotification: PropTypes.func
   };
 
@@ -75,9 +77,9 @@ export default class PaintingDetail extends Component {
   };
 
   render() {
+    const {paintingDetail, id, paintingHeat, profile, tags, tagHeat} = this.props;
     const {loaded: loaded} = this.props.component;
     const {like_error, like_success, like_amount} = this.props.likeComponent;
-    const {paintingDetail, id, paintingHeat, profile, tags} = this.props;
     const ownerId = paintingDetail[id] ? paintingDetail[id].owner : -1;
     const profileId = paintingDetail[id] ? paintingDetail[id].profile : -1;
     const ownerProfile = profile[profileId];
@@ -95,8 +97,7 @@ export default class PaintingDetail extends Component {
       <div className="PaintingDetail">
         <div className="leftPanel">
           <img className="image" src={paintingDetail[id].attachment}/>
-          <h1 className="title">{ paintingDetail[id].title }</h1>
-          <p className="description">{ paintingDetail[id].description }</p>
+          {/*
           <span>热度{calculateHeat(paintingHeat[id].point, paintingHeat[id].modified, like_amount)}</span>
           <form className="heatForm" onSubmit={this.handleSubmit}>
             <div><label>点祈数</label>
@@ -118,29 +119,43 @@ export default class PaintingDetail extends Component {
             </button>
             <BumoStar paintingId={id}/>
           </form>
+           */}
         </div>
         <div className="rightPanel">
-          <div className="avatar">
+          <div className="userInfo">
             <Link className="avatarImage" to={'/p/'+ ownerId}>
               <img src={ resize(defaultAvatar(ownerProfile.avatar), 120)} alt={ownerProfile.nickname}/>
             </Link>
-            <img className="avatarBackground" src={ resize(defaultAvatar(ownerProfile.avatar), 120)}
-                 alt={ownerProfile.nickname}/>
+            <img
+              className="bannerBackground"
+              src={ resize(defaultAvatar(ownerProfile.avatar), 120)}
+              alt={ownerProfile.nickname}/>
             <span className="background"/>
             <h4 className="nickname"><Link to={'/p/'+ ownerId}> {ownerProfile.nickname} </Link></h4>
+            <p className="introduction"><Link to={'/p/'+ ownerId}> 什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么   </Link></p>
           </div>
           <div className="info">
-            <label> 标签 </label>
-            {(paintingDetail[id].tags ?
-              tagsArray.map((id) => (
-                <div key={'tags' + id}>
-                  <Link to={"tags/hot/"+tags[id].name}>
-                    <p>{tags[id].type}: {tags[id].name}</p>
-                  </Link>
-                </div>)) :
-              '')}
-            <label> 时间 </label>
-            <p>{moment(paintingDetail[id].modified).fromNow()}</p>
+            <h1 className="title">{ paintingDetail[id].title }</h1>
+            <p className="description">{ paintingDetail[id].description }</p>
+            <div className="infoGroup">
+              <label> 标签 </label>
+              {(paintingDetail[id].tags ?
+                tagsArray.map((id) => (
+                  <div className="tagLabel" key={'tags' + id}>
+                    <Link to={"tags/hot/"+tags[id].name}>
+                      <span className="icon"><i className="zmdi zmdi-label"/></span>
+                      <span className="name">{tags[id].name}</span>
+                      <span className="type">{tags[id].type}</span>
+                      <span className="heat"><i className="zmdi zmdi-fire"/> {Math.round(tagHeat[tags[id].heat].point)}</span>
+                    </Link>
+                  </div>)) :
+                '')}
+            </div>
+            
+            <div className="infoGroup">
+              <label> 信息 </label>
+              <p>发布: {moment(paintingDetail[id].modified).fromNow()}</p>
+            </div>
           </div>
         </div>
       </div> ) :

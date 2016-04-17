@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {resize} from 'utils/common';
+import {resize} from '../../utils/common';
 import PaintingInfo from '../PaintingInfo/PaintingInfo';
 import Waypoint from 'react-waypoint';
 import Masonry from 'react-masonry-component';

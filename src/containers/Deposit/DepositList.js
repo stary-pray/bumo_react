@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getCharge, checkCharge} from 'redux/modules/models/Deposit';
+import {getCharge, checkCharge} from '../../redux/modules/models/Deposit';
 import {Link} from 'react-router';
 import moment from 'moment';
-import {goDepositLastPage} from 'redux/modules/containers/Deposit'
+import {goDepositLastPage} from '../../redux/modules/containers/Deposit'
 
 @connect(
   state => ({
@@ -57,7 +57,7 @@ export default class DepositList extends Component {
             <h3>订单号{deposit[depositId].charge_obj.order_no}</h3>
             <div>金额{deposit[depositId].amount}元</div>
             <div>创建时间{deposit[depositId].created}</div>
-            <button onClick={::this.checkCharge.bind(this,depositId)}>我已付款</button>
+            <button onClick={this.checkCharge.bind(this,depositId)}>我已付款</button>
             {deposit[depositId].status == 0 ?
             <div>
               <a href={deposit[depositId].charge_obj.credential[deposit[depositId].charge_obj.channel]}>未付款</a>

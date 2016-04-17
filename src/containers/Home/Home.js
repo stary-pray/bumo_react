@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {load as loadPainting, loadHot as loadHotPainting} from 'redux/modules/models/Painting';
+import {load as loadPainting, loadHot as loadHotPainting} from '../../redux/modules/models/Painting';
 import {Link} from 'react-router';
 import './Home.scss';
-import {resize} from 'utils/common';
+import {resize} from '../../utils/common';
 import PaintingList from '../../components/PaintingList/PaintingList';
 
 @connect(

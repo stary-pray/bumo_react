@@ -1,14 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {upload, toggleExtra} from 'redux/modules/paintingUpload';
+import {upload, toggleExtra} from '../../redux/modules/paintingUpload';
 import {Link} from 'react-router';
 import {reduxForm} from 'redux-form';
 import Dropzone from 'react-dropzone';
 import lodash from 'lodash';
-import AddTags from 'components/AddTags/AddTags';
+import AddTags from '../../components/AddTags/AddTags';
 
-//import {loadSpec as loadMyPaintings} from 'redux/models/Painting';
+//import {loadSpec as loadMyPaintings} from '../../redux/models/Painting';
 
 @connect(
   (state) => ({

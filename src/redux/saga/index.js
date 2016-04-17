@@ -1,6 +1,6 @@
 // import {fork, call, take, put} from 'redux-saga'
 
-import {fork, take, put} from 'redux-saga';
+import {fork, take, put} from 'redux-saga/effects';
 import { browserHistory } from 'react-router';
 
 const TRULY = true;

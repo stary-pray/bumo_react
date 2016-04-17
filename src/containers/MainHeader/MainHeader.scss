@@ -1,0 +1,80 @@
+@import "../colors";
+
+#main-header {
+  height: 4em;
+  min-height: 4em;
+  max-height: 4em;
+  border-bottom: 2px solid $lSliver;
+  background: white;
+}
+
+#search-bar {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  border-right: 1px solid $lSliver;
+  &:focus {
+    background-color: white;
+    .searchLabel{
+      display: none!important;
+    }
+  }
+  .zmdi-search {
+    color: $dSliver;
+    position: absolute;
+    font-size: 2em;
+    top: 0.5em;
+    padding-left: 0.5em;
+  }
+  .search-input {
+    border: 0;
+    padding: 1.3em 0.5em;
+    height: 2em;
+    text-indent: 2em;
+    overflow: hidden;
+    font-size: 1.5rem;
+  }
+
+  .searchLabel {
+    background: white;
+    position: absolute;
+    min-width: 8rem;
+    z-index: 2;
+    left: 1rem;
+    top: 0.5rem;
+
+    .zmdi {
+      font-size: 1.5rem;
+    }
+
+    .zmdi-label {
+      color: $lGreen;
+      padding-left: 0.5rem;
+    }
+
+    .tagContent {
+      position: relative;
+      font-size: 1.5rem;
+    }
+
+    .name {
+      color: $lGreen;
+      margin-left: 0.5em;
+    }
+
+    .type {
+      color: $lGrey;
+      margin-left: 0.5em;
+    }
+    .heat {
+      color: $lRed;
+      margin-left: 0.5em;
+    }
+  }
+}
+
+.user-notification-panel {
+  width: 18rem;
+  background-color: white;
+  padding-top: 1rem;
+}

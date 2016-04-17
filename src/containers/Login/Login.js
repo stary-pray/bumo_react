@@ -1,12 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
-import * as authActions from 'redux/modules/auth';
+import * as authActions from '../../redux/modules/auth';
 import config from '../../config';
 import './Login.scss';
 import {Link} from 'react-router';
 import {reduxForm} from 'redux-form';
-import {createNotification, createNotificationSuccess} from 'redux/modules/notification';
+import {createNotification, createNotificationSuccess} from '../../redux/modules/notification';
 import {bindActionCreators} from 'redux';
 
 

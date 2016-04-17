@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {createCharge} from 'redux/modules/containers/CreateCharge';
+import {createCharge} from '../../redux/modules/containers/CreateCharge';
 import {reduxForm} from 'redux-form';
 import lodash from 'lodash';
 

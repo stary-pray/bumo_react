@@ -1,11 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {loadTagPaintingDetail} from 'redux/modules/models/TagDetail';
+import {loadTagPaintingDetail} from '../../redux/modules/models/TagDetail';
 import {Link} from 'react-router';
-import PaintingList from 'components/PaintingList/PaintingList';
+import PaintingList from '../../components/PaintingList/PaintingList';
 import '../Home/Home.scss';
-import PaintingInfo from 'components/PaintingInfo/PaintingInfo';
+import PaintingInfo from '../../components/PaintingInfo/PaintingInfo';
 import Masonry from 'react-masonry-component';
 import '../Home/Home.scss';
 

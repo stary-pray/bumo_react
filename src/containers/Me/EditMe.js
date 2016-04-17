@@ -1,15 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {load as loadMe} from 'redux/modules/me';
-import {update as updateMe, uploadAvatar}from 'redux/modules/containers/MeUpdate';
+import {load as loadMe} from '../../redux/modules/me';
+import {update as updateMe, uploadAvatar}from '../../redux/modules/containers/MeUpdate';
 import {Link} from 'react-router';
 import {reduxForm} from 'redux-form';
 import Dropzone from 'react-dropzone';
-import {createNotification, createNotificationSuccess} from 'redux/modules/notification';
+import {createNotification, createNotificationSuccess} from '../../redux/modules/notification';
 
 
-//import {loadSpec as loadMyPaintings} from 'redux/models/Painting';
+//import {loadSpec as loadMyPaintings} from '../../redux/models/Painting';
 
 @connect(
   (state) => ({

@@ -4,6 +4,10 @@
 import browserSync from 'browser-sync';
 import historyApiFallback from 'connect-history-api-fallback';
 
+import proxyMiddleware from 'http-proxy-middleware';
+import {serverApi} from '../src/config';
+const proxy = proxyMiddleware('/api', {target: serverApi, changeOrigin: true});
+
 // Run Browsersync
 browserSync({
   port: 3000,
@@ -17,5 +21,6 @@ browserSync({
   files: [
     'src/*.html'
   ],
-  middleware: [historyApiFallback()]
+
+  middleware: [proxy, historyApiFallback()]
 });

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {addTag, deleteTag} from 'redux/modules/tags';
+import {addTag, deleteTag} from '../../redux/modules/tags';
 import './AddTags.scss';
 
 @connect(
@@ -63,7 +63,7 @@ export default class AddTags extends Component {
         <label>标签种类</label>
         <div className="tag">
           <div>
-            <select onChange={::this.logType} id="type">
+            <select onChange={this.logType.bind(this)} id="type">
               <option value="角色">角色</option>
               <option value="作品">作品</option>
               <option value="活动">活动</option>
@@ -73,7 +73,7 @@ export default class AddTags extends Component {
             </select>
           </div>
 
-          <div onKeyDown={::this.handleSubmit}>
+          <div onKeyDown={this.handleSubmit.bind(this)}>
             <input placeholder="名字" type="text" ref="tag"/>
           </div>
 
@@ -81,7 +81,7 @@ export default class AddTags extends Component {
         </div>
 
         <div>{showExtra ? <div>
-          <input ref="type" onChange={::this.relogType}/>
+          <input ref="type" onChange={this.relogType.bind(this)}/>
         </div> : ''}</div>
 
         <div>

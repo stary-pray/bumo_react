@@ -4,48 +4,50 @@
   display: flex;
   width: 100%;
   .leftPanel {
-    background: rgba($lSliver, 0.8);
+    height: calc(100vh - 4rem);
+    max-height: calc(100vh - 4rem);
+    background-color: #222;
     flex: 1 1 15rem;
     display: flex;
     flex-direction: column;
     .image {
+      position: relative;
       margin-left: auto;
       margin-right: auto;
       width: auto;
-      height: 85vh;
-      padding-bottom: 0.5rem;
-    }
-    .title {
-      //margin-top: 0.5rem;
-      border-top: 1px solid $dSliver;
+      height: 100%;
+      max-height: 100%;
     }
   }
   .rightPanel {
-    flex: 0 0 12rem;
-    .avatar {
+    flex: 0 0 18rem;
+    border-left: 1px solid $lSliver;
+    background: rgba($lSliver, 0.8);
+    .userInfo {
       position: relative;
-      height: 12rem;
+      height: 10rem;
       overflow: hidden;
       &:hover {
         > .avatarImage > img {
           transform: translate(0, -0.2rem);
         }
 
-        .nickname {
+        .nickname, .introduction {
           transform: translate(0, -0.2rem);
         }
 
-        .avatarBackground {
+        .bannerBackground {
           -webkit-filter: blur(30px);
           filter: blur(30px);
         }
       }
       > .avatarImage {
         > img {
-          position: relative;
-          left: 3rem;
-          top: 2rem;
-          width: 6rem;
+          position: absolute;
+          left: 1rem;
+          bottom: 1rem;
+          width: 4rem;
+          border: 2px solid white;
           height: auto;
           border-radius: 100%;
           z-index: 3;
@@ -55,13 +57,13 @@
           transform: translate(0, 0);
         }
       }
-      .avatarBackground {
+      .bannerBackground {
         position: absolute;
         left: 0;
         top: 0;
 
-        -webkit-filter: blur(10px);
-        filter: blur(10px);
+        -webkit-filter: blur(8px);
+        filter: blur(8px);
 
         transition-property: filter, -webkit-filter;
         transition-duration: 0.15s;
@@ -73,16 +75,19 @@
         top: 0;
         height: 100%;
         width: 100%;
-        background: rgba($lBlack, 0.7);
+        background-image: linear-gradient(-180deg, rgba(87, 113, 136, 0.00) 0%, rgba(62, 83, 103, 0.00) 50%, rgba(44, 62, 80, 0.75) 100%);
+        //background: rgba($lBlack, 0.7);
         z-index: 2;
       }
       .nickname {
         position: absolute;
-        top: 8.5rem;
+        bottom: 2.5rem;
+        left: 6rem;
         width: 100%;
-        text-align: center;
+        text-align: left;
         z-index: 2;
         font-weight: 300;
+        text-shadow: 1px 1px 2px rgba($lBlack, 0.6);
         > a {
           color: $lSliver;
           &:hover {
@@ -93,6 +98,85 @@
         transition-property: transform;
         transition-duration: 0.15s;
         transition-timing-function: ease-in;
+      }
+      .introduction {
+        font-size: 0.9rem;
+        position: absolute;
+        color: white;
+        bottom: 1rem;
+        width: 11rem;
+        text-align: left;
+        left: 6rem;
+        z-index: 2;
+        font-weight: 300;
+        text-shadow: 1px 1px 2px rgba($lBlack, 0.6);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        > a {
+          color: $lSliver;
+          &:hover {
+            color: white;
+          }
+        }
+        transform: translate(0, 0);
+        transition-property: transform;
+        transition-duration: 0.15s;
+        transition-timing-function: ease-in;
+      }
+    }
+    .info {
+      margin-left: 1rem;
+      .title {
+        margin-top: 2rem;
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+      }
+      .description {
+        font-weight: 300;
+        margin-bottom: 2rem;
+        font-size: 14px;
+      }
+      .infoGroup{
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+        > label{
+          font-size: 1rem;
+          position: relative;
+          margin-bottom: 1rem;
+          color: $dGrey;
+          &:after{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 70%;
+            border-bottom: 1px solid $dGrey;
+            left: 0;
+          }
+        }
+      }
+      .tagLabel{
+        line-height: 1;
+        height: 1rem;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        .icon{
+          display: inline-block;
+          padding-right: 0.5rem;
+        }
+        .name {
+          display: inline-block;
+          padding-right: 1rem;
+        }
+        .type {
+          display: inline-block;
+          padding-right: 1rem;
+          color: $lGrey;
+        }
+        .heat {
+          display: inline-block;
+          color: $lRed;
+        }
       }
     }
   }

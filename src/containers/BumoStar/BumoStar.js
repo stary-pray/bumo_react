@@ -1,11 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {bumo_star} from 'redux/modules/models/BumoStar';
+import {bumo_star} from '../../redux/modules/models/BumoStar';
 import {Link} from 'react-router';
 import Tooltip from 'rc-tooltip';
 
-//import {loadSpec as loadMyPaintings} from 'redux/models/Painting';
+//import {loadSpec as loadMyPaintings} from '../../redux/models/Painting';
 
 @connect(
   (state) => ({
