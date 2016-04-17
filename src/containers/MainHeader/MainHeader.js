@@ -8,8 +8,9 @@ import './MainHeader.scss';
   (state, ownProps) => ({
     component: state.containers.MainHeader,
     tagHeat: state.models.tagHeat,
-    tagType: ownProps.tagType,
-    tagName: ownProps.tagName,
+    tags: state.models.tags,
+    tagType: ownProps.routeParams.tagType,
+    tagName: ownProps.routeParams.tagName,
   }),
   {
     searchFocus: containerAction.searchFocus,
@@ -19,8 +20,11 @@ import './MainHeader.scss';
 )
 
 export default class TopNav extends Component {
+  static displayName = 'TopNav';
+
   static propTypes = {
     tagHeat: PropTypes.object,
+    tags: PropTypes.object,
     tagType: PropTypes.string,
     tagName: PropTypes.string,
     component: PropTypes.object,
@@ -50,15 +54,18 @@ export default class TopNav extends Component {
     }
   }
 
-  handleSearchInput(e){
-    this.props.searchInput(this.refs.searchInput.value)
+  handleSearchInput(e) {
+    this.props.searchInput(this.refs.searchInput.value);
   }
 
   render() {
-    const {component} = this.props;
+    const {component, tagType, tagName, tagHeat, tags} = this.props;
+    const tag = _.find(tags, {type: tagType, name: tagName});
+    if (tag) {
+      tag.heat = _.find(tagHeat, {id: tag.heat});
+    }
     const {focus, inputText} = component;
-    console.log(focus, inputText);
-    return <div id="main-header" className="grid-block">
+    return (<div id="main-header" className="grid-block">
       <div onClick={this.handleSearchFocus} id="search-bar" className="grid-content">
         <i className="zmdi zmdi-search"/>
         <input
@@ -70,14 +77,22 @@ export default class TopNav extends Component {
           className="search-input"
           placeholder="搜索"
           type="text"/>
-        {!focus &&
+        { tagType && tagName && tag &&
         <div className="searchLabel">
           <i className="zmdi zmdi-label"/>
-          <span className="tagContent">
-            <span className="name">萌</span>
-            <span className="type">属性</span>
-            <span className="heat"><i className="zmdi zmdi-fire"/> 31 </span>
-          </span>
+            <span className="tagContent">
+              <span className="name">{tag.name}</span>
+              <span className="type">{tag.type}</span>
+              <span className="heat"><i className="zmdi zmdi-fire"/> {tag.heat && Math.round(tag.heat.point)} </span>
+            </span>
+        </div>
+        }
+        { tagType && !tagName &&
+        <div className="searchLabel">
+          <i className="zmdi zmdi-labels"/>
+            <span className="tagContent">
+              <span className="type">{tagType}</span>
+            </span>
         </div>
         }
       </div>
@@ -91,6 +106,6 @@ export default class TopNav extends Component {
         <span className="secondary-color"> | </span>
         <a href="">注销</a>
       </div>
-    </div>
+    </div>);
   }
 }

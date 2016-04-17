@@ -5,7 +5,8 @@ import {loadTagTypeDetail} from '../../redux/modules/models/TagDetail';
 import {Link} from 'react-router';
 import {resize} from '../../utils/common';
 import PaintingInfo from '../../components/PaintingInfo/PaintingInfo';
-
+import _ from 'lodash';
+import './TagDetail.scss';
 
 
 @connect(
@@ -13,6 +14,7 @@ import PaintingInfo from '../../components/PaintingInfo/PaintingInfo';
     painting: state.models.painting,
     profile: state.models.profile,
     paintingHeat: state.models.paintingHeat,
+    tagHeat: state.models.tagHeat,
     tagType: ownProps.params.tagType,
     tags: state.models.tags,
     component: state.containers.TagDetail,
@@ -33,7 +35,8 @@ export default class TagType extends Component {
     tags: PropTypes.object,
     component: PropTypes.object,
     painting: PropTypes.object,
-    paintingHeat: PropTypes.object
+    paintingHeat: PropTypes.object,
+    tagHeat: PropTypes.object,
   };
 
 
@@ -42,28 +45,25 @@ export default class TagType extends Component {
   }
 
   render() {
-    const {tagType, component, tags, painting, profile, paintingHeat} = this.props;
-    const {tagLoaded, page}=this.props.component
-    return (<div>
-        <h1>{tagType}</h1>
-        <div>
-          {
-            tagLoaded ?
-              component.indexes.map((tagId)=>(
-                <div key={'tagType' + tagId}>
-                  <Link to={'tag_name/'+ tags[tagId].name}><h2>{tags[tagId].name}</h2></Link>
-                  {tags[tagId].paintings.map((paintingId)=>(
-                    <PaintingInfo
-                      key={'painting' + paintingId}
-                      heat={paintingHeat[painting[paintingId].heat]}
-                      owner={profile[painting[paintingId].profile]}
-                      painting={painting[paintingId]}/>
-                  ))}
-                </div>
-              )) : ''
-          }
-        </div>
-      </div>
-    )
-  }
-}
+    const {tagType, component, tags, painting, profile, paintingHeat, tagHeat} = this.props;
+    const {tagLoaded, page}=this.props.component;
+    return (<div className="TagType">
+      { tagLoaded ?
+        component.indexes.map((tagId)=> {
+          const tag = tags[tagId];
+          const heat = _.find(tagHeat, {id: tag.heat});
+          const topPainting = _.find(painting, {id: tag.paintings[0]});
+          return ( <div className="paintingCollection" key={'tagType' + tagId}>
+              <span className="img" style={{backgroundImage: `url(${topPainting.attachment})`}} />
+              <Link className="name" to={'/tags/'+ tags[tagId].type + '/' + tags[tagId].name}>
+                <h2>{tags[tagId].name}</h2>
+              </Link>
+              <h4 className="type">{tagType}</h4>
+              <h2 className="heat"><i className="zmdi zmdi-fire"/> {Math.round(heat.point)}</h2>
+            </div>
+          );
+        }) : ''
+      }
+        </div>);
+        }
+      }

@@ -64,7 +64,6 @@ export default class App extends Component {
 
   render() {
     const {me, loaded, params} = this.props;
-    console.log(params);
     return (
       <div className="App border-box grid-frame">
         <Helmet {...config.app.head}/>

@@ -1,0 +1,51 @@
+@import '../colors';
+
+.TagType {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.paintingCollection {
+  flex: 0 0 15rem;
+  margin: 2rem;
+  position: relative;
+  border: 1px solid $dSliver;
+  padding-bottom: 1.5rem;
+  //cursor: pointer;
+  box-shadow: 0;
+  transition-property: box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: linear;
+  &:hover{
+    box-shadow: 0 1px 15px rgba(black, 0.08);
+  }
+  > .img {
+    height: 10rem;
+    width: 15rem;
+    display: block;
+    background-size: cover;
+    background-position: center;
+  }
+  > .name {
+    text-align: center;
+    margin-top: 1.5rem;
+    display: block;
+    > h2{
+      font-size: 1.3rem;
+      color: $dCyan;
+      font-weight: normal;
+    }
+  }
+  > .type{
+    color: $dGrey;
+    text-align: center;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+  }
+  > .heat{
+    color: $dRed;
+    text-align: center;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+  }
+}

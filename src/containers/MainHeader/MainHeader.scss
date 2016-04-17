@@ -13,10 +13,12 @@
   padding: 0;
   overflow: hidden;
   border-right: 1px solid $lSliver;
-  &:focus {
+  &:focus, &:hover {
     background-color: white;
     .searchLabel{
-      display: none!important;
+      pointer-events: none;
+      transform: translate(0.2rem, 0);
+      opacity: 0;
     }
   }
   .zmdi-search {
@@ -40,8 +42,14 @@
     position: absolute;
     min-width: 8rem;
     z-index: 2;
-    left: 1rem;
-    top: 0.5rem;
+    left: 0.5rem;
+    top: 0.65rem;
+
+    transform: translate(0, 0);
+    opacity: 1;
+    transition-property: transform, opacity;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in;
 
     .zmdi {
       font-size: 1.5rem;
@@ -49,6 +57,11 @@
 
     .zmdi-label {
       color: $lGreen;
+      padding-left: 0.5rem;
+    }
+
+    .zmdi-labels {
+      color: $lGrey;
       padding-left: 0.5rem;
     }
 
@@ -75,6 +88,12 @@
 
 .user-notification-panel {
   width: 18rem;
-  background-color: white;
+  background-color: $lBlack;
   padding-top: 1rem;
+  > a {
+    color: white;
+  }
+  .secondary-color{
+    color: white;
+  }
 }
