@@ -55,7 +55,7 @@ export default class TagType extends Component {
           const topPainting = _.find(painting, {id: tag.paintings[0]});
           return ( <div className="paintingCollection" key={'tagType' + tagId}>
               <span className="img" style={{backgroundImage: `url(${topPainting.attachment})`}} />
-              <Link className="name" to={'/tags/'+ tags[tagId].type + '/' + tags[tagId].name}>
+              <Link className="name" to={'/tag_name/' + tags[tagId].name}>
                 <h2>{tags[tagId].name}</h2>
               </Link>
               <h4 className="type">{tagType}</h4>

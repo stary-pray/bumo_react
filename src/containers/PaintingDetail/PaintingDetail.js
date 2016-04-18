@@ -142,7 +142,7 @@ export default class PaintingDetail extends Component {
               {(paintingDetail[id].tags ?
                 tagsArray.map((id) => (
                   <div className="tagLabel" key={'tags' + id}>
-                    <Link to={"tags/hot/"+tags[id].name}>
+                    <Link to={"/tags/"+tags[id].type+'/'+tags[id].name}>
                       <span className="icon"><i className="zmdi zmdi-label"/></span>
                       <span className="name">{tags[id].name}</span>
                       <span className="type">{tags[id].type}</span>
@@ -151,7 +151,7 @@ export default class PaintingDetail extends Component {
                   </div>)) :
                 '')}
             </div>
-            
+
             <div className="infoGroup">
               <label> 信息 </label>
               <p>发布: {moment(paintingDetail[id].modified).fromNow()}</p>

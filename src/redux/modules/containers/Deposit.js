@@ -26,7 +26,7 @@ export default handleActions({
     ...state,
     page: state.page - 2,
   }),
-  ['@@router/UPDATE_LOCATION']:()=>({
+  ['@@router/LOCATION_CHANGE']:()=>({
       page: 1,
       indexes: [],
       loaded: false,

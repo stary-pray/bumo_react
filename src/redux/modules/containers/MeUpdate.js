@@ -26,7 +26,7 @@ export default handleActions({
     avatar_success: true
   }
   ),
-  ['@@router/UPDATE_LOCATION']:()=>({
+  ['@@router/LOCATION_CHANGE']:()=>({
     avatar_uploading: false
   })
 }, {avatar_uploading: false});

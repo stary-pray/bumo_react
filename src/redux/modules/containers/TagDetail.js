@@ -74,7 +74,7 @@ export default handleActions({
       ...state,
       page: state.page + 1
     }),
-    ['@@router/UPDATE_LOCATION']: ()=>({
+    ['@@router/LOCATION_CHANGE']: ()=>({
       tagLoaded: false,
       paintingLoaded: false,
       page: 1,

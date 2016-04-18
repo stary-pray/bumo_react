@@ -5,6 +5,8 @@ import {loadTags, loadTagsType} from '../../redux/modules/models/Tags';
 import {Link} from 'react-router';
 import {resize} from '../../utils/common';
 import PaintingInfo from '../../components/PaintingInfo/PaintingInfo';
+import '../TagDetail/TagDetail.scss';
+import _ from 'lodash';
 
 @connect(
   (state) => ({
@@ -13,7 +15,7 @@ import PaintingInfo from '../../components/PaintingInfo/PaintingInfo';
     component: state.containers.Tags,
     tagHeat: state.models.tagHeat,
     paintingHeat: state.models.paintingHeat,
-    profile:state.models.profile
+    profile: state.models.profile
   }),
   dispatch => bindActionCreators({
     loadTags,
@@ -29,7 +31,7 @@ export default class Tags extends Component {
     component: PropTypes.object,
     tagHeat: PropTypes.object,
     paintingHeat: PropTypes.object,
-    profile:PropTypes.object
+    profile: PropTypes.object
   };
 
   componentWillMount() {
@@ -43,18 +45,22 @@ export default class Tags extends Component {
       <h2>热门标签属性</h2>
       <Link to="/tag_type/角色"><h3>角色</h3></Link>
       <Link to="/tag_type/作品"><h3>作品</h3></Link>
-      <div> {component.loaded ?
+      <div className="TagType"> {component.loaded ?
         <div>
-          {component.indexes.map((tagsId) =>
-            <div key={'tags'+tagsId}>
-              <Link to={"/tags/"+tags[tagsId].type+'/'+ tags[tagsId].name}><h2>{tags[tagsId].type}_{tags[tagsId].name}</h2></Link>
-              {tags[tagsId].paintings ? tags[tagsId].paintings.map((id) => (
-                <PaintingInfo
-                key={'painting' + id}
-                heat={paintingHeat[painting[id].heat]}
-                owner={profile[painting[id].profile]}
-                painting={painting[id]}/>)) : ''}
-            </div>
+          {component.indexes.map((tagId) => {
+              const tag = tags[tagId];
+              const heat = _.find(tagHeat, {id: tag.heat});
+              const topPainting = _.find(painting, {id: tag.paintings[0]});
+              return ( <div className="paintingCollection" key={'tagType' + tagId}>
+                  <span className="img" style={{backgroundImage: `url(${topPainting.attachment})`}}/>
+                  <Link className="name" to={'/tags/' + tags[tagId].type+'/'+tags[tagId].name}>
+                    <h2>{tags[tagId].name}</h2>
+                  </Link>
+                  <h4 className="type">{tags[tagId].type}</h4>
+                  <h2 className="heat"><i className="zmdi zmdi-fire"/> {heat? Math.round(heat.point):''}</h2>
+                </div>
+              );
+            }
           )}
         </div>
         : ''

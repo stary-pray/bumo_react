@@ -54,7 +54,7 @@ export default function reducer(state = initialState, action = {}) {
             ...state,
             page: state.page + 1
           };
-    case '@@router/UPDATE_LOCATION':
+    case '@@router/LOCATION_CHANGE':
           return initialState
           ;
     default:

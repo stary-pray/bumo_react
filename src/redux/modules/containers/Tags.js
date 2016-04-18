@@ -10,7 +10,6 @@ export default handleActions({
     pageMeta: action.result,
     indexes: [...action.normalized.result]
   })
-
 }, {
   loaded: false
 });

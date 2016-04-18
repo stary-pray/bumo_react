@@ -1,7 +1,6 @@
 import {handleActions} from 'redux-actions';
 
 import * as PaintingDetailActions from '../models/PaintingDetail';
-const routeChange = '@@router/UPDATE_LOCATION';
 
 export default handleActions({
   [PaintingDetailActions.LOAD_DETAIL]: (state) => ({
@@ -12,7 +11,7 @@ export default handleActions({
     ...state,
     loaded: true
   }),
-  [routeChange]: (state) => ({
+  ['@@router/LOCATION_CHANGE']: (state) => ({
     loaded: false
-  }),
+  })
 }, {loaded: false});
