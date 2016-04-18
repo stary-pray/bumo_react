@@ -1,6 +1,7 @@
 import webpack from 'webpack';
 import path from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import autoprefixer from 'autoprefixer';
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
@@ -34,12 +35,15 @@ export default {
       {
         test: /(\.css|\.scss)$/,
         include: path.join(__dirname, 'src'),
-        loader: ExtractTextPlugin.extract("css?sourceMap!sass?sourceMap")
+        loader: ExtractTextPlugin.extract("css?sourceMap!postcss?sourceMap!sass?sourceMap")
       },
       {test: /masonry|imagesloaded|fizzy\-ui\-utils|desandro\-|outlayer|get\-size|doc\-ready|eventie|eventemitter/, loader: 'imports?define=>false&this=>window'},
       { test: /\.svg$/, loader: 'svg-inline' },
       { test: /\.((woff2?)(\?v=[0-9]\.[0-9]\.[0-9]))|(woff2?|ico)$/, loader: 'url?limit=100000' },
       { test: /\.((ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9]))|(ttf|eot|gif|jpe?g|png)$/, loader: 'file' },
     ]
+  },
+  postcss: function () {
+    return [autoprefixer];
   }
-}
+};

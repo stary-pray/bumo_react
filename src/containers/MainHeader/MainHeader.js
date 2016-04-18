@@ -9,6 +9,7 @@ import './MainHeader.scss';
     component: state.containers.MainHeader,
     tagHeat: state.models.tagHeat,
     tags: state.models.tags,
+    paintingId: ownProps.routeParams.paintingId,
     tagType: ownProps.routeParams.tagType,
     tagName: ownProps.routeParams.tagName,
   }),
@@ -28,6 +29,7 @@ export default class TopNav extends Component {
     tagType: PropTypes.string,
     tagName: PropTypes.string,
     component: PropTypes.object,
+    paintingId: PropTypes.string,
 
     searchFocus: PropTypes.func,
     searchBlur: PropTypes.func,
@@ -59,13 +61,14 @@ export default class TopNav extends Component {
   }
 
   render() {
-    const {component, tagType, tagName, tagHeat, tags} = this.props;
+    const {component, tagType, tagName, tagHeat, tags, paintingId} = this.props;
     const tag = _.find(tags, {type: tagType, name: tagName});
+    const paintingPage = paintingId ? 'paintingPage' : '';
     if (tag) {
       tag.heat = _.find(tagHeat, {id: tag.heat});
     }
     const {focus, inputText} = component;
-    return (<div id="main-header" className="grid-block">
+    return (<div id="main-header" className={`grid-block ${paintingPage}` }>
       <div onClick={this.handleSearchFocus} id="search-bar" className="grid-content">
         <i className="zmdi zmdi-search"/>
         <input

@@ -37,8 +37,6 @@
         }
 
         .bannerBackground {
-          -webkit-filter: blur(30px);
-          filter: blur(30px);
         }
       }
       > .avatarImage {
@@ -47,8 +45,8 @@
           left: 1rem;
           bottom: 1rem;
           width: 4rem;
+          height: 4rem;
           border: 2px solid white;
-          height: auto;
           border-radius: 100%;
           z-index: 3;
           transition-property: transform;
@@ -61,13 +59,8 @@
         position: absolute;
         left: 0;
         top: 0;
-
-        -webkit-filter: blur(8px);
-        filter: blur(8px);
-
-        transition-property: filter, -webkit-filter;
-        transition-duration: 0.15s;
-        transition-timing-function: ease-in;
+        width: 100%;
+        overflow: hidden;
       }
       .background {
         position: absolute;
@@ -75,7 +68,7 @@
         top: 0;
         height: 100%;
         width: 100%;
-        background-image: linear-gradient(-180deg, rgba(87, 113, 136, 0.00) 0%, rgba(62, 83, 103, 0.00) 50%, rgba(44, 62, 80, 0.75) 100%);
+        background-image: linear-gradient(-180deg, rgba(87, 113, 136, 0.00) 0%, rgba(62, 83, 103, 0.00) 20%, rgba(44, 62, 80, 0.9) 100%);
         //background: rgba($lBlack, 0.7);
         z-index: 2;
       }
@@ -86,7 +79,7 @@
         width: 100%;
         text-align: left;
         z-index: 2;
-        font-weight: 300;
+        font-weight: normal;
         text-shadow: 1px 1px 2px rgba($lBlack, 0.6);
         > a {
           color: $lSliver;

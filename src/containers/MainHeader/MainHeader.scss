@@ -6,6 +6,16 @@
   max-height: 4em;
   border-bottom: 2px solid $lSliver;
   background: white;
+  &.paintingPage {
+    border-bottom: 2px solid #333;
+    #search-bar{
+      border-right: 1px solid #333;
+    }
+    .search-input {
+      background: #222;
+      color: white;
+    }
+  }
 }
 
 #search-bar {
@@ -15,7 +25,7 @@
   border-right: 1px solid $lSliver;
   &:focus, &:hover {
     background-color: white;
-    .searchLabel{
+    .searchLabel {
       pointer-events: none;
       transform: translate(0.2rem, 0);
       opacity: 0;
@@ -93,7 +103,7 @@
   > a {
     color: white;
   }
-  .secondary-color{
+  .secondary-color {
     color: white;
   }
 }

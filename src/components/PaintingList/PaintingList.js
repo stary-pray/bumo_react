@@ -52,7 +52,9 @@ export default class PaintingList extends Component {
                 key={'painting' + paintingId}
                 heat={paintingHeat[painting[paintingId].heat]}
                 owner={profile[painting[paintingId].profile]}
-                painting={painting[paintingId]}/>)
+                painting={painting[paintingId]}
+                width={360}
+              />);
             })
             :''}
         </Masonry>
