@@ -15,7 +15,7 @@ export default handleActions({
       like_error: action.error,
       like_success: false
     }),
-  ['@@router/UPDATE_LOCATION']:()=>({
+  ['@@router/LOCATION_CHANGE']:()=>({
     like_amount: ''
   })
   },

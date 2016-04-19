@@ -50,7 +50,7 @@ export default class Tags extends Component {
           {component.indexes.map((tagId) => {
               const tag = tags[tagId];
               const heat = _.find(tagHeat, {id: tag.heat});
-              const topPainting = _.find(painting, {id: tag.paintings[0]});
+              const topPainting = tag.paintings?_.find(painting, {id: tag.paintings[0]}):'';
               return ( <div className="paintingCollection" key={'tagType' + tagId}>
                   <span className="img" style={{backgroundImage: `url(${topPainting.attachment})`}}/>
                   <Link className="name" to={'/tags/' + tags[tagId].type+'/'+tags[tagId].name}>
