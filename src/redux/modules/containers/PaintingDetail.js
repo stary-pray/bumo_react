@@ -1,4 +1,5 @@
 import {handleActions} from 'redux-actions';
+import * as userPaintingActions from './UserPainting';
 
 import * as PaintingDetailActions from '../models/PaintingDetail';
 
@@ -7,11 +8,19 @@ export default handleActions({
     ...state,
     loaded: false
   }),
-  [PaintingDetailActions.LOAD_DETAIL_SUCCESS]: (state) => ({
+  [PaintingDetailActions.LOAD_DETAIL_SUCCESS]: (state, action) => ({
     ...state,
     loaded: true
   }),
+  [userPaintingActions.LOAD_USER_PAINTING_SUCCESS]: (state, action)=> ({
+    ...state,
+    pageMeta: action.result,
+    indexes: [...state.indexes,...action.normalized.result],
+  }),
   ['@@router/LOCATION_CHANGE']: (state) => ({
+    ...state,
     loaded: false
   })
-}, {loaded: false});
+}, {
+  loaded: false
+});

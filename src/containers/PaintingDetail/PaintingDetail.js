@@ -9,10 +9,9 @@ import {like as likePainting} from '../../redux/modules/models/Like';
 import {Link} from 'react-router';
 import moment from 'moment';
 import {createNotification, createNotificationSuccess} from '../../redux/modules/notification';
-import BumoStar from '../../containers/BumoStar/BumoStar'
+import BumoStar from '../../containers/BumoStar/BumoStar';
 import './PaintingDetail.scss';
 import {resize, defaultAvatar} from '../../utils/common';
-
 moment.locale('zh-cn');
 const calculateHeat = (last_heat, last_time, like_amount = 0) => {
   const q = 0.5 ** ((+Date.now() - +new Date(last_time)) / (14 * 24 * 60 * 60 * 1000));
@@ -28,7 +27,7 @@ const calculateHeat = (last_heat, last_time, like_amount = 0) => {
     component: state.containers.PaintingDetail,
     id: +ownProps.params.paintingId,
     likeComponent: state.containers.Like,
-    tags: state.models.tags
+    tags: state.models.tags,
   }),
   dispatch => bindActionCreators({
     loadPaintingDetail,
@@ -50,7 +49,7 @@ export default class PaintingDetail extends Component {
     likeComponent: PropTypes.object,
     tags: PropTypes.object,
     tagHeat: PropTypes.object,
-    createNotification: PropTypes.func
+    createNotification: PropTypes.func,
   };
 
 
@@ -68,6 +67,10 @@ export default class PaintingDetail extends Component {
         level: 'success'
       });
     }
+
+    if(this.props.id !== nextProps.id){
+      this.props.loadPaintingDetail(nextProps.id);
+    }
   }
 
   handleSubmit = (event) => {
@@ -78,12 +81,15 @@ export default class PaintingDetail extends Component {
 
   render() {
     const {paintingDetail, id, paintingHeat, profile, tags, tagHeat} = this.props;
-    const {loaded: loaded} = this.props.component;
+    const {loaded} = this.props.component;
     const {like_error, like_success, like_amount} = this.props.likeComponent;
-    const ownerId = paintingDetail[id] ? paintingDetail[id].owner : -1;
-    const profileId = paintingDetail[id] ? paintingDetail[id].profile : -1;
+    const painting = paintingDetail[id];
+    const ownerId = painting ? painting.owner : -1;
+    const profileId = painting ? painting.profile : -1;
     const ownerProfile = profile[profileId];
-    const tagsArray = paintingDetail[id] ? paintingDetail[id].tags : [];
+    const tagsArray = painting ? painting.tags : [];
+    const previousLink = painting &&  painting.user_previous_painting? `/painting/${painting.user_previous_painting}` : '';
+    const nextLink = painting && painting.user_next_painting ? `/painting/${painting.user_next_painting}` : '';
     let likeError = '';
 
     if (like_error && like_error.NUMBER_WRONG) {
@@ -93,10 +99,10 @@ export default class PaintingDetail extends Component {
       likeError = '钱数不够';
     }
 
-    return (loaded) ? (
+    return (
       <div className="PaintingDetail">
         <div className="leftPanel">
-          <img className="image" src={paintingDetail[id].attachment}/>
+          <img className="image" src={painting && painting.attachment}/>
           {/*
           <span>热度{calculateHeat(paintingHeat[id].point, paintingHeat[id].modified, like_amount)}</span>
           <form className="heatForm" onSubmit={this.handleSubmit}>
@@ -124,22 +130,22 @@ export default class PaintingDetail extends Component {
         <div className="rightPanel">
           <div className="userInfo">
             <Link className="avatarImage" to={'/p/'+ ownerId}>
-              <img src={ resize(defaultAvatar(ownerProfile.avatar), 120)} alt={ownerProfile.nickname}/>
+              <img src={ resize(defaultAvatar(ownerProfile && ownerProfile.avatar), 120)} alt={ownerProfile && ownerProfile.nickname}/>
             </Link>
             <img
               className="bannerBackground"
-              src={ resize(defaultAvatar(ownerProfile.avatar), 120)}
-              alt={ownerProfile.nickname}/>
+              src={ resize(defaultAvatar(ownerProfile && ownerProfile.banner), 300)}
+              alt={ownerProfile && ownerProfile.nickname}/>
             <span className="background"/>
-            <h4 className="nickname"><Link to={'/p/'+ ownerId}> {ownerProfile.nickname} </Link></h4>
-            <p className="introduction"><Link to={'/p/'+ ownerId}> 什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么什么   </Link></p>
+            <h4 className="nickname"><Link to={'/p/'+ ownerId}> {ownerProfile ? ownerProfile.nickname : '---'} </Link></h4>
+            <p className="introduction"><Link to={'/p/'+ ownerId}>   {ownerProfile && ownerProfile.introduction} </Link></p>
           </div>
           <div className="info">
-            <h1 className="title">{ paintingDetail[id].title }</h1>
-            <p className="description">{ paintingDetail[id].description }</p>
+            <h1 className="title">{ painting ? painting.title : '---' }</h1>
+            <p className="description">{ painting && painting.description }</p>
             <div className="infoGroup">
               <label> 标签 </label>
-              {(paintingDetail[id].tags ?
+              {(painting && painting.tags ?
                 tagsArray.map((id) => (
                   <div className="tagLabel" key={'tags' + id}>
                     <Link to={"/tags/"+tags[id].type+'/'+tags[id].name}>
@@ -154,11 +160,12 @@ export default class PaintingDetail extends Component {
 
             <div className="infoGroup">
               <label> 信息 </label>
-              <p>发布: {moment(paintingDetail[id].modified).fromNow()}</p>
+              <p>发布: {painting && moment(painting.modified).fromNow()}</p>
             </div>
+            <Link to={previousLink} className={'button ' + (previousLink ? '' : 'disabled')} disabled={!previousLink} >Previous</Link>
+            <Link to={nextLink} className={'button '+ (nextLink ? '' : 'disabled')} disabled={!nextLink} >Next</Link>
           </div>
         </div>
-      </div> ) :
-      <div/>;
+      </div>)
   }
 }

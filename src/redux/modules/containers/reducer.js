@@ -9,9 +9,9 @@ import Tags from './Tags';
 import User from './User';
 import TagDetail from './TagDetail';
 import Deposit from './Deposit';
-import CreateCharge from './CreateCharge'
-import MeUpdate from './MeUpdate'
-import MainHeader from './MainHeader'
+import CreateCharge from './CreateCharge';
+import MeUpdate from './MeUpdate';
+import MainHeader from './MainHeader';
 
 export default combineReducers({
   Home,
