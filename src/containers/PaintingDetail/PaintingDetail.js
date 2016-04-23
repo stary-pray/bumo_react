@@ -1,17 +1,16 @@
 /**
  * Created by akistar on 16/2/10.
  */
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {load as loadPaintingDetail} from '../../redux/modules/models/PaintingDetail';
-import {like as likePainting} from '../../redux/modules/models/Like';
-import {Link} from 'react-router';
-import moment from 'moment';
-import {createNotification, createNotificationSuccess} from '../../redux/modules/notification';
-import BumoStar from '../../containers/BumoStar/BumoStar';
-import './PaintingDetail.scss';
-import {resize, defaultAvatar} from '../../utils/common';
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {load as loadPaintingDetail} from "../../redux/modules/models/PaintingDetail";
+import {like as likePainting} from "../../redux/modules/models/Like";
+import {Link} from "react-router";
+import moment from "moment";
+import {createNotification} from "../../redux/modules/notification";
+import "./PaintingDetail.scss";
+import {resize, defaultAvatar} from "../../utils/common";
 moment.locale('zh-cn');
 const calculateHeat = (last_heat, last_time, like_amount = 0) => {
   const q = 0.5 ** ((+Date.now() - +new Date(last_time)) / (14 * 24 * 60 * 60 * 1000));
@@ -126,6 +125,12 @@ export default class PaintingDetail extends Component {
             <BumoStar paintingId={id}/>
           </form>
            */}
+          <Link to={previousLink} className={'go_previous ' + (previousLink ? '' : 'disabled')} disabled={!previousLink} >
+            <i className="zmdi zmdi-chevron-left"/>
+          </Link>
+          <Link to={nextLink} className={'go_next '+ (nextLink ? '' : 'disabled')} disabled={!nextLink} >
+            <i className="zmdi zmdi-chevron-right"/>
+          </Link>
         </div>
         <div className="rightPanel">
           <div className="userInfo">
@@ -162,10 +167,8 @@ export default class PaintingDetail extends Component {
               <label> 信息 </label>
               <p>发布: {painting && moment(painting.modified).fromNow()}</p>
             </div>
-            <Link to={previousLink} className={'button ' + (previousLink ? '' : 'disabled')} disabled={!previousLink} >Previous</Link>
-            <Link to={nextLink} className={'button '+ (nextLink ? '' : 'disabled')} disabled={!nextLink} >Next</Link>
           </div>
         </div>
-      </div>)
+      </div>);
   }
 }

@@ -4,8 +4,9 @@
   display: flex;
   width: 100%;
   .leftPanel {
-    height: calc(100vh - 4rem);
-    max-height: calc(100vh - 4rem);
+    position: relative;
+    height: calc(100vh - 3rem);
+    max-height: calc(100vh - 3rem);
     background-color: #222;
     flex: 1 1 15rem;
     display: flex;
@@ -17,6 +18,38 @@
       width: auto;
       height: 100%;
       max-height: 100%;
+    }
+    .go_previous, .go_next {
+      position: absolute;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 100%;
+      z-index: 1;
+      width: 20%;
+      top: 0;
+      &.disabled{
+        pointer-events: none;
+      }
+      .zmdi{
+        width: 100%;
+        font-size: 4rem;
+        color: $dGrey;
+      }
+      &:hover{
+        .zmdi{
+          color: white;
+        }
+      }
+    }
+    .go_previous {
+      left: 0;
+      padding-left: 2rem;
+    }
+    .go_next {
+      right: 0;
+      padding-right: 2rem;
+      text-align: right;
     }
   }
   .rightPanel {
@@ -130,15 +163,15 @@
         margin-bottom: 2rem;
         font-size: 14px;
       }
-      .infoGroup{
+      .infoGroup {
         margin-top: 1rem;
         margin-bottom: 2rem;
-        > label{
+        > label {
           font-size: 1rem;
           position: relative;
           margin-bottom: 1rem;
           color: $dGrey;
-          &:after{
+          &:after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -148,12 +181,12 @@
           }
         }
       }
-      .tagLabel{
+      .tagLabel {
         line-height: 1;
         height: 1rem;
         margin-bottom: 0.5rem;
         font-weight: bold;
-        .icon{
+        .icon {
           display: inline-block;
           padding-right: 0.5rem;
         }
