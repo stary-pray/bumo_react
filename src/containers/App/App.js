@@ -1,15 +1,12 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import Helmet from 'react-helmet';
-import {logout, initialApp} from '../../redux/modules/auth';
-import {isLoaded as isMeLoaded, load as loadMe} from '../../redux/modules/me';
-import config from '../../config';
-import Navbar from '../../components/Navbar/Navbar';
-import MainHeader from '../MainHeader/MainHeader';
-import NotificationSystem from 'react-notification-system';
-import {createNotification, createNotificationSuccess} from '../../redux/modules/notification';
-
-import './App.scss';
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import Helmet from "react-helmet";
+import {logout, initialApp} from "../../redux/modules/auth";
+import config from "../../config";
+import MainHeader from "../MainHeader/MainHeader";
+import NotificationSystem from "react-notification-system";
+import {createNotification, createNotificationSuccess} from "../../redux/modules/notification";
+import "./App.scss";
 
 @connect(
   state => ({
@@ -67,7 +64,7 @@ export default class App extends Component {
     return (
       <div className="App border-box grid-frame">
         <Helmet {...config.app.head}/>
-        <Navbar logout={this.handleLogout} me={me} loaded={loaded} />
+        {/*<Navbar logout={this.handleLogout} me={me} loaded={loaded} />*/}
         <div className="Content">
           <MainHeader routeParams={params}/>
           {this.props.children}

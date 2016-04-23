@@ -1,50 +1,96 @@
 @import "../colors";
 
 #main-header {
-  height: 4em;
-  min-height: 4em;
-  max-height: 4em;
-  border-bottom: 2px solid $lSliver;
-  background: white;
-  &.paintingPage {
-    border-bottom: 2px solid #333;
-    #search-bar{
-      border-right: 1px solid #333;
+  height: 3em;
+  max-height: 3em;
+  min-height: 3em;
+  position: relative;
+  background-image: linear-gradient(#2C3E50 0%, #34495E 100%);
+  display: flex;
+  align-items: center;
+  .logo{
+    flex: 0 0 12rem;
+    position: relative;
+    left: 0.5rem;
+    top: 0.25rem;
+    svg{
+      height: 2rem;
+      font-style: normal;
+      transition: opacity 0.3s ease-in;
     }
-    .search-input {
-      background: #222;
+    &:hover{
+      svg{
+        opacity: .8;
+      }
+    }
+  }
+  .nav-section{
+    flex: 1 0 auto;
+    display: flex;
+    .nav-item{
+      flex: 0 0 5rem;
       color: white;
+      font-size: 18px;
+      text-align: center;
+      position: relative;
+      &:after{
+        content: ' ';
+        transition: background-color 0.3s ease-in;
+        height: 0;
+      }
+      &:hover{
+        color: $lSliver;
+        &:after{
+          content: ' ';
+          width: 5rem;
+          height: 3px;
+          background-color: rgba($lGreen, 0.8);
+          position: absolute;
+          left: 0;
+          bottom: -8px;
+        }
+      }
+      &.active{
+        &:after{
+          content: ' ';
+          width: 5rem;
+          height: 3px;
+          background-color: $lGreen;
+          position: absolute;
+          left: 0;
+          bottom: -8px;
+        }
+      }
+    }
+    .zmdi{
+      padding-right: 0.25rem;
     }
   }
 }
 
 #search-bar {
   position: relative;
-  padding: 0;
+  flex: 0 0 16rem;
+  height: 2rem;
   overflow: hidden;
-  border-right: 1px solid $lSliver;
-  &:focus, &:hover {
-    background-color: white;
-    .searchLabel {
-      pointer-events: none;
-      transform: translate(0.2rem, 0);
-      opacity: 0;
-    }
-  }
+  padding: 0;
   .zmdi-search {
     color: $dSliver;
     position: absolute;
-    font-size: 2em;
     top: 0.5em;
-    padding-left: 0.5em;
+    left: 0.75em;
   }
+
   .search-input {
     border: 0;
-    padding: 1.3em 0.5em;
     height: 2em;
-    text-indent: 2em;
+    text-indent: 1.5em;
     overflow: hidden;
-    font-size: 1.5rem;
+    background-color: #1C2833;
+    transition: background-color 0.1s ease-in;
+    &:focus {
+      background-color: white;
+    }
   }
 
   .searchLabel {
@@ -97,11 +143,12 @@
 }
 
 .user-notification-panel {
-  width: 18rem;
-  background-color: $lBlack;
-  padding-top: 1rem;
+  display: flex;
+  flex: 0 0 18rem;
   > a {
     color: white;
+    flex: 0 0 3rem;
+    text-align: center;
   }
   .secondary-color {
     color: white;

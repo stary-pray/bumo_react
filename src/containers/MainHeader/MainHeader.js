@@ -1,8 +1,10 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import * as containerAction from '../../redux/modules/containers/MainHeader';
-import _ from 'lodash';
-import './MainHeader.scss';
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {IndexLink, Link} from "react-router";
+import InlineSVG from "svg-inline-react";
+import * as containerAction from "../../redux/modules/containers/MainHeader";
+import _ from "lodash";
+import "./MainHeader.scss";
 
 @connect(
   (state, ownProps) => ({
@@ -69,6 +71,20 @@ export default class TopNav extends Component {
     }
     const {focus, inputText} = component;
     return (<div id="main-header" className={`grid-block ${paintingPage}` }>
+      <IndexLink className="logo" to="/">
+        <InlineSVG className="svg" src={require("./bumo_logo.svg")}/>
+      </IndexLink>
+      <section className="mono nav-section">
+        <IndexLink activeClassName="active" className="nav-item" to="/">
+          <i className="zmdi zmdi-compass"/>发现
+        </IndexLink>
+        <Link activeClassName="active" className="nav-item" to="/user">
+          <i className="zmdi zmdi-palette"/>画手
+        </Link>
+        <Link activeClassName="active" className="nav-item" to="/tags">
+          <i className="zmdi zmdi-label"/>标签
+        </Link>
+      </section>
       <div onClick={this.handleSearchFocus} id="search-bar" className="grid-content">
         <i className="zmdi zmdi-search"/>
         <input
@@ -99,12 +115,12 @@ export default class TopNav extends Component {
         </div>
         }
       </div>
-      <div className="user-notification-panel grid-content shrink hide">
+      <div className="user-notification-panel grid-content hide">
         <a href="">登录</a>
         <span className="secondary-color"> | </span>
         <a href="">注册</a>
       </div>
-      <div className="user-notification-panel grid-content shrink">
+      <div className="user-notification-panel grid-content">
         <a href="">秋肉</a>
         <span className="secondary-color"> | </span>
         <a href="">注销</a>
