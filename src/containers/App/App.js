@@ -7,6 +7,8 @@ import MainHeader from "../MainHeader/MainHeader";
 import NotificationSystem from "react-notification-system";
 import {createNotification, createNotificationSuccess} from "../../redux/modules/notification";
 import "./App.scss";
+import moment from "moment";
+moment.locale('zh-cn');
 
 @connect(
   state => ({

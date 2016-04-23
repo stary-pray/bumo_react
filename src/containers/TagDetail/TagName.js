@@ -1,12 +1,10 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {loadTagNameDetail} from '../../redux/modules/models/TagDetail';
-import {Link} from 'react-router';
-import {resize} from '../../utils/common';
-import PaintingInfo from '../../components/PaintingInfo/PaintingInfo';
-import Masonry from 'react-masonry-component';
-import '../Home/Home.scss';
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {loadTagNameDetail} from "../../redux/modules/models/TagDetail";
+import PaintingInfo from "../../components/PaintingInfo/PaintingInfo";
+import Masonry from "react-masonry-component";
+import "../Home/Home.scss";
 
 
 @connect(
@@ -50,7 +48,7 @@ export default class TagName extends Component {
       <Masonry
         className={'BumoMasonry'}
         elementType={'ul'}
-        options={{ columnWidth: 360, itemSelector: '.PaintingInfo', gutter: 15 }}
+        options={{ columnWidth: 320, itemSelector: '.PaintingInfo', gutter: 15 }}
         disableImagesLoaded={false}
       >
         <div>

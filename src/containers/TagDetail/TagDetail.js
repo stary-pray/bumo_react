@@ -1,13 +1,10 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {loadTagPaintingDetail} from '../../redux/modules/models/TagDetail';
-import {Link} from 'react-router';
-import PaintingList from '../../components/PaintingList/PaintingList';
-import '../Home/Home.scss';
-import PaintingInfo from '../../components/PaintingInfo/PaintingInfo';
-import Masonry from 'react-masonry-component';
-import '../Home/Home.scss';
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {loadTagPaintingDetail} from "../../redux/modules/models/TagDetail";
+import "../Home/Home.scss";
+import PaintingInfo from "../../components/PaintingInfo/PaintingInfo";
+import Masonry from "react-masonry-component";
 
 
 @connect(
@@ -57,7 +54,7 @@ export default class TagPainting extends Component {
                 <Masonry
                   className={'BumoMasonry'}
                   elementType={'ul'}
-                  options={{ columnWidth: 360, itemSelector: '.PaintingInfo', gutter: 15 }}
+                  options={{ columnWidth: 320, itemSelector: '.PaintingInfo', gutter: 15 }}
                   disableImagesLoaded={false}
                 >
                 {tags[tagId].paintings.map((paintingId)=>(

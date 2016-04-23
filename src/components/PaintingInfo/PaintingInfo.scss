@@ -74,7 +74,7 @@
   .avatar {
     position: relative;
     bottom: -1.3rem;
-    > img{
+    > img, svg {
       border-radius: 100%;
     }
   }

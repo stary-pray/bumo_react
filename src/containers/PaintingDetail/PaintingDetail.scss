@@ -30,15 +30,20 @@
       top: 0;
       &.disabled{
         pointer-events: none;
+        opacity: 0.2;
       }
       .zmdi{
         width: 100%;
         font-size: 4rem;
         color: $dGrey;
+        transition-property: color, text-shadow;
+        transition-duration: 0.1s;
+        transition-timing-function: ease-in;
       }
       &:hover{
         .zmdi{
           color: white;
+          text-shadow: 0 1px 2px #333;
         }
       }
     }
@@ -61,7 +66,7 @@
       height: 10rem;
       overflow: hidden;
       &:hover {
-        > .avatarImage > img {
+        > .avatarImage > img, > .avatarImage svg {
           transform: translate(0, -0.2rem);
         }
 
@@ -73,7 +78,7 @@
         }
       }
       > .avatarImage {
-        > img {
+        > img, svg {
           position: absolute;
           left: 1rem;
           bottom: 1rem;

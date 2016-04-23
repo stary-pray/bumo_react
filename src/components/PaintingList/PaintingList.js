@@ -1,9 +1,8 @@
-import React, {Component, PropTypes} from 'react';
-import {resize} from '../../utils/common';
-import PaintingInfo from '../PaintingInfo/PaintingInfo';
-import Waypoint from 'react-waypoint';
-import Masonry from 'react-masonry-component';
-import './PaintingList.scss';
+import React, {Component, PropTypes} from "react";
+import PaintingInfo from "../PaintingInfo/PaintingInfo";
+import Waypoint from "react-waypoint";
+import Masonry from "react-masonry-component";
+import "./PaintingList.scss";
 
 export default class PaintingList extends Component {
   static propTypes = {
@@ -43,7 +42,7 @@ export default class PaintingList extends Component {
         <Masonry
           className={'BumoMasonry'}
           elementType={'ul'}
-          options={{ columnWidth: 360, itemSelector: '.PaintingInfo', gutter: 15 }}
+          options={{ columnWidth: 320, itemSelector: '.PaintingInfo', gutter: 15, fitWidth: true }}
           disableImagesLoaded={false}
         >
           {component.loaded ?
@@ -53,7 +52,7 @@ export default class PaintingList extends Component {
                 heat={paintingHeat[painting[paintingId].heat]}
                 owner={profile[painting[paintingId].profile]}
                 painting={painting[paintingId]}
-                width={360}
+                width={320}
               />);
             })
             :''}

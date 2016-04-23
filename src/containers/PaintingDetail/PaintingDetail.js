@@ -10,8 +10,8 @@ import {Link} from "react-router";
 import moment from "moment";
 import {createNotification} from "../../redux/modules/notification";
 import "./PaintingDetail.scss";
-import {resize, defaultAvatar} from "../../utils/common";
-moment.locale('zh-cn');
+import {resize} from "../../utils/common";
+import InlineSVG from "svg-inline-react";
 const calculateHeat = (last_heat, last_time, like_amount = 0) => {
   const q = 0.5 ** ((+Date.now() - +new Date(last_time)) / (14 * 24 * 60 * 60 * 1000));
   return Math.round((last_heat + like_amount) * q);
@@ -135,12 +135,20 @@ export default class PaintingDetail extends Component {
         <div className="rightPanel">
           <div className="userInfo">
             <Link className="avatarImage" to={'/p/'+ ownerId}>
-              <img src={ resize(defaultAvatar(ownerProfile && ownerProfile.avatar), 120)} alt={ownerProfile && ownerProfile.nickname}/>
+              {
+                (ownerProfile && ownerProfile.avatar) ?
+                  <img src={ resize(ownerProfile.avatar, 120)} alt={ownerProfile.nickname}/> : 
+                  <InlineSVG className="svg" src={require("../../utils/assets/default_avatar.svg")}/>
+              }
             </Link>
-            <img
-              className="bannerBackground"
-              src={ resize(defaultAvatar(ownerProfile && ownerProfile.banner), 300)}
-              alt={ownerProfile && ownerProfile.nickname}/>
+            {
+              (ownerProfile && ownerProfile.banner) ?
+                <img
+                  className="bannerBackground"
+                  src={ resize(ownerProfile && ownerProfile.banner, 300)}
+                  alt={ownerProfile.nickname}/> :
+                <InlineSVG className="svg" src={require("../../utils/assets/default_banner.svg")}/>
+            }
             <span className="background"/>
             <h4 className="nickname"><Link to={'/p/'+ ownerId}> {ownerProfile ? ownerProfile.nickname : '---'} </Link></h4>
             <p className="introduction"><Link to={'/p/'+ ownerId}>   {ownerProfile && ownerProfile.introduction} </Link></p>

@@ -12,4 +12,6 @@ export const resize = (url, minWidth)=>{
 
 export const imageHeight = (rawWidth, rawHeight, newWidth)=>  newWidth / rawWidth * rawHeight;
 
-export const defaultAvatar = (avatarUrl) => avatarUrl || 'http://7sbq0u.com1.z0.glb.clouddn.com/uploads/user_6/paintings/None_bd9274b3.png';
+export const defaultAvatar = (avatarUrl) => avatarUrl || require('file!./assets/default_avatar.svg');
+
+export const defaultBanner = (bannerUrl) => bannerUrl || require('file!./assets/default_banner.svg');
