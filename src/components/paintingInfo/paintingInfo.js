@@ -1,8 +1,8 @@
-import React, {Component, PropTypes} from 'react';
-import {resize, defaultAvatar} from '../../utils/common';
-import {Link} from 'react-router';
-import {imageHeight} from '../../utils/common';
-import './PaintingInfo.scss';
+import React, {Component, PropTypes} from "react";
+import {resize, imageHeight} from "../../utils/common";
+import {Link} from "react-router";
+import "./PaintingInfo.scss";
+import InlineSVG from "svg-inline-react";
 
 
 export default class PaintingInfo extends Component {
@@ -19,7 +19,7 @@ export default class PaintingInfo extends Component {
 
   render() {
     const {painting, heat, owner} = this.props; // eslint-disable-line no-shadow
-    const width = this.props.width || 360;
+    const width = this.props.width || 320;
     return (
       <li style={{width: width, height: imageHeight(painting.width, painting.height, width) }}
           className="PaintingInfo">
@@ -41,7 +41,11 @@ export default class PaintingInfo extends Component {
           </div>
           <div className="right">
             <Link className="avatar" to={'/p/' + owner.user}>
-              <img src={ resize(defaultAvatar(owner.avatar), 80)} alt={owner.nickname}/>
+              {
+                owner.avatar ?
+                  <img src={ resize(owner.avatar, 80)} alt={owner.nickname}/> :
+                  <InlineSVG className="svg" src={require("../../utils/assets/default_avatar.svg")}/>
+              }
             </Link >
           </div>
         </div>
