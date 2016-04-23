@@ -64,7 +64,7 @@ export default class App extends Component {
   render() {
     const {me, loaded, params} = this.props;
     return (
-      <div className="App border-box grid-frame">
+      <div className="App border-box">
         <Helmet {...config.app.head}/>
         {/*<Navbar logout={this.handleLogout} me={me} loaded={loaded} />*/}
         <div className="Content">

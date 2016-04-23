@@ -12,10 +12,6 @@ import {createNotification} from "../../redux/modules/notification";
 import "./PaintingDetail.scss";
 import {resize} from "../../utils/common";
 import InlineSVG from "svg-inline-react";
-const calculateHeat = (last_heat, last_time, like_amount = 0) => {
-  const q = 0.5 ** ((+Date.now() - +new Date(last_time)) / (14 * 24 * 60 * 60 * 1000));
-  return Math.round((last_heat + like_amount) * q);
-};
 
 @connect(
   (state, ownProps) => ({
@@ -103,7 +99,7 @@ export default class PaintingDetail extends Component {
         <div className="leftPanel">
           <img className="image" src={painting && painting.attachment}/>
           {/*
-          <span>热度{calculateHeat(paintingHeat[id].point, paintingHeat[id].modified, like_amount)}</span>
+          <span>热度{calculateHeat(paintingHeat[id], like_amount)}</span>
           <form className="heatForm" onSubmit={this.handleSubmit}>
             <div><label>点祈数</label>
               <select defaultValue="1" ref="like_amount">

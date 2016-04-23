@@ -1,7 +1,6 @@
-import {handleActions} from 'redux-actions';
-import * as userPaintingActions from './UserPainting';
-
-import * as PaintingDetailActions from '../models/PaintingDetail';
+import {handleActions} from "redux-actions";
+import * as userPaintingActions from "./UserPainting";
+import * as PaintingDetailActions from "../models/PaintingDetail";
 
 export default handleActions({
   [PaintingDetailActions.LOAD_DETAIL]: (state) => ({
@@ -22,5 +21,6 @@ export default handleActions({
     loaded: false
   })
 }, {
+  indexes: [],
   loaded: false
 });

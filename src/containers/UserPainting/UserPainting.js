@@ -1,17 +1,22 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {loadUserPaintingHot, loadUserPainting} from '../../redux/modules/containers/UserPainting';
-import {Link} from 'react-router';
-import PaintingList from '../../components/PaintingList/PaintingList';
-import '../Home/Home.scss';
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {loadUserPaintingHot, loadUserPainting, loadProfileDetail} from "../../redux/modules/containers/UserPainting";
+import {Link} from "react-router";
+import {resize, calculateHeat} from "../../utils/common";
+import InlineSVG from "svg-inline-react";
+import lodash from "lodash";
+import PaintingList from "../../components/PaintingList/PaintingList";
+import "./UserPainting.scss";
 
 
 @connect(
   (state, ownProps) => ({
     userPainting: state.models.painting,
     profile: state.models.profile,
+    profileDetail: state.models.profileDetail,
     paintingHeat: state.models.paintingHeat,
+    profileHeat: state.models.profileHeat,
     id: +ownProps.params.ownerId,
     component: state.containers.UserPainting,
     page: state.containers.UserPainting.page,
@@ -19,7 +24,8 @@ import '../Home/Home.scss';
   }),
   dispatch => bindActionCreators({
     loadUserPainting,
-    loadUserPaintingHot
+    loadUserPaintingHot,
+    loadProfileDetail,
   }, dispatch)
 )
 
@@ -28,22 +34,80 @@ export default class UserPainting extends Component {
     id: PropTypes.number,
     userPainting: PropTypes.object,
     profile: PropTypes.object,
+    profileDetail: PropTypes.object,
     paintingHeat: PropTypes.object,
+    profileHeat: PropTypes.object,
     loadUserPaintingHot: PropTypes.func,
     loadUserPainting: PropTypes.func,
+    loadProfileDetail: PropTypes.func,
     component: PropTypes.object,
     page: PropTypes.number,
     subRoute: PropTypes.string,
   };
 
+  constructor() {
+    super();
+    this.topPosition = 0;
+    this.handleScroll = lodash.throttle(()=>{
+      const top = window.pageYOffset || document.documentElement.scrollTop;
+      this.topPosition = top / 2;
+      if(top < this.bannerHeihgt * 1.2){
+        this.forceUpdate();
+      }
+    }, 500);
+  }
+
+  componentDidMount() {
+    this.props.loadProfileDetail(this.props.id);
+    this.bannerHeihgt = this.refs.banner.offsetHeight;
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
   render() {
-    const {id, userPainting, component, paintingHeat,profile, loadUserPaintingHot, loadUserPainting, subRoute} = this.props;
+    const {id, userPainting, component, paintingHeat, profile, profileDetail, loadUserPaintingHot, loadUserPainting, subRoute, profileHeat} = this.props;
     const loadUserPaintingHotWithId = (pageIndex) => loadUserPaintingHot(id, pageIndex);
     const loadUserPaintingWithId = (pageIndex) => loadUserPainting(id, pageIndex);
-    const loadPainting = subRoute === 'latest' ? loadUserPaintingWithId : loadUserPaintingHotWithId ;
-    return (<div className="Home">
-      <h1>H</h1>
-      <Link to={`/p/${id}/latest`}><p>新作</p></Link> <Link to={`/p/${id}`}><p>热门</p></Link>
+    const loadPainting = subRoute === 'latest' ? loadUserPaintingWithId : loadUserPaintingHotWithId;
+    const profileBody = lodash.find(profileDetail, {user: id});
+    const profileHeatBody = profileBody ? profileHeat[profileBody.heat] : null;
+    return (<div className="UserPainting">
+      <div className="top">
+        <div ref="banner" className="banner">
+          {
+            (profileBody && profileBody.banner ) ?
+              <div
+                className="bannerBackground"
+                style={{
+                backgroundImage: 'url(' + resize(profileBody && profileBody.banner, 1000)+')',
+                transform: `translate3d(0px, ${this.topPosition}px, 0px)`
+                }}
+              /> :
+              <InlineSVG className="svg" src={require("../../utils/assets/default_banner.svg")}/>
+          }
+        </div>
+        <div className="profile">
+          <div className="avatarImage">
+            {
+              (profileBody && profileBody.avatar) ?
+                <img src={ resize(profileBody.avatar, 120)} alt={profileBody.nickname}/> :
+                <InlineSVG className="svg" src={require("../../utils/assets/default_avatar.svg")}/>
+            }
+          </div>
+          <div className="nickname">{profileBody && profileBody.nickname}</div>
+          <div className="introduction">{profileBody && profileBody.introduction}</div>
+          <div className="profileHeat"><i
+            className="zmdi zmdi-fire"/> {profileHeatBody && calculateHeat(profileHeatBody)}
+          </div>
+        </div>
+        <div className="controls">
+          <Link to={`/p/${id}/latest`}>新作</Link>
+          <Link to={`/p/${id}`}>热门</Link>
+        </div>
+      </div>
       <PaintingList
         painting={userPainting}
         component={component}
