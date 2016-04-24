@@ -6,12 +6,10 @@
   margin-bottom: 1rem;
   overflow: hidden;
 
-  /*
   .bottomInfo, .topInfo {
-    transform: translate(0, 0) !important;
-    opacity: 1 !important;
+    //transform: translate(0, 0) !important;
+    //opacity: 1 !important;
   }
-  */
 
   &:hover {
     .bottomInfo, .topInfo {
@@ -23,7 +21,7 @@
   .topInfo {
     position: absolute;
     top: 0;
-    height: 6rem;
+    height: 4rem;
     padding-bottom: 2rem;
 
     width: 100%;
@@ -35,6 +33,8 @@
     transition-timing-function: ease-in;
 
     display: flex;
+    flex-direction: column;
+    align-items: flex-end;
   }
 
   .bottomInfo {
@@ -69,6 +69,11 @@
   .title, .nickname {
     color: white;
     margin-bottom: 0.2rem;
+    margin-right: 1rem;
+    transition: background-color 0.1s linear;
+    &:hover {
+      background-color: rgba($lSliver, 0.1);
+    }
   }
 
   .avatar {
@@ -80,11 +85,16 @@
   }
 
   .heat {
+    position: relative;
     font-size: 1.2rem;
     color: $lRed;
-    flex-grow: 1;
-    padding-top: 0.85rem;
-    padding-left: 1rem;
+    flex: 0 0 auto;
+    margin: 0.75rem 0.8rem;
+    padding: 0.1rem 0.2rem;
+    transition: background-color 0.1s linear;
+    &:hover {
+      background-color: rgba($lSliver, 0.1);
+    }
     .zmdi {
       margin-right: 0.2rem;
     }
@@ -121,4 +131,53 @@
       color: $lOrange;
     }
   }
+}
+
+
+.TamashiPopup {
+  width: 18rem;
+
+  background: white;
+  color: $dBlack;
+  padding: 1rem;
+  z-index: 5;
+
+  .top{
+    display: flex;
+    font-size: 1.2rem;
+    justify-content: space-between;
+    .tamashi {
+      color: $lRed;
+      position: relative;
+      flex: 0 0 auto;
+      transition: background-color 0.1s linear;
+      &:hover {
+        background-color: rgba($lSliver, 0.1);
+      }
+      .zmdi {
+        margin-right: 0.2rem;
+      }
+    }
+    .close{
+      color: $dGrey;
+    }
+  }
+
+  .section-xing, .section-qi{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .section-xing{
+    color: $dYellow;
+    > a {
+      color: $dYellow;
+    }
+  }
+  .section-qi{
+    color: $dOrange;
+    > a {
+      color: $dOrange;
+    }
+  }
+
 }

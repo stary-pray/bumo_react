@@ -1,12 +1,11 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {loadTagTypeDetail} from '../../redux/modules/models/TagDetail';
-import {Link} from 'react-router';
-import {resize} from '../../utils/common';
-import PaintingInfo from '../../components/PaintingInfo/PaintingInfo';
-import _ from 'lodash';
-import './TagDetail.scss';
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {loadTagTypeDetail} from "../../redux/modules/models/TagDetail";
+import {Link} from "react-router";
+import {calculateHeat} from "../../utils/common";
+import _ from "lodash";
+import "./TagDetail.scss";
 
 
 @connect(
@@ -59,7 +58,7 @@ export default class TagType extends Component {
                 <h2>{tags[tagId].name}</h2>
               </Link>
               <h4 className="type">{tagType}</h4>
-              <h2 className="heat"><i className="zmdi zmdi-fire"/> {Math.round(heat.point)}</h2>
+              <h2 className="heat"><i className="zmdi zmdi-fire"/> {calculateHeat(heat)}</h2>
             </div>
           );
         }) : ''

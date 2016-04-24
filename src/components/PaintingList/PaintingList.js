@@ -3,6 +3,7 @@ import PaintingInfo from "../PaintingInfo/PaintingInfo";
 import Waypoint from "react-waypoint";
 import Masonry from "react-masonry-component";
 import "./PaintingList.scss";
+import lodash from "lodash";
 
 export default class PaintingList extends Component {
   static propTypes = {
@@ -12,9 +13,10 @@ export default class PaintingList extends Component {
     loadPainting: PropTypes.func,
     component: PropTypes.object
   };
-
-  componentWillMount() {
-    this.loadMore = this.loadMore.bind(this);
+  
+  constructor(){
+    super();
+    this.loadMore = lodash.throttle(this.loadMore.bind(this), 3000);
   }
 
   componentDidMount() {
