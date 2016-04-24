@@ -3,6 +3,11 @@
 .PaintingDetail {
   display: flex;
   width: 100%;
+  &.inModal {
+    .go_previous, .go_next {
+      display: none!important;
+    }
+  }
   .leftPanel {
     position: relative;
     height: calc(100vh - 3rem);
@@ -59,7 +64,6 @@
   }
   .rightPanel {
     flex: 0 0 18rem;
-    border-left: 1px solid $lSliver;
     background: rgba($lSliver, 0.8);
     .userInfo {
       position: relative;

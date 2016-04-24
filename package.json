@@ -29,6 +29,7 @@
     "normalizr": "^2.0.0",
     "rc-tooltip": "3.3.2",
     "react": "15.0.1",
+    "react-addons-css-transition-group": "15.0.1",
     "react-dom": "15.0.1",
     "react-dropzone": "3.4.0",
     "react-helmet": "^3.0.1",

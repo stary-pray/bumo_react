@@ -1,24 +1,23 @@
 // import {fork, call, take, put} from 'redux-saga'
 
-import {fork, take, put} from 'redux-saga/effects';
-import { browserHistory } from 'react-router';
+import {fork, take, put} from "redux-saga/effects";
+import {browserHistory} from "react-router";
+import * as authModule from "../modules/auth";
+import * as meModule from "../modules/me";
+import * as meUpdateModule from "../modules/containers/MeUpdate";
+import * as likeModule from "../modules/models/Like";
+import * as paintingDetailModule from "../modules/models/PaintingDetail";
+import * as PaintingModule from "../modules/models/Painting";
+import * as homeModule from "../modules/containers/Home";
+import * as userPaintingModule from "../modules/containers/UserPainting";
+import * as tagPaintingModule from "../modules/models/TagDetail";
+import * as tagPaintingModuleCon from "../modules/containers/TagDetail";
+import * as userModule from "../modules/containers/User";
+import * as depositModule from "../modules/containers/Deposit";
+import * as getChargeModule from "../modules/models/Deposit";
+import * as PaintingUploadModule from "../modules/paintingUpload";
 
 const TRULY = true;
-
-import * as authModule from '../modules/auth';
-import * as meModule from '../modules/me';
-import * as meUpdateModule from '../modules/containers/MeUpdate';
-import * as likeModule from '../modules/models/Like';
-import * as paintingDetailModule from '../modules/models/PaintingDetail';
-import * as PaintingModule from '../modules/models/Painting';
-import * as homeModule from '../modules/containers/Home';
-import * as userPaintingModule from '../modules/containers/UserPainting';
-import * as tagPaintingModule from '../modules/models/TagDetail';
-import * as tagPaintingModuleCon from '../modules/containers/TagDetail';
-import * as userModule from '../modules/containers/User';
-import * as depositModule from '../modules/containers/Deposit'
-import * as getChargeModule from '../modules/models/Deposit';
-import * as PaintingUploadModule from '../modules/paintingUpload';
 
 //const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 

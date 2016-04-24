@@ -11,6 +11,11 @@
     //opacity: 1 !important;
   }
 
+  .bumo_thumbnail {
+    cursor: pointer;
+    background-color: $dSliver;
+  }
+
   &:hover {
     .bottomInfo, .topInfo {
       transform: translate(0, 0);
@@ -133,7 +138,6 @@
   }
 }
 
-
 .TamashiPopup {
   width: 18rem;
 
@@ -142,7 +146,7 @@
   padding: 1rem;
   z-index: 5;
 
-  .top{
+  .top {
     display: flex;
     font-size: 1.2rem;
     justify-content: space-between;
@@ -158,22 +162,22 @@
         margin-right: 0.2rem;
       }
     }
-    .close{
+    .close {
       color: $dGrey;
     }
   }
 
-  .section-xing, .section-qi{
+  .section-xing, .section-qi {
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
-  .section-xing{
+  .section-xing {
     color: $dYellow;
     > a {
       color: $dYellow;
     }
   }
-  .section-qi{
+  .section-qi {
     color: $dOrange;
     > a {
       color: $dOrange;

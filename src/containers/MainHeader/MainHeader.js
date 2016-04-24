@@ -64,7 +64,7 @@ export default class TopNav extends Component {
 
   render() {
     const {component, tagType, tagName, tagHeat, tags, paintingId} = this.props;
-    const tag = _.find(tags, {type: tagType, name: tagName});
+    const tag = _.clone(_.find(tags, {type: tagType, name: tagName}));
     const paintingPage = paintingId ? 'paintingPage' : '';
     if (tag) {
       tag.heat = _.find(tagHeat, {id: tag.heat});

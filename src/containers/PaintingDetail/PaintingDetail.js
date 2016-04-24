@@ -1,17 +1,14 @@
-/**
- * Created by akistar on 16/2/10.
- */
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import InlineSVG from "svg-inline-react";
 import {load as loadPaintingDetail} from "../../redux/modules/models/PaintingDetail";
 import {like as likePainting} from "../../redux/modules/models/Like";
 import {Link} from "react-router";
 import moment from "moment";
 import {createNotification} from "../../redux/modules/notification";
-import "./PaintingDetail.scss";
 import {resize} from "../../utils/common";
-import InlineSVG from "svg-inline-react";
+import "./PaintingDetail.scss";
 
 @connect(
   (state, ownProps) => ({
@@ -19,10 +16,11 @@ import InlineSVG from "svg-inline-react";
     profile: state.models.profile,
     paintingHeat: state.models.paintingHeat,
     tagHeat: state.models.tagHeat,
-    component: state.containers.PaintingDetail,
-    id: +ownProps.params.paintingId,
-    likeComponent: state.containers.Like,
     tags: state.models.tags,
+
+    component: state.containers.PaintingDetail,
+    id: ownProps.id || +ownProps.params.paintingId,
+    likeComponent: state.containers.Like,
   }),
   dispatch => bindActionCreators({
     loadPaintingDetail,
@@ -45,6 +43,7 @@ export default class PaintingDetail extends Component {
     tags: PropTypes.object,
     tagHeat: PropTypes.object,
     createNotification: PropTypes.func,
+    isInModal: PropTypes.bool,
   };
 
 
@@ -63,7 +62,7 @@ export default class PaintingDetail extends Component {
       });
     }
 
-    if(this.props.id !== nextProps.id){
+    if (this.props.id !== nextProps.id) {
       this.props.loadPaintingDetail(nextProps.id);
     }
   }
@@ -75,7 +74,7 @@ export default class PaintingDetail extends Component {
   };
 
   render() {
-    const {paintingDetail, id, paintingHeat, profile, tags, tagHeat} = this.props;
+    const {paintingDetail, id, paintingHeat, profile, tags, tagHeat, isInModal} = this.props;
     const {loaded} = this.props.component;
     const {like_error, like_success, like_amount} = this.props.likeComponent;
     const painting = paintingDetail[id];
@@ -83,7 +82,7 @@ export default class PaintingDetail extends Component {
     const profileId = painting ? painting.profile : -1;
     const ownerProfile = profile[profileId];
     const tagsArray = painting ? painting.tags : [];
-    const previousLink = painting &&  painting.user_previous_painting? `/painting/${painting.user_previous_painting}` : '';
+    const previousLink = painting && painting.user_previous_painting ? `/painting/${painting.user_previous_painting}` : '';
     const nextLink = painting && painting.user_next_painting ? `/painting/${painting.user_next_painting}` : '';
     let likeError = '';
 
@@ -95,36 +94,37 @@ export default class PaintingDetail extends Component {
     }
 
     return (
-      <div className="PaintingDetail">
+      <div className={"PaintingDetail " + (isInModal ? 'inModal' : '')}>
         <div className="leftPanel">
           <img className="image" src={painting && painting.attachment}/>
           {/*
-          <span>热度{calculateHeat(paintingHeat[id], like_amount)}</span>
-          <form className="heatForm" onSubmit={this.handleSubmit}>
-            <div><label>点祈数</label>
-              <select defaultValue="1" ref="like_amount">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-              </select>
-            </div>
-            {likeError}
-            <button onClick={this.handleSubmit}>祈
-            </button>
-            <BumoStar paintingId={id}/>
-          </form>
+           <span>热度{calculateHeat(paintingHeat[id], like_amount)}</span>
+           <form className="heatForm" onSubmit={this.handleSubmit}>
+           <div><label>点祈数</label>
+           <select defaultValue="1" ref="like_amount">
+           <option value="1">1</option>
+           <option value="2">2</option>
+           <option value="3">3</option>
+           <option value="4">4</option>
+           <option value="5">5</option>
+           <option value="6">6</option>
+           <option value="7">7</option>
+           <option value="8">8</option>
+           <option value="9">9</option>
+           <option value="10">10</option>
+           </select>
+           </div>
+           {likeError}
+           <button onClick={this.handleSubmit}>祈
+           </button>
+           <BumoStar paintingId={id}/>
+           </form>
            */}
-          <Link to={previousLink} className={'go_previous ' + (previousLink ? '' : 'disabled')} disabled={!previousLink} >
+          <Link to={previousLink} className={'go_previous ' + (previousLink ? '' : 'disabled')}
+                disabled={!previousLink}>
             <i className="zmdi zmdi-chevron-left"/>
           </Link>
-          <Link to={nextLink} className={'go_next '+ (nextLink ? '' : 'disabled')} disabled={!nextLink} >
+          <Link to={nextLink} className={'go_next '+ (nextLink ? '' : 'disabled')} disabled={!nextLink}>
             <i className="zmdi zmdi-chevron-right"/>
           </Link>
         </div>
@@ -133,7 +133,7 @@ export default class PaintingDetail extends Component {
             <Link className="avatarImage" to={'/p/'+ ownerId}>
               {
                 (ownerProfile && ownerProfile.avatar) ?
-                  <img src={ resize(ownerProfile.avatar, 120)} alt={ownerProfile.nickname}/> : 
+                  <img src={ resize(ownerProfile.avatar, 120)} alt={ownerProfile.nickname}/> :
                   <InlineSVG className="svg" src={require("../../utils/assets/default_avatar.svg")}/>
               }
             </Link>
@@ -146,11 +146,13 @@ export default class PaintingDetail extends Component {
                 <InlineSVG className="svg" src={require("../../utils/assets/default_banner.svg")}/>
             }
             <span className="background"/>
-            <h4 className="nickname"><Link to={'/p/'+ ownerId}> {ownerProfile ? ownerProfile.nickname : '---'} </Link></h4>
-            <p className="introduction"><Link to={'/p/'+ ownerId}>   {ownerProfile && ownerProfile.introduction} </Link></p>
+            <h4 className="nickname"><Link to={'/p/'+ ownerId}> {ownerProfile ? ownerProfile.nickname : '---'} </Link>
+            </h4>
+            <p className="introduction"><Link to={'/p/'+ ownerId}>   {ownerProfile && ownerProfile.introduction} </Link>
+            </p>
           </div>
           <div className="info">
-            <h1 className="title">{ painting ? painting.title : '---' }</h1>
+            <h1 className="title"><Link to={`/painting/${id}`}> { painting ? painting.title : '---' }</Link></h1>
             <p className="description">{ painting && painting.description }</p>
             <div className="infoGroup">
               <label> 标签 </label>

@@ -1,11 +1,11 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {load as loadPainting, loadHot as loadHotPainting} from '../../redux/modules/models/Painting';
-import {Link} from 'react-router';
-import './Home.scss';
-import {resize} from '../../utils/common';
-import PaintingList from '../../components/PaintingList/PaintingList';
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {load as loadPainting, loadHot as loadHotPainting} from "../../redux/modules/models/Painting";
+import {Link} from "react-router";
+import "./Home.scss";
+import PaintingList from "../../components/PaintingList/PaintingList";
+import * as PaintingModalActions from "../../redux/modules/containers/PaintingModal";
 
 @connect(
   (state, ownProps) => ({
@@ -17,7 +17,8 @@ import PaintingList from '../../components/PaintingList/PaintingList';
   }),
   dispatch => bindActionCreators({
     loadPainting,
-    loadHotPainting
+    loadHotPainting,
+    openModal: PaintingModalActions.openModal,
   }, dispatch)
 )
 
@@ -30,7 +31,8 @@ export default class Home extends Component {
     paintingDetail: PropTypes.object,
     path: PropTypes.string,
     loadPainting: PropTypes.func,
-    loadHotPainting: PropTypes.func
+    loadHotPainting: PropTypes.func,
+    openModal: PropTypes.func,
   };
 
   render() {
@@ -53,6 +55,7 @@ export default class Home extends Component {
         paintingHeat={paintingHeat}
         profile={profile}
         loadPainting={load}
+        openModal={this.props.openModal}
       />
     </div>);
   }

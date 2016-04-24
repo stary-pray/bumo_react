@@ -11,7 +11,8 @@ export default class PaintingList extends Component {
     profile: PropTypes.object,
     paintingHeat: PropTypes.object,
     loadPainting: PropTypes.func,
-    component: PropTypes.object
+    component: PropTypes.object,
+    openModal: PropTypes.func,
   };
   
   constructor(){
@@ -39,12 +40,13 @@ export default class PaintingList extends Component {
   render() {
     const {painting, component, paintingHeat, profile} = this.props;
     const {page, pageMeta} = component;
+    const openModal = (id) => this.props.openModal({id: id, indexes: component.indexes});
     return (
       <div className="PaintingList">
         <Masonry
           className={'BumoMasonry'}
           elementType={'ul'}
-          options={{ columnWidth: 320, itemSelector: '.PaintingInfo', gutter: 15, fitWidth: true }}
+          options={{ itemSelector: '.PaintingInfo', columnWidth: 320, gutter: 15, fitWidth: true }}
           disableImagesLoaded={false}
         >
           {component.loaded ?
@@ -54,6 +56,7 @@ export default class PaintingList extends Component {
                 heat={paintingHeat[painting[paintingId].heat]}
                 owner={profile[painting[paintingId].profile]}
                 painting={painting[paintingId]}
+                openModal={openModal}
                 width={320}
               />);
             })

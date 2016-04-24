@@ -10,10 +10,21 @@ export default class PaintingInfo extends Component {
     painting: PropTypes.object,
     heat: PropTypes.object,
     width: PropTypes.number,
+    openModal: PropTypes.func,
   };
+  
+  constructor(){
+    super();
+    this.openModal = this.openModal.bind(this);
+  }
+
+  openModal() {
+    const {painting} = this.props;
+    this.props.openModal(painting.id);
+  }
 
   render() {
-    const {painting, heat, owner} = this.props; // eslint-disable-line no-shadow
+    const {painting, heat, owner} = this.props;
     const width = this.props.width || 320;
     return (
       <li style={{width: width, height: imageHeight(painting.width, painting.height, width) }}
@@ -28,7 +39,7 @@ export default class PaintingInfo extends Component {
             <button className="button hollow qi"><i className="zmdi zmdi-favorite-outline"/></button>
           </div>
         </div>
-        <img src={resize(painting.attachment,width)}/>
+        <img onClick={this.openModal} className="bumo_thumbnail" src={resize(painting.attachment,width)}/>
         <div className="bottomInfo">
           <div className="left">
             <Link className="title" to={'/painting/' + painting.id}> {painting.title} </Link >

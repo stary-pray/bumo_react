@@ -1,17 +1,17 @@
-import { combineReducers } from 'redux';
-
-import Home from './Home';
-import PaintingDetail from './PaintingDetail';
-import UserPainting from './UserPainting';
-import Like from './Like';
-import Form from './Form';
-import Tags from './Tags';
-import User from './User';
-import TagDetail from './TagDetail';
-import Deposit from './Deposit';
-import CreateCharge from './CreateCharge';
-import MeUpdate from './MeUpdate';
-import MainHeader from './MainHeader';
+import {combineReducers} from "redux";
+import Home from "./Home";
+import PaintingDetail from "./PaintingDetail";
+import UserPainting from "./UserPainting";
+import Like from "./Like";
+import Form from "./Form";
+import Tags from "./Tags";
+import User from "./User";
+import TagDetail from "./TagDetail";
+import Deposit from "./Deposit";
+import CreateCharge from "./CreateCharge";
+import MeUpdate from "./MeUpdate";
+import MainHeader from "./MainHeader";
+import PaintingModal from "./PaintingModal";
 
 export default combineReducers({
   Home,
@@ -26,4 +26,5 @@ export default combineReducers({
   CreateCharge,
   MeUpdate,
   MainHeader,
+  PaintingModal,
 });

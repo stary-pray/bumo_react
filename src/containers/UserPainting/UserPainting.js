@@ -7,6 +7,7 @@ import {resize, calculateHeat} from "../../utils/common";
 import InlineSVG from "svg-inline-react";
 import lodash from "lodash";
 import PaintingList from "../../components/PaintingList/PaintingList";
+import * as PaintingModalActions from "../../redux/modules/containers/PaintingModal";
 import "./UserPainting.scss";
 
 
@@ -26,6 +27,7 @@ import "./UserPainting.scss";
     loadUserPainting,
     loadUserPaintingHot,
     loadProfileDetail,
+    openModal: PaintingModalActions.openModal,
   }, dispatch)
 )
 
@@ -43,6 +45,7 @@ export default class UserPainting extends Component {
     component: PropTypes.object,
     page: PropTypes.number,
     subRoute: PropTypes.string,
+    openModal: PropTypes.func,
   };
 
   constructor() {
@@ -114,6 +117,7 @@ export default class UserPainting extends Component {
         paintingHeat={paintingHeat}
         profile={profile}
         loadPainting={loadPainting}
+        openModal={this.props.openModal}
       />
     </div>);
   }
