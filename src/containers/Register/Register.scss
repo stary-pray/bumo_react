@@ -1,0 +1,33 @@
+@import '../colors';
+.Register {
+  .captcha {
+    margin-bottom: 1rem;
+  }
+  .error {
+    position: relative;
+    margin-top: -0.75rem;
+    color: $dRed;
+  }
+  .close{
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    &:after{
+      background: transparent;
+      border-radius: 3px;
+      color: #bbb;
+      content: '\D7';
+      font-size: 26px;
+      font-weight: 400;
+      height: 30px;
+      line-height: 26px;
+      position: absolute;
+      right: 3px;
+      text-align: center;
+      top: 3px;
+      width: 30px;
+    }
+  }
+}

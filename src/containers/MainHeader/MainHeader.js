@@ -129,7 +129,7 @@ export default class TopNav extends Component {
           <div className="LoginModalBackground"/>
           {isLoginModalOpened &&
           <Login closeModal={this.handleModalClose} switchToRegister={this.handleRegisterModalOpen}/>}
-          {isRegisterModalOpened && <Register />}
+          {isRegisterModalOpened && <Register closeModal={this.handleModalClose} switchToLogin={this.handleLoginModalOpen}/>}
         </div>
         }
       </ReactCSSTransitionGroup>);

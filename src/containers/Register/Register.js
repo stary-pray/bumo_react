@@ -1,10 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
-import * as authActions from '../../redux/modules/auth';
+import * as authAction from '../../redux/modules/auth';
 import config from '../../config';
 import {reduxForm} from 'redux-form';
-
+import {bindActionCreators} from 'redux';
+import "./Register.scss";
 
 
 const validate = values => {
@@ -44,15 +45,16 @@ const validate = values => {
     captcha: state.auth.captcha,
     registerError: state.auth.registerError
   }),
-  authActions)
+  {...authAction}
+)
 
 @reduxForm({
-  form: 'register',
+  form: 'registerForm',
   fields: ['email', 'username', 'password', 'password1', 'captcha'],
   validate
 })
 
-export default class register extends Component {
+export default class registerForm extends Component {
   static propTypes = {
     userLoad: PropTypes.bool,
     captcha: PropTypes.string,
@@ -61,12 +63,22 @@ export default class register extends Component {
     invalid: PropTypes.bool,
     register: PropTypes.func,
     getCaptcha: PropTypes.func,
-    refreshCaptcha: PropTypes.func
+    refreshCaptcha: PropTypes.func,
+    createNotification: PropTypes.func,
+    closeModal: PropTypes.func,
+    switchToLogin:PropTypes.func
   };
+
+  constructor() {
+    super();
+    this.handleAuthClose = this.handleAuthClose.bind(this);
+    this.handleSwitchToLogin = this.handleSwitchToLogin.bind(this);
+  }
 
   componentWillMount() {
     this.props.getCaptcha();
   }
+
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -79,17 +91,22 @@ export default class register extends Component {
     this.refs.captcha.value = '';
   };
 
+  handleAuthClose() {
+    this.props.closeModal();
+  }
+
+  handleSwitchToLogin() {
+    this.props.switchToLogin();
+  }
+
   render() {
     const {captcha, registerError, userLoad} = this.props;
     const {fields: {email, username, password, password1, captcha: captchaField }} = this.props;
     const { invalid } = this.props;
     let formError = '';
-    /*if(!email.active &&  email.touched && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email.value)){
-     formError = <span> 请输入有效的邮箱地址 </span>;
-     }*/
     if (registerError && registerError.email) {
       formError = registerError.email.map((sentence)=> {
-        switch(sentence){
+        switch (sentence) {
           case "A user is already registered with this e-mail address.":
             return <span key={sentence}>该邮箱已被注册过</span>;
           default:
@@ -99,7 +116,7 @@ export default class register extends Component {
     }
     if (registerError && registerError.username) {
       formError = registerError.username.map((sentence)=> {
-        switch(sentence){
+        switch (sentence) {
           case "This username is already taken. Please choose another .":
             return <span key={sentence}>用户名已存在</span>;
           default:
@@ -113,15 +130,15 @@ export default class register extends Component {
     if (registerError && registerError.CAPTCHA_WRONG_ERROR) {
       formError = <span>验证码错误 </span>;
     }
-    /*if (password.touched && password1.touched
-      && !password.active && !password1.active
-      && password.value !== password1.value) {
-      formError = <span>密码输入不一致</span>;
-    }*/
+
     return (
       <div className="Register">
         <Helmet title="Register"/>
-        <h1>Register</h1>
+        <div className="short-tabs">
+          <span onClick={this.handleSwitchToLogin} className="tab activated">登录</span>
+          <span className="tab">注册</span>
+        </div>
+        <div onClick={this.handleAuthClose} className="close"/>
         <div>
           <form onSubmit={this.handleSubmit}>
             <div>
@@ -129,44 +146,45 @@ export default class register extends Component {
                 <label>邮箱</label>
                 <input type="email" ref="email" placeholder="Email" {...email} />
               </div>
-              {email.touched && email.error && <div>{email.error}</div>}
+              {email.touched && email.error && <div className="error">{email.error}</div>}
             </div>
             <div>
               <div>
                 <label>用户名（只能包括字母、数字和下划线, 而且必须以字母开头）</label>
                 <input type="name" ref="username" placeholder="username" {...username} />
               </div>
-              {username.touched && username.error && <div>{username.error}</div>}
+              {username.touched && username.error && <div className="error">{username.error}</div>}
             </div>
             <div className="form-group">
               <div>
                 <label>密码</label>
                 <input type="password" ref="password" placeholder="密码" {...password}/>
               </div>
-              {password.touched && password.error && <div>{password.error}</div>}
+              {password.touched && password.error && <div className="error">{password.error}</div>}
             </div>
             <div className="form-group">
               <div>
                 <label>请再次输入密码</label>
                 <input type="password" ref="password1" placeholder="确认密码" {...password1}/>
               </div>
-              {password1.touched && password1.error && <div>{password1.error}</div>}
+              {password1.touched && password1.error && <div className="error">{password1.error}</div>}
             </div>
             <div className="form-group">
               <input type="text" ref="captcha" placeholder="验证码" {...captchaField}/>
             </div>
-            {captchaField.touched && captchaField.error && <div>{captchaField.error}</div>}
+            {captchaField.touched && captchaField.error && <div className="error">{captchaField.error}</div>}
             { captcha ?
-              <div className="form-group">
+              <div className="captcha">
                 <a onClick={this.handleGetCaptcha} href="">
                   <img src={`${config.serverApi}/api/auth/captcha/image/${captcha}/`} alt=""/>
                 </a>
               </div>
               : '' }
-            {formError}
-            <button disabled={invalid} onClick={this.handleSubmit}><i className="fa fa-sign-in"/>{' '}Register
+            <button className="button hollow" disabled={invalid} onClick={this.handleSubmit}>
+              注册
             </button>
           </form>
+          <div>{formError}</div>
           {userLoad &&
           <div>
             <p>你已经注册成功.</p>
