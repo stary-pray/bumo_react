@@ -7,6 +7,7 @@ import config from "../../config";
 import MainHeader from "../MainHeader/MainHeader";
 import NotificationSystem from "react-notification-system";
 import PaintingModal from "../PaintingModal/PaintingModal";
+import SearchResult from "../SearchResult/SearchResult";
 import {createNotification, createNotificationSuccess} from "../../redux/modules/notification";
 import "./App.scss";
 moment.locale('zh-cn');
@@ -86,6 +87,7 @@ export default class App extends Component {
         </div>
         <NotificationSystem ref="notificationSystem"/>
         <PaintingModal/>
+        <SearchResult/>
       </div>
     );
   }

@@ -12,6 +12,7 @@ import CreateCharge from "./CreateCharge";
 import MeUpdate from "./MeUpdate";
 import MainHeader from "./MainHeader";
 import PaintingModal from "./PaintingModal";
+import SearchResult from "./SearchResult";
 
 export default combineReducers({
   Home,
@@ -27,4 +28,5 @@ export default combineReducers({
   MeUpdate,
   MainHeader,
   PaintingModal,
+  SearchResult,
 });

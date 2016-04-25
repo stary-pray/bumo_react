@@ -1,0 +1,137 @@
+@import "../colors";
+
+.SearchResult {
+  position: fixed;
+  z-index: 6;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 18rem;
+  padding: 1rem;
+  background: white;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-left: 1px solid $dSliver;
+  > .SearchResultHeader {
+    display: flex;
+    .hint {
+      flex: 3 0 auto;
+    }
+    .close {
+      flex: 0 0 auto;
+      color: $dCyan;
+      cursor: pointer;
+      :hover {
+        color: $lCyan;
+      }
+    }
+  }
+  .SearchBar {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+    .zmdi-search {
+      color: $dSliver;
+      position: absolute;
+      top: 0.5em;
+      left: 0.75em;
+    }
+
+    .search-input {
+      border: 0;
+      height: 2em;
+      text-indent: 1.5em;
+      overflow: hidden;
+      background-color: $lSliver;
+      transition: background-color 0.1s ease-in;
+      &:focus {
+        background-color: white;
+      }
+    }
+  }
+  .SearchResult_group {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    max-width: 100%;
+    > label {
+      font-size: 1rem;
+      position: relative;
+      margin-bottom: 1rem;
+      color: $dGrey;
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        width: 70%;
+        border-bottom: 1px solid $dGrey;
+        left: 0;
+      }
+    }
+  }
+  .SearchResult_item {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid $lSliver;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    box-shadow: 0;
+    transition-property: box-shadow;
+    transition-duration: 0.2s;
+    transition-timing-function: linear;
+    cursor: pointer;
+    &:hover {
+      box-shadow: 0 1px 15px rgba(black, 0.08);
+      > .rightSide > .main {
+        color: $lCyan;
+      }
+    }
+    .image {
+      flex: 0 0 4rem;
+      > img {
+        height: 100%;
+        width: 100%;
+      }
+    }
+    .rightSide {
+      flex: 3 0 auto;
+      padding-left: 0.5rem;
+      > .main {
+        transition-property: color;
+        transition-duration: 0.2s;
+        transition-timing-function: linear;
+        color: $dCyan;
+      }
+    }
+  }
+}
+
+.SearchResultTransition {
+  &-enter {
+    opacity: 0.01;
+    transform: translate3d(18rem, 0px, 0px);
+  }
+
+  &-enter.SearchResultTransition-enter-active{
+    opacity: 1;
+    transform: translate3d(0px, 0px, 0px);
+    transition-property: opacity, transform;
+    transition-duration: 250ms;
+    transition-delay: 50ms;
+    transition-timing-function: ease-in;
+  }
+
+  &-leave {
+    opacity: 1;
+    transform: translate3d(0px, 0px, 0px);
+  }
+
+  &-leave.SearchResultTransition-leave-active {
+    opacity: 0.01;
+    transform: translate3d(18rem, 0px, 0px);
+    transition-property: opacity, transform;
+    transition-duration: 250ms;
+    transition-delay: 50ms;
+    transition-timing-function: ease-in;
+  }
+}

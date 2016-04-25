@@ -145,10 +145,15 @@
 .user-notification-panel {
   display: flex;
   flex: 0 0 18rem;
-  > a {
+  > .item {
+    cursor: pointer;
+    flex: 0 0 5rem;
     color: white;
-    flex: 0 0 3rem;
     text-align: center;
+    justify-content: space-between;
+    &:hover{
+      color: $dSliver;
+    }
   }
   .secondary-color {
     color: white;
