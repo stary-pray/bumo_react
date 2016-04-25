@@ -71,7 +71,7 @@ export default class SearchResult extends Component {
               <img src={resize(CDN_DOMAIN + painting.attachment, 72)} alt={painting.title}/>
             </div>
             <div className="rightSide">
-              <div className="main">{painting.title}</div>
+              <div className="main ellipses">{painting.title}</div>
             </div>
           </div>
         )}
@@ -83,7 +83,7 @@ export default class SearchResult extends Component {
         {resultGroups.PaintingTag.map((tag)=>
           <div onClick={()=>this.goToItem(tag)} className="SearchResult_item Tag" key={tag.key}>
             <div className="rightSide">
-              <div className="main">{tag.name} : {tag.type}</div>
+              <div className="main ellipses">{tag.name} : {tag.type}</div>
             </div>
           </div>
         )}
@@ -98,7 +98,7 @@ export default class SearchResult extends Component {
               <img src={resize(CDN_DOMAIN + profile.avatar, 72)} alt={profile.nickname}/>
             </div>
             <div className="rightSide">
-              <div className="main">{profile.nickname}</div>
+              <div className="main ellipses">{profile.nickname}</div>
             </div>
           </div>
         )}

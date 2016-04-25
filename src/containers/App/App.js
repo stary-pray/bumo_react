@@ -19,6 +19,7 @@ moment.locale('zh-cn');
     me: state.me,
     notification: state.notification,
     PaintingModalComponent: state.containers.PaintingModal,
+    SearchResultComponent: state.containers.SearchResult,
   }),
   {
     logout,
@@ -39,6 +40,7 @@ export default class App extends Component {
     createNotificationSuccess: PropTypes.func.isRequired,
     params: PropTypes.object,
     PaintingModalComponent: PropTypes.object,
+    SearchResultComponent: PropTypes.object,
   };
 
   static contextTypes = {
@@ -59,8 +61,11 @@ export default class App extends Component {
       this.props.createNotificationSuccess();
     }
      const {PaintingModalComponent} = this.props;
-    if (this.props.PaintingModalComponent.isOpened !== nextProps.PaintingModalComponent.isOpened) {
-      const isOpened = nextProps.PaintingModalComponent.isOpened;
+    if (
+      this.props.PaintingModalComponent.isOpened !== nextProps.PaintingModalComponent.isOpened ||
+      this.props.SearchResultComponent.isOpened !== nextProps.SearchResultComponent.isOpened
+    ) {
+      const isOpened = nextProps.PaintingModalComponent.isOpened || nextProps.SearchResultComponent.isOpened;
       const app = document.getElementById('body');
       if(isOpened){
         app.classList.add('isModalOpen');

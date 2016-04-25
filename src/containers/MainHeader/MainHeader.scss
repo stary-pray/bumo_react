@@ -11,7 +11,7 @@
   .logo{
     flex: 0 0 12rem;
     position: relative;
-    left: 0.5rem;
+    left: 1rem;
     top: 0.25rem;
     svg{
       height: 2rem;
@@ -146,6 +146,7 @@
   display: flex;
   flex: 0 0 18rem;
   > .item {
+    position: relative;
     cursor: pointer;
     flex: 0 0 5rem;
     color: white;

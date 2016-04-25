@@ -42,8 +42,8 @@ export default class PaintingInfo extends Component {
         <img onClick={this.openModal} className="bumo_thumbnail" src={resize(painting.attachment,width)}/>
         <div className="bottomInfo">
           <div className="left">
-            <Link className="title" to={'/painting/' + painting.id}> {painting.title} </Link >
-            <Link className="nickname" to={'/p/' + owner.user}> {owner.nickname} </Link >
+            <Link className="title ellipses" to={'/painting/' + painting.id}> {painting.title} </Link >
+            <Link className="nickname ellipses" to={'/p/' + owner.user}> {owner.nickname} </Link >
           </div>
           <div className="right">
             <Link className="avatar" to={'/p/' + owner.user}>

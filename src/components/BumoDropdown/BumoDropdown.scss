@@ -1,0 +1,52 @@
+@import "../../containers/colors";
+
+.BumoDropdown{
+  position: absolute;
+  top: 2.5rem;
+  right: 4rem;
+  z-index: 6;
+  height: auto;
+  width: 10rem;
+  background: white;
+  border: 1px solid $lSliver;
+  padding: 0.5rem 0;
+  box-shadow: 0 1px 15px rgba(black, 0.08);
+  font-size: 14px;
+  .BumoDropdownItem{
+    color: $dBlack;
+    display: block;
+    padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+    cursor: pointer;
+    &:hover{
+      background-color: rgba($lSliver, 0.7);
+    }
+  }
+}
+
+.BumoDropdownTransition {
+  &-enter {
+    opacity: 0.01;
+    transform: translate3d(0px, -4px, 0px);
+  }
+
+  &-enter.BumoDropdownTransition-enter-active{
+    opacity: 1;
+    transform: translate3d(0px, 0px, 0px);
+    transition-property: opacity, transform;
+    transition-duration: 150ms;
+    transition-timing-function: ease-in;
+  }
+
+  &-leave {
+    opacity: 1;
+    transform: translate3d(0px, 0px, 0px);
+  }
+
+  &-leave.BumoDropdownTransition-leave-active {
+    opacity: 0.01;
+    transform: translate3d(0px, -4px, 0px);
+    transition-property: opacity, transform;
+    transition-duration: 150ms;
+    transition-timing-function: ease-in;
+  }
+}

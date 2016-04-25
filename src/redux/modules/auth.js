@@ -1,6 +1,5 @@
-import {handleActions} from 'redux-actions';
-
-import * as meAction from './me';
+import {handleActions} from "redux-actions";
+import * as meAction from "./me";
 
 export const INITIAL_APP = 'bumo/auth/INITIAL_APP';
 export const INITIAL_AUTH = 'bumo/auth/INITIAL_AUTH';
@@ -84,6 +83,7 @@ export default handleActions({
   }),
   // get captcha
   [GET_CAPTCHA_SUCCESS]: (state, action) => ({
+    ...state,
     captcha: action.result.key
   }),
 
