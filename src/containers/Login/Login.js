@@ -1,13 +1,11 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import Helmet from 'react-helmet';
-import * as authActions from '../../redux/modules/auth';
-import config from '../../config';
-import './Login.scss';
-import {Link} from 'react-router';
-import {reduxForm} from 'redux-form';
-import {createNotification, createNotificationSuccess} from '../../redux/modules/notification';
-import {bindActionCreators} from 'redux';
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import Helmet from "react-helmet";
+import * as authActions from "../../redux/modules/auth";
+import config from "../../config";
+import "./Login.scss";
+import {reduxForm} from "redux-form";
+import {createNotification} from "../../redux/modules/notification";
 
 
 const validate = values => {
@@ -35,7 +33,7 @@ const validate = values => {
     loginError: state.auth.loginError
   }),
   {...authActions, createNotification}
-  )
+)
 
 @reduxForm({
   form: 'Login',
@@ -54,8 +52,16 @@ export default class Login extends Component {
     refreshCaptcha: PropTypes.func,
     loginError: PropTypes.object,
     fields: PropTypes.object,
-    createNotification: PropTypes.func
+    createNotification: PropTypes.func,
+    closeModal: PropTypes.func,
+    switchToRegister: PropTypes.func,
   };
+
+  constructor() {
+    super();
+    this.handleAuthClose = this.handleAuthClose.bind(this);
+    this.handleSwitchToRegister = this.handleSwitchToRegister.bind(this);
+  }
 
   componentWillMount() {
     this.props.getCaptcha();
@@ -72,8 +78,16 @@ export default class Login extends Component {
     this.refs.captcha.value = '';
   };
 
+  handleAuthClose() {
+    this.props.closeModal();
+  }
+
+  handleSwitchToRegister() {
+    this.props.switchToRegister();
+  }
+
   render() {
-    const {userLoad,captcha, loginError, fields: {email, password, captcha: captchaField }} = this.props;
+    const {userLoad, captcha, loginError, fields: {email, password, captcha: captchaField}} = this.props;
     let formError = '';
     if (loginError && loginError.CAPTCHA_WRONG_ERROR) {
       formError = <span> 验证码错误 </span>;
@@ -87,39 +101,43 @@ export default class Login extends Component {
     return (
       <div className="Login">
         <Helmet title="Login"/>
-        <h1>Login</h1>
+        <div className="short-tabs">
+          <span className="tab activated">登录</span>
+          <span onClick={this.handleSwitchToRegister} className="tab">注册</span>
+        </div>
+        <div onClick={this.handleAuthClose} className="close"/>
         {!userLoad &&
         <div>
-          <form className="login-form form-inline" onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <input type="email" ref="email" placeholder="Email" {...email}/>
-              {email.touched && email.error && <div>{email.error}</div>}
-            </div>
-            <div className="form-group">
-              <input type="password" ref="password" placeholder="密码" {...password}/>
-              {password.touched && password.error && <div>{password.error}</div>}
-            </div>
-            <div className="form-group">
-              <input type="text" ref="captcha" placeholder="验证码" {...captchaField}/>
-              {captchaField.touched && captchaField.error && <div>{captchaField.error}</div>}
-            </div>
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              <div>邮箱</div>
+              <input type="email" ref="email" placeholder="" {...email}/>
+              {email.touched && email.error && <div className="error">{email.error}</div>}
+            </label>
+            <label>
+              <div>密码</div>
+              <input type="password" ref="password" placeholder="" {...password}/>
+              {password.touched && password.error && <div className="error">{password.error}</div>}
+            </label>
+            <label>
+              <div>验证码</div>
+              <input type="text" ref="captcha" placeholder="" {...captchaField}/>
+              {captchaField.touched && captchaField.error && <div className="error">{captchaField.error}</div>}
+            </label>
             { captcha ?
-              <div className="form-group">
+              <div className="captcha">
                 <a onClick={this.handleGetCaptcha} href="">
                   <img src={`${config.serverApi}/api/auth/captcha/image/${captcha}/`} alt=""/>
                 </a>
               </div>
               : '' }
-            {loginError? this.props.createNotification({
-              message: <div>{formError}</div>,
+            {loginError ? this.props.createNotification({
+              message: <div className="error">{formError}</div>,
               level: 'success'
             }) : ''}
 
-            <button className="btn btn-success" onClick={this.handleSubmit}><i className="fa fa-sign-in"/>{' '}Log In
-            </button>
+            <button className="button hollow" onClick={this.handleSubmit}> 登录</button>
           </form>
-          <Link className="button" to={'register'}>
-            Register</Link>
         </div>
         }
       </div>

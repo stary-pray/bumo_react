@@ -9,6 +9,7 @@ import NotificationSystem from "react-notification-system";
 import PaintingModal from "../PaintingModal/PaintingModal";
 import SearchResult from "../SearchResult/SearchResult";
 import {createNotification, createNotificationSuccess} from "../../redux/modules/notification";
+import {getScrollBarWidth} from "../../utils/common";
 import "./App.scss";
 moment.locale('zh-cn');
 
@@ -20,6 +21,7 @@ moment.locale('zh-cn');
     notification: state.notification,
     PaintingModalComponent: state.containers.PaintingModal,
     SearchResultComponent: state.containers.SearchResult,
+    MainHeaderComponent: state.containers.MainHeader,
   }),
   {
     logout,
@@ -41,6 +43,7 @@ export default class App extends Component {
     params: PropTypes.object,
     PaintingModalComponent: PropTypes.object,
     SearchResultComponent: PropTypes.object,
+    MainHeaderComponent: PropTypes.object,
   };
 
   static contextTypes = {
@@ -60,16 +63,24 @@ export default class App extends Component {
       this._notificationSystem.addNotification(nextProps.notification);
       this.props.createNotificationSuccess();
     }
-     const {PaintingModalComponent} = this.props;
+    const {PaintingModalComponent} = this.props;
     if (
       this.props.PaintingModalComponent.isOpened !== nextProps.PaintingModalComponent.isOpened ||
-      this.props.SearchResultComponent.isOpened !== nextProps.SearchResultComponent.isOpened
+      this.props.SearchResultComponent.isOpened !== nextProps.SearchResultComponent.isOpened ||
+      this.props.MainHeaderComponent.isLoginModalOpened !== nextProps.MainHeaderComponent.isLoginModalOpened ||
+      this.props.MainHeaderComponent.isRegisterModalOpened !== nextProps.MainHeaderComponent.isRegisterModalOpened
     ) {
-      const isOpened = nextProps.PaintingModalComponent.isOpened || nextProps.SearchResultComponent.isOpened;
+      const isOpened = nextProps.PaintingModalComponent.isOpened ||
+          nextProps.SearchResultComponent.isOpened ||
+          nextProps.MainHeaderComponent.isLoginModalOpened ||
+          nextProps.MainHeaderComponent.isRegisterModalOpened;
       const app = document.getElementById('body');
-      if(isOpened){
+      if (isOpened) {
+        const scrollBarWidth = getScrollBarWidth();
+        app.style.paddingRight = `${scrollBarWidth}px`;
         app.classList.add('isModalOpen');
       } else {
+        app.style.paddingRight = `0`;
         app.classList.remove('isModalOpen');
       }
     }

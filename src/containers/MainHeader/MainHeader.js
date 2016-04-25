@@ -7,6 +7,9 @@ import * as mainHeaderActions from "../../redux/modules/containers/MainHeader";
 import "./MainHeader.scss";
 import BumoDropdown from "../../components/BumoDropdown/BumoDropdown";
 import {logout} from "../../redux/modules/auth";
+import Login from "../Login/Login";
+import Register from "../Register/Register";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
 @connect(
   (state, ownProps) => ({
@@ -23,10 +26,14 @@ import {logout} from "../../redux/modules/auth";
 export default class TopNav extends Component {
   static propTypes = {
     component: PropTypes.object,
+    me: PropTypes.object,
     openSearch: PropTypes.func,
     openNotificationDropdown: PropTypes.func,
     closeNotificationDropdown: PropTypes.func,
     logout: PropTypes.func,
+    loginModalOpen: PropTypes.func,
+    registerModalOpen: PropTypes.func,
+    modalClose: PropTypes.func,
   };
 
   constructor() {
@@ -35,6 +42,9 @@ export default class TopNav extends Component {
     this.handleOpenDropdown = this.handleOpenDropdown.bind(this);
     this.handleCloseDropdown = this.handleCloseDropdown.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
+    this.handleRegisterModalOpen = this.handleRegisterModalOpen.bind(this);
+    this.handleModalClose = this.handleModalClose.bind(this);
   }
 
   handleOpenSearch() {
@@ -53,8 +63,22 @@ export default class TopNav extends Component {
     this.props.logout();
   }
 
+  handleLoginModalOpen() {
+    this.props.loginModalOpen();
+  }
+
+  handleRegisterModalOpen() {
+    this.props.registerModalOpen();
+  }
+
+  handleModalClose() {
+    this.props.modalClose();
+  }
+
   render() {
-    const {component} = this.props;
+    const {component, me} = this.props;
+    const {isLoginModalOpened, isRegisterModalOpened} = component;
+    const isLogined = me && me.id;
     return (<div id="main-header">
       <IndexLink className="logo" to="/">
         <InlineSVG className="svg" src={require("./bumo_logo.svg")}/>
@@ -70,18 +94,20 @@ export default class TopNav extends Component {
           <i className="zmdi zmdi-label"/>标签
         </Link>
       </section>
-      <div className="user-notification-panel grid-content">
-        <span className="item"><i className="zmdi zmdi-sign-in"/> 登录</span>
-        <span className="item"><i className="zmdi zmdi-account-add"/> 注册</span>
-        <span onClick={this.handleOpenSearch} className="item"><i className="zmdi zmdi-search"/> 搜索</span>
-      </div>
-      <div className="user-notification-panel grid-content hide">
-        <span className="item"><i className="zmdi zmdi-cloud-upload"/> 发布</span>
+      {isLogined ?
+        <div className="user-notification-panel grid-content">
+          <span className="item"><i className="zmdi zmdi-cloud-upload"/> 发布</span>
         <span onClick={this.handleOpenDropdown} className="item">
           <i className="zmdi zmdi-account"/> 秋肉
         </span>
-        <span onClick={this.handleOpenSearch} className="item"><i className="zmdi zmdi-search"/> 搜索</span>
-      </div>
+          <span onClick={this.handleOpenSearch} className="item"><i className="zmdi zmdi-search"/> 搜索</span>
+        </div> :
+        <div className="user-notification-panel grid-content">
+          <span onClick={this.handleLoginModalOpen} className="item"><i className="zmdi zmdi-sign-in"/> 登录</span>
+          <span onClick={this.handleRegisterModalOpen} className="item"><i className="zmdi zmdi-account-add"/> 注册</span>
+          <span onClick={this.handleOpenSearch} className="item"><i className="zmdi zmdi-search"/> 搜索</span>
+        </div>
+      }
       <BumoDropdown isOpened={component.notificationDropdownOpened} close={this.handleCloseDropdown}>
         <Link to="/" className="BumoDropdownItem">
           <i className="zmdi zmdi-home"/> 我的主页
@@ -93,6 +119,20 @@ export default class TopNav extends Component {
           <i className="zmdi zmdi-power-off"/> 退出
         </div>
       </BumoDropdown>
+      <ReactCSSTransitionGroup
+        transitionName="LoginModalTransition"
+        transitionEnterTimeout={300}
+        transitionLeaveTimeout={300}
+      >
+        {(isLoginModalOpened || isRegisterModalOpened) &&
+        <div className="LoginModal">
+          <div className="LoginModalBackground"/>
+          {isLoginModalOpened &&
+          <Login closeModal={this.handleModalClose} switchToRegister={this.handleRegisterModalOpen}/>}
+          {isRegisterModalOpened && <Register />}
+        </div>
+        }
+      </ReactCSSTransitionGroup>);
     </div>);
   }
 }

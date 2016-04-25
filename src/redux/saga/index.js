@@ -16,6 +16,7 @@ import * as userModule from "../modules/containers/User";
 import * as depositModule from "../modules/containers/Deposit";
 import * as getChargeModule from "../modules/models/Deposit";
 import * as PaintingUploadModule from "../modules/paintingUpload";
+import * as MainHeaderModule from "../modules/containers/MainHeader";
 
 const TRULY = true;
 
@@ -31,8 +32,7 @@ function* loginSuccess() {
     const {result} = yield take(authModule.LOGIN_SUCCESS);
     localStorage.setItem('token', result.token);
     yield put(meModule.load());
-    browserHistory.push('/me');
-
+    yield put(MainHeaderModule.modalClose());
   }
 }
 
@@ -55,7 +55,6 @@ function* updateMe() {
   while (TRULY) {
     const {result} = yield take( meUpdateModule.UPDATE_SUCCESS);
     yield put(meModule.load());
-    browserHistory.push('/me');
   }
 }
 
@@ -64,7 +63,7 @@ function* registerSuccess() {
     const {result} = yield take(authModule.REGISTER_SUCCESS);
     localStorage.setItem('token', result.token);
     yield put(meModule.load());
-    browserHistory.push('/me');
+    yield put(MainHeaderModule.modalClose());
   }
 }
 
@@ -80,6 +79,7 @@ function* logoutSuccess() {
   while (TRULY) {
     yield take(authModule.LOGOUT_SUCCESS);
     browserHistory.push('');
+    setTimeout(()=> location.reload(), 10);
   }
 }
 

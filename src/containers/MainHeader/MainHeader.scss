@@ -8,39 +8,39 @@
   background-image: linear-gradient(#2C3E50 0%, #34495E 100%);
   display: flex;
   align-items: center;
-  .logo{
+  .logo {
     flex: 0 0 12rem;
     position: relative;
     left: 1rem;
     top: 0.25rem;
-    svg{
+    svg {
       height: 2rem;
       font-style: normal;
       transition: opacity 0.3s ease-in;
     }
-    &:hover{
-      svg{
+    &:hover {
+      svg {
         opacity: .8;
       }
     }
   }
-  .nav-section{
+  .nav-section {
     flex: 1 0 auto;
     display: flex;
-    .nav-item{
+    .nav-item {
       flex: 0 0 5rem;
       color: white;
       font-size: 18px;
       text-align: center;
       position: relative;
-      &:after{
+      &:after {
         content: ' ';
         transition: background-color 0.3s ease-in;
         height: 0;
       }
-      &:hover{
+      &:hover {
         color: $lSliver;
-        &:after{
+        &:after {
           content: ' ';
           width: 5rem;
           height: 3px;
@@ -50,8 +50,8 @@
           bottom: -8px;
         }
       }
-      &.active{
-        &:after{
+      &.active {
+        &:after {
           content: ' ';
           width: 5rem;
           height: 3px;
@@ -62,7 +62,7 @@
         }
       }
     }
-    .zmdi{
+    .zmdi {
       padding-right: 0.25rem;
     }
   }
@@ -152,11 +152,89 @@
     color: white;
     text-align: center;
     justify-content: space-between;
-    &:hover{
+    &:hover {
       color: $dSliver;
     }
   }
   .secondary-color {
     color: white;
+  }
+}
+
+.LoginModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+  > .LoginModalBackground{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 110%;
+    width: 100%;
+    background: rgba(0,0,0,.4);
+    z-index: 100;
+  }
+  .Login{
+    position: relative;
+    z-index: 101;
+    width: 28rem;
+    margin: 10% auto;
+    border: 1px solid $lSliver;
+    background-color: #fff;
+    border-radius: 0;
+    box-shadow: 0 0 30px #2c3e50;
+    padding: 3rem;
+  }
+}
+
+.short-tabs{
+  margin-bottom: 1em;
+  font-size: 1.3em;
+  .tab{
+    cursor: pointer;
+    border-bottom: solid 2px $dGrey;
+    padding-bottom: 0.3em;
+    margin-right: 1em;
+    color: $dGrey;
+    &.activated{
+      border-bottom: solid 2px $dCyan;
+      color: $dCyan;
+    }
+    &:hover{
+      border-bottom: solid 2px $lCyan;
+    }
+  }
+}
+
+.LoginModalTransition {
+  &-enter {
+    opacity: 0.01;
+    transform: translate3d(0px, -30px, 0px);
+  }
+
+  &-enter.LoginModalTransition-enter-active{
+    opacity: 1;
+    transform: translate3d(0px, 0px, 0px);
+    transition-property: opacity, transform;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in;
+  }
+
+  &-leave {
+    opacity: 1;
+    transform: translate3d(0px, 0px, 0px);
+  }
+
+  &-leave.LoginModalTransition-leave-active {
+    opacity: 0.01;
+    transform: translate3d(0px, -30px, 0px);
+    transition-property: opacity, transform;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in;
   }
 }
