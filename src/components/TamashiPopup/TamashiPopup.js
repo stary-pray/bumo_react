@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from "react";
 import {calculateHeat} from "../../utils/common";
+import "./TamashiPopup.scss";
 
 
 export default class TamashiPopup extends Component {

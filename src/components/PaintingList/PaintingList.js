@@ -17,7 +17,7 @@ export default class PaintingList extends Component {
   
   constructor(){
     super();
-    this.loadMore = lodash.throttle(this.loadMore.bind(this), 3000);
+    this.loadMore = lodash.debounce(this.loadMore.bind(this), 300);
   }
 
   componentDidMount() {
@@ -29,6 +29,10 @@ export default class PaintingList extends Component {
     if (page == 1 && !loading && !loaded) {
       this.loadMore();
     }
+  }
+  
+  componetWillUnmount(){
+    this.loadMore.cancel();
   }
 
   loadMore() {

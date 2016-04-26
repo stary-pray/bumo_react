@@ -80,8 +80,8 @@ export default class App extends Component {
         app.style.paddingRight = `${scrollBarWidth}px`;
         app.classList.add('isModalOpen');
       } else {
-        app.style.paddingRight = `0`;
         app.classList.remove('isModalOpen');
+        app.style.paddingRight = `0`;
       }
     }
   }

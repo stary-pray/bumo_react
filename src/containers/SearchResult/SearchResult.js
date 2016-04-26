@@ -7,6 +7,7 @@ import {resize} from "../../utils/common";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import * as containerAction from "../../redux/modules/containers/SearchResult";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import onClickOutside from "react-onclickoutside";
 
 const CDN_DOMAIN = 'http://7sbq0u.com1.z0.glb.clouddn.com/';
 
@@ -17,6 +18,7 @@ const CDN_DOMAIN = 'http://7sbq0u.com1.z0.glb.clouddn.com/';
     ...containerAction,
   }
 )
+@onClickOutside
 export default class SearchResult extends Component {
   static propTypes = {
     component: PropTypes.object,
@@ -33,6 +35,7 @@ export default class SearchResult extends Component {
   constructor(){
     super();
     this.handleCloseSearch = this.handleCloseSearch.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
   goToItem(item) {
@@ -50,6 +53,12 @@ export default class SearchResult extends Component {
   
   handleCloseSearch(){
     this.props.closeSearch();
+  }
+
+  handleClickOutside() {
+    if (this.props.component.isOpened) {
+      this.handleCloseSearch();
+    }
   }
 
   renderOpened() {
