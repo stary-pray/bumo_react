@@ -36,17 +36,18 @@ export default class Tags extends Component {
     return (<div className="UserPage">
       <div> {component.loaded ?
         <div className="collections">
-          { component.indexes.map((userId)=>
+          { component.indexes.map((userId)=> user[userId].first_painting?
           <div className="paintingCollection" key={userId}>
-              <span className="img" style={{backgroundImage: user[userId].first_painting ?`url(${user[userId].first_painting.attachment})`:''}} />
-              <Link className="name" to={'/p/' +userId}>
-                <h2>{user[userId].nickname}</h2>
-              </Link>
-              <h4 className="type"/>
-              <h2 className="heat">
-                <i className="zmdi zmdi-fire"/> {Math.round(profileHeat[user[userId].heat].point)}
-              </h2>
-            </div>
+                <span className="img"
+                      style={{backgroundImage: `url(${user[userId].first_painting.attachment})`}}/>
+                <Link className="name" to={'/p/' +userId}>
+                  <h2>{user[userId].nickname}</h2>
+                </Link>
+                <h4 className="type"/>
+                <h2 className="heat">
+                  <i className="zmdi zmdi-fire"/> {Math.round(profileHeat[user[userId].heat].point)}
+                </h2>
+          </div>:''
           /*
            <div key={"user"+userId}>
            <Link to={'/p/'+ userId}>
