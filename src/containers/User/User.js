@@ -9,8 +9,7 @@ import "./User.scss";
   (state) => ({
     component: state.containers.User,
     user: state.models.profile,
-    painting: state.models.painting,
-    paintingHeat:state.models.paintingHeat
+    profileHeat: state.models.profileHeat,
   }),
   dispatch => bindActionCreators({
     loadUser
@@ -24,8 +23,7 @@ export default class Tags extends Component {
     loadUserPaintingHot: PropTypes.func,
     user: PropTypes.object,
     component: PropTypes.object,
-    painting: PropTypes.object,
-    paintingHeat: PropTypes.object,
+    profileHeat:PropTypes.object
   };
 
   componentWillMount() {
@@ -34,19 +32,19 @@ export default class Tags extends Component {
 
 
   render() {
-    const {user, component,painting,paintingHeat} = this.props;
+    const {user, component,profileHeat} = this.props;
     return (<div className="UserPage">
       <div> {component.loaded ?
         <div className="collections">
           { component.indexes.map((userId)=>
           <div className="paintingCollection" key={userId}>
-              <span className="img" style={{backgroundImage: `url(${1})`}} />
+              <span className="img" style={{backgroundImage: user[userId].first_painting ?`url(${user[userId].first_painting.attachment})`:''}} />
               <Link className="name" to={'/p/' +userId}>
                 <h2>{user[userId].nickname}</h2>
               </Link>
               <h4 className="type"/>
               <h2 className="heat">
-                <i className="zmdi zmdi-fire"/> {Math.round(1)}
+                <i className="zmdi zmdi-fire"/> {Math.round(profileHeat[user[userId].heat].point)}
               </h2>
             </div>
           /*

@@ -144,14 +144,14 @@ function* likeSuccess(action) {
   }
 }
 
-function* loadHotUserPaintings(){
+/*function* loadHotUserPaintings(){
   while (TRULY) {
     const action = yield take(userModule.LOAD_USER_SUCCESS);
     yield (action.normalized.result.map( profileId =>
       put(userModule.loadUserPaintingHot(profileId))
     ))
   }
-}
+}*/
 
 export default function* root() {
   yield fork(initialApp);
@@ -165,7 +165,7 @@ export default function* root() {
   yield fork(hotPageLoaded);
   yield fork(userPaintingPageLoaded);
   yield fork(tagPageLoaded);
-  yield fork(loadHotUserPaintings);
+ // yield fork(loadHotUserPaintings);
   yield fork(depositNextPageLoaded);
   yield fork(depositLastPageLoaded);
   yield fork(paintingUploadSuccess);

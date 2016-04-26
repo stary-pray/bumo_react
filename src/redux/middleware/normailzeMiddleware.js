@@ -23,6 +23,9 @@ schemas.painting.define({
 schemas.profileDetail.define({
   heat: schemas.profileHeat,
 });
+schemas.profile.define({
+  heat: schemas.profileHeat
+});
 
 schemas.paintingDetail.define({
   profile: schemas.profile,

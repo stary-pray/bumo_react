@@ -6,6 +6,8 @@ import config from '../../config';
 import {reduxForm} from 'redux-form';
 import {bindActionCreators} from 'redux';
 import "./Register.scss";
+import {createNotification} from "../../redux/modules/notification";
+
 
 
 const validate = values => {
@@ -45,7 +47,7 @@ const validate = values => {
     captcha: state.auth.captcha,
     registerError: state.auth.registerError
   }),
-  {...authAction}
+  {...authAction, createNotification}
 )
 
 @reduxForm({
@@ -184,7 +186,10 @@ export default class registerForm extends Component {
               注册
             </button>
           </form>
-          <div>{formError}</div>
+          {registerError ? this.props.createNotification({
+            message: <div className="error">{formError}</div>,
+            level: 'error'
+          }) : ''}
           {userLoad &&
           <div>
             <p>你已经注册成功.</p>

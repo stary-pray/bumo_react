@@ -49,6 +49,11 @@ export default handleActions({
       ...state.hotPaintings,
       [action.meta.ownerId]: action.normalized.result,
     }
+  }),
+  ['@@router/LOCATION_CHANGE']: (state, action) => ({
+    loaded: false,
+    loading: false,
+    hotPaintings: {}
   })
 }, {
   loaded: false,
