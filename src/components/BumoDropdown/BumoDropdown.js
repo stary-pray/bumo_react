@@ -6,9 +6,9 @@ import onClickOutside from "react-onclickoutside";
 @onClickOutside
 export default class BumoDropdown extends Component {
   static propTypes = {
-    children: PropTypes.object,
     isOpened: PropTypes.bool,
-    close: PropTypes.func,
+    close: PropTypes.func.isRequired,
+    positionClass: PropTypes.string,
   };
 
   constructor() {
@@ -23,7 +23,8 @@ export default class BumoDropdown extends Component {
   }
 
   renderOpened() {
-    return (<div className="BumoDropdown">
+    const {positionClass} = this.props;
+    return (<div className={"BumoDropdown " + positionClass}>
       {this.props.children}
     </div>);
   }

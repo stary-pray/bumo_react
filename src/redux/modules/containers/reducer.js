@@ -13,6 +13,7 @@ import MeUpdate from "./MeUpdate";
 import MainHeader from "./MainHeader";
 import PaintingModal from "./PaintingModal";
 import SearchResult from "./SearchResult";
+import TamashiPopup from "./TamashiPopup";
 
 export default combineReducers({
   Home,
@@ -29,4 +30,5 @@ export default combineReducers({
   MainHeader,
   PaintingModal,
   SearchResult,
+  TamashiPopup,
 });

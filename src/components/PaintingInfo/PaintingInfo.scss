@@ -6,9 +6,12 @@
   margin-bottom: 1rem;
   overflow: hidden;
 
-  .bottomInfo, .topInfo {
-    //transform: translate(0, 0) !important;
-    //opacity: 1 !important;
+  &.isOpened {
+    overflow: visible;
+    .bottomInfo, .topInfo {
+      transform: translate(0, 0);
+      opacity: 1;
+    }
   }
 
   .bumo_thumbnail {

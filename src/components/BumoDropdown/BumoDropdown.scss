@@ -1,6 +1,6 @@
 @import "../../containers/colors";
 
-.BumoDropdown{
+.BumoDropdown {
   position: absolute;
   top: 2.5rem;
   right: 4rem;
@@ -12,12 +12,17 @@
   padding: 0.5rem 0;
   box-shadow: 0 1px 15px rgba(black, 0.08);
   font-size: 14px;
-  .BumoDropdownItem{
+  &.PaintingInfoPopup {
+    top: 0;
+    right: 0;
+    width: 16rem;
+  }
+  .BumoDropdownItem {
     color: $dBlack;
     display: block;
     padding: 0.5rem 0.5rem 0.5rem 1.5rem;
     cursor: pointer;
-    &:hover{
+    &:hover {
       background-color: rgba($lSliver, 0.7);
     }
   }
@@ -29,7 +34,7 @@
     transform: translate3d(0px, -4px, 0px);
   }
 
-  &-enter.BumoDropdownTransition-enter-active{
+  &-enter.BumoDropdownTransition-enter-active {
     opacity: 1;
     transform: translate3d(0px, 0px, 0px);
     transition-property: opacity, transform;

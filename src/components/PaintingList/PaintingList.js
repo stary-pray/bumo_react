@@ -13,6 +13,8 @@ export default class PaintingList extends Component {
     loadPainting: PropTypes.func,
     component: PropTypes.object,
     openModal: PropTypes.func,
+    openTamashi: PropTypes.func.isRequired,
+    openedTamashiId: PropTypes.number,
   };
   
   constructor(){
@@ -62,6 +64,8 @@ export default class PaintingList extends Component {
                 painting={painting[paintingId]}
                 openModal={openModal}
                 width={320}
+                openTamashi={this.props.openTamashi}
+                openedTamashiId={this.props.openedTamashiId}
               />);
             })
             :''}

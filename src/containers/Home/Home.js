@@ -6,6 +6,7 @@ import {Link} from "react-router";
 import "./Home.scss";
 import PaintingList from "../../components/PaintingList/PaintingList";
 import * as PaintingModalActions from "../../redux/modules/containers/PaintingModal";
+import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
 
 @connect(
   (state, ownProps) => ({
@@ -14,11 +15,13 @@ import * as PaintingModalActions from "../../redux/modules/containers/PaintingMo
     paintingHeat: state.models.paintingHeat,
     component: state.containers.Home,
     path: ownProps.route.path,
+    openedTamashiId: state.containers.TamashiPopup.id,
   }),
   dispatch => bindActionCreators({
     loadPainting,
     loadHotPainting,
     openModal: PaintingModalActions.openModal,
+    openTamashi: openTamashi,
   }, dispatch)
 )
 
@@ -33,6 +36,8 @@ export default class Home extends Component {
     loadPainting: PropTypes.func,
     loadHotPainting: PropTypes.func,
     openModal: PropTypes.func,
+    openTamashi: PropTypes.func,
+    openedTamashiId: PropTypes.number,
   };
 
   render() {
@@ -56,6 +61,8 @@ export default class Home extends Component {
         profile={profile}
         loadPainting={load}
         openModal={this.props.openModal}
+        openTamashi={this.props.openTamashi}
+        openedTamashiId={this.props.openedTamashiId}
       />
     </div>);
   }

@@ -1,0 +1,79 @@
+@import "../colors";
+
+.TamashiPopup {
+  width: 16rem;
+
+  background: white;
+  color: $dBlack;
+  padding: 1rem;
+  z-index: 5;
+
+  .top {
+    position: relative;
+    display: flex;
+    font-size: 1.2rem;
+    justify-content: space-between;
+    .tamashi {
+      color: $lRed;
+      position: relative;
+      flex: 0 0 auto;
+      transition: background-color 0.1s linear;
+      &:hover {
+        background-color: rgba($lSliver, 0.1);
+      }
+      .zmdi {
+        margin-right: 0.2rem;
+      }
+    }
+    .close {
+      color: $dGrey;
+      position: absolute;
+      right: 0;
+      top: -18px;
+    }
+  }
+
+  .section {
+    > label {
+      color: $dGrey;
+    }
+
+    > .button.hollow {
+      padding: 0.68em 0.85em;
+      margin: 0 0.5rem 0.5rem 0;
+    }
+  }
+
+  .section-xing, .section-qi {
+    margin-top: 0.5rem;
+  }
+  .section-xing {
+    > .button {
+      border: 1px solid $dYellow;
+      color: $dYellow;
+      &:hover {
+        border: 1px solid $lYellow;
+        color: $lYellow;
+      }
+    }
+  }
+  .section-qi {
+    > .button {
+      border: 1px solid $dRed;
+      color: $dRed;
+      &:hover {
+        border: 1px solid $lRed;
+        color: $lRed;
+      }
+    }
+  }
+  .section-profile-balance {
+    .balanceXing {
+      color: $dYellow;
+      padding-right: 1rem;
+    }
+    .balanceQi {
+      color: $dRed;
+    }
+  }
+}
