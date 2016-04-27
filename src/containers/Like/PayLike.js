@@ -16,7 +16,8 @@ export default class PayLike extends Component {
   static propTypes = {
     paintingId: PropTypes.number,
     payLike: PropTypes.func,
-    amount: PropTypes.number.isRequired
+    amount: PropTypes.number.isRequired,
+    isDisabled: PropTypes.bool
   };
 
   handlePayLike = (event) => {
@@ -27,7 +28,7 @@ export default class PayLike extends Component {
 
   render() {
     return (
-      <button className="button hollow small" onClick={this.handlePayLike.bind(this)}>
+      <button className="button hollow small" onClick={this.handlePayLike.bind(this)} disabled={this.props.isDisabled}>
         {this.props.children}
       </button>
     );

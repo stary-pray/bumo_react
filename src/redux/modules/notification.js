@@ -1,7 +1,7 @@
 import {handleActions, createAction} from 'redux-actions';
 
-const ADD_NOTIFICATION = 'bumo/add_notification';
-const ADD_NOTIFICATION_SUCCESS = 'bumo/add_notification_success';
+export const ADD_NOTIFICATION = 'bumo/add_notification';
+export const ADD_NOTIFICATION_SUCCESS = 'bumo/add_notification_success';
 
 export default handleActions({
   [ADD_NOTIFICATION]: (state, action) => (action.payload),

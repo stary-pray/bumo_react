@@ -16,7 +16,8 @@ import {freeLike} from "../../redux/modules/models/Like";
 export default class FreeLike extends Component {
   static propTypes = {
     paintingId: PropTypes.number,
-    freeLike: PropTypes.func
+    freeLike: PropTypes.func,
+    isDisabled: PropTypes.bool
   };
 
   handleFreeLike = (event) =>{
@@ -26,7 +27,7 @@ export default class FreeLike extends Component {
 
   render() {
     return (
-    <button className="button hollow small" onClick={this.handleFreeLike.bind(this)}>
+    <button className="button hollow small" onClick={this.handleFreeLike.bind(this)} disabled={this.props.isDisabled}>
       {this.props.children}
     </button>
     );
