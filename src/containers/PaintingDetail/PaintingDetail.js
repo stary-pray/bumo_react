@@ -7,10 +7,10 @@ import {like as likePainting} from "../../redux/modules/models/Like";
 import {Link} from "react-router";
 import moment from "moment";
 import {createNotification} from "../../redux/modules/notification";
-import {resize} from "../../utils/common";
+import {resize, calculateHeat} from "../../utils/common";
 import "./PaintingDetail.scss";
-import FreeLike from "../Like/FreeLike";
-import PayLike from "../Like/PayLike"
+import TahashiPopup from "../../containers/TamashiPopup/TamashiPopup";
+import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
 @connect(
   (state, ownProps) => ({
     paintingDetail: state.models.paintingDetail,
@@ -27,6 +27,7 @@ import PayLike from "../Like/PayLike"
     loadPaintingDetail,
     likePainting,
     createNotification,
+    openTamashi: openTamashi,
   }, dispatch)
 )
 
@@ -45,7 +46,13 @@ export default class PaintingDetail extends Component {
     tagHeat: PropTypes.object,
     createNotification: PropTypes.func,
     isInModal: PropTypes.bool,
+    openTamashi: PropTypes.func.isRequired,
   };
+
+  constructor() {
+    super();
+    this.openTamashi = this.openTamashi.bind(this);
+  }
 
 
   componentWillMount() {
@@ -66,6 +73,10 @@ export default class PaintingDetail extends Component {
     if (this.props.id !== nextProps.id) {
       this.props.loadPaintingDetail(nextProps.id);
     }
+  }
+  
+  openTamashi(){
+    this.props.openTamashi(this.props.id);
   }
 
   handleSubmit = (event) => {
@@ -98,29 +109,6 @@ export default class PaintingDetail extends Component {
       <div className={"PaintingDetail " + (isInModal ? 'inModal' : '')}>
         <div className="leftPanel">
           <img className="image" src={painting && painting.attachment}/>
-          {/*
-           <span>热度{calculateHeat(paintingHeat[id], like_amount)}</span>
-           <form className="heatForm" onSubmit={this.handleSubmit}>
-           <div><label>点祈数</label>
-           <select defaultValue="1" ref="like_amount">
-           <option value="1">1</option>
-           <option value="2">2</option>
-           <option value="3">3</option>
-           <option value="4">4</option>
-           <option value="5">5</option>
-           <option value="6">6</option>
-           <option value="7">7</option>
-           <option value="8">8</option>
-           <option value="9">9</option>
-           <option value="10">10</option>
-           </select>
-           </div>
-           {likeError}
-           <button onClick={this.handleSubmit}>祈
-           </button>
-           <BumoStar paintingId={id}/>
-           </form>
-           */}
           <Link to={previousLink} className={'go_previous ' + (previousLink ? '' : 'disabled')}
                 disabled={!previousLink}>
             <i className="zmdi zmdi-chevron-left"/>
@@ -156,6 +144,13 @@ export default class PaintingDetail extends Component {
             <h1 className="title"><Link to={`/painting/${id}`}> { painting ? painting.title : '---' }</Link></h1>
             <p className="description">{ painting && painting.description }</p>
             <div className="infoGroup">
+              <label> 作品魂 </label>
+              <a onClick={this.openTamashi} className="heat">
+                <i className="zmdi zmdi-fire"/>
+                <span>{paintingHeat && calculateHeat(paintingHeat[id])}</span>
+              </a>
+            </div>
+            <div className="infoGroup">
               <label> 标签 </label>
               {(painting && painting.tags ?
                 tagsArray.map((id) => (
@@ -164,7 +159,7 @@ export default class PaintingDetail extends Component {
                       <span className="icon"><i className="zmdi zmdi-label"/></span>
                       <span className="name">{tags[id].name}</span>
                       <span className="type">{tags[id].type}</span>
-                      <span className="heat"><i className="zmdi zmdi-fire"/> {Math.round(tagHeat[tags[id].heat].point)}</span>
+                      <span className="heat"><i className="zmdi zmdi-fire"/> {calculateHeat(tagHeat[tags[id].heat])}</span>
                     </Link>
                   </div>)) :
                 '')}
@@ -174,9 +169,10 @@ export default class PaintingDetail extends Component {
               <label> 信息 </label>
               <p>发布: {painting && moment(painting.modified).fromNow()}</p>
             </div>
-            <FreeLike paintingId={id}/>
-            <PayLike paintingId={id} pay_num={2}/>
           </div>
+          {
+            paintingHeat && <TahashiPopup id={painting.id} heat={paintingHeat[id]}/>
+          }
         </div>
       </div>);
   }
