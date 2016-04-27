@@ -10,7 +10,9 @@ import {load as loadPaintingDetail} from "../../redux/modules/models/PaintingDet
 @connect(
   (state) => ({
     component: state.containers.TamashiPopup,
-    paintingDetail: state.models.paintingDetail
+    paintingDetail: state.models.paintingDetail,
+    tags: state.models.tags,
+    me: state.me
   }),
   {
     ...tamashiPopupActions,
@@ -26,8 +28,10 @@ export default class TamashiPopup extends Component {
     openTamashi: PropTypes.func,
     closeTamashi: PropTypes.func,
     loadPaintingDetail: PropTypes.func,
+    tags: PropTypes.object,
+    me: PropTypes.object
   };
-  
+
   constructor(){
     super();
     this.handleClosePopup = this.handleClosePopup.bind(this);
@@ -39,13 +43,13 @@ export default class TamashiPopup extends Component {
       this.props.loadPaintingDetail(this.props.id);
     }
   }
-  
+
   handleClosePopup(){
     this.props.closeTamashi();
   }
 
   render() {
-    const {heat, id, component} = this.props;
+    const {heat, id, component, paintingDetail, tags, me} = this.props;
     const isOpened = id && component.id && (id == component.id);
     return (
       <BumoDropdown close={this.handleClosePopup} positionClass={"PaintingInfoPopup"} isOpened={isOpened}>
@@ -76,17 +80,18 @@ export default class TamashiPopup extends Component {
           </div>
           <div className="section section-tags">
             <label>标签</label>
+            {paintingDetail[id]? paintingDetail[id].tags.map((tagId)=><div key={"tags"+tagId}>{tags[tagId].name}_{tags[tagId].type}</div>):''}
           </div>
           <div className="section section-tags">
             <label>作者</label>
           </div>
-          <div className="section section-profile-balance">
+          {me.balance ? <div className="section section-profile-balance">
             <label>余额</label>
             <div className="balance">
-              <span className="balanceXing"> <i className="zmdi zmdi-star"/> 8 </span>
-              <span className="balanceQi"> <i className="zmdi zmdi-favorite"/> 10</span>
+              <span className="balanceXing"> <i className="zmdi zmdi-star"/>{me.balance.free_qb}</span>
+              <span className="balanceQi"> <i className="zmdi zmdi-favorite"/>{me.balance.earned_qb}</span>
             </div>
-          </div>
+          </div>:''}
         </div>
       </BumoDropdown>
     );

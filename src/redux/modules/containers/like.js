@@ -7,11 +7,11 @@ import * as LikePaintingActions from '../models/Like';
 
 
 export default handleActions({
-    [LikePaintingActions.LIKE_SUCCESS]: (state, action) => ({
+    [LikePaintingActions.PAY_LIKE_SUCCESS]: (state, action) => ({
       like_amount: action.last_amount,
       like_success: true
     }),
-    [LikePaintingActions.LIKE_FAIL]: (state, action) => ({
+    [LikePaintingActions.PAY_LIKE_FAIL]: (state, action) => ({
       like_error: action.error,
       like_success: false
     }),

@@ -11,6 +11,7 @@ import SearchResult from "../SearchResult/SearchResult";
 import {createNotification, createNotificationSuccess} from "../../redux/modules/notification";
 import {getScrollBarWidth} from "../../utils/common";
 import "./App.scss";
+
 moment.locale('zh-cn');
 
 @connect(
@@ -95,7 +96,7 @@ export default class App extends Component {
     const {params} = this.props;
     return (
       <div className="App border-box">
-        <Helmet {...config.app.head}/>
+        <Helmet title="恋绘.星祈" />
         {/*<Navbar logout={this.handleLogout} me={me} loaded={loaded} />*/}
         <div className="Content">
           <MainHeader routeParams={params}/>

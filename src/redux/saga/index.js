@@ -12,7 +12,6 @@ import * as homeModule from "../modules/containers/Home";
 import * as userPaintingModule from "../modules/containers/UserPainting";
 import * as tagPaintingModule from "../modules/models/TagDetail";
 import * as tagPaintingModuleCon from "../modules/containers/TagDetail";
-import * as userModule from "../modules/containers/User";
 import * as depositModule from "../modules/containers/Deposit";
 import * as getChargeModule from "../modules/models/Deposit";
 import * as PaintingUploadModule from "../modules/paintingUpload";

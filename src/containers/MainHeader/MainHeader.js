@@ -98,7 +98,7 @@ export default class TopNav extends Component {
         <div className="user-notification-panel grid-content">
           <span className="item"><i className="zmdi zmdi-cloud-upload"/> 发布</span>
         <span onClick={this.handleOpenDropdown} className="item">
-          <i className="zmdi zmdi-account"/> 秋肉
+          <i className="zmdi zmdi-account"/> {me.nickname}
         </span>
           <span onClick={this.handleOpenSearch} className="item"><i className="zmdi zmdi-search"/> 搜索</span>
         </div> :
@@ -109,7 +109,7 @@ export default class TopNav extends Component {
         </div>
       }
       <BumoDropdown isOpened={component.notificationDropdownOpened} close={this.handleCloseDropdown}>
-        <Link to="/" className="BumoDropdownItem">
+        <Link to={`/p/${me.id}`} className="BumoDropdownItem">
           <i className="zmdi zmdi-home"/> 我的主页
         </Link>
         <div className="BumoDropdownItem">

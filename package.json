@@ -32,7 +32,7 @@
     "react-addons-css-transition-group": "15.0.1",
     "react-dom": "15.0.1",
     "react-dropzone": "3.4.0",
-    "react-helmet": "^3.0.1",
+    "react-helmet": "3.1.0",
     "react-masonry-component": "4.0.0",
     "react-notification-system": "0.2.7",
     "react-onclickoutside": "5.0.0",

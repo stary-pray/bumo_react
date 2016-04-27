@@ -9,7 +9,8 @@ import moment from "moment";
 import {createNotification} from "../../redux/modules/notification";
 import {resize} from "../../utils/common";
 import "./PaintingDetail.scss";
-
+import FreeLike from "../Like/FreeLike";
+import PayLike from "../Like/PayLike"
 @connect(
   (state, ownProps) => ({
     paintingDetail: state.models.paintingDetail,
@@ -173,6 +174,8 @@ export default class PaintingDetail extends Component {
               <label> 信息 </label>
               <p>发布: {painting && moment(painting.modified).fromNow()}</p>
             </div>
+            <FreeLike paintingId={id}/>
+            <PayLike paintingId={id} pay_num={2}/>
           </div>
         </div>
       </div>);
