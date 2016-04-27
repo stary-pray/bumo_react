@@ -4,6 +4,8 @@ import {calculateHeat} from "../../utils/common";
 import "./TamashiPopup.scss";
 import * as tamashiPopupActions from "../../redux/modules/containers/TamashiPopup";
 import BumoDropdown from "../../components/BumoDropdown/BumoDropdown";
+import PayLike from "../Like/PayLike";
+import FreeLike from "../Like/FreeLike";
 import {load as loadPaintingDetail} from "../../redux/modules/models/PaintingDetail";
 
 
@@ -67,16 +69,16 @@ export default class TamashiPopup extends Component {
             <label>
               作品
             </label>
-            <button className="button hollow small"><i className="zmdi zmdi-star"/> +1</button>
+            <FreeLike><i className="zmdi zmdi-star"/> +1</FreeLike>
           </div>
           <div className="section section-qi">
             <label>
               作者
             </label>
-            <button className="button hollow small"><i className="zmdi zmdi-favorite"/> +1</button>
-            <button className="button hollow small">+5</button>
-            <button className="button hollow small">+10</button>
-            <button className="button hollow small">+50</button>
+            <PayLike paintingId={id} amount={1}><i className="zmdi zmdi-favorite"/> +1</PayLike>
+            <PayLike paintingId={id} amount={1}>+5 </PayLike>
+            <PayLike paintingId={id} amount={1}>+10</PayLike>
+            <PayLike paintingId={id} amount={1}>+50</PayLike>
           </div>
           <div className="section section-tags">
             <label>标签</label>
