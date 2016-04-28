@@ -15,7 +15,12 @@
   &.PaintingInfoPopup {
     top: 0;
     right: 0;
-    width: 16rem;
+    width: 260px
+  }
+  &.PaintingDetailPopup {
+    left: 1rem;
+    top: 11rem;
+    width: 260px
   }
   .BumoDropdownItem {
     color: $dBlack;

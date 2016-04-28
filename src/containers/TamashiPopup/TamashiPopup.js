@@ -8,7 +8,7 @@ import PayLike from "../Like/PayLike";
 import FreeLike from "../Like/FreeLike";
 import {load as loadPaintingDetail} from "../../redux/modules/models/PaintingDetail";
 import {createNotification} from "../../redux/modules/notification";
-import likeNotified from "../../redux/modules/containers/Like"
+import likeNotified from "../../redux/modules/containers/Like";
 
 @connect(
   (state) => ({
@@ -31,6 +31,7 @@ export default class TamashiPopup extends Component {
     id: PropTypes.number.isRequired,
     heat: PropTypes.object,
     paintingDetail: PropTypes.object,
+    positionClass: PropTypes.string,
     component: PropTypes.object,
     openTamashi: PropTypes.func,
     closeTamashi: PropTypes.func,
@@ -79,7 +80,7 @@ export default class TamashiPopup extends Component {
   }
 
   render() {
-    const {heat, id, component, paintingDetail, tags, me, profile} = this.props;
+    const {heat, id, component, paintingDetail, tags, me, profile, positionClass} = this.props;
     const isOpened = id && component.id && (id == component.id);
     const {like_error, like_success, like_amount} = this.props.likeComponent;
     let likeError = '';
@@ -88,16 +89,16 @@ export default class TamashiPopup extends Component {
       likeError = '钱数不够';
     }
     return (
-      <BumoDropdown close={this.handleClosePopup} positionClass={"PaintingInfoPopup"} isOpened={isOpened}>
+      <BumoDropdown close={this.handleClosePopup} positionClass={positionClass} isOpened={isOpened}>
         <div className="TamashiPopup">
           <div className="top">
             <div className="tamashi">
               <i className="zmdi zmdi-fire"/>
               {calculateHeat(heat)}
             </div>
-                <span className="close">
-                  <i className="zmdi zmdi-close"/>
-                </span>
+            <span onClick={this.handleClosePopup} className="close">
+              <i className="zmdi zmdi-close"/>
+            </span>
           </div>
           {me.balance && paintingDetail[id] ?
             <div>

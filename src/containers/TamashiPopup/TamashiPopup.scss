@@ -6,7 +6,7 @@
   background: white;
   color: $dBlack;
   padding: 1rem;
-  z-index: 5;
+  z-index: 4;
 
   .top {
     position: relative;
@@ -30,6 +30,10 @@
       position: absolute;
       right: 0;
       top: -18px;
+      cursor: pointer;
+      &:hover{
+        color: $lGrey;
+      }
     }
   }
 

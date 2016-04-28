@@ -6,7 +6,7 @@ import {load as loadPaintingDetail} from "../../redux/modules/models/PaintingDet
 import {Link} from "react-router";
 import moment from "moment";
 import {createNotification} from "../../redux/modules/notification";
-import {resize, calculateHeat} from "../../utils/common";
+import {resize, resizeHeight, calculateHeat} from "../../utils/common";
 import "./PaintingDetail.scss";
 import TahashiPopup from "../../containers/TamashiPopup/TamashiPopup";
 import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
@@ -74,13 +74,10 @@ export default class PaintingDetail extends Component {
     const previousLink = painting && painting.user_previous_painting ? `/painting/${painting.user_previous_painting}` : '';
     const nextLink = painting && painting.user_next_painting ? `/painting/${painting.user_next_painting}` : '';
 
-
-
-
     return (
       <div className={"PaintingDetail " + (isInModal ? 'inModal' : '')}>
         <div className="leftPanel">
-          <img className="image" src={painting && painting.attachment}/>
+          <img className="image" src={painting && resizeHeight(painting.attachment, 800)}/>
           <Link to={previousLink} className={'go_previous ' + (previousLink ? '' : 'disabled')}
                 disabled={!previousLink}>
             <i className="zmdi zmdi-chevron-left"/>
@@ -117,9 +114,8 @@ export default class PaintingDetail extends Component {
             <p className="description">{ painting && painting.description }</p>
             <div className="infoGroup">
               <label> 作品魂 </label>
-              <a onClick={this.openTamashi} className="heat">
-                <i className="zmdi zmdi-fire"/>
-                <span>{paintingHeat && calculateHeat(paintingHeat[id])}</span>
+              <a onClick={this.openTamashi} className="button hollow heat">
+                <i className="zmdi zmdi-fire"/> <span>{paintingHeat && paintingHeat[id] && calculateHeat(paintingHeat[id])}</span>
               </a>
             </div>
             <div className="infoGroup">
@@ -142,9 +138,7 @@ export default class PaintingDetail extends Component {
               <p>发布: {painting && moment(painting.modified).fromNow()}</p>
             </div>
           </div>
-          {
-            paintingHeat && <TahashiPopup id={painting.id} heat={paintingHeat[id]}/>
-          }
+          { painting && paintingHeat && paintingHeat[id] && <TahashiPopup positionClass="PaintingDetailPopup" id={painting.id} heat={paintingHeat[id]}/> }
         </div>
       </div>);
   }

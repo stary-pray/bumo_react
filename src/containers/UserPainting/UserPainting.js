@@ -5,6 +5,7 @@ import {loadUserPaintingHot, loadUserPainting, loadProfileDetail} from "../../re
 import {Link} from "react-router";
 import {resize, calculateHeat} from "../../utils/common";
 import InlineSVG from "svg-inline-react";
+import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
 import lodash from "lodash";
 import PaintingList from "../../components/PaintingList/PaintingList";
 import * as PaintingModalActions from "../../redux/modules/containers/PaintingModal";
@@ -28,6 +29,7 @@ import "./UserPainting.scss";
     loadUserPaintingHot,
     loadProfileDetail,
     openModal: PaintingModalActions.openModal,
+    openTamashi: openTamashi,
   }, dispatch)
 )
 
@@ -44,6 +46,7 @@ export default class UserPainting extends Component {
     loadProfileDetail: PropTypes.func,
     component: PropTypes.object,
     page: PropTypes.number,
+    openTamashi: PropTypes.func,
     subRoute: PropTypes.string,
     openModal: PropTypes.func,
   };
@@ -118,6 +121,7 @@ export default class UserPainting extends Component {
         profile={profile}
         loadPainting={loadPainting}
         openModal={this.props.openModal}
+        openTamashi={this.props.openTamashi}
       />
     </div>);
   }

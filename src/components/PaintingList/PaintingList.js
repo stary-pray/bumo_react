@@ -3,7 +3,6 @@ import PaintingInfo from "../PaintingInfo/PaintingInfo";
 import Waypoint from "react-waypoint";
 import Masonry from "react-masonry-component";
 import "./PaintingList.scss";
-import lodash from "lodash";
 
 export default class PaintingList extends Component {
   static propTypes = {
@@ -19,7 +18,7 @@ export default class PaintingList extends Component {
   
   constructor(){
     super();
-    this.loadMore = lodash.debounce(this.loadMore.bind(this), 300);
+    this.loadMore = this.loadMore.bind(this);
   }
 
   componentDidMount() {
@@ -74,14 +73,13 @@ export default class PaintingList extends Component {
           {component.loaded && pageMeta.next === null ?
             <div>已到最后一页</div> :
             <div>
-              { component.loaded && <button onClick={this.loadMore}>加载更多</button> }
               { component.loaded && (page - 1) % 3 != 0 &&
-              <Waypoint
-                className="waypoint"
-                key={'waypoint' + page}
-                onEnter={this.loadMore}
+              <Waypoint className="waypoint"
+                //key={'waypoint' + page}
+                        onEnter={this.loadMore}
               />
               }
+              { component.loaded && <button onClick={this.loadMore}>加载更多</button> }
             </div>}
         </div>
       </div>

@@ -8,6 +8,16 @@ export const resize = (url, minWidth)=> {
   }
 };
 
+export const resizeHeight = (url, minHeight)=> {
+  let height;
+  if (url && !url.match(/\.svg$/)) {
+    height = minHeight * (window.devicePixelRatio || 1);
+    return url + "?imageMogr2/format/jpg/interlace/1/thumbnail/x" + height;
+  } else {
+    return url;
+  }
+};
+
 export const calculateHeat = (heatObj, like_amount = 0) => {
   const last_heat = heatObj.point;
   const late_modified = heatObj.modified;

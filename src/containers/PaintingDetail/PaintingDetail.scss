@@ -65,6 +65,7 @@
   .rightPanel {
     flex: 0 0 18rem;
     background: rgba($lSliver, 0.8);
+    position: relative;
     .userInfo {
       position: relative;
       height: 10rem;
@@ -162,6 +163,7 @@
     }
     .info {
       margin-left: 1rem;
+      margin-right: 1rem;
       .title {
         margin-top: 2rem;
         margin-bottom: 0.5rem;
@@ -174,7 +176,7 @@
       }
       .infoGroup {
         margin-top: 1rem;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
         > label {
           font-size: 1rem;
           position: relative;
@@ -187,6 +189,15 @@
             width: 70%;
             border-bottom: 1px solid $dGrey;
             left: 0;
+          }
+        }
+        .heat{
+          border-color: $dRed;
+          color: $dRed;
+          margin: 0;
+          &:hover{
+            border-color: $lRed;
+            color: $lRed;
           }
         }
       }

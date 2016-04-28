@@ -60,7 +60,7 @@ export default class PaintingInfo extends Component {
             </Link >
           </div>
         </div>
-        <TahashiPopup id={painting.id} heat={heat}/>
+        <TahashiPopup positionClass="PaintingInfoPopup" id={painting.id} heat={heat}/>
       </li>
     );
   }
