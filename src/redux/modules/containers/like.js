@@ -1,23 +1,39 @@
 /**
  * Created by akistar on 16/2/20.
  */
-import {handleActions} from 'redux-actions';
+import {handleActions, createAction} from 'redux-actions';
 
 import * as LikePaintingActions from '../models/Like';
+import * as NotificationActions from '../notification';
 
+const LIKE_NOTIFIED = 'bumo/Like/LIKE_NOTIFIED';
+const initialState = {
+  likePaintingId: null,
+  likeAmount: null,
+  freeLikeSuccess: false,
+  payLikeSuccess: false,
+};
 
 export default handleActions({
     [LikePaintingActions.PAY_LIKE_SUCCESS]: (state, action) => ({
-      like_amount: action.last_amount,
-      like_success: true
+      likePaintingId: action.result.id,
+      likeAmount: action.last_amount,
+      freeLikeSuccess: false,
+      payLikeSuccess: true
     }),
     [LikePaintingActions.PAY_LIKE_FAIL]: (state, action) => ({
-      like_error: action.error,
-      like_success: false
+      likePaintingId: action.result.id,
+      likeError: action.error,
+      freeLikeSuccess: false,
+      payLikeSuccess: false
     }),
-  ['@@router/LOCATION_CHANGE']:()=>({
-    like_amount: ''
-  })
-  },
-  {like_amount: ''});
+    [NotificationActions.ADD_NOTIFICATION]: (state) => initialState,
+    [LikePaintingActions.FREE_LIKE_SUCCESS]: (state, action) => ({
+      likePaintingId: action.result.id,
+      freeLikeSuccess: true,
+      payLikeSuccess: false
+    }),
+    ['@@router/LOCATION_CHANGE']: ()=> initialState,
+  }, initialState
+);
 

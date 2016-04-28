@@ -112,9 +112,9 @@ export default class TopNav extends Component {
         <Link to={`/p/${me.id}`} className="BumoDropdownItem">
           <i className="zmdi zmdi-home"/> 我的主页
         </Link>
-        <div className="BumoDropdownItem">
+        <Link to="/me/edit" className="BumoDropdownItem">
           <i className="zmdi zmdi-settings"/> 设置
-        </div>
+        </Link>
         <div onClick={this.handleLogout} className="BumoDropdownItem">
           <i className="zmdi zmdi-power-off"/> 退出
         </div>
@@ -129,7 +129,8 @@ export default class TopNav extends Component {
           <div className="LoginModalBackground"/>
           {isLoginModalOpened &&
           <Login closeModal={this.handleModalClose} switchToRegister={this.handleRegisterModalOpen}/>}
-          {isRegisterModalOpened && <Register closeModal={this.handleModalClose} switchToLogin={this.handleLoginModalOpen}/>}
+          {isRegisterModalOpened &&
+          <Register closeModal={this.handleModalClose} switchToLogin={this.handleLoginModalOpen}/>}
         </div>
         }
       </ReactCSSTransitionGroup>);

@@ -6,7 +6,7 @@ import {load as loadPaintingDetail} from "../../redux/modules/models/PaintingDet
 import {Link} from "react-router";
 import moment from "moment";
 import {createNotification} from "../../redux/modules/notification";
-import {resize} from "../../utils/common";
+import {resize, calculateHeat} from "../../utils/common";
 import "./PaintingDetail.scss";
 import TahashiPopup from "../../containers/TamashiPopup/TamashiPopup";
 import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
@@ -22,7 +22,6 @@ import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
   }),
   dispatch => bindActionCreators({
     loadPaintingDetail,
-    likePainting,
     createNotification,
     openTamashi: openTamashi,
   }, dispatch)
