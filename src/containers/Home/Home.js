@@ -47,7 +47,7 @@ export default class Home extends Component {
 
     return (<div className="Home">
       <div className="pageHead">
-        <h1>原创画作鉴赏</h1>
+        <h1>绘画之魂的燃烧</h1>
       </div>
 
       <div className="NavControls">
