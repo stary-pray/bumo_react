@@ -44,15 +44,22 @@ export default class Home extends Component {
     const {painting, component, paintingHeat, profile, loadPainting, loadHotPainting, path} = this.props;
     const isLatest = path && path.indexOf('/latest') > -1;
     const load = isLatest ? loadPainting : loadHotPainting;
-    
-    return (<div className="Home">
-      <h1>Home</h1>
-      <p>Example for all paintings</p>
 
-      <p>
-        <Link to="/latest">最新作品</Link>
-        <Link to="/"> 热门作品</Link>
-      </p>
+    return (<div className="Home">
+      <div className="pageHead">
+        <h1>原创画作鉴赏</h1>
+      </div>
+
+      <div className="NavControls">
+        <div className="leftSide">
+          <Link activeClassName="active" to={`/`}>
+            <span>热门</span>
+          </Link>
+          <Link activeClassName="active" to={`/latest`}>
+            <span>新作</span>
+          </Link>
+        </div>
+      </div>
 
       <PaintingList
         painting={painting}

@@ -109,9 +109,15 @@ export default class UserPainting extends Component {
             className="zmdi zmdi-fire"/> {profileHeatBody && calculateHeat(profileHeatBody)}
           </div>
         </div>
-        <div className="controls">
-          <Link to={`/p/${id}/latest`}>新作</Link>
-          <Link to={`/p/${id}`}>热门</Link>
+        <div className="NavControls">
+          <div className="leftSide">
+            <Link activeClassName="active" to={`/p/${id}/latest`}>
+              <span>新作</span>
+            </Link>
+            <Link activeClassName="active" to={`/p/${id}`}>
+              <span>热门</span> 
+            </Link>
+          </div>
         </div>
       </div>
       <PaintingList

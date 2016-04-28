@@ -1,0 +1,34 @@
+@import "colors";
+
+.NavControls{
+  display: flex;
+  align-items: center;
+  padding-left: 8rem;
+  padding-right: 8rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  height: 3rem;
+  border-top: 1px solid $lSliver;
+  border-bottom: 1px solid $lSliver;
+  .leftSide{
+    display: flex;
+  }
+  a {
+    font-weight: normal;
+    font-size: 1.2rem;
+    flex: 0 0 6rem;
+    &.active{
+      > span{
+        border-bottom: 2px solid $lGreen;
+        padding-bottom: 9px;
+      }
+    }
+  }
+}
+
+.pageHead{
+  padding-top: 2rem;
+  > h1{
+    text-align: center;
+  }
+}
