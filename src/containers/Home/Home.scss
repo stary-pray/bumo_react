@@ -1,6 +1,5 @@
 .Home{
   width: 100%;
-  backface-visibility: hidden;
   position: relative;
   > h1, >p {
     padding-left: 2rem;
@@ -9,7 +8,7 @@
   .paintingInfo{
   }
 
-  .waypoint{
-    position: relative;
+  .NavControls{
+    padding-left: 4rem;
   }
 }
