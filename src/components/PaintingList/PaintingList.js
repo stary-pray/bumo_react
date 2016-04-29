@@ -14,11 +14,14 @@ export default class PaintingList extends Component {
     openModal: PropTypes.func,
     openTamashi: PropTypes.func.isRequired,
     openedTamashiId: PropTypes.number,
+    isMe:PropTypes.bool,
+    loginModalOpen: PropTypes.func
   };
-  
+
   constructor(){
     super();
     this.loadMore = this.loadMore.bind(this);
+    this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
   }
 
   componentDidMount() {
@@ -31,7 +34,7 @@ export default class PaintingList extends Component {
       this.loadMore();
     }
   }
-  
+
   componetWillUnmount(){
     this.loadMore.cancel();
   }
@@ -42,8 +45,13 @@ export default class PaintingList extends Component {
     this.props.loadPainting(page);
   }
 
+  handleLoginModalOpen() {
+    this.props.loginModalOpen();
+  }
+
+
   render() {
-    const {painting, component, paintingHeat, profile} = this.props;
+    const {painting, component, paintingHeat, profile,isMe} = this.props;
     const {page, pageMeta} = component;
     const openModal = (id) => this.props.openModal({id: id, indexes: component.indexes});
     return (
@@ -65,6 +73,8 @@ export default class PaintingList extends Component {
                 width={320}
                 openTamashi={this.props.openTamashi}
                 openedTamashiId={this.props.openedTamashiId}
+                loginModalOpen={this.handleLoginModalOpen}
+                isMe={isMe}
               />);
             })
             :''}

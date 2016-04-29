@@ -7,6 +7,8 @@ import "./Home.scss";
 import PaintingList from "../../components/PaintingList/PaintingList";
 import * as PaintingModalActions from "../../redux/modules/containers/PaintingModal";
 import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
+import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
+
 
 @connect(
   (state, ownProps) => ({
@@ -16,12 +18,14 @@ import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
     component: state.containers.Home,
     path: ownProps.route.path,
     openedTamashiId: state.containers.TamashiPopup.id,
+    me:state.me
   }),
   dispatch => bindActionCreators({
     loadPainting,
     loadHotPainting,
     openModal: PaintingModalActions.openModal,
     openTamashi: openTamashi,
+    loginModalOpen
   }, dispatch)
 )
 
@@ -38,10 +42,19 @@ export default class Home extends Component {
     openModal: PropTypes.func,
     openTamashi: PropTypes.func,
     openedTamashiId: PropTypes.number,
+    me:PropTypes.object,
+    loginModalOpen: PropTypes.func
   };
+  constructor() {
+    super();
+    this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
+  }
+  handleLoginModalOpen() {
+    this.props.loginModalOpen();
+  }
 
   render() {
-    const {painting, component, paintingHeat, profile, loadPainting, loadHotPainting, path} = this.props;
+    const {painting, component, paintingHeat, profile, loadPainting, loadHotPainting, path, me} = this.props;
     const isLatest = path && path.indexOf('/latest') > -1;
     const load = isLatest ? loadPainting : loadHotPainting;
 
@@ -70,6 +83,8 @@ export default class Home extends Component {
         openModal={this.props.openModal}
         openTamashi={this.props.openTamashi}
         openedTamashiId={this.props.openedTamashiId}
+        isMe={me.id?true:false}
+        loginModalOpen={this.handleLoginModalOpen}
       />
     </div>);
   }

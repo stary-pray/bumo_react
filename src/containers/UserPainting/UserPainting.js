@@ -10,6 +10,7 @@ import lodash from "lodash";
 import PaintingList from "../../components/PaintingList/PaintingList";
 import * as PaintingModalActions from "../../redux/modules/containers/PaintingModal";
 import "./UserPainting.scss";
+import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
 
 
 @connect(
@@ -22,7 +23,10 @@ import "./UserPainting.scss";
     id: +ownProps.params.ownerId,
     component: state.containers.UserPainting,
     page: state.containers.UserPainting.page,
-    subRoute: ownProps.params.sub
+    subRoute: ownProps.params.sub,
+    openedTamashiId: state.containers.TamashiPopup.id,
+    me:state.me
+
   }),
   dispatch => bindActionCreators({
     loadUserPainting,
@@ -30,6 +34,7 @@ import "./UserPainting.scss";
     loadProfileDetail,
     openModal: PaintingModalActions.openModal,
     openTamashi: openTamashi,
+    loginModalOpen
   }, dispatch)
 )
 
@@ -49,6 +54,9 @@ export default class UserPainting extends Component {
     openTamashi: PropTypes.func,
     subRoute: PropTypes.string,
     openModal: PropTypes.func,
+    openedTamashiId: PropTypes.number,
+    me:PropTypes.object,
+    loginModalOpen: PropTypes.func
   };
 
   constructor() {
@@ -63,6 +71,10 @@ export default class UserPainting extends Component {
     }, 500);
   }
 
+  handleLoginModalOpen() {
+    this.props.loginModalOpen();
+  }
+
   componentDidMount() {
     this.props.loadProfileDetail(this.props.id);
     this.bannerHeihgt = this.refs.banner.offsetHeight;
@@ -74,7 +86,7 @@ export default class UserPainting extends Component {
   }
 
   render() {
-    const {id, userPainting, component, paintingHeat, profile, profileDetail, loadUserPaintingHot, loadUserPainting, subRoute, profileHeat} = this.props;
+    const {id, userPainting, component, paintingHeat, profile, profileDetail, loadUserPaintingHot, loadUserPainting, subRoute, profileHeat,me} = this.props;
     const loadUserPaintingHotWithId = (pageIndex) => loadUserPaintingHot(id, pageIndex);
     const loadUserPaintingWithId = (pageIndex) => loadUserPainting(id, pageIndex);
     const loadPainting = subRoute === 'latest' ? loadUserPaintingWithId : loadUserPaintingHotWithId;
@@ -111,11 +123,11 @@ export default class UserPainting extends Component {
         </div>
         <div className="NavControls">
           <div className="leftSide">
-            <Link activeClassName="active" to={`/p/${id}/latest`}>
+            <Link activeClassName="active" to={`/p/${id}  /latest`}>
               <span>新作</span>
             </Link>
             <Link activeClassName="active" to={`/p/${id}`}>
-              <span>热门</span> 
+              <span>热门</span>
             </Link>
           </div>
         </div>
@@ -128,6 +140,8 @@ export default class UserPainting extends Component {
         loadPainting={loadPainting}
         openModal={this.props.openModal}
         openTamashi={this.props.openTamashi}
+        isMe={me.id?true:false}
+        loginModalOpen={this.handleLoginModalOpen}
       />
     </div>);
   }

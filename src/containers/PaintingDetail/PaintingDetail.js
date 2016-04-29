@@ -10,6 +10,9 @@ import {resize, resizeHeight, calculateHeat} from "../../utils/common";
 import "./PaintingDetail.scss";
 import TahashiPopup from "../../containers/TamashiPopup/TamashiPopup";
 import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
+import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
+
+
 @connect(
   (state, ownProps) => ({
     paintingDetail: state.models.paintingDetail,
@@ -19,11 +22,13 @@ import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
     tags: state.models.tags,
     component: state.containers.PaintingDetail,
     id: ownProps.id || +ownProps.params.paintingId,
+    me:state.me
   }),
   dispatch => bindActionCreators({
     loadPaintingDetail,
     createNotification,
     openTamashi: openTamashi,
+    loginModalOpen
   }, dispatch)
 )
 
@@ -40,11 +45,14 @@ export default class PaintingDetail extends Component {
     tagHeat: PropTypes.object,
     isInModal: PropTypes.bool,
     openTamashi: PropTypes.func.isRequired,
+    me: PropTypes.object,
+    loginModalOpen: PropTypes.func
   };
 
   constructor() {
     super();
     this.openTamashi = this.openTamashi.bind(this);
+    this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
   }
 
 
@@ -63,8 +71,11 @@ export default class PaintingDetail extends Component {
     this.props.openTamashi(this.props.id);
   }
 
+  handleLoginModalOpen() {
+    this.props.loginModalOpen();
+  }
   render() {
-    const {paintingDetail, id, paintingHeat, profile, tags, tagHeat, isInModal} = this.props;
+    const {paintingDetail, id, paintingHeat, profile, tags, tagHeat, isInModal,me} = this.props;
     const {loaded} = this.props.component;
     const painting = paintingDetail[id];
     const ownerId = painting ? painting.owner : -1;
@@ -114,7 +125,7 @@ export default class PaintingDetail extends Component {
             <p className="description">{ painting && painting.description }</p>
             <div className="infoGroup">
               <label> 作品魂 </label>
-              <a onClick={this.openTamashi} className="button hollow heat">
+              <a onClick={me.id ? this.openTamashi: this.handleLoginModalOpen} className="button hollow heat">
                 <i className="zmdi zmdi-fire"/> <span>{paintingHeat && paintingHeat[id] && calculateHeat(paintingHeat[id])}</span>
               </a>
             </div>

@@ -14,32 +14,39 @@ export default class PaintingInfo extends Component {
     openModal: PropTypes.func,
     openTamashi: PropTypes.func.isRequired,
     openedTamashiId: PropTypes.number,
+    isMe:PropTypes.bool,
+    loginModalOpen: PropTypes.func
   };
 
   constructor() {
     super();
     this.openModal = this.openModal.bind(this);
     this.openTamashi = this.openTamashi.bind(this);
+    this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
   }
 
   openModal() {
     const {painting} = this.props;
     this.props.openModal(painting.id);
   }
-  
+
   openTamashi(){
     this.props.openTamashi(this.props.painting.id);
   }
 
+  handleLoginModalOpen() {
+    this.props.loginModalOpen();
+  }
+
   render() {
-    const {painting, heat, owner} = this.props;
+    const {painting, heat, owner,isMe} = this.props;
     const width = this.props.width || 320;
     const isOpenedTamashi = this.props.openedTamashiId === painting.id;
     return (
       <li style={{width: width, height: imageHeight(painting.width, painting.height, width) }}
           className={"PaintingInfo " + (isOpenedTamashi ? 'isOpened' : "") }>
         <div className="topInfo">
-          <a onClick={this.openTamashi} className="heat">
+          <a onClick={isMe?this.openTamashi:this.handleLoginModalOpen} className="heat">
             <i className="zmdi zmdi-fire"/>
             <span>{calculateHeat(heat)}</span>
           </a>
