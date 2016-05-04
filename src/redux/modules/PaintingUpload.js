@@ -1,13 +1,15 @@
 /**
  * Created by akistar on 16/3/1.
  */
-import {handleActions, createAction} from 'redux-actions';
+import {handleActions, createAction} from "redux-actions";
 
 export const UPLOAD = 'bumo/painting/UPLOAD';
 export const UPLOAD_SUCCESS = 'bumo/painting/UPLOAD_SUCCESS';
 export const UPLOAD_FAIL = 'bumo/painting/UPLOAD_FAIL';
 export const TOGGLE_EXTRA = 'bumo/painting/TOGGLE_EXTRA';
 
+export const SELECTED_IMAGE = 'bumo/upload_painting/selected_image';
+export const REMOVE_SELECTED_IMAGE = 'bumo/upload_painting/remove_selected_image';
 
 export default handleActions({
     [UPLOAD]: (state) => ({}),
@@ -19,8 +21,19 @@ export default handleActions({
     [TOGGLE_EXTRA]: (state, action) => ({
       ...state,
       showExtra: action.payload
+    }),
+    [SELECTED_IMAGE]: (state, action) =>({
+      ...state,
+      selectedImage: action.payload
+    }),
+    [REMOVE_SELECTED_IMAGE]: (state, action) =>({
+      ...state,
+      selectedImage: null,
     })
-  }, {showExtra: false}
+  }, {
+    showExtra: false,
+    selectedImage: null,
+  }
 );
 
 export const toggleExtra = createAction(TOGGLE_EXTRA);
@@ -40,4 +53,7 @@ export function upload(data) {
     })
   };
 }
+
+export const selectedImage = createAction(SELECTED_IMAGE);
+export const removeSelectedImage = createAction(REMOVE_SELECTED_IMAGE);
 

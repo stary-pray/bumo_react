@@ -1,14 +1,12 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {upload, toggleExtra} from '../../redux/modules/paintingUpload';
-import {Link} from 'react-router';
-import {reduxForm} from 'redux-form';
-import Dropzone from 'react-dropzone';
-import lodash from 'lodash';
-import AddTags from '../../components/AddTags/AddTags';
-
-//import {loadSpec as loadMyPaintings} from '../../redux/models/Painting';
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {upload, toggleExtra, selectedImage, removeSelectedImage} from "../../redux/modules/paintingUpload";
+import {reduxForm} from "redux-form";
+import Dropzone from "react-dropzone";
+import lodash from "lodash";
+import AddTags from "../../components/AddTags/AddTags";
+import "./PaintingUpload.scss";
 
 @connect(
   (state) => ({
@@ -18,6 +16,8 @@ import AddTags from '../../components/AddTags/AddTags';
   dispatch => bindActionCreators({
     upload,
     toggleExtra,
+    selectedImage,
+    removeSelectedImage,
   }, dispatch)
 )
 
@@ -25,12 +25,12 @@ import AddTags from '../../components/AddTags/AddTags';
   form: 'uploadPainting',
   fields: ['title', 'description', 'file']
 })
-
-
 export default class uploadPaintingForm extends Component {
   static propTypes = {
     upload: PropTypes.func,
     toggleExtra: PropTypes.func,
+    selectedImage: PropTypes.func,
+    removeSelectedImage: PropTypes.func,
     fields: PropTypes.object,
     tags: PropTypes.object,
     paintingUpload: PropTypes.object,
@@ -50,46 +50,67 @@ export default class uploadPaintingForm extends Component {
     lodash.forOwn({
       title: this.refs.title.value,
       description: this.refs.description.value,
-      'private':false,
+      'private': false,
       quote_from: '',
       copyright: 2,
-      tags:JSON.stringify(this.props.tags)
-    }, (value, key)=>{
+      tags: JSON.stringify(this.props.tags)
+    }, (value, key)=> {
       this.data.append(key, value);
     });
-    console.log('data',this.data);
     this.props.upload(this.data);
   };
 
+  handleOnDrop = (paintingToUpload) => {
+    const {fields:{file}, selectedImage} = this.props;
+    this.selectedPainting = paintingToUpload[0];
+    selectedImage({preview: this.selectedPainting.preview});
+    file.onChange(paintingToUpload);
+    this.uploadPainting(paintingToUpload);
+  };
+
+  handleRemoveSelected = ()=> {
+    this.selectedPainting = null;
+    this.props.removeSelectedImage();
+  };
+
   render() {
-    const {fields:{title, description,file}, paintingUpload, toggleExtra} = this.props;
+    const {fields:{title, description, file}, paintingUpload, toggleExtra} = this.props;
     return (
-      <div>
-        <form>
-          <div>
-            <label>上传图片</label>
-            <Dropzone ref="file" multiple={false} {...file}
-                      onDrop={ ( paintingToUpload, e ) => {
-                            file.onChange(paintingToUpload);
-                            this.uploadPainting(paintingToUpload);
-             }}>
-              <div>图片</div>
+      <form className="grid-container grid-block vertical PaintingUpload__container">
+        <div className="PaintingUpload__title grid-content">
+          <h1>发布画作</h1>
+        </div>
+        <div className="grid-block">
+          <div className="grid-content PaintingUpload__left">
+            <Dropzone
+              className="PaintingUpload__dropzone"
+              activeClassName="PaintingUpload__dropzone_active"
+              ref="file"
+              multiple={false}
+              onDrop={this.handleOnDrop}>
+              {!this.selectedPainting ?
+                <div className="PaintingUpload__dropzone_intro">请点击或把图片拖放到这里上传</div> :
+                <div className="PaintingUpload__dropzone_frame">
+                  <span className="PaintingUpload__dropzone_helper"/>
+                  <img className="PaintingUpload__dropzone_img" src={this.selectedPainting.preview} alt="预览"/>
+                </div>
+              }
             </Dropzone>
-
           </div>
-          <div>
-            <label>标题*</label>
-            <input ref="title"  autoFocus="true" {...title}/>
+          <div className="grid-content PaintingUpload__right">
+            <label>
+              <div>标题</div>
+              <input type="text" ref="title" autoFocus="true" {...title}/>
+            </label>
+            <label>
+              <div>描述</div>
+              <textarea ref="description" {...description} cols="30" rows="3"/>
+            </label>
+            <AddTags showExtra={paintingUpload.showExtra} toggleExtra={toggleExtra}/>
+            <a className="button" onClick={this.handleSubmit}>提交</a>
           </div>
-          <div>
-            <label>描述*</label>
-            <input ref="description" {...description}/>
-          </div>
-          <AddTags showExtra={paintingUpload.showExtra} toggleExtra={toggleExtra}/>
-          <a className="button" onClick={this.handleSubmit}>提交</a>
-        </form>
-      </div>
-
+        </div>
+      </form>
     )
       ;
   }

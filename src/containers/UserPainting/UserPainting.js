@@ -20,7 +20,7 @@ import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
     profileDetail: state.models.profileDetail,
     paintingHeat: state.models.paintingHeat,
     profileHeat: state.models.profileHeat,
-    id: +ownProps.params.ownerId,
+    id: ownProps.params.ownerId,
     component: state.containers.UserPainting,
     page: state.containers.UserPainting.page,
     subRoute: ownProps.params.sub,
@@ -123,7 +123,7 @@ export default class UserPainting extends Component {
         </div>
         <div className="NavControls">
           <div className="leftSide">
-            <Link activeClassName="active" to={`/p/${id}  /latest`}>
+            <Link activeClassName="active" to={`/p/${id}/latest`}>
               <span>新作</span>
             </Link>
             <Link activeClassName="active" to={`/p/${id}`}>

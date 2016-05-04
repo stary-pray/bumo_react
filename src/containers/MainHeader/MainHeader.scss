@@ -170,8 +170,9 @@
   height: 100%;
   width: 100%;
   z-index: 100;
+  overflow: auto;
   > .LoginModalBackground{
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     height: 110%;
