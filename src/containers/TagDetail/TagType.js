@@ -6,6 +6,7 @@ import {Link} from "react-router";
 import {calculateHeat} from "../../utils/common";
 import _ from "lodash";
 import "./TagDetail.scss";
+import Waypoint from "react-waypoint";
 
 
 @connect(
@@ -16,7 +17,7 @@ import "./TagDetail.scss";
     tagHeat: state.models.tagHeat,
     tagType: ownProps.params.tagType,
     tags: state.models.tags,
-    component: state.containers.TagDetail,
+    component: state.containers.TagTypeDetail,
     path: ownProps.route.path,
 
   }),
@@ -37,10 +38,31 @@ export default class TagType extends Component {
     paintingHeat: PropTypes.object,
     tagHeat: PropTypes.object,
   };
+  constructor(){
+    super();
+    this.loadMore = this.loadMore.bind(this);
+  }
 
+  componentDidMount() {
+    this.loadMore();
+  }
 
-  componentWillMount() {
-    this.props.loadTagTypeDetail(this.props.tagType, this.props.component.page);
+  componentDidUpdate() {
+    const {page, loading, tagLoaded} = this.props.component;
+    if (page == 1 && !loading && !tagLoaded) {
+      this.loadMore();
+    }
+  }
+
+  componetWillUnmount(){
+    this.loadMore.cancel();
+  }
+
+  loadMore() {
+    const {page, loading} = this.props.component;
+    const {tagType}=this.props;
+    if (loading) return;
+    this.props.loadTagTypeDetail(tagType,page);
   }
 
   render() {
@@ -63,6 +85,19 @@ export default class TagType extends Component {
           );
         }) : ''
       }
+      <div>
+      {component.tagLoaded && component.pageMeta.next === null ?
+        <div>已到最后一页</div> :
+        <div>
+          { component.tagLoaded && (page - 1) % 3 != 0 &&
+          <Waypoint className="waypoint"
+            //key={'waypoint' + page}
+                    onEnter={this.loadMore}
+          />
+          }
+          { component.tagLoaded && <button onClick={this.loadMore}>加载更多</button> }
+        </div>}
+    </div>
         </div>);
         }
       }

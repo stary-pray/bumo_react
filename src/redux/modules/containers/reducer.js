@@ -6,7 +6,7 @@ import Like from "./Like";
 import Form from "./Form";
 import Tags from "./Tags";
 import User from "./User";
-import TagDetail from "./TagDetail";
+import TagTypeDetail from "./TagTypeDetail";
 import Deposit from "./Deposit";
 import CreateCharge from "./CreateCharge";
 import MeUpdate from "./MeUpdate";
@@ -14,6 +14,7 @@ import MainHeader from "./MainHeader";
 import PaintingModal from "./PaintingModal";
 import SearchResult from "./SearchResult";
 import TamashiPopup from "./TamashiPopup";
+import TagPaintingDetail from "./TagPaintingDetail";
 
 export default combineReducers({
   Home,
@@ -23,7 +24,7 @@ export default combineReducers({
   Form,
   Tags,
   User,
-  TagDetail,
+  TagTypeDetail,
   Deposit,
   CreateCharge,
   MeUpdate,
@@ -31,4 +32,5 @@ export default combineReducers({
   PaintingModal,
   SearchResult,
   TamashiPopup,
+  TagPaintingDetail
 });

@@ -12,9 +12,15 @@ export const SELECTED_IMAGE = 'bumo/upload_painting/selected_image';
 export const REMOVE_SELECTED_IMAGE = 'bumo/upload_painting/remove_selected_image';
 
 export default handleActions({
-    [UPLOAD]: (state) => ({}),
+    [UPLOAD]: (state) => ({
+      loading: true
+    }),
 
-    [UPLOAD_SUCCESS]: (state, action) => ({...action.result}),
+    [UPLOAD_SUCCESS]: (state, action) => ({
+      loading: false,
+      loaded: true,
+      painting:{...action.result}
+    }),
 
     [UPLOAD_FAIL]: (state, action) => ({error: action.result}),
 

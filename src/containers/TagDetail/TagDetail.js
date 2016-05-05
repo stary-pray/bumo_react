@@ -1,10 +1,15 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {loadTagPaintingDetail} from "../../redux/modules/models/TagDetail";
+import {loadTagPaintingDetail, loadTagPaintingDetailHot} from "../../redux/modules/models/TagDetail";
 import "../Home/Home.scss";
-import PaintingInfo from "../../components/PaintingInfo/PaintingInfo";
-import Masonry from "react-masonry-component";
+import PaintingList from "../../components/PaintingList/PaintingList";
+import * as PaintingModalActions from "../../redux/modules/containers/PaintingModal";
+import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
+import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
+import lodash from "lodash";
+import {Link} from "react-router";
+
 
 
 @connect(
@@ -12,63 +17,89 @@ import Masonry from "react-masonry-component";
     painting: state.models.painting,
     profile: state.models.profile,
     paintingHeat: state.models.paintingHeat,
+    component: state.containers.TagPaintingDetail,
+    path: ownProps.route.path,
+    openedTamashiId: state.containers.TamashiPopup.id,
+    me:state.me,
     tagType: ownProps.params.tagType,
     tagName: ownProps.params.tagName,
-    component: state.containers.TagDetail,
-    page: state.containers.TagDetail.page,
-    tags:state.models.tags
+    subRoute: ownProps.params.sub,
+
   }),
   dispatch => bindActionCreators({
-    loadTagPaintingDetail
+    loadTagPaintingDetail,
+    loadTagPaintingDetailHot,
+    openModal: PaintingModalActions.openModal,
+    openTamashi: openTamashi,
+    loginModalOpen
   }, dispatch)
 )
 
 export default class TagPainting extends Component {
   static propTypes = {
-    tagType: PropTypes.string,
-    tagName:PropTypes.string,
+    painting: PropTypes.object,
     profile: PropTypes.object,
     paintingHeat: PropTypes.object,
-    loadTagPaintingDetail: PropTypes.func,
     component: PropTypes.object,
-    page: PropTypes.number,
-    subRoute: PropTypes.string,
-    painting:PropTypes.object,
-    tags:PropTypes.object
+    paintingDetail: PropTypes.object,
+    path: PropTypes.string,
+    loadTagPaintingDetail: PropTypes.func,
+    loadTagPaintingDetailHot: PropTypes.func,
+    openModal: PropTypes.func,
+    openTamashi: PropTypes.func,
+    openedTamashiId: PropTypes.number,
+    me:PropTypes.object,
+    loginModalOpen: PropTypes.func,
+    tagType: PropTypes.string,
+    tagName: PropTypes.string,
+    subRoute: PropTypes.string
   };
 
-  componentWillMount(){
-    this.props.loadTagPaintingDetail(this.props.tagType,this.props.tagName,this.props.component.page)
+  constructor() {
+    super();
+    this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
+  }
+  handleLoginModalOpen() {
+    this.props.loginModalOpen();
   }
 
   render() {
-    const {id, painting,component, paintingHeat,profile,tags} = this.props;
-    const {tagLoaded, page}=this.props.component
+    const {painting, component, paintingHeat, profile, loadTagPaintingDetail,
+      loadTagPaintingDetailHot, path, me, tagType, tagName,subRoute} = this.props;
+
+    const loadTagPainting = (pageIndex) => loadTagPaintingDetail(tagType, tagName, pageIndex);
+    const loadTagPaintinHot = (pageIndex) => loadTagPaintingDetailHot(tagType, tagName, pageIndex);
+    const loadPainting = subRoute === 'latest' ? loadTagPainting : loadTagPaintinHot;
+
     return (<div className="Home">
+      <div className="pageHead">
+        <h1>{tagName}</h1>
+        <h2>{tagType}</h2>
+      </div>
 
-        {
-          tagLoaded ?
-            component.indexes.map((tagId)=>(
-              <div key={'tags' + tagId}>
-                <h2>{tags[tagId].type}_{tags[tagId].name}</h2>
-                <Masonry
-                  className={'BumoMasonry'}
-                  elementType={'ul'}
-                  options={{ columnWidth: 320, itemSelector: '.PaintingInfo', gutter: 15 }}
-                  disableImagesLoaded={false}
-                >
-                {tags[tagId].paintings.map((paintingId)=>(
-                  <PaintingInfo
-                    key={'painting' + paintingId}
-                    heat={paintingHeat[painting[paintingId].heat]}
-                    owner={profile[painting[paintingId].profile]}
-                    painting={painting[paintingId]}/>
-                ))}
-                </Masonry>
-              </div>
-            )) : ''
-        }
+      <div className="NavControls">
+        <div className="leftSide">
+          <Link activeClassName="active" to={'/tags/'+tagType+'/'+tagName}>
+            <span>热门</span>
+          </Link>
+          <Link activeClassName="active" to={'/tags/'+tagType+'/'+tagName+'/latest'}>
+            <span>新作</span>
+          </Link>
+        </div>
+      </div>
 
+      <PaintingList
+        painting={painting}
+        component={component}
+        paintingHeat={paintingHeat}
+        profile={profile}
+        loadPainting={loadPainting}
+        openModal={this.props.openModal}
+        openTamashi={this.props.openTamashi}
+        openedTamashiId={this.props.openedTamashiId}
+        isMe={me.id?true:false}
+        loginModalOpen={this.handleLoginModalOpen}
+      />
     </div>);
   }
 }

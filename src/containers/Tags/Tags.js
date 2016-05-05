@@ -7,6 +7,7 @@ import {resize} from '../../utils/common';
 import PaintingInfo from '../../components/PaintingInfo/PaintingInfo';
 import '../TagDetail/TagDetail.scss';
 import _ from 'lodash';
+import Waypoint from "react-waypoint";
 
 @connect(
   (state) => ({
@@ -34,12 +35,37 @@ export default class Tags extends Component {
     profile: PropTypes.object
   };
 
-  componentWillMount() {
-    this.props.loadTags();
+  constructor(){
+    super();
+    this.loadMore = this.loadMore.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.loadTags(this.props.component.page);
+  }
+
+
+  componentDidUpdate() {
+    const {page, loading, loaded} = this.props.component;
+    if (page == 1 && !loading && !loaded) {
+      this.loadMore();
+    }
+  }
+
+  componetWillUnmount(){
+    this.loadMore.cancel();
+  }
+
+  loadMore() {
+    const {page, loading} = this.props.component;
+    if (loading) return;
+    this.props.loadTags(page);
   }
 
   render() {
     const {tags, component, painting, tagHeat, paintingHeat, profile} = this.props;
+    const {page}=this.props.component;
+
     return (<div className="Tags">
       <h1>标签</h1>
       <h2>热门标签属性</h2>
@@ -64,7 +90,19 @@ export default class Tags extends Component {
           )}
         </div>
         : ''
-      }
+      }<div>
+        {component.loaded && component.pageMeta.next === null ?
+          <div>已到最后一页</div> :
+          <div>
+            { component.loaded && (page - 1) % 3 != 0 &&
+            <Waypoint className="waypoint"
+              //key={'waypoint' + page}
+                      onEnter={this.loadMore}
+            />
+            }
+            { component.loaded && <button onClick={this.loadMore}>加载更多</button> }
+          </div>}
+      </div>
       </div>
     </div>);
   }

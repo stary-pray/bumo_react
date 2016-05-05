@@ -11,7 +11,10 @@ import * as PaintingModule from "../modules/models/Painting";
 import * as homeModule from "../modules/containers/Home";
 import * as userPaintingModule from "../modules/containers/UserPainting";
 import * as tagPaintingModule from "../modules/models/TagDetail";
-import * as tagPaintingModuleCon from "../modules/containers/TagDetail";
+import * as tagModule from "../modules/models/Tags";
+import * as tagsModule from "../modules/containers/Tags";
+import * as tagPaintingTypeModule from "../modules/containers/TagTypeDetail";
+import * as tagPaintingDetailModule from "../modules/containers/TagPaintingDetail";
 import * as depositModule from "../modules/containers/Deposit";
 import * as getChargeModule from "../modules/models/Deposit";
 import * as PaintingUploadModule from "../modules/paintingUpload";
@@ -113,11 +116,28 @@ function* hotPageLoaded() {
     yield put({type: homeModule.GoNextPageHot});
   }
 }
-function* tagPageLoaded() {
+function* tagTypePageLoaded() {
   while (TRULY) {
-    yield take([tagPaintingModule.LOAD_TAG_PAINTING_DETAIL_SUCCESS,tagPaintingModule.LOAD_TAG_PAINTING_HOT_DETAIL_SUCCESS]);
+    yield take(tagPaintingModule.LOAD_TAG_TYPE_DETAIL_SUCCESS);
     // yield delay(2000);
-    yield put({type: tagPaintingModuleCon.GoNextTagPage});
+    yield put({type: tagPaintingTypeModule.GoNextTagTypePage});
+  }
+}
+
+function* tagsPageLoaded() {
+  while (TRULY) {
+    yield take(tagModule.LOAD_TAGS_SUCCESS);
+    // yield delay(2000);
+    yield put({type: tagsModule.GoNextTagPage});
+  }
+}
+
+function* tagPaintingPageLoaded() {
+  while (TRULY) {
+    yield take([tagPaintingModule.LOAD_TAG_PAINTING_DETAIL_SUCCESS,
+      tagPaintingModule.LOAD_TAG_PAINTING_HOT_DETAIL_SUCCESS]);
+    // yield delay(2000);
+    yield put({type: tagPaintingDetailModule.GoNextTagDetailPage});
   }
 }
 
@@ -163,10 +183,12 @@ export default function* root() {
   yield fork(updateMe);
   yield fork(hotPageLoaded);
   yield fork(userPaintingPageLoaded);
-  yield fork(tagPageLoaded);
+  yield fork(tagTypePageLoaded);
  // yield fork(loadHotUserPaintings);
   yield fork(depositNextPageLoaded);
   yield fork(depositLastPageLoaded);
   yield fork(paintingUploadSuccess);
   yield fork(updateAvatar);
+  yield fork(tagPaintingPageLoaded);
+  yield fork(tagsPageLoaded);
 }

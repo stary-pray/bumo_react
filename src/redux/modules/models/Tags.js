@@ -5,10 +5,10 @@ export const LOAD_TAGS_TYPE = 'bumo/painting/LOAD_TAGS_TYPE';
 export const LOAD_TAGS_TYPE_SUCCESS = 'bumo/painting/LOAD_TAGS_TYPE_SUCCESS';
 export const LOAD_TAGS_TYPE_FAIL = 'bumo/painting/LOAD_TAGS_TYPE_FAIL'
 
-export function loadTags() {
+export function loadTags(index) {
   return {
     types: [LOAD_TAGS, LOAD_TAGS_SUCCESS, LOAD_TAGS_FAIL],
-    promise: (client) => client.get('/api/painting-tag/hot'),
+    promise: (client) => client.get('/api/painting-tag/hot?page='+index),
     normalizeSchema: 'tags'
   };
 }

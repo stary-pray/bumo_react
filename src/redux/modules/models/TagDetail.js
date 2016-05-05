@@ -15,10 +15,23 @@ export const LOAD_TAG_NAME_DETAIL_FAIL = 'bumo/painting/LOAD_TAG_NAME_DETAIL_FAI
 export function loadTagPaintingDetail(tagType,tagName,index) {
   return {
     types: [LOAD_TAG_PAINTING_DETAIL,LOAD_TAG_PAINTING_DETAIL_SUCCESS, LOAD_TAG_PAINTING_DETAIL_FAIL],
-    promise: (client) => client.get('/api/painting-tag/hot?page='+index+'&type='+tagType+'&name='+tagName),
-    normalizeSchema: 'tags'
+    promise: (client) => client.get('/api/paintings/tag?page='+index+'&type='+tagType+'&name='+tagName),
+    normalizeSchema: 'painting'
   };
 }
+
+export function loadTagPaintingDetailHot(tagType,tagName,index) {
+  return {
+    types: [LOAD_TAG_PAINTING_HOT_DETAIL,LOAD_TAG_PAINTING_HOT_DETAIL_SUCCESS, LOAD_TAG_PAINTING_HOT_DETAIL_FAIL],
+    promise: (client) => client.get('/api/paintings/tag?page='+index+'&type='+tagType+'&name='+tagName+'&hot'),
+    normalizeSchema: 'painting'
+  };
+}
+
+
+
+
+
 
 
 export function loadTagTypeDetail(tagType,index){

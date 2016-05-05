@@ -8,6 +8,17 @@ import lodash from "lodash";
 import AddTags from "../../components/AddTags/AddTags";
 import "./PaintingUpload.scss";
 
+const validate = values => {
+  const errors = {};
+  if (!values.file) {
+    errors.file = '请上传图片';
+  }
+  if (!values.title) {
+    errors.title = '请输入标题';
+  }
+  return errors;
+};
+
 @connect(
   (state) => ({
     paintingUpload: state.paintingUpload,
@@ -23,7 +34,8 @@ import "./PaintingUpload.scss";
 
 @reduxForm({
   form: 'uploadPainting',
-  fields: ['title', 'description', 'file']
+  fields: ['title', 'description', 'file'],
+  validate
 })
 export default class uploadPaintingForm extends Component {
   static propTypes = {
@@ -34,6 +46,7 @@ export default class uploadPaintingForm extends Component {
     fields: PropTypes.object,
     tags: PropTypes.object,
     paintingUpload: PropTypes.object,
+    invalid: PropTypes.bool
   };
 
 
@@ -75,6 +88,8 @@ export default class uploadPaintingForm extends Component {
 
   render() {
     const {fields:{title, description, file}, paintingUpload, toggleExtra} = this.props;
+    const { invalid } = this.props;
+    const {loading} = this.props.paintingUpload
     return (
       <form className="grid-container grid-block vertical PaintingUpload__container">
         <div className="PaintingUpload__title grid-content">
@@ -86,6 +101,7 @@ export default class uploadPaintingForm extends Component {
               className="PaintingUpload__dropzone"
               activeClassName="PaintingUpload__dropzone_active"
               ref="file"
+              {...file}
               multiple={false}
               onDrop={this.handleOnDrop}>
               {!this.selectedPainting ?
@@ -96,18 +112,23 @@ export default class uploadPaintingForm extends Component {
                 </div>
               }
             </Dropzone>
+            {file.touched && file.error && <div className="error">{file.error}</div>}
           </div>
           <div className="grid-content PaintingUpload__right">
             <label>
               <div>标题</div>
               <input type="text" ref="title" autoFocus="true" {...title}/>
             </label>
+            {title.touched && title.error && <div className="error">{title.error}</div>}
             <label>
               <div>描述</div>
               <textarea ref="description" {...description} cols="30" rows="3"/>
             </label>
             <AddTags showExtra={paintingUpload.showExtra} toggleExtra={toggleExtra}/>
-            <a className="button" onClick={this.handleSubmit}>提交</a>
+            {!loading ?
+              <button className="button" disabled={invalid} onClick={this.handleSubmit}>提交</button> :
+              <p>照片上传中...</p>
+            }
           </div>
         </div>
       </form>
