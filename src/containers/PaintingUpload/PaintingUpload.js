@@ -87,8 +87,7 @@ export default class uploadPaintingForm extends Component {
   };
 
   render() {
-    const {fields:{title, description, file}, paintingUpload, toggleExtra} = this.props;
-    const { invalid } = this.props;
+    const {fields:{title, description, file}, paintingUpload, toggleExtra, invalid} = this.props;
     const {loading} = this.props.paintingUpload
     return (
       <form className="grid-container grid-block vertical PaintingUpload__container">

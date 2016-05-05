@@ -1,14 +1,16 @@
-import {handleActions} from 'redux-actions';
-import _ from 'lodash';
-
-import * as PaintingActions from '../models/Painting';
+import {handleActions} from "redux-actions";
+import _ from "lodash";
+import * as PaintingActions from "../models/Painting";
 
 export const GoNextPage = 'bumo/Home/GoNextPage';
 export const GoNextPageHot = 'bumo/HotPainting/GoNextPageHot';
 const routeChange = '@@router/LOCATION_CHANGE';
 
 const initialState = {
-  page: 1,
+  pageMeta: {
+    current: 0,
+    next: 1,
+  },
   indexes: [],
   loaded: false,
   loading: false

@@ -39,10 +39,11 @@
     "react-redux": "4.4.5",
     "react-router": "2.2.4",
     "react-router-redux": "^4.0.2",
-    "react-waypoint": "2.0.1",
+    "react-waypoint": "2.0.2",
     "redux": "3.4.0",
     "redux-actions": "^0.9.1",
     "redux-form": "^5.0.1",
+    "redux-logger": "2.6.1",
     "redux-saga": "^0.9.5",
     "superagent": "^1.4.0",
     "svg-inline-react": "1.0.1"

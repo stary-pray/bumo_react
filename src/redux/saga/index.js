@@ -22,7 +22,7 @@ import * as MainHeaderModule from "../modules/containers/MainHeader";
 
 const TRULY = true;
 
-//const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 function* initialApp() {
   yield take(authModule.INITIAL_APP);
@@ -181,7 +181,7 @@ export default function* root() {
   yield fork(registerSuccess);
   yield fork(homePageLoaded);
   yield fork(updateMe);
-  yield fork(hotPageLoaded);
+  //yield fork(hotPageLoaded);
   yield fork(userPaintingPageLoaded);
   yield fork(tagTypePageLoaded);
  // yield fork(loadHotUserPaintings);

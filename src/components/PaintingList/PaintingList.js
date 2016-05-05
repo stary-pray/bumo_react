@@ -14,45 +14,47 @@ export default class PaintingList extends Component {
     openModal: PropTypes.func,
     openTamashi: PropTypes.func.isRequired,
     openedTamashiId: PropTypes.number,
-    isMe:PropTypes.bool,
+    isMe: PropTypes.bool,
     loginModalOpen: PropTypes.func
   };
 
-  constructor(){
+  constructor() {
     super();
     this.loadMore = this.loadMore.bind(this);
     this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
-  }
-
-  componentDidMount() {
-    this.loadMore();
-  }
-
-  componentDidUpdate() {
-    const {page, loading, loaded} = this.props.component;
-    if (page == 1 && !loading && !loaded) {
-      this.loadMore();
-    }
-  }
-
-  componetWillUnmount(){
-    this.loadMore.cancel();
+    this.waypointOnEnter = this.waypointOnEnter.bind(this);
   }
 
   loadMore() {
-    const {page, loading} = this.props.component;
-    if (loading) return;
-    this.props.loadPainting(page);
+    const {pageMeta, loading} = this.props.component;
+    if (loading || !pageMeta.next) return;
+    this.props.loadPainting(pageMeta.next);
   }
 
   handleLoginModalOpen() {
     this.props.loginModalOpen();
   }
+  
+  componentWillUnmount(){
+    console.log('componentWillUnmount');
+  }
+
+  waypointOnEnter({previousPosition, currentPosition, event}) {
+    console.log('waypointOnEnter');
+    const {pageMeta} = this.props.component;
+    if (pageMeta.current === 0 || pageMeta.current % 3) {
+      this.loadMore();
+    }
+  }
+  
+  waypointOnLeave(){
+    console.log('waypointOnLeave');
+  }
 
 
   render() {
-    const {painting, component, paintingHeat, profile,isMe} = this.props;
-    const {page, pageMeta} = component;
+    const {painting, component, paintingHeat, profile, isMe} = this.props;
+    const {pageMeta} = component;
     const openModal = (id) => this.props.openModal({id: id, indexes: component.indexes});
     return (
       <div className="PaintingList">
@@ -77,19 +79,14 @@ export default class PaintingList extends Component {
                 isMe={isMe}
               />);
             })
-            :''}
+            : ''}
         </Masonry>
         <div>
-          {component.loaded && pageMeta.next === null ?
-            <div>已到最后一页</div> :
+          { pageMeta.next === null ?
+            <button className="button hollow disabled PaintingList__pageButton">已到最后一页</button> :
             <div>
-              { component.loaded && (page - 1) % 3 != 0 &&
-              <Waypoint className="waypoint"
-                //key={'waypoint' + page}
-                        onEnter={this.loadMore}
-              />
-              }
-              { component.loaded && <button onClick={this.loadMore}>加载更多</button> }
+              <Waypoint onLeave={this.waypointOnLeave} onEnter={this.waypointOnEnter} />
+              { component.loaded ? <button className="button hollow PaintingList__pageButton" onClick={this.loadMore}>加载更多</button> : '' }
             </div>}
         </div>
       </div>
