@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from "react";
 import PaintingInfo from "../PaintingInfo/PaintingInfo";
-import Waypoint from "react-waypoint";
 import Masonry from "react-masonry-component";
 import "./PaintingList.scss";
+import classNames from "classnames";
 
 export default class PaintingList extends Component {
   static propTypes = {
@@ -13,6 +13,7 @@ export default class PaintingList extends Component {
     component: PropTypes.object,
     openModal: PropTypes.func,
     openTamashi: PropTypes.func.isRequired,
+    waypoint: PropTypes.object,
     openedTamashiId: PropTypes.number,
     isMe: PropTypes.bool,
     loginModalOpen: PropTypes.func
@@ -25,6 +26,19 @@ export default class PaintingList extends Component {
     this.waypointOnEnter = this.waypointOnEnter.bind(this);
   }
 
+  componentDidMount() {
+    this.loadMore();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const currentWaypoint = this.props.waypoint;
+    const nextWaypoint = nextProps.waypoint;
+    if (currentWaypoint.currentPosition != 'inside' &&
+      (nextWaypoint.currentPosition == 'inside')) {
+      this.waypointOnEnter();
+    }
+  }
+
   loadMore() {
     const {pageMeta, loading} = this.props.component;
     if (loading || !pageMeta.next) return;
@@ -34,27 +48,18 @@ export default class PaintingList extends Component {
   handleLoginModalOpen() {
     this.props.loginModalOpen();
   }
-  
-  componentWillUnmount(){
-    console.log('componentWillUnmount');
-  }
 
-  waypointOnEnter({previousPosition, currentPosition, event}) {
-    console.log('waypointOnEnter');
+  waypointOnEnter() {
     const {pageMeta} = this.props.component;
     if (pageMeta.current === 0 || pageMeta.current % 3) {
       this.loadMore();
     }
   }
-  
-  waypointOnLeave(){
-    console.log('waypointOnLeave');
-  }
-
 
   render() {
     const {painting, component, paintingHeat, profile, isMe} = this.props;
-    const {pageMeta} = component;
+    const {pageMeta, loading} = component;
+    const isLastPage = !pageMeta.next;
     const openModal = (id) => this.props.openModal({id: id, indexes: component.indexes});
     return (
       <div className="PaintingList">
@@ -81,14 +86,11 @@ export default class PaintingList extends Component {
             })
             : ''}
         </Masonry>
-        <div>
-          { pageMeta.next === null ?
-            <button className="button hollow disabled PaintingList__pageButton">已到最后一页</button> :
-            <div>
-              <Waypoint onLeave={this.waypointOnLeave} onEnter={this.waypointOnEnter} />
-              { component.loaded ? <button className="button hollow PaintingList__pageButton" onClick={this.loadMore}>加载更多</button> : '' }
-            </div>}
-        </div>
+        <button 
+          onClick={this.loadMore} 
+          className={classNames("button hollow PaintingList__pageButton", {disabled: isLastPage}) }>
+          { loading ? '载入中...' : (isLastPage ? '已到最后一页' : '载入更多') }
+        </button> 
       </div>
     );
   }

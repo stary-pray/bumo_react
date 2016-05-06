@@ -3,13 +3,14 @@ import {connect} from "react-redux";
 import Helmet from "react-helmet";
 import moment from "moment";
 import {logout, initialApp} from "../../redux/modules/auth";
-import config from "../../config";
 import MainHeader from "../MainHeader/MainHeader";
 import NotificationSystem from "react-notification-system";
 import PaintingModal from "../PaintingModal/PaintingModal";
 import SearchResult from "../SearchResult/SearchResult";
 import {createNotification, createNotificationSuccess} from "../../redux/modules/notification";
+import {positionChange} from "../../redux/modules/waypoint";
 import {getScrollBarWidth} from "../../utils/common";
+import Waypoint from "react-waypoint";
 import "./App.scss";
 
 moment.locale('zh-cn');
@@ -29,6 +30,7 @@ moment.locale('zh-cn');
     initialApp,
     createNotification,
     createNotificationSuccess,
+    positionChange,
   })
 export default class App extends Component {
   static propTypes = {
@@ -41,6 +43,7 @@ export default class App extends Component {
     initialApp: PropTypes.func.isRequired,
     createNotification: PropTypes.func.isRequired,
     createNotificationSuccess: PropTypes.func.isRequired,
+    positionChange: PropTypes.func.isRequired,
     params: PropTypes.object,
     PaintingModalComponent: PropTypes.object,
     SearchResultComponent: PropTypes.object,
@@ -92,6 +95,11 @@ export default class App extends Component {
     this.props.logout();
   };
 
+  waypointPositionChange = ({previousPosition, currentPosition}) => {
+    this.props.positionChange({previousPosition, currentPosition});
+  };
+
+
   render() {
     const {params} = this.props;
     return (
@@ -101,6 +109,7 @@ export default class App extends Component {
         <div className="Content">
           <MainHeader routeParams={params}/>
           {this.props.children}
+          <Waypoint threshold={0.1} onPositionChange={this.waypointPositionChange} />
         </div>
         <NotificationSystem ref="notificationSystem"/>
         <PaintingModal/>

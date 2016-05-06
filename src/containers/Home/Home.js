@@ -18,13 +18,14 @@ import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
     component: state.containers.Home,
     path: ownProps.route.path,
     openedTamashiId: state.containers.TamashiPopup.id,
+    waypoint: state.waypoint,
     me:state.me
   }),
   dispatch => bindActionCreators({
     loadPainting,
     loadHotPainting,
     openModal: PaintingModalActions.openModal,
-    openTamashi: openTamashi,
+    openTamashi,
     loginModalOpen
   }, dispatch)
 )
@@ -41,6 +42,7 @@ export default class Home extends Component {
     loadHotPainting: PropTypes.func,
     openModal: PropTypes.func,
     openTamashi: PropTypes.func,
+    waypoint: PropTypes.object,
     openedTamashiId: PropTypes.number,
     me:PropTypes.object,
     loginModalOpen: PropTypes.func
@@ -82,6 +84,7 @@ export default class Home extends Component {
         loadPainting={load}
         openModal={this.props.openModal}
         openTamashi={this.props.openTamashi}
+        waypoint={this.props.waypoint}
         openedTamashiId={this.props.openedTamashiId}
         isMe={me.id?true:false}
         loginModalOpen={this.handleLoginModalOpen}
