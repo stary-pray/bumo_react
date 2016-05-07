@@ -11,6 +11,7 @@ import "./PaintingDetail.scss";
 import TahashiPopup from "../../containers/TamashiPopup/TamashiPopup";
 import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
 import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
+import classNames from "classnames";
 
 
 @connect(
@@ -22,7 +23,7 @@ import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
     tags: state.models.tags,
     component: state.containers.PaintingDetail,
     id: ownProps.id || +ownProps.params.paintingId,
-    me:state.me
+    me: state.me
   }),
   dispatch => bindActionCreators({
     loadPaintingDetail,
@@ -60,6 +61,10 @@ export default class PaintingDetail extends Component {
     this.props.loadPaintingDetail(this.props.id);
   }
 
+  componentDidMount() {
+    this.leftPanelScale = this.refs.leftPanel.offsetWidth / this.refs.leftPanel.offsetHeight;
+  }
+
   componentWillReceiveProps(nextProps) {
 
     if (this.props.id !== nextProps.id) {
@@ -67,15 +72,16 @@ export default class PaintingDetail extends Component {
     }
   }
 
-  openTamashi(){
+  openTamashi() {
     this.props.openTamashi(this.props.id);
   }
 
   handleLoginModalOpen() {
     this.props.loginModalOpen();
   }
+
   render() {
-    const {paintingDetail, id, paintingHeat, profile, tags, tagHeat, isInModal,me} = this.props;
+    const {paintingDetail, id, paintingHeat, profile, tags, tagHeat, isInModal, me} = this.props;
     const {loaded} = this.props.component;
     const painting = paintingDetail[id];
     const ownerId = painting ? painting.owner : -1;
@@ -87,8 +93,18 @@ export default class PaintingDetail extends Component {
 
     return (
       <div className={"PaintingDetail " + (isInModal ? 'inModal' : '')}>
-        <div className="leftPanel">
-          <img className="image" src={painting && resizeHeight(painting.attachment, 800)}/>
+        <div ref="leftPanel" className="leftPanel">
+          <div
+            className={classNames("PaintingDetail__image-wrapper", 
+                      {'PaintingDetail__image-wrapper_landscape': 
+                      painting && (painting.width / painting.height > this.leftPanelScale) })}
+          >
+            {painting ?
+              <img
+                className="PaintingDetail__image-full"
+                src={painting && resizeHeight(painting.attachment, 800)} alt="detail"/> : ''
+            }
+          </div>
           <Link to={previousLink} className={'go_previous ' + (previousLink ? '' : 'disabled')}
                 disabled={!previousLink}>
             <i className="zmdi zmdi-chevron-left"/>
@@ -126,7 +142,8 @@ export default class PaintingDetail extends Component {
             <div className="infoGroup">
               <label> 作品魂 </label>
               <a onClick={me.id ? this.openTamashi: this.handleLoginModalOpen} className="button hollow heat">
-                <i className="zmdi zmdi-fire"/> <span>{paintingHeat && paintingHeat[id] && calculateHeat(paintingHeat[id])}</span>
+                <i className="zmdi zmdi-fire"/>
+                <span>{paintingHeat && paintingHeat[id] && calculateHeat(paintingHeat[id])}</span>
               </a>
             </div>
             <div className="infoGroup">
@@ -138,7 +155,8 @@ export default class PaintingDetail extends Component {
                       <span className="icon"><i className="zmdi zmdi-label"/></span>
                       <span className="name">{tags[id].name}</span>
                       <span className="type">{tags[id].type}</span>
-                      <span className="heat"><i className="zmdi zmdi-fire"/> {calculateHeat(tagHeat[tags[id].heat])}</span>
+                      <span className="heat"><i
+                        className="zmdi zmdi-fire"/> {calculateHeat(tagHeat[tags[id].heat])}</span>
                     </Link>
                   </div>)) :
                 '')}
@@ -149,7 +167,8 @@ export default class PaintingDetail extends Component {
               <p>发布: {painting && moment(painting.modified).fromNow()}</p>
             </div>
           </div>
-          { painting && paintingHeat && paintingHeat[id] && <TahashiPopup positionClass="PaintingDetailPopup" id={painting.id} heat={paintingHeat[id]}/> }
+          { painting && paintingHeat && paintingHeat[id] &&
+          <TahashiPopup positionClass="PaintingDetailPopup" id={painting.id} heat={paintingHeat[id]}/> }
         </div>
       </div>);
   }

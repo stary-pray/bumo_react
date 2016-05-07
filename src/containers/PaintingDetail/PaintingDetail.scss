@@ -5,7 +5,7 @@
   width: 100%;
   &.inModal {
     .go_previous, .go_next {
-      display: none!important;
+      display: none !important;
     }
   }
   .leftPanel {
@@ -33,11 +33,11 @@
       z-index: 1;
       width: 20%;
       top: 0;
-      &.disabled{
+      &.disabled {
         pointer-events: none;
         opacity: 0.2;
       }
-      .zmdi{
+      .zmdi {
         width: 100%;
         font-size: 4rem;
         color: $dGrey;
@@ -45,8 +45,8 @@
         transition-duration: 0.1s;
         transition-timing-function: ease-in;
       }
-      &:hover{
-        .zmdi{
+      &:hover {
+        .zmdi {
           color: white;
           text-shadow: 0 1px 2px #333;
         }
@@ -191,11 +191,11 @@
             left: 0;
           }
         }
-        .heat{
+        .heat {
           border-color: $dRed;
           color: $dRed;
           margin: 0;
-          &:hover{
+          &:hover {
             border-color: $lRed;
             color: $lRed;
           }
@@ -226,7 +226,30 @@
       }
     }
   }
-  .heatForm {
-    //display: none;
+  &__image-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    > img {
+      min-height: 100%;
+      min-width: 0;
+    }
+    &_landscape{
+      flex-direction: row;
+      > img {
+        min-height: 0;
+        min-width: 100%;
+      }
+    }
+  }
+  &__image-full {
+    max-height: 100%;
+    max-width: 100%;
+  }
+  &__image_preload {
+    max-width: 100%;
+    max-height: 100%;
   }
 }
