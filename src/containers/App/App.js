@@ -113,7 +113,7 @@ export default class App extends Component {
             {this.props.children}
           </div>
           <MainFooter />
-          <Waypoint threshold={0.1} onPositionChange={this.waypointPositionChange}/>
+          <Waypoint threshold={0.2} onPositionChange={this.waypointPositionChange}/>
         </div>
         <NotificationSystem ref="notificationSystem"/>
         <PaintingModal/>

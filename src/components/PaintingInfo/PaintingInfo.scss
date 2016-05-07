@@ -1,6 +1,6 @@
 @import "../../containers/colors";
 
-.PaintingInfo {
+.PaintingInfo__thumbnail {
   width: 20rem;
   list-style: none;
   margin-bottom: 1rem;
@@ -109,34 +109,6 @@
   }
 
   .buttons {
-    //padding-top: 0.5rem;
-    //float: right;
     flex-grow: 0;
-  }
-
-  .xing, .qi {
-    .zmdi {
-      font-size: 1.2rem;
-    }
-    border-width: 2px;
-    border-radius: 4px;
-  }
-
-  .xing {
-    //border-color: rgba($lYellow, 0.5);
-    border: 0;
-    color: $dYellow;
-    &:hover {
-      color: $lYellow;
-    }
-  }
-
-  .qi {
-    //border-color: rgba($lRed, 0.5);
-    border: 0;
-    color: $dOrange;
-    &:hover {
-      color: $lOrange;
-    }
   }
 }

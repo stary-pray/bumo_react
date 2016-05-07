@@ -8,6 +8,7 @@ import PaintingList from "../../components/PaintingList/PaintingList";
 import * as PaintingModalActions from "../../redux/modules/containers/PaintingModal";
 import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
 import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
+import {StickyContainer, Sticky} from "react-sticky";
 
 
 @connect(
@@ -67,30 +68,32 @@ export default class Home extends Component {
         <h1>绘画之魂的燃烧</h1>
       </div>
 
-      <div className="NavControls">
-        <div className="leftSide">
-          <Link onlyActiveOnIndex={true} activeClassName="active" to={`/`}>
-            <span>热门</span>
-          </Link>
-          <Link activeClassName="active" to={`/latest`}>
-            <span>新作</span>
-          </Link>
-        </div>
-      </div>
-      <PaintingList
-        key={path}
-        painting={painting}
-        component={component}
-        paintingHeat={paintingHeat}
-        profile={profile}
-        loadPainting={load}
-        openModal={this.props.openModal}
-        openTamashi={this.props.openTamashi}
-        waypoint={this.props.waypoint}
-        openedTamashiId={this.props.openedTamashiId}
-        isMe={me.id?true:false}
-        loginModalOpen={this.handleLoginModalOpen}
-      />
+      <StickyContainer>
+        <Sticky className="NavControls" stickyClassName={'NavControls__sticky'}>
+          <div className="leftSide">
+            <Link onlyActiveOnIndex={true} activeClassName="active" to={`/`}>
+              <span>热门</span>
+            </Link>
+            <Link activeClassName="active" to={`/latest`}>
+              <span>新作</span>
+            </Link>
+          </div>
+        </Sticky>
+        <PaintingList
+          key={path}
+          painting={painting}
+          component={component}
+          paintingHeat={paintingHeat}
+          profile={profile}
+          loadPainting={load}
+          openModal={this.props.openModal}
+          openTamashi={this.props.openTamashi}
+          waypoint={this.props.waypoint}
+          openedTamashiId={this.props.openedTamashiId}
+          isMe={me.id?true:false}
+          loginModalOpen={this.handleLoginModalOpen}
+        />
+      </StickyContainer>
     </div>);
   }
 }

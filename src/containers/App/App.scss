@@ -18,4 +18,7 @@
 
 .isModalOpen {
   overflow: hidden;
+  .NavControls__sticky{
+    display: none;
+  }
 }

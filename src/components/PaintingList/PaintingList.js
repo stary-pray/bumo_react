@@ -66,7 +66,7 @@ export default class PaintingList extends Component {
         <Masonry
           className={'BumoMasonry'}
           elementType={'ul'}
-          options={{ itemSelector: '.PaintingInfo', columnWidth: 320, gutter: 15, fitWidth: true }}
+          options={{ itemSelector: '.PaintingInfo__container', columnWidth: 320, gutter: 15, fitWidth: true }}
           disableImagesLoaded={false}
         >
           {component.loaded ?

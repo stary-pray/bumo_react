@@ -38,13 +38,17 @@ export default class PaintingInfo extends Component {
     this.props.loginModalOpen();
   }
 
-  render() {
+  renderCard() {
+    
+  }
+
+  renderThumbnail() {
     const {painting, heat, owner,isMe} = this.props;
     const width = this.props.width || 320;
     const isOpenedTamashi = this.props.openedTamashiId === painting.id;
     return (
       <li style={{width: width, height: imageHeight(painting.width, painting.height, width) }}
-          className={"PaintingInfo " + (isOpenedTamashi ? 'isOpened' : "") }>
+          className={"PaintingInfo__container PaintingInfo__thumbnail " + (isOpenedTamashi ? 'isOpened' : "") }>
         <div className="topInfo">
           <a onClick={isMe?this.openTamashi:this.handleLoginModalOpen} className="heat">
             <i className="zmdi zmdi-fire"/>
@@ -70,5 +74,9 @@ export default class PaintingInfo extends Component {
         <TahashiPopup positionClass="PaintingInfoPopup" id={painting.id} heat={heat}/>
       </li>
     );
+  }
+
+  render(){
+    return this.renderThumbnail();
   }
 }

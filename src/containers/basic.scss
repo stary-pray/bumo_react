@@ -8,7 +8,10 @@
   height: 3rem;
   border-top: 1px solid $lSliver;
   border-bottom: 1px solid $lSliver;
-  //box-shadow: 0 0 1px 1px rgba(31,45,61,.15);
+  background: white;
+  &__sticky{
+    z-index: 100;
+  }
   .leftSide{
     display: flex;
   }
