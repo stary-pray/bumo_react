@@ -14,8 +14,9 @@ export default class PaintingInfo extends Component {
     openModal: PropTypes.func,
     openTamashi: PropTypes.func.isRequired,
     openedTamashiId: PropTypes.number,
-    isMe:PropTypes.bool,
-    loginModalOpen: PropTypes.func
+    isMe: PropTypes.bool,
+    loginModalOpen: PropTypes.func,
+    mode: PropTypes.string,
   };
 
   constructor() {
@@ -30,7 +31,7 @@ export default class PaintingInfo extends Component {
     this.props.openModal(painting.id);
   }
 
-  openTamashi(){
+  openTamashi() {
     this.props.openTamashi(this.props.painting.id);
   }
 
@@ -39,11 +40,37 @@ export default class PaintingInfo extends Component {
   }
 
   renderCard() {
-    
+    const {painting, heat, owner, isMe} = this.props;
+    const width = this.props.width || 320;
+    const isOpenedTamashi = this.props.openedTamashiId === painting.id;
+
+    return (
+      <li className={"PaintingInfo__container PaintingInfo__card " + (isOpenedTamashi ? 'isOpened' : "") }>
+        <div className="PaintingInfo__image-thumbnail">
+          <img
+            onClick={this.openModal}
+            className="PaintingInfo__image-thumbnail_image"
+            src={resize(painting.attachment,width)}/>
+        </div>
+        <div className="PaintingInfo__intro">
+          <Link
+            className="PaintingInfo__intro_title ellipses"
+            to={'/painting/' + painting.id}> {painting.title} </Link >
+          <Link className="PaintingInfo__intro_nickname ellipses" to={'/p/' + owner.user}> {owner.nickname} </Link >
+          <a
+            onClick={isMe ? this.openTamashi : this.handleLoginModalOpen}
+            className="PaintingInfo__intro_heat">
+            <i className="zmdi zmdi-fire"/>
+            <span>{calculateHeat(heat)}</span>
+          </a>
+        </div>
+        <TahashiPopup positionClass="PaintingInfoPopup" id={painting.id} heat={heat}/>
+      </li>
+    );
   }
 
-  renderThumbnail() {
-    const {painting, heat, owner,isMe} = this.props;
+  renderMasonry() {
+    const {painting, heat, owner, isMe} = this.props;
     const width = this.props.width || 320;
     const isOpenedTamashi = this.props.openedTamashiId === painting.id;
     return (
@@ -76,7 +103,13 @@ export default class PaintingInfo extends Component {
     );
   }
 
-  render(){
-    return this.renderThumbnail();
+  render() {
+    switch (this.props.mode){
+      case 'masonry':
+        return  this.renderMasonry();
+      case 'card':
+      default:
+        return  this.renderCard();
+    }
   }
 }

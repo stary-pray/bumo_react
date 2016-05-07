@@ -9,7 +9,7 @@ import models from "./models/reducer";
 import containers from "./containers/reducer";
 import paintingUpload from "./paintingUpload";
 import tags from "./tags";
-//import widgets from './widgets';
+import preferences from "./preferences";
 
 export default combineReducers({
   routing: routerReducer,
@@ -18,9 +18,9 @@ export default combineReducers({
   auth,
   form,
   me,
-  //widgets,
   waypoint,
   notification,
   paintingUpload,
+  preferences,
   tags
 });

@@ -8,7 +8,9 @@ import PaintingList from "../../components/PaintingList/PaintingList";
 import * as PaintingModalActions from "../../redux/modules/containers/PaintingModal";
 import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
 import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
+import {changePaintingListMode} from "../../redux/modules/preferences";
 import {StickyContainer, Sticky} from "react-sticky";
+import classNames from "classnames";
 
 
 @connect(
@@ -20,14 +22,16 @@ import {StickyContainer, Sticky} from "react-sticky";
     path: ownProps.route.path,
     openedTamashiId: state.containers.TamashiPopup.id,
     waypoint: state.waypoint,
-    me: state.me
+    me: state.me,
+    preferences: state.preferences,
   }),
   dispatch => bindActionCreators({
     loadPainting,
     loadHotPainting,
     openModal: PaintingModalActions.openModal,
     openTamashi,
-    loginModalOpen
+    loginModalOpen,
+    changePaintingListMode
   }, dispatch)
 )
 
@@ -46,7 +50,9 @@ export default class Home extends Component {
     waypoint: PropTypes.object,
     openedTamashiId: PropTypes.number,
     me: PropTypes.object,
-    loginModalOpen: PropTypes.func
+    loginModalOpen: PropTypes.func,
+    preferences: PropTypes.object,
+    changePaintingListMode: PropTypes.func,
   };
 
   constructor() {
@@ -59,7 +65,7 @@ export default class Home extends Component {
   }
 
   render() {
-    const {painting, component, paintingHeat, profile, loadPainting, loadHotPainting, path, me} = this.props;
+    const {painting, component, paintingHeat, profile, loadPainting, loadHotPainting, path, me, preferences, changePaintingListMode} = this.props;
     const isLatest = path && path.indexOf('/latest') > -1;
     const load = isLatest ? loadPainting : loadHotPainting;
 
@@ -78,6 +84,14 @@ export default class Home extends Component {
               <span>新作</span>
             </Link>
           </div>
+          <div className="rightSide">
+            <a className={classNames({active: preferences.listMode === 'masonry'})} onClick={()=>changePaintingListMode('masonry')}> 
+              <span><i className="zmdi zmdi-view-dashboard"/> 瀑布流</span>
+            </a>
+            <a className={classNames({active: preferences.listMode === 'card'})} onClick={()=>changePaintingListMode('card')}> 
+              <span><i className="zmdi zmdi-view-module"/> 列表</span>
+            </a>
+          </div>
         </Sticky>
         <PaintingList
           key={path}
@@ -92,6 +106,8 @@ export default class Home extends Component {
           openedTamashiId={this.props.openedTamashiId}
           isMe={me.id?true:false}
           loginModalOpen={this.handleLoginModalOpen}
+          preferences={preferences}
+          changePaintingListMode={changePaintingListMode}
         />
       </StickyContainer>
     </div>);

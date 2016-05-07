@@ -16,7 +16,9 @@ export default class PaintingList extends Component {
     waypoint: PropTypes.object,
     openedTamashiId: PropTypes.number,
     isMe: PropTypes.bool,
-    loginModalOpen: PropTypes.func
+    loginModalOpen: PropTypes.func,
+    preferences: PropTypes.object,
+    changePaintingListMode: PropTypes.func,
   };
 
   constructor() {
@@ -56,36 +58,70 @@ export default class PaintingList extends Component {
     }
   }
 
+  renderPaintingInfo(openModal, paintingId) {
+    const {painting, paintingHeat, profile, isMe, preferences} = this.props;
+    return (
+      <PaintingInfo
+        key={'painting' + paintingId}
+        heat={paintingHeat[painting[paintingId].heat]}
+        owner={profile[painting[paintingId].profile]}
+        painting={painting[paintingId]}
+        openModal={openModal}
+        width={320}
+        openTamashi={this.props.openTamashi}
+        openedTamashiId={this.props.openedTamashiId}
+        loginModalOpen={this.handleLoginModalOpen}
+        isMe={isMe}
+        mode={preferences.listMode}
+      />
+    );
+  }
+
+  renderMasonry(openModal) {
+    const {component} = this.props;
+    return (
+      <Masonry
+        className={'BumoMasonry'}
+        elementType={'ul'}
+        options={{ itemSelector: '.PaintingInfo__container', columnWidth: 320, gutter: 15, fitWidth: true }}
+        disableImagesLoaded={false}
+      >
+        {component.loaded ?
+          component.indexes.map((paintingId)=> this.renderPaintingInfo(openModal, paintingId))
+          : ''}
+      </Masonry>
+    );
+  }
+
+  renderCard(openModal) {
+    const {component} = this.props;
+    return (
+      <ul className="PaintingList__card">
+        {component.loaded ?
+          component.indexes.map((paintingId)=> this.renderPaintingInfo(openModal, paintingId))
+          : ''}
+      </ul>
+    );
+  }
+
+  renderList(openModal) {
+    switch (this.props.preferences.listMode) {
+      case 'masonry':
+        return this.renderMasonry(openModal);
+      case 'card':
+      default:
+        return this.renderCard(openModal);
+    }
+  }
+
   render() {
-    const {painting, component, paintingHeat, profile, isMe} = this.props;
+    const {component} = this.props;
     const {pageMeta, loading} = component;
     const isLastPage = !pageMeta.next;
     const openModal = (id) => this.props.openModal({id: id, indexes: component.indexes});
     return (
       <div className="PaintingList">
-        <Masonry
-          className={'BumoMasonry'}
-          elementType={'ul'}
-          options={{ itemSelector: '.PaintingInfo__container', columnWidth: 320, gutter: 15, fitWidth: true }}
-          disableImagesLoaded={false}
-        >
-          {component.loaded ?
-            component.indexes.map((paintingId)=> {
-              return (<PaintingInfo
-                key={'painting' + paintingId}
-                heat={paintingHeat[painting[paintingId].heat]}
-                owner={profile[painting[paintingId].profile]}
-                painting={painting[paintingId]}
-                openModal={openModal}
-                width={320}
-                openTamashi={this.props.openTamashi}
-                openedTamashiId={this.props.openedTamashiId}
-                loginModalOpen={this.handleLoginModalOpen}
-                isMe={isMe}
-              />);
-            })
-            : ''}
-        </Masonry>
+        {this.renderList(openModal)}
         <button
           onClick={this.loadMore}
           className={classNames("button hollow PaintingList__pageButton", {disabled: isLastPage || loading}) }>

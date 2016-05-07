@@ -13,4 +13,9 @@
     width: 90%;
     margin: 0 auto;
   }
+  &__card {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+  }
 }

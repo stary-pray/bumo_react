@@ -1,6 +1,6 @@
 @import "colors";
 
-.NavControls{
+.NavControls {
   display: flex;
   align-items: center;
   padding-left: 8rem;
@@ -9,40 +9,78 @@
   border-top: 1px solid $lSliver;
   border-bottom: 1px solid $lSliver;
   background: white;
-  &__sticky{
+  &__sticky {
     z-index: 100;
   }
-  .leftSide{
+  .leftSide {
     display: flex;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+  .rightSide {
+    display: flex;
+    flex: 0 0 12rem;
+    > a {
+      color: $dGrey;
+      text-align: right;
+      font-size: 1rem;
+      &:hover{
+        color: $lGrey;
+      }
+      &.active {
+        > span {
+          color: $dGrey;
+          border-bottom: 2px solid $dGrey;
+          padding-bottom: 3px;
+        }
+      }
+    }
   }
   a {
+    cursor: pointer;
     font-weight: normal;
     font-size: 1.2rem;
     flex: 0 0 6rem;
-    &.active{
-      > span{
-        border-bottom: 2px solid $lGreen;
-        padding-bottom: 9px;
+    &.active {
+      > span {
+        color: $dCyan;
+        border-bottom: 2px solid $lCyan;
+        padding-bottom: 3px;
       }
     }
   }
 }
 
-.pageHead{
+.pageHead {
   padding-top: 2rem;
   padding-bottom: 2rem;
   padding-left: 4rem;
-  > h1{
+  > h1 {
   }
 }
 
 .secondary-color {
   color: $dGrey;
-  &.link:hover, &.link:focus, &.link:active{
+  &.link:hover, &.link:focus, &.link:active {
     color: $dGrey;
   }
 }
 
 .small-font {
   font-size: 0.8em;
+}
+
+.ellipses {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.shadow {
+  &_distance {
+    box-shadow: 0 2px 8px rgba(31, 45, 61, .3);
+  }
+  &_close {
+    box-shadow: 0 1px 2px 0 rgba(31, 45, 61, .6);
+  }
 }

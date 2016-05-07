@@ -1,4 +1,59 @@
 @import "../../containers/colors";
+@import "../../containers/basic";
+
+.PaintingInfo {
+  &__card {
+    position: relative;
+    max-height: 30rem;
+    list-style: none;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    text-align: center;
+    flex: 1 1 22rem;
+    display: flex;
+    flex-direction: column;
+  }
+  &__image-thumbnail {
+    display: flex;
+    vertical-align: middle;
+    align-items: flex-end;
+    flex: 1 1 auto;
+    &_image {
+      max-width: 20rem;
+      max-height: 20rem;
+      margin: 0 auto;
+      position: relative;
+      cursor: pointer;
+      transition: box-shadow 0.2s ease-in;
+      @extend .shadow_distance;
+      &:hover{
+        @extend .shadow_close;
+      }
+    }
+  }
+  &__intro {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    flex: 0 0 auto;
+    width: 100%;
+    &_title {
+      font-weight: bold;
+      color: $lBlack;
+      display: block;
+    }
+    &_nickname {
+      display: block;
+      color: $dGrey;
+    }
+    &_heat {
+      display: block;
+      color: $lRed;
+      > .zmdi {
+        margin-right: 0.2em;
+      }
+    }
+  }
+}
 
 .PaintingInfo__thumbnail {
   width: 20rem;
@@ -104,7 +159,7 @@
       background-color: rgba($lSliver, 0.1);
     }
     .zmdi {
-      margin-right: 0.2rem;
+      margin-right: 0.2em;
     }
   }
 
