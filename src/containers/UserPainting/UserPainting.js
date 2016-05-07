@@ -23,10 +23,10 @@ import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
     id: ownProps.params.ownerId,
     component: state.containers.UserPainting,
     page: state.containers.UserPainting.page,
-    subRoute: ownProps.params.sub,
+    path: ownProps.route.path,
     openedTamashiId: state.containers.TamashiPopup.id,
-    me:state.me
-
+    me:state.me,
+    waypoint: state.waypoint,
   }),
   dispatch => bindActionCreators({
     loadUserPainting,
@@ -52,11 +52,12 @@ export default class UserPainting extends Component {
     component: PropTypes.object,
     page: PropTypes.number,
     openTamashi: PropTypes.func,
-    subRoute: PropTypes.string,
+    path: PropTypes.string,
     openModal: PropTypes.func,
     openedTamashiId: PropTypes.number,
     me:PropTypes.object,
-    loginModalOpen: PropTypes.func
+    loginModalOpen: PropTypes.func,
+    waypoint: PropTypes.object
   };
 
   constructor() {
@@ -86,10 +87,11 @@ export default class UserPainting extends Component {
   }
 
   render() {
-    const {id, userPainting, component, paintingHeat, profile, profileDetail, loadUserPaintingHot, loadUserPainting, subRoute, profileHeat,me} = this.props;
+    const {path, id, userPainting, component, paintingHeat, profile, profileDetail, loadUserPaintingHot, loadUserPainting, subRoute, profileHeat,me} = this.props;
     const loadUserPaintingHotWithId = (pageIndex) => loadUserPaintingHot(id, pageIndex);
     const loadUserPaintingWithId = (pageIndex) => loadUserPainting(id, pageIndex);
-    const loadPainting = subRoute === 'latest' ? loadUserPaintingWithId : loadUserPaintingHotWithId;
+    const isLatest = path && path.indexOf('/latest') > -1;
+    const loadPainting = isLatest ? loadUserPaintingWithId : loadUserPaintingHotWithId;
     const profileBody = lodash.find(profileDetail, {user: id});
     const profileHeatBody = profileBody ? profileHeat[profileBody.heat] : null;
     return (<div className="UserPainting">
@@ -133,6 +135,7 @@ export default class UserPainting extends Component {
         </div>
       </div>
       <PaintingList
+        key={path}
         painting={userPainting}
         component={component}
         paintingHeat={paintingHeat}
@@ -142,6 +145,7 @@ export default class UserPainting extends Component {
         openTamashi={this.props.openTamashi}
         isMe={me.id?true:false}
         loginModalOpen={this.handleLoginModalOpen}
+        waypoint={this.props.waypoint}
       />
     </div>);
   }

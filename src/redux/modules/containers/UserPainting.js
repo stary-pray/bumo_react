@@ -9,7 +9,6 @@ export const LOAD_USER_PAINTING_FAIL = 'bumo/painting/LOAD_USER_PAINTING_FAIL';
 export const LOAD_USER_PAINTING_HOT = 'bumo/painting/LOAD_USER_PAINTING_HOT';
 export const LOAD_USER_PAINTING_HOT_SUCCESS = 'bumo/painting/LOAD_USER_PAINTING_HOT_SUCCESS';
 export const LOAD_USER_PAINTING_HOT_FAIL = 'bumo/painting/LOAD_USER_PAINTING_HOT_FAIL';
-export const GoNextUserPage = 'bumo/painting/GoNextUserPage';
 
 export function loadProfileDetail(userId) {
   return {
@@ -36,10 +35,13 @@ export function loadUserPaintingHot(ownerId, index) {
 }
 
 const initialState = {
-  page:1,
+  pageMeta: {
+    current: 0,
+    next: 1,
+  },
+  indexes: [],
   loaded: false,
-  loading: false,
-  indexes:[]
+  loading: false
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -61,11 +63,6 @@ export default function reducer(state = initialState, action = {}) {
       };
     case LOAD_PROFILE_DETAIL_SUCCESS:
       return state;
-    case GoNextUserPage:
-          return{
-            ...state,
-            page: state.page + 1
-          };
     case '@@router/LOCATION_CHANGE':
           return initialState
           ;

@@ -5,16 +5,16 @@ import {getCharge, checkCharge} from '../../redux/modules/models/Deposit';
 import {Link} from 'react-router';
 import moment from 'moment';
 import {goDepositLastPage} from '../../redux/modules/containers/Deposit'
+import classNames from "classnames";
 
 @connect(
   state => ({
     deposit:state.models.deposit,
-    component:state.containers.Deposit
-
+    component:state.containers.Deposit,
+    waypoint: state.waypoint
   }),
   dispatch => bindActionCreators({
     getCharge,
-    goDepositLastPage,
     checkCharge
   }, dispatch)
 )
@@ -25,23 +25,44 @@ export default class DepositList extends Component {
     component:PropTypes.object,
     getCharge: PropTypes.func,
     goDepositLastPage:PropTypes.func,
-    checkCharge: PropTypes.func
+    checkCharge: PropTypes.func,
+    waypoint: PropTypes.object
   };
 
-  componentWillMount() {
-    this.props.getCharge(this.props.component.page);
+  constructor() {
+    super();
+    this.loadMore = this.loadMore.bind(this);
+    this.waypointOnEnter = this.waypointOnEnter.bind(this);
   }
 
-  getNextpage() {
-    const { page, loading } = this.props.component;
-    if(loading) return;
-    this.props.getCharge(page);
+  componentDidMount() {
+    this.loadMore();
   }
 
-  getLastpage(){
-    const { page, loading } = this.props.component;
-    if(loading) return;
-    this.props.goDepositLastPage(page);
+  componentWillReceiveProps(nextProps) {
+    const currentWaypoint = this.props.waypoint;
+    const nextWaypoint = nextProps.waypoint;
+    if (currentWaypoint.currentPosition != 'inside' &&
+      (nextWaypoint.currentPosition == 'inside')) {
+      this.waypointOnEnter();
+    }
+  }
+
+  componetWillUnmount() {
+    this.loadMore.cancel();
+  }
+
+  loadMore() {
+    const {pageMeta, loading} = this.props.component;
+    if (loading || !pageMeta.next) return;
+    this.props. getCharge(pageMeta.next);
+  }
+
+  waypointOnEnter() {
+    const {pageMeta} = this.props.component;
+    if (pageMeta.current === 0 || pageMeta.current % 3) {
+      this.loadMore();
+    }
   }
 
   checkCharge(depositId) {
@@ -49,6 +70,9 @@ export default class DepositList extends Component {
   }
   render() {
     const{deposit,component}=this.props;
+    const {pageMeta, loading}=this.props.component;
+    const isLastPage = !pageMeta.next;
+
     return(<div>
       <div>
         {component.loaded ?
@@ -68,12 +92,11 @@ export default class DepositList extends Component {
           </div>)))
           :
           ''}
-        {component.loaded ?
-          (component.pageMeta.next!==null?
-          <div><button onClick={this.getNextpage.bind(this)}>下一页</button></div>:''):''}
-        {component.loaded ?
-          (component.pageMeta.previous!==null ?
-          <div><button onClick={this.getLastpage.bind(this)}>上一页</button></div>:''):''}
+        <button
+          onClick={this.loadMore}
+          className={classNames("button hollow PaintingList__pageButton", {disabled: isLastPage}) }>
+          { loading ? '载入中...' : (isLastPage ? '已到最后一页' : '载入更多') }
+        </button>
       </div>
     </div>)
   }

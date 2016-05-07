@@ -2,7 +2,17 @@ import {handleActions} from 'redux-actions';
 
 import * as TagDetailActions from '../models/TagDetail';
 
-export const GoNextTagTypePage = 'bumo/painting/GoNextTagTypePage';
+
+const initialState = {
+  pageMeta: {
+    current: 0,
+    next: 1,
+  },
+  indexes: [],
+  loaded: false,
+  loading: false
+};
+
 
 
 export default handleActions({
@@ -24,22 +34,7 @@ export default handleActions({
       loading: false,
       paintingLoaded: false
     }),
-    [GoNextTagTypePage]: (state, action) =>({
-      ...state,
-      page: state.page + 1
-    }),
-    ['@@router/LOCATION_CHANGE']: ()=>({
-      tagLoaded: false,
-      paintingLoaded: false,
-      page: 1,
-      indexes: []
-    })
+    ['@@router/LOCATION_CHANGE']: ()=>(initialState)
   },
-  {
-    loading: false,
-    tagLoaded: false,
-    paintingLoaded: false,
-    page: 1,
-    indexes: []
-  });
+ initialState);
 

@@ -23,7 +23,7 @@ import {Link} from "react-router";
     me:state.me,
     tagType: ownProps.params.tagType,
     tagName: ownProps.params.tagName,
-    subRoute: ownProps.params.sub,
+    waypoint: state.waypoint,
 
   }),
   dispatch => bindActionCreators({
@@ -52,7 +52,7 @@ export default class TagPainting extends Component {
     loginModalOpen: PropTypes.func,
     tagType: PropTypes.string,
     tagName: PropTypes.string,
-    subRoute: PropTypes.string
+    waypoint: PropTypes.object
   };
 
   constructor() {
@@ -65,11 +65,12 @@ export default class TagPainting extends Component {
 
   render() {
     const {painting, component, paintingHeat, profile, loadTagPaintingDetail,
-      loadTagPaintingDetailHot, path, me, tagType, tagName,subRoute} = this.props;
+      loadTagPaintingDetailHot, path, me, tagType, tagName} = this.props;
 
     const loadTagPainting = (pageIndex) => loadTagPaintingDetail(tagType, tagName, pageIndex);
     const loadTagPaintinHot = (pageIndex) => loadTagPaintingDetailHot(tagType, tagName, pageIndex);
-    const loadPainting = subRoute === 'latest' ? loadTagPainting : loadTagPaintinHot;
+    const isLatest = path && path.indexOf('/latest') > -1;
+    const loadPainting = isLatest ? loadTagPainting : loadTagPaintinHot;
 
     return (<div className="Home">
       <div className="pageHead">
@@ -89,6 +90,7 @@ export default class TagPainting extends Component {
       </div>
 
       <PaintingList
+        key={path}
         painting={painting}
         component={component}
         paintingHeat={paintingHeat}
@@ -99,6 +101,7 @@ export default class TagPainting extends Component {
         openedTamashiId={this.props.openedTamashiId}
         isMe={me.id?true:false}
         loginModalOpen={this.handleLoginModalOpen}
+        waypoint={this.props.waypoint}
       />
     </div>);
   }

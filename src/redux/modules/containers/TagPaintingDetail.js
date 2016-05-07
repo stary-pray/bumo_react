@@ -3,10 +3,12 @@ import _ from 'lodash';
 
 import * as TagDetailActions from '../models/TagDetail';
 
-export const GoNextTagDetailPage = 'bumo/painting/GoNextTagDetailPage';
 
 const initialState = {
-  page: 1,
+  pageMeta: {
+    current: 0,
+    next: 1,
+  },
   indexes: [],
   loaded: false,
   loading: false
@@ -35,10 +37,6 @@ export default handleActions({
       pageMeta: action.result,
       indexes: _.uniq([...state.indexes, ...action.normalized.result]),
       loading: false
-    }),
-    [GoNextTagDetailPage]: (state, action) =>({
-      ...state,
-      page: state.page + 1
     }),
     ['@@router/LOCATION_CHANGE']: ()=>(initialState)
   },

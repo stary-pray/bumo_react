@@ -86,11 +86,11 @@ export default class PaintingList extends Component {
             })
             : ''}
         </Masonry>
-        <button 
-          onClick={this.loadMore} 
+        <button
+          onClick={this.loadMore}
           className={classNames("button hollow PaintingList__pageButton", {disabled: isLastPage || loading}) }>
           { loading ? '载入中...' : (isLastPage ? '已到最后一页' : '载入更多') }
-        </button> 
+        </button>
       </div>
     );
   }

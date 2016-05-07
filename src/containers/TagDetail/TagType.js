@@ -7,6 +7,7 @@ import {calculateHeat} from "../../utils/common";
 import _ from "lodash";
 import "./TagDetail.scss";
 import Waypoint from "react-waypoint";
+import classNames from "classnames";
 
 
 @connect(
@@ -19,7 +20,7 @@ import Waypoint from "react-waypoint";
     tags: state.models.tags,
     component: state.containers.TagTypeDetail,
     path: ownProps.route.path,
-
+    waypoint: state.waypoint
   }),
   dispatch => bindActionCreators({
     loadTagTypeDetail,
@@ -37,37 +38,51 @@ export default class TagType extends Component {
     painting: PropTypes.object,
     paintingHeat: PropTypes.object,
     tagHeat: PropTypes.object,
+    waypoint: PropTypes.object
   };
   constructor(){
     super();
     this.loadMore = this.loadMore.bind(this);
+    this.waypointOnEnter = this.waypointOnEnter.bind(this);
   }
 
   componentDidMount() {
     this.loadMore();
   }
 
-  componentDidUpdate() {
-    const {page, loading, tagLoaded} = this.props.component;
-    if (page == 1 && !loading && !tagLoaded) {
-      this.loadMore();
+  componentWillReceiveProps(nextProps) {
+    const currentWaypoint = this.props.waypoint;
+    const nextWaypoint = nextProps.waypoint;
+    if (currentWaypoint.currentPosition != 'inside' &&
+      (nextWaypoint.currentPosition == 'inside')) {
+      this.waypointOnEnter();
     }
   }
+
 
   componetWillUnmount(){
     this.loadMore.cancel();
   }
 
   loadMore() {
-    const {page, loading} = this.props.component;
+    const {pageMeta, loading} = this.props.component;
     const {tagType}=this.props;
-    if (loading) return;
-    this.props.loadTagTypeDetail(tagType,page);
+    if (loading || !pageMeta.next) return;
+    this.props.loadTagTypeDetail(tagType,pageMeta.next);
+  }
+
+  waypointOnEnter() {
+    const {pageMeta} = this.props.component;
+    if (pageMeta.current === 0 || pageMeta.current % 3) {
+      this.loadMore();
+    }
   }
 
   render() {
     const {tagType, component, tags, painting, profile, paintingHeat, tagHeat} = this.props;
-    const {tagLoaded, page}=this.props.component;
+    const {tagLoaded, pageMeta, loading}=this.props.component;
+    const isLastPage = !pageMeta.next;
+
     return (<div className="TagType">
       { tagLoaded ?
         component.indexes.map((tagId)=> {
@@ -85,19 +100,11 @@ export default class TagType extends Component {
           );
         }) : ''
       }
-      <div>
-      {component.tagLoaded && component.pageMeta.next === null ?
-        <div>已到最后一页</div> :
-        <div>
-          { component.tagLoaded && (page - 1) % 3 != 0 &&
-          <Waypoint className="waypoint"
-            //key={'waypoint' + page}
-                    onEnter={this.loadMore}
-          />
-          }
-          { component.tagLoaded && <button onClick={this.loadMore}>加载更多</button> }
-        </div>}
-    </div>
+      <button
+        onClick={this.loadMore}
+        className={classNames("button hollow PaintingList__pageButton", {disabled: isLastPage}) }>
+        { loading ? '载入中...' : (isLastPage ? '已到最后一页' : '载入更多') }
+      </button>
         </div>);
         }
       }

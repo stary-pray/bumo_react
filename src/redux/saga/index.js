@@ -179,16 +179,16 @@ export default function* root() {
   yield fork(logoutSuccess);
   yield fork(getCaptcha);
   yield fork(registerSuccess);
-  yield fork(homePageLoaded);
+  //yield fork(homePageLoaded);
   yield fork(updateMe);
   //yield fork(hotPageLoaded);
-  yield fork(userPaintingPageLoaded);
-  yield fork(tagTypePageLoaded);
+ // yield fork(userPaintingPageLoaded);
+  //yield fork(tagTypePageLoaded);
  // yield fork(loadHotUserPaintings);
   yield fork(depositNextPageLoaded);
   yield fork(depositLastPageLoaded);
   yield fork(paintingUploadSuccess);
   yield fork(updateAvatar);
-  yield fork(tagPaintingPageLoaded);
-  yield fork(tagsPageLoaded);
+ // yield fork(tagPaintingPageLoaded);
+  //yield fork(tagsPageLoaded);
 }

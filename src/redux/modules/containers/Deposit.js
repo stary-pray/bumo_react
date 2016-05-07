@@ -1,10 +1,21 @@
 import {handleActions} from 'redux-actions';
+import _ from "lodash";
 
 import * as DepositActions from '../models/Deposit';
 
 export const GoDepositNextPage = 'bumo/user/GoDepositNextPage';
 export const GoDepositLastPage = 'bumo/user/GoDepositLastPage';
 
+
+const initialState = {
+  pageMeta: {
+    current: 0,
+    next: 1,
+  },
+  indexes: [],
+  loaded: false,
+  loading: false
+};
 
 export default handleActions({
   [DepositActions.GET_CHARGE]: (state, action) => ({
@@ -16,7 +27,7 @@ export default handleActions({
     loaded: true,
     loading: false,
     pageMeta: action.result,
-    indexes: [...action.normalized.result]
+    indexes: _.uniq([...state.indexes, ...action.normalized.result])
   }),
   [GoDepositNextPage]: (state, action) =>({
     ...state,
@@ -26,19 +37,9 @@ export default handleActions({
     ...state,
     page: state.page - 2,
   }),
-  ['@@router/LOCATION_CHANGE']:()=>({
-      page: 1,
-      indexes: [],
-      loaded: false,
-      loading: false
-    })
+  ['@@router/LOCATION_CHANGE']:()=>(initialState)
 },
-{
-  page: 1,
-  indexes: [],
-  loaded: false,
-  loading: false
-});
+  initialState);
 
 export function goDepositLastPage(page) {
   return {
