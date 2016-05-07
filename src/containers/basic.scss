@@ -5,11 +5,10 @@
   align-items: center;
   padding-left: 8rem;
   padding-right: 8rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
   height: 3rem;
   border-top: 1px solid $lSliver;
   border-bottom: 1px solid $lSliver;
+  //box-shadow: 0 0 1px 1px rgba(31,45,61,.15);
   .leftSide{
     display: flex;
   }
@@ -28,7 +27,19 @@
 
 .pageHead{
   padding-top: 2rem;
+  padding-bottom: 2rem;
   padding-left: 4rem;
   > h1{
   }
+}
+
+.secondary-color {
+  color: $dGrey;
+  &.link:hover, &.link:focus, &.link:active{
+    color: $dGrey;
+  }
+}
+
+.small-font {
+  font-size: 0.8em;
 }

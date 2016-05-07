@@ -4,6 +4,7 @@ import Helmet from "react-helmet";
 import moment from "moment";
 import {logout, initialApp} from "../../redux/modules/auth";
 import MainHeader from "../MainHeader/MainHeader";
+import MainFooter from "../../components/MainFooter/MainFooter";
 import NotificationSystem from "react-notification-system";
 import PaintingModal from "../PaintingModal/PaintingModal";
 import SearchResult from "../SearchResult/SearchResult";
@@ -75,9 +76,9 @@ export default class App extends Component {
       this.props.MainHeaderComponent.isRegisterModalOpened !== nextProps.MainHeaderComponent.isRegisterModalOpened
     ) {
       const isOpened = nextProps.PaintingModalComponent.isOpened ||
-          nextProps.SearchResultComponent.isOpened ||
-          nextProps.MainHeaderComponent.isLoginModalOpened ||
-          nextProps.MainHeaderComponent.isRegisterModalOpened;
+        nextProps.SearchResultComponent.isOpened ||
+        nextProps.MainHeaderComponent.isLoginModalOpened ||
+        nextProps.MainHeaderComponent.isRegisterModalOpened;
       const app = document.getElementById('body');
       if (isOpened) {
         const scrollBarWidth = getScrollBarWidth();
@@ -103,13 +104,16 @@ export default class App extends Component {
   render() {
     const {params} = this.props;
     return (
-      <div className="App border-box">
-        <Helmet title="恋绘.星祈" />
+      <div className="App__container border-box">
+        <Helmet title="恋绘.星祈"/>
         {/*<Navbar logout={this.handleLogout} me={me} loaded={loaded} />*/}
-        <div className="Content">
+        <div className="App__content">
           <MainHeader routeParams={params}/>
-          {this.props.children}
-          <Waypoint threshold={0.1} onPositionChange={this.waypointPositionChange} />
+          <div className="App__page">
+            {this.props.children}
+          </div>
+          <MainFooter />
+          <Waypoint threshold={0.1} onPositionChange={this.waypointPositionChange}/>
         </div>
         <NotificationSystem ref="notificationSystem"/>
         <PaintingModal/>

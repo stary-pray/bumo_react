@@ -1,12 +1,16 @@
 @import "../../containers/colors";
 
 .PaintingList {
+  padding-top: 2rem;
+  background: $background;
+  padding-bottom: 2rem;
+  min-height: 80vh;
   .BumoMasonry {
     margin: 0 auto;
   }
   &__pageButton {
     display: block;
     width: 90%;
-    margin: 3rem auto;
+    margin: 0 auto;
   }
 }

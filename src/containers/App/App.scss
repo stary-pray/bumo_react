@@ -1,14 +1,18 @@
 @import "../colors";
 
 .App {
-  flex-direction: row;
-  position: relative;
-  .Content {
-    flex: 1 1 auto;
+  &__container {
+    position: relative;
+  }
+  &__content {
     display: flex;
     flex-direction: column;
     overflow: auto;
     position: relative;
+    min-height: 100vh;
+  }
+  &__page{
+    flex: 1 1 auto;
   }
 }
 
