@@ -6,6 +6,7 @@
     position: relative;
     background: #f4f4f4;
     min-height: calc(100vh - 10rem);
+    padding-bottom: 2rem;
     .NavControls{
       padding-left: 4rem;
       padding-right: 4rem;
@@ -17,6 +18,8 @@
   &__wrapper{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 

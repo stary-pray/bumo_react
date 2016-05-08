@@ -24,17 +24,14 @@ export default handleActions({
     }),
     [TagDetailActions.LOAD_TAG_TYPE_DETAIL_SUCCESS]: (state, action) => ({
       ...state,
-      paintingLoaded: true,
-      tagLoaded: true,
+      loaded: true,
       pageMeta: action.result,
       indexes: lodash.uniq([...state.indexes, ...action.normalized.result]),
       loading: false
     }),
     [TagDetailActions.LOAD_TAG_TYPE_DETAIL_FAIL]: (state, action) => ({
       ...state,
-      tagLoaded: false,
       loading: false,
-      paintingLoaded: false
     }),
     [DROPDOWN_CHANGE]: (state, action) => ({
       ...state,
