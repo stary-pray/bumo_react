@@ -1,4 +1,5 @@
 @import "../colors";
+@import "../basic";
 
 #main-header {
   height: 3em;
@@ -153,6 +154,7 @@
     color: white;
     text-align: center;
     justify-content: space-between;
+    @extend .ellipses;
     &:hover {
       color: $dSliver;
     }

@@ -12,6 +12,9 @@
     display: block;
     width: 90%;
     margin: 0 auto;
+    &.disabled {
+      border: 0;
+    }
   }
   &__card {
     list-style: none;
