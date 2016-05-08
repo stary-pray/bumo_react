@@ -1,23 +1,21 @@
-import React from 'react';
-import {IndexRoute, Route} from 'react-router';
-import { isLoaded as isAuthLoaded, load as loadAuth } from './redux/modules/auth';
-import App from './containers/App/App';
-import Home from './containers/Home/Home';
-import PaintingDetail from './containers/PaintingDetail/PaintingDetail';
-import UserPainting from './containers/UserPainting/UserPainting';
-import Login from './containers/Login/Login';
-import NotFound from './containers/NotFound/NotFound';
-import Me from './containers/Me/Me';
-import Register from './containers/Register/Register';
-import EditMe from './containers/Me/EditMe';
-import Tags from './containers/Tags/Tags';
-import PaintingUpload from './containers/PaintingUpload/PaintingUpload';
-import User from './containers/User/User';
-import TagDetail from './containers/TagDetail/TagDetail';
-import CreateCharge from './containers/Deposit/CreateCharge';
-import DepositList from './containers/Deposit/DepositList';
-import TagType from './containers/TagDetail/TagType'
-import TagName from './containers/TagDetail/TagName'
+import React from "react";
+import {IndexRoute, Route} from "react-router";
+import {isLoaded as isAuthLoaded, load as loadAuth} from "./redux/modules/auth";
+import App from "./containers/App/App";
+import Home from "./containers/Home/Home";
+import PaintingDetail from "./containers/PaintingDetail/PaintingDetail";
+import UserPainting from "./containers/UserPainting/UserPainting";
+import Login from "./containers/Login/Login";
+import NotFound from "./containers/NotFound/NotFound";
+import Me from "./containers/Me/Me";
+import Register from "./containers/Register/Register";
+import EditMe from "./containers/Me/EditMe";
+import PaintingUpload from "./containers/PaintingUpload/PaintingUpload";
+import User from "./containers/User/User";
+import TagDetail from "./containers/TagDetail/TagDetail";
+import CreateCharge from "./containers/Deposit/CreateCharge";
+import DepositList from "./containers/Deposit/DepositList";
+import TagType from "./containers/TagDetail/TagType";
 
 
 export default function Router(store) {
@@ -62,8 +60,6 @@ export default function Router(store) {
 
       <Route path="/latest" component={Home}/>
 
-      <Route path="/tags" component={Tags}/>
-
       <Route path="p/:ownerId/:sub" component={UserPainting}/>
 
       <Route path="p/:ownerId" component={UserPainting}/>
@@ -72,13 +68,9 @@ export default function Router(store) {
 
       <Route path="user" component={User}/>
 
-      <Route path="/tags/:tagType/:tagName" component={TagDetail}/>
-
-      <Route path="/tags/:tagType/:tagName/:sub" component={TagDetail}/>
-
-      <Route path="/tag_type/:tagType" component={TagType}/>
-
-      <Route path="/tag_name/:tagName" component={TagName}/>
+      <Route path="/tag(/:tagType)" component={TagType}>
+        <Route path=":tagName(/:sub)" component={TagDetail}/>
+      </Route>
 
       <Route path="me/depositList" component={DepositList}/>
 

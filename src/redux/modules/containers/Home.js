@@ -1,6 +1,7 @@
 import {handleActions, createAction} from "redux-actions";
 import _ from "lodash";
 import * as PaintingActions from "../models/Painting";
+import {CHANGE_PAINTING_LIST_MODE} from "../preferences";
 
 const routeChange = '@@router/LOCATION_CHANGE';
 const LIST_MODE_DROPDOWN_CHANGE = 'cp/home/LIST_MODE_DROPDOWN_CHANGE';
@@ -42,6 +43,10 @@ export default handleActions({
   [LIST_MODE_DROPDOWN_CHANGE]: (state, action) => ({
     ...state,
     isListModeDropdownOpened: action.payload
+  }),
+  [CHANGE_PAINTING_LIST_MODE]: (state, action) => ({
+    ...state,
+    iisListModeDropdownOpened: false,
   }),
   [routeChange]: (state) => initialState
 }, initialState);

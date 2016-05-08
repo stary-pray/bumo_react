@@ -1,16 +1,43 @@
 @import '../colors';
 
 .TagType {
-  display: flex;
-  flex-wrap: wrap;
+  &__container{
+    width: 100%;
+    position: relative;
+    background: #f4f4f4;
+    min-height: calc(100vh - 10rem);
+    .NavControls{
+      padding-left: 4rem;
+      padding-right: 4rem;
+    }
+    .paintingCollection{
+      cursor: pointer;
+    }
+  }
+  &__wrapper{
+    display: flex;
+    flex-direction: row;
+  }
 }
+
+.TagDetail{
+  &__container{
+    .NavControls{
+      padding-left: 4rem;
+      padding-right: 4rem;
+    }
+  }
+
+}
+
 
 .paintingCollection {
   flex: 0 0 15rem;
   margin: 2rem;
   position: relative;
-  border: 1px solid $lSliver;
+  border: 1px solid $dSliver;
   padding-bottom: 1.5rem;
+  background: white;
   //cursor: pointer;
   box-shadow: 0;
   transition-property: box-shadow;

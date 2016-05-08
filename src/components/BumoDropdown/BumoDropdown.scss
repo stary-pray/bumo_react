@@ -28,6 +28,9 @@
     padding: 0.5rem 1.5rem 0.5rem 1.5rem;
     cursor: pointer;
     width: 100%;
+    > .zmdi {
+      width: 1em;
+    }
     &:hover {
       background-color: rgba($lSliver, 0.7);
     }

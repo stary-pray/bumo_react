@@ -90,7 +90,7 @@ export default class TopNav extends Component {
         <Link activeClassName="active" className="nav-item" to="/user">
           <i className="zmdi zmdi-palette"/>画手
         </Link>
-        <Link activeClassName="active" className="nav-item" to="/tags">
+        <Link activeClassName="active" className="nav-item" to="/tag/人物">
           <i className="zmdi zmdi-label"/>标签
         </Link>
       </section>

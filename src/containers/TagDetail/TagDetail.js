@@ -1,39 +1,6 @@
 import React, {Component, PropTypes} from "react";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {loadTagPaintingDetail, loadTagPaintingDetailHot} from "../../redux/modules/models/TagDetail";
 import "../Home/Home.scss";
 import PaintingList from "../../components/PaintingList/PaintingList";
-import * as PaintingModalActions from "../../redux/modules/containers/PaintingModal";
-import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
-import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
-import lodash from "lodash";
-import {Link} from "react-router";
-
-
-
-@connect(
-  (state, ownProps) => ({
-    painting: state.models.painting,
-    profile: state.models.profile,
-    paintingHeat: state.models.paintingHeat,
-    component: state.containers.TagPaintingDetail,
-    path: ownProps.route.path,
-    openedTamashiId: state.containers.TamashiPopup.id,
-    me:state.me,
-    tagType: ownProps.params.tagType,
-    tagName: ownProps.params.tagName,
-    waypoint: state.waypoint,
-
-  }),
-  dispatch => bindActionCreators({
-    loadTagPaintingDetail,
-    loadTagPaintingDetailHot,
-    openModal: PaintingModalActions.openModal,
-    openTamashi: openTamashi,
-    loginModalOpen
-  }, dispatch)
-)
 
 export default class TagPainting extends Component {
   static propTypes = {
@@ -52,7 +19,8 @@ export default class TagPainting extends Component {
     loginModalOpen: PropTypes.func,
     tagType: PropTypes.string,
     tagName: PropTypes.string,
-    waypoint: PropTypes.object
+    waypoint: PropTypes.object,
+    preferences: PropTypes.object,
   };
 
   constructor() {
@@ -65,28 +33,17 @@ export default class TagPainting extends Component {
 
   render() {
     const {painting, component, paintingHeat, profile, loadTagPaintingDetail,
-      loadTagPaintingDetailHot, path, me, tagType, tagName} = this.props;
+      loadTagPaintingDetailHot, path, me, tagType, tagName, preferences} = this.props;
 
     const loadTagPainting = (pageIndex) => loadTagPaintingDetail(tagType, tagName, pageIndex);
     const loadTagPaintinHot = (pageIndex) => loadTagPaintingDetailHot(tagType, tagName, pageIndex);
     const isLatest = path && path.indexOf('/latest') > -1;
     const loadPainting = isLatest ? loadTagPainting : loadTagPaintinHot;
 
-    return (<div className="Home">
-      <div className="pageHead">
-        <h1>{tagName}</h1>
-        <h2>{tagType}</h2>
-      </div>
+    return (<div className="TagDetail__container">
 
-      <div className="NavControls">
-        <div className="leftSide">
-          <Link activeClassName="active" to={'/tags/'+tagType+'/'+tagName}>
-            <span>热门</span>
-          </Link>
-          <Link activeClassName="active" to={'/tags/'+tagType+'/'+tagName+'/latest'}>
-            <span>新作</span>
-          </Link>
-        </div>
+      <div className="pageHead">
+        <h2>{tagName}</h2>
       </div>
 
       <PaintingList
@@ -102,6 +59,7 @@ export default class TagPainting extends Component {
         isMe={me.id?true:false}
         loginModalOpen={this.handleLoginModalOpen}
         waypoint={this.props.waypoint}
+        preferences={preferences}
       />
     </div>);
   }

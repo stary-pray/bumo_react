@@ -1,6 +1,8 @@
-import {handleActions} from 'redux-actions';
-
-import * as TagDetailActions from '../models/TagDetail';
+import {handleActions, createAction} from "redux-actions";
+import lodash from "lodash";
+import {CHANGE_PAINTING_LIST_MODE} from "../preferences";
+import * as TagDetailActions from "../models/TagDetail";
+const DROPDOWN_CHANGE = 'cp/tagTypeDetail/DROPDOWN_CHANGE';
 
 
 const initialState = {
@@ -10,9 +12,9 @@ const initialState = {
   },
   indexes: [],
   loaded: false,
-  loading: false
+  loading: false,
+  isDropdownOpened: false,
 };
-
 
 
 export default handleActions({
@@ -20,12 +22,12 @@ export default handleActions({
       ...state,
       loading: true
     }),
-    [TagDetailActions.LOAD_TAG_TYPE_DETAIL_SUCCESS]: (state, action) => ({   //[]是把字符串當做變量用
+    [TagDetailActions.LOAD_TAG_TYPE_DETAIL_SUCCESS]: (state, action) => ({
       ...state,
       paintingLoaded: true,
       tagLoaded: true,
       pageMeta: action.result,
-      indexes: [...state.indexes, ...action.normalized.result],
+      indexes: lodash.uniq([...state.indexes, ...action.normalized.result]),
       loading: false
     }),
     [TagDetailActions.LOAD_TAG_TYPE_DETAIL_FAIL]: (state, action) => ({
@@ -34,7 +36,17 @@ export default handleActions({
       loading: false,
       paintingLoaded: false
     }),
+    [DROPDOWN_CHANGE]: (state, action) => ({
+      ...state,
+      isDropdownOpened: action.payload,
+    }),
+    [CHANGE_PAINTING_LIST_MODE]: (state, action) => ({
+      ...state,
+      isDropdownOpened: false,
+    }),
     ['@@router/LOCATION_CHANGE']: ()=>(initialState)
   },
- initialState);
+  initialState);
 
+
+export const dropdownChange = createAction(DROPDOWN_CHANGE);
