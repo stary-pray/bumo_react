@@ -1,8 +1,9 @@
-import {handleActions} from "redux-actions";
+import {handleActions, createAction} from "redux-actions";
 import _ from "lodash";
 import * as PaintingActions from "../models/Painting";
 
 const routeChange = '@@router/LOCATION_CHANGE';
+const LIST_MODE_DROPDOWN_CHANGE = 'cp/home/LIST_MODE_DROPDOWN_CHANGE';
 
 const initialState = {
   pageMeta: {
@@ -11,7 +12,8 @@ const initialState = {
   },
   indexes: [],
   loaded: false,
-  loading: false
+  loading: false,
+  isListModeDropdownOpened: false,
 };
 
 export default handleActions({
@@ -37,5 +39,12 @@ export default handleActions({
     pageMeta: action.result,
     indexes: _.uniq([...state.indexes, ...action.normalized.result])
   }),
+  [LIST_MODE_DROPDOWN_CHANGE]: (state, action) => ({
+    ...state,
+    isListModeDropdownOpened: action.payload
+  }),
   [routeChange]: (state) => initialState
 }, initialState);
+
+export const listModeDropdownChange = createAction(LIST_MODE_DROPDOWN_CHANGE);
+

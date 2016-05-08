@@ -10,6 +10,8 @@ import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
 import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
 import {changePaintingListMode} from "../../redux/modules/preferences";
 import {StickyContainer, Sticky} from "react-sticky";
+import BumoDropdown from "../../components/BumoDropdown/BumoDropdown";
+import {listModeDropdownChange} from "../../redux/modules/containers/Home";
 import classNames from "classnames";
 
 
@@ -31,7 +33,8 @@ import classNames from "classnames";
     openModal: PaintingModalActions.openModal,
     openTamashi,
     loginModalOpen,
-    changePaintingListMode
+    changePaintingListMode,
+    listModeDropdownChange,
   }, dispatch)
 )
 
@@ -53,15 +56,26 @@ export default class Home extends Component {
     loginModalOpen: PropTypes.func,
     preferences: PropTypes.object,
     changePaintingListMode: PropTypes.func,
+    listModeDropdownChange: PropTypes.func,
   };
 
   constructor() {
     super();
     this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
+    this.handleListModeDropdown = this.handleListModeDropdown.bind(this);
+    this.handleListModeDropdownClose = this.handleListModeDropdownClose.bind(this);
   }
 
   handleLoginModalOpen() {
     this.props.loginModalOpen();
+  }
+
+  handleListModeDropdown() {
+    this.props.listModeDropdownChange(!this.props.component.isListModeDropdownOpened);
+  }
+
+  handleListModeDropdownClose() {
+    this.props.listModeDropdownChange(false);
   }
 
   render() {
@@ -85,12 +99,21 @@ export default class Home extends Component {
             </Link>
           </div>
           <div className="rightSide">
-            <a className={classNames({active: preferences.listMode === 'masonry'})} onClick={()=>changePaintingListMode('masonry')}> 
-              <span><i className="zmdi zmdi-view-dashboard"/> 瀑布流</span>
+            <a onClick={ this.handleListModeDropdown}>
+                { preferences.listMode === 'masonry' ?
+                (<span><i className="zmdi zmdi-view-dashboard"/> 瀑布流 <i className="zmdi zmdi-caret-down"/></span>) :
+                (<span><i className="zmdi zmdi-view-module"/> 列表 <i className="zmdi zmdi-caret-down"/></span>) }
             </a>
-            <a className={classNames({active: preferences.listMode === 'card'})} onClick={()=>changePaintingListMode('card')}> 
-              <span><i className="zmdi zmdi-view-module"/> 列表</span>
-            </a>
+            <BumoDropdown positionClass="ListModeDropdown" isOpened={component.isListModeDropdownOpened} close={this.handleListModeDropdownClose}>
+              <div className={classNames('BumoDropdownItem', {active: preferences.listMode === 'masonry'})}
+                   onClick={()=>changePaintingListMode('masonry')}>
+                <i className="zmdi zmdi-view-dashboard"/> 瀑布流 <i className="zmdi zmdi-check check"/>
+              </div>
+              <div className={classNames('BumoDropdownItem', {active: preferences.listMode === 'card'})}
+                   onClick={()=>changePaintingListMode('card')}>
+                <i className="zmdi zmdi-view-module"/> 列表 <i className="zmdi zmdi-check check"/>
+              </div>
+            </BumoDropdown>
           </div>
         </Sticky>
         <PaintingList

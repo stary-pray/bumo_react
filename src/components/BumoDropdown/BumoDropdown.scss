@@ -25,10 +25,26 @@
   .BumoDropdownItem {
     color: $dBlack;
     display: block;
-    padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
     cursor: pointer;
+    width: 100%;
     &:hover {
       background-color: rgba($lSliver, 0.7);
+    }
+    > .check {
+      visibility: hidden;
+      float: right;
+      line-height: 1.8;
+      transform: translate3d(4px, 0, 0);
+      transition-property: transform;
+      transition-delay: 0.2s;
+      transition-timing-function: ease-in;
+    }
+    &.active {
+      > .check {
+        visibility: visible;
+        transform: translate3d(0, 0, 0);
+      }
     }
   }
 }
