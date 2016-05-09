@@ -1,4 +1,5 @@
 @import "../../containers/colors";
+@import "../../containers/basic";
 
 .PaintingDetail {
   display: flex;
@@ -66,6 +67,7 @@
     flex: 0 0 18rem;
     background: rgba($lSliver, 0.8);
     position: relative;
+    overflow: hidden;
     .userInfo {
       position: relative;
       height: 10rem;
@@ -203,25 +205,29 @@
       }
       .tagLabel {
         line-height: 1;
-        height: 1rem;
         margin-bottom: 0.5rem;
         font-weight: bold;
+        > a {
+          display: flex;
+        }
         .icon {
-          display: inline-block;
           padding-right: 0.5rem;
         }
         .name {
-          display: inline-block;
+          flex: 0 0 8rem;
           padding-right: 1rem;
+          @extend .ellipses;
         }
         .type {
-          display: inline-block;
+          flex: 1 1 5rem;
           padding-right: 1rem;
           color: $lGrey;
+          @extend .ellipses;
         }
         .heat {
-          display: inline-block;
+          flex: 1 1 6rem;
           color: $lRed;
+          @extend .ellipses;
         }
       }
     }
