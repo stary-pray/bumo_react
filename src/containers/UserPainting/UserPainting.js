@@ -117,7 +117,8 @@ export default class UserPainting extends Component {
     const loadUserPaintingWithId = (pageIndex) => loadUserPainting(id, pageIndex);
     const isLatest = path && path.indexOf('/latest') > -1;
     const loadPainting = isLatest ? loadUserPaintingWithId : loadUserPaintingHotWithId;
-    const profileBody = lodash.find(profileDetail, {user: id});
+    const profileBody = lodash.find(profileDetail, {user: +id});
+    console.log(profileDetail, id, profileBody);
     const profileHeatBody = profileBody ? profileHeat[profileBody.heat] : null;
     return (<div className="UserPainting">
       <div className="top">
@@ -143,7 +144,12 @@ export default class UserPainting extends Component {
             }
           </div>
           <div className="nickname">{profileBody && profileBody.nickname}</div>
-          <div className="introduction">{profileBody && profileBody.introduction}</div>
+          <div className="introduction">
+            {profileBody && profileBody.introduction ? 
+              profileBody.introduction : 
+              <span className="secondary-color">...</span>
+            }
+          </div>
           <div className="profileHeat"><i
             className="zmdi zmdi-fire"/> {profileHeatBody && calculateHeat(profileHeatBody)}
           </div>
