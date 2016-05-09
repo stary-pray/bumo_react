@@ -11,7 +11,11 @@ import PaintingList from "../../components/PaintingList/PaintingList";
 import * as PaintingModalActions from "../../redux/modules/containers/PaintingModal";
 import "./UserPainting.scss";
 import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
-
+import {changePaintingListMode} from "../../redux/modules/preferences";
+import {StickyContainer, Sticky} from "react-sticky";
+import BumoDropdown from "../../components/BumoDropdown/BumoDropdown";
+import {listModeDropdownChange} from "../../redux/modules/containers/Home";
+import classNames from "classnames";
 
 @connect(
   (state, ownProps) => ({
@@ -27,6 +31,7 @@ import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
     openedTamashiId: state.containers.TamashiPopup.id,
     me:state.me,
     waypoint: state.waypoint,
+    preferences: state.preferences,
   }),
   dispatch => bindActionCreators({
     loadUserPainting,
@@ -34,7 +39,9 @@ import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
     loadProfileDetail,
     openModal: PaintingModalActions.openModal,
     openTamashi: openTamashi,
-    loginModalOpen
+    loginModalOpen,
+    changePaintingListMode,
+    listModeDropdownChange,
   }, dispatch)
 )
 
@@ -57,11 +64,17 @@ export default class UserPainting extends Component {
     openedTamashiId: PropTypes.number,
     me:PropTypes.object,
     loginModalOpen: PropTypes.func,
-    waypoint: PropTypes.object
+    waypoint: PropTypes.object,
+    preferences: PropTypes.object,
+    changePaintingListMode: PropTypes.func,
+    listModeDropdownChange: PropTypes.func,
   };
 
   constructor() {
     super();
+    this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
+    this.handleListModeDropdown = this.handleListModeDropdown.bind(this);
+    this.handleListModeDropdownClose = this.handleListModeDropdownClose.bind(this);
     this.topPosition = 0;
     this.handleScroll = lodash.throttle(()=>{
       const top = window.pageYOffset || document.documentElement.scrollTop;
@@ -76,6 +89,16 @@ export default class UserPainting extends Component {
     this.props.loginModalOpen();
   }
 
+
+  handleListModeDropdown() {
+    this.props.listModeDropdownChange(!this.props.component.isListModeDropdownOpened);
+  }
+
+  handleListModeDropdownClose() {
+    this.props.listModeDropdownChange(false);
+  }
+
+
   componentDidMount() {
     this.props.loadProfileDetail(this.props.id);
     this.bannerHeihgt = this.refs.banner.offsetHeight;
@@ -87,7 +110,9 @@ export default class UserPainting extends Component {
   }
 
   render() {
-    const {path, id, userPainting, component, paintingHeat, profile, profileDetail, loadUserPaintingHot, loadUserPainting, subRoute, profileHeat,me} = this.props;
+    const {path, id, userPainting, component, paintingHeat, profile,
+      profileDetail, loadUserPaintingHot, loadUserPainting, subRoute, profileHeat,me,
+      preferences, changePaintingListMode} = this.props;
     const loadUserPaintingHotWithId = (pageIndex) => loadUserPaintingHot(id, pageIndex);
     const loadUserPaintingWithId = (pageIndex) => loadUserPainting(id, pageIndex);
     const isLatest = path && path.indexOf('/latest') > -1;
@@ -123,17 +148,35 @@ export default class UserPainting extends Component {
             className="zmdi zmdi-fire"/> {profileHeatBody && calculateHeat(profileHeatBody)}
           </div>
         </div>
-        <div className="NavControls">
-          <div className="leftSide">
-            <Link activeClassName="active" to={`/p/${id}/latest`}>
-              <span>新作</span>
-            </Link>
-            <Link activeClassName="active" to={`/p/${id}`}>
-              <span>热门</span>
-            </Link>
-          </div>
-        </div>
       </div>
+      <StickyContainer>
+          <Sticky className="NavControls" stickyClassName={'NavControls__sticky'}>
+            <div className="leftSide">
+              <Link onlyActiveOnIndex={true} activeClassName="active" to={`/p/${id}`}>
+                <span>热门</span>
+              </Link>
+              <Link activeClassName="active" to={`/p/${id}/latest`}>
+                <span>新作</span>
+              </Link>
+            </div>
+            <div className="rightSide">
+              <a onClick={ this.handleListModeDropdown}>
+                { preferences.listMode === 'masonry' ?
+                  (<span><i className="zmdi zmdi-view-dashboard"/> 瀑布流 <i className="zmdi zmdi-caret-down"/></span>) :
+                  (<span><i className="zmdi zmdi-view-module"/> 列表 <i className="zmdi zmdi-caret-down"/></span>) }
+              </a>
+              <BumoDropdown positionClass="ListModeDropdown" isOpened={component.isListModeDropdownOpened} close={this.handleListModeDropdownClose}>
+                <div className={classNames('BumoDropdownItem', {active: preferences.listMode === 'masonry'})}
+                     onClick={()=>changePaintingListMode('masonry')}>
+                  <i className="zmdi zmdi-view-dashboard"/> 瀑布流 <i className="zmdi zmdi-check check"/>
+                </div>
+                <div className={classNames('BumoDropdownItem', {active: preferences.listMode === 'card'})}
+                     onClick={()=>changePaintingListMode('card')}>
+                  <i className="zmdi zmdi-view-module"/> 列表 <i className="zmdi zmdi-check check"/>
+                </div>
+              </BumoDropdown>
+            </div>
+          </Sticky>
       <PaintingList
         key={path}
         painting={userPainting}
@@ -146,7 +189,10 @@ export default class UserPainting extends Component {
         isMe={me.id?true:false}
         loginModalOpen={this.handleLoginModalOpen}
         waypoint={this.props.waypoint}
+        preferences={preferences}
+        changePaintingListMode={changePaintingListMode}
       />
-    </div>);
+    </StickyContainer>
+  </div>);
   }
 }
