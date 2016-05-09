@@ -95,8 +95,8 @@ export default class PaintingDetail extends Component {
       <div className={"PaintingDetail " + (isInModal ? 'inModal' : '')}>
         <div ref="leftPanel" className="leftPanel">
           <div
-            className={classNames("PaintingDetail__image-wrapper", 
-                      {'PaintingDetail__image-wrapper_landscape': 
+            className={classNames("PaintingDetail__image-wrapper",
+                      {'PaintingDetail__image-wrapper_landscape':
                       painting && (painting.width / painting.height > this.leftPanelScale) })}
           >
             {painting ?
@@ -151,7 +151,7 @@ export default class PaintingDetail extends Component {
               {(painting && painting.tags ?
                 tagsArray.map((id) => (
                   <div className="tagLabel" key={'tags' + id}>
-                    <Link to={"/tags/"+tags[id].type+'/'+tags[id].name}>
+                    <Link to={"/tag/"+tags[id].type+'/'+tags[id].name}>
                       <span className="icon"><i className="zmdi zmdi-label"/></span>
                       <span className="name">{tags[id].name}</span>
                       <span className="type">{tags[id].type}</span>
