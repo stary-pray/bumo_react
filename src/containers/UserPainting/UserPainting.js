@@ -118,7 +118,6 @@ export default class UserPainting extends Component {
     const isLatest = path && path.indexOf('/latest') > -1;
     const loadPainting = isLatest ? loadUserPaintingWithId : loadUserPaintingHotWithId;
     const profileBody = lodash.find(profileDetail, {user: +id});
-    console.log(profileDetail, id, profileBody);
     const profileHeatBody = profileBody ? profileHeat[profileBody.heat] : null;
     return (<div className="UserPainting">
       <div className="top">
