@@ -13,6 +13,7 @@ const schemas = {
   tagDetail: new Schema('tagDetail'),
   bumoStar: new Schema('bumoStar'),
   deposit: new Schema('deposit'),
+  contributedUsers: new Schema('contributedUsers'),
 };
 
 schemas.painting.define({
@@ -31,8 +32,7 @@ schemas.paintingDetail.define({
   profile: schemas.profile,
   heat: schemas.paintingHeat,
   tags: arrayOf(schemas.tags),
-  likes: arrayOf(schemas.likes),
-  bumo_star: arrayOf(schemas.bumoStar)
+  contributed_users: arrayOf(schemas.contributedUsers)
 });
 
 schemas.tags.define({
@@ -43,6 +43,10 @@ schemas.tags.define({
 schemas.tagDetail.define({
   paintings: arrayOf(schemas.painting),
   heat: schemas.tagHeat
+});
+
+schemas.contributedUsers.define({
+  profile: schemas.profile,
 });
 
 export default function normalizeMiddleware() {
