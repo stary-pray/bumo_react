@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from "react";
+import Helmet from "react-helmet";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import InlineSVG from "svg-inline-react";
@@ -97,6 +98,10 @@ export default class PaintingDetail extends Component {
 
     return (
       <div className={"PaintingDetail " + (isInModal ? 'inModal' : '')}>
+        <Helmet 
+          title={`${painting ? painting.title : ''} - 恋绘.星祈`}
+          meta={[{description: painting ? painting.description : ''}]}
+        />
         <div ref="leftPanel" className="leftPanel">
           <div
             className={classNames("PaintingDetail__image-wrapper",
