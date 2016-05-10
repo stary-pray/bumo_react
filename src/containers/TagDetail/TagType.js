@@ -126,6 +126,9 @@ export default class TagType extends Component {
       <StickyContainer>
         <Sticky className="NavControls" stickyClassName={'NavControls__sticky'}>
           <div className="leftSide">
+            <Link activeClassName="active" to={`/tag/`}>
+              <span>全部</span>
+            </Link>
             {tagTypes.map(tagTypeName =>
               <Link key={tagTypeName} activeClassName="active" to={`/tag/${tagTypeName}`}>
                 <span>{tagTypeName}</span>
@@ -181,7 +184,7 @@ export default class TagType extends Component {
               const tag = tags[tagId];
               const heat = _.find(tagHeat, {id: tag.heat});
               const topPainting = tag.paintings ? _.find(painting, {id: tag.paintings[0]}) : '';
-              const tagUrl = '/tag/' + tagType + '/' + tags[tagId].name;
+              const tagUrl = '/tag/' + tags[tagId].type + '/' + tags[tagId].name;
               return (
                 <div onClick={()=>browserHistory.push(tagUrl)} className="paintingCollection" key={'tagType' + tagId}>
                   <span className="img"
@@ -189,7 +192,7 @@ export default class TagType extends Component {
                   <Link className="name" to={tagUrl}>
                     <h2>{tags[tagId].name}</h2>
                   </Link>
-                  <h4 className="type">{tagType}</h4>
+                  <h4 className="type">{tags[tagId].type}</h4>
                   <h2 className="heat"><i className="zmdi zmdi-fire"/> {calculateHeat(heat)}</h2>
                 </div>
               );

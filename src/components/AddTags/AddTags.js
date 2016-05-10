@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import lodash from 'lodash';
 import {addTag, deleteTag} from '../../redux/modules/tags';
 import './AddTags.scss';
 
@@ -41,6 +42,9 @@ export default class AddTags extends Component {
     const name = this.refs.tag.value.trim();
     this.props.addTag(name, this.type);
   }
+  deleteTag(index) {
+    this.props.deleteTag(index);
+  }
 
   logType(e) {
     const type = e.target.value.trim();
@@ -60,7 +64,7 @@ export default class AddTags extends Component {
     const {tags, showExtra} = this.props;
     return (
       <div className="AddTags">
-        <label>标签种类</label>
+        <label>标签种类(最多只能有五个)</label>
         <div className="tag">
           <div>
             <select onChange={this.logType.bind(this)} id="type">
@@ -69,7 +73,6 @@ export default class AddTags extends Component {
               <option value="活动">活动</option>
               <option value="性别">性别</option>
               <option value="属性">属性</option>
-              <option value="自定义">自定义</option>
             </select>
           </div>
 
@@ -85,8 +88,10 @@ export default class AddTags extends Component {
         </div> : ''}</div>
 
         <div>
-          { tags.map(tag =>
-            <div key={"tag-" + tag.id}>{tag.name}</div>) }
+          { lodash.map(tags, (tag, index) =>(<div>
+            <div key={"tag-" + tag.name+' '+ tag.type}>{tag.name}_{tag.type}</div>
+            <a className="button" onClick={this.deleteTag.bind(this,index)}> 删 </a>
+          </div>) )}
         </div>
       </div>
 

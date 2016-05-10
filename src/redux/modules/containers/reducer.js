@@ -2,7 +2,7 @@ import {combineReducers} from "redux";
 import Home from "./Home";
 import PaintingDetail from "./PaintingDetail";
 import UserPainting from "./UserPainting";
-import Like from "./Like";
+import LikeAction from "./LikeAction";
 import Form from "./Form";
 import Tags from "./Tags";
 import User from "./User";
@@ -20,7 +20,7 @@ export default combineReducers({
   Home,
   PaintingDetail,
   UserPainting,
-  Like,
+  LikeAction,
   Form,
   Tags,
   User,

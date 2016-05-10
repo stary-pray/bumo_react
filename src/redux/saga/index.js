@@ -5,7 +5,6 @@ import {browserHistory} from "react-router";
 import * as authModule from "../modules/auth";
 import * as meModule from "../modules/me";
 import * as meUpdateModule from "../modules/containers/MeUpdate";
-import * as likeModule from "../modules/models/Like";
 import * as paintingDetailModule from "../modules/models/PaintingDetail";
 import * as PaintingModule from "../modules/models/Painting";
 import * as homeModule from "../modules/containers/Home";
@@ -156,12 +155,7 @@ function* getCaptcha() {
   }
 }
 
-function* likeSuccess(action) {
-  while (TRULY) {
-    const paintingId = yield take(likeModule.LIKE_SUCCESS, action.result.id);
-    yield put(paintingDetailModule.load(paintingId));
-  }
-}
+
 
 /*function* loadHotUserPaintings(){
   while (TRULY) {

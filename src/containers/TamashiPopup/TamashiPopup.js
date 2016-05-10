@@ -8,7 +8,6 @@ import PayLike from "../Like/PayLike";
 import FreeLike from "../Like/FreeLike";
 import {load as loadPaintingDetail} from "../../redux/modules/models/PaintingDetail";
 import {createNotification} from "../../redux/modules/notification";
-import likeNotified from "../../redux/modules/containers/Like";
 
 @connect(
   (state) => ({
@@ -16,14 +15,13 @@ import likeNotified from "../../redux/modules/containers/Like";
     paintingDetail: state.models.paintingDetail,
     tags: state.models.tags,
     me: state.me,
-    likeComponent: state.containers.Like,
+    likeActionComponent: state.containers.LikeAction,
     profile: state.models.profile
   }),
   {
     ...tamashiPopupActions,
     loadPaintingDetail: loadPaintingDetail,
     createNotification,
-    likeNotified
   }
 )
 export default class TamashiPopup extends Component {
@@ -39,9 +37,8 @@ export default class TamashiPopup extends Component {
     tags: PropTypes.object,
     me: PropTypes.object,
     createNotification: PropTypes.func,
-    likeComponent: PropTypes.object,
+    likeActionComponent: PropTypes.object,
     profile: PropTypes.object,
-    likeNotified: PropTypes.func
   };
 
   constructor() {
@@ -50,7 +47,7 @@ export default class TamashiPopup extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {payLikeSuccess, likeAmount, likePaintingId, freeLikeSuccess} = nextProps.likeComponent;
+    const {payLikeSuccess, likeAmount, likePaintingId, freeLikeSuccess} = nextProps.likeActionComponent;
     const {paintingDetail, id} = nextProps;
 
     if (nextProps.component.id &&
@@ -82,12 +79,7 @@ export default class TamashiPopup extends Component {
   render() {
     const {heat, id, component, paintingDetail, tags, me, profile, positionClass} = this.props;
     const isOpened = id && component.id && (id == component.id);
-    const {like_error, like_success, like_amount} = this.props.likeComponent;
-    let likeError = '';
 
-    if (like_error && like_error === 'Not enough QB') {
-      likeError = '钱数不够';
-    }
     return (
       <BumoDropdown close={this.handleClosePopup} positionClass={positionClass} isOpened={isOpened}>
         <div className="TamashiPopup">
@@ -106,7 +98,8 @@ export default class TamashiPopup extends Component {
                 <label>
                   作品
                 </label>
-                <FreeLike paintingId={id} isDisabled={paintingDetail[id].free_liked && me.balance.free_qb>1}>
+                <FreeLike paintingId={id} isDisabled={(paintingDetail[id].free_liked)||
+                (me.balance.free_qb<1)||(paintingDetail[id].owner===me.id)}>
                   <i className="zmdi zmdi-star"/>
                   +1</FreeLike>
               </div>

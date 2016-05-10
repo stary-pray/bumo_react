@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {payLike} from "../../redux/modules/models/Like";
+import {payLike} from "../../redux/modules/containers/LikeAction";
 
 //import {loadSpec as loadMyPaintings} from '../../redux/models/Painting';
 

@@ -1,5 +1,7 @@
+import _ from "lodash";
+
 export const ADD_TAG = 'bumo/ADD_TAG';
-export const DELETE_TAG='bumo/DELETE_TAG';
+export const DELETE_TAG = 'bumo/DELETE_TAG';
 
 
 const initialState = [];
@@ -7,19 +9,18 @@ const initialState = [];
 export default function addTags(state = initialState, action) {
   switch (action.type) {
     case ADD_TAG:
-      return [{
-        id: (state.length === 0) ? 0 : state[0].id + 1,
+      return _.uniqBy([...state, {
         name: action.name,
-        type: action.tagType,
-      }, ...state];
+        type: action.tagType
+      }],'name','type');
 
     case DELETE_TAG:
-      return state.filter(tag =>
-        tag.id !== action.id
-      );
+      var newState = state.slice();
+      newState.splice(action.index, 1);
+      return newState;
 
     case 'bumo/painting/UPLOAD_SUCCESS':
-       return initialState;
+      return initialState;
     default:
       return state;
   }
@@ -32,10 +33,10 @@ export function addTag(name, tagType) {
   };
 }
 
-export function deleteTag(id) {
+export function deleteTag(index) {
   return {
     type: DELETE_TAG,
-    id
+    index
   };
 }
 

@@ -23,7 +23,8 @@ import classNames from "classnames";
     tags: state.models.tags,
     component: state.containers.PaintingDetail,
     id: ownProps.id || +ownProps.params.paintingId,
-    me: state.me
+    me: state.me,
+    likes: state.models.likes
   }),
   dispatch => bindActionCreators({
     loadPaintingDetail,
@@ -47,7 +48,8 @@ export default class PaintingDetail extends Component {
     isInModal: PropTypes.bool,
     openTamashi: PropTypes.func.isRequired,
     me: PropTypes.object,
-    loginModalOpen: PropTypes.func
+    loginModalOpen: PropTypes.func,
+    likes: PropTypes.object
   };
 
   constructor() {
@@ -81,13 +83,14 @@ export default class PaintingDetail extends Component {
   }
 
   render() {
-    const {paintingDetail, id, paintingHeat, profile, tags, tagHeat, isInModal, me} = this.props;
+    const {paintingDetail, id, paintingHeat, profile, tags, tagHeat, isInModal, me, likes} = this.props;
     const {loaded} = this.props.component;
     const painting = paintingDetail[id];
     const ownerId = painting ? painting.owner : -1;
     const profileId = painting ? painting.profile : -1;
     const ownerProfile = profile[profileId];
     const tagsArray = painting ? painting.tags : [];
+    const likesArray = painting ? painting.likes :[];
     const previousLink = painting && painting.user_previous_painting ? `/painting/${painting.user_previous_painting}` : '';
     const nextLink = painting && painting.user_next_painting ? `/painting/${painting.user_next_painting}` : '';
 
@@ -165,6 +168,13 @@ export default class PaintingDetail extends Component {
             <div className="infoGroup">
               <label> 信息 </label>
               <p>发布: {painting && moment(painting.modified).fromNow()}</p>
+            </div>
+
+            <div className="infoGroup">
+              <label> 赞过的人 </label>
+              {likesArray.map((id)=>(<div>
+                {profile[likes[id].owner].nickname}
+              </div>))}
             </div>
           </div>
           { painting && paintingHeat && paintingHeat[id] &&

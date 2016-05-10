@@ -35,9 +35,10 @@ export function loadTagPaintingDetailHot(tagType,tagName,index) {
 
 
 export function loadTagTypeDetail(tagType,index){
+  const typeString = tagType ? '&type='+tagType : '';
   return{
     types:[LOAD_TAG_TYPE_DETAIL,LOAD_TAG_TYPE_DETAIL_SUCCESS,LOAD_TAG_TYPE_DETAIL_FAIL],
-    promise: (client) => client.get('/api/painting-tag/hot?page='+index+'&type='+tagType),
+    promise: (client) => client.get('/api/painting-tag/hot?page='+index+typeString),
     normalizeSchema: 'tags'
   }
 }
