@@ -1,11 +1,10 @@
 // import {fork, call, take, put} from 'redux-saga'
 
-import {fork, take, put} from "redux-saga/effects";
+import {fork, take, put, select} from "redux-saga/effects";
 import {browserHistory} from "react-router";
 import * as authModule from "../modules/auth";
 import * as meModule from "../modules/me";
 import * as meUpdateModule from "../modules/containers/MeUpdate";
-import * as paintingDetailModule from "../modules/models/PaintingDetail";
 import * as PaintingModule from "../modules/models/Painting";
 import * as homeModule from "../modules/containers/Home";
 import * as userPaintingModule from "../modules/containers/UserPainting";
@@ -45,9 +44,13 @@ function* paintingUploadSuccess() {
   }
 }
 
-function* updateAvatar() {
+function* updateAvatarOrBanner() {
   while (TRULY) {
-    yield take(meUpdateModule.UPLOAD_AVATAR_SUCCESS);
+    yield take([meUpdateModule.UPLOAD_AVATAR_SUCCESS, meUpdateModule.UPLOAD_BANNER_SUCCESS]);
+    yield put(MainHeaderModule.modalClose());
+    const userId = yield select(state => state.me.id);
+    console.log('userId' ,userId );
+    yield put(userPaintingModule.loadProfileDetail(userId));
     yield put(meModule.load());
   }
 }
@@ -182,7 +185,7 @@ export default function* root() {
   yield fork(depositNextPageLoaded);
   yield fork(depositLastPageLoaded);
   yield fork(paintingUploadSuccess);
-  yield fork(updateAvatar);
+  yield fork(updateAvatarOrBanner);
  // yield fork(tagPaintingPageLoaded);
   //yield fork(tagsPageLoaded);
 }

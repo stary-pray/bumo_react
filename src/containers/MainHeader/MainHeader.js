@@ -8,6 +8,7 @@ import "./MainHeader.scss";
 import BumoDropdown from "../../components/BumoDropdown/BumoDropdown";
 import {logout} from "../../redux/modules/auth";
 import Login from "../Login/Login";
+import UserImageUpload from "../UserImageUpload/UserImageUpload";
 import Register from "../Register/Register";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
@@ -77,7 +78,7 @@ export default class TopNav extends Component {
 
   render() {
     const {component, me} = this.props;
-    const {isLoginModalOpened, isRegisterModalOpened} = component;
+    const {isLoginModalOpened, isRegisterModalOpened, isUserImageUploadModalOpened, userImageUploadType} = component;
     const isLogined = me && me.id;
     return (<div id="main-header">
       <IndexLink className="logo" to="/">
@@ -97,7 +98,7 @@ export default class TopNav extends Component {
       {isLogined ?
         <div className="user-notification-panel grid-content">
           <Link to="/me/paintingUpload" className="item"><i className="zmdi zmdi-cloud-upload"/> 发布
-            </Link>
+          </Link>
         <span onClick={this.handleOpenDropdown} className="item">
           <i className="zmdi zmdi-account"/> {me.nickname}
         </span>
@@ -125,16 +126,18 @@ export default class TopNav extends Component {
         transitionEnterTimeout={300}
         transitionLeaveTimeout={300}
       >
-        {(isLoginModalOpened || isRegisterModalOpened) &&
+        {(isLoginModalOpened || isRegisterModalOpened || isUserImageUploadModalOpened) &&
         <div className="LoginModal">
           <div className="LoginModalBackground"/>
-          {isLoginModalOpened &&
-          <Login closeModal={this.handleModalClose} switchToRegister={this.handleRegisterModalOpen}/>}
-          {isRegisterModalOpened &&
-          <Register closeModal={this.handleModalClose} switchToLogin={this.handleLoginModalOpen}/>}
+          {isLoginModalOpened ?
+            <Login closeModal={this.handleModalClose} switchToRegister={this.handleRegisterModalOpen}/> : ''}
+          {isRegisterModalOpened ?
+            <Register closeModal={this.handleModalClose} switchToLogin={this.handleLoginModalOpen}/> : ''}
+          {isUserImageUploadModalOpened ?
+            <UserImageUpload isOpened={isUserImageUploadModalOpened} closeModal={this.handleModalClose} type={userImageUploadType} /> : '' }
         </div>
         }
-      </ReactCSSTransitionGroup>);
+      </ReactCSSTransitionGroup>
     </div>);
   }
 }

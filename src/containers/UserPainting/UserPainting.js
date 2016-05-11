@@ -6,19 +6,17 @@ import {Link} from "react-router";
 import {resize, calculateHeat} from "../../utils/common";
 import InlineSVG from "svg-inline-react";
 import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
+import {userImageUploadModalOpen, loginModalOpen} from "../../redux/modules/containers/MainHeader";
 import lodash from "lodash";
 import PaintingList from "../../components/PaintingList/PaintingList";
 import * as PaintingModalActions from "../../redux/modules/containers/PaintingModal";
 import "./UserPainting.scss";
-import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
 import {changePaintingListMode} from "../../redux/modules/preferences";
 import {StickyContainer, Sticky} from "react-sticky";
 import BumoDropdown from "../../components/BumoDropdown/BumoDropdown";
 import {listModeDropdownChange} from "../../redux/modules/containers/Home";
 import classNames from "classnames";
 import Helmet from "react-helmet";
-
-
 
 @connect(
   (state, ownProps) => ({
@@ -46,9 +44,9 @@ import Helmet from "react-helmet";
     loginModalOpen,
     changePaintingListMode,
     listModeDropdownChange,
+    userImageUploadModalOpen,
   }, dispatch)
 )
-
 export default class UserPainting extends Component {
   static propTypes = {
     id: PropTypes.number,
@@ -72,6 +70,7 @@ export default class UserPainting extends Component {
     preferences: PropTypes.object,
     changePaintingListMode: PropTypes.func,
     listModeDropdownChange: PropTypes.func,
+    userImageUploadModalOpen: PropTypes.func,
   };
 
   constructor() {
@@ -79,6 +78,8 @@ export default class UserPainting extends Component {
     this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
     this.handleListModeDropdown = this.handleListModeDropdown.bind(this);
     this.handleListModeDropdownClose = this.handleListModeDropdownClose.bind(this);
+    this.handleBannerUploadOpen = this.handleBannerUploadOpen.bind(this);
+    this.handleAvatarUploadOpen = this.handleAvatarUploadOpen.bind(this);
     this.topPosition = 0;
     this.handleScroll = lodash.throttle(()=> {
       const top = window.pageYOffset || document.documentElement.scrollTop;
@@ -101,15 +102,23 @@ export default class UserPainting extends Component {
   handleListModeDropdownClose() {
     this.props.listModeDropdownChange(false);
   }
+  
+  handleBannerUploadOpen(){
+    this.props.userImageUploadModalOpen('banner');
+  }
+
+  handleAvatarUploadOpen(){
+    this.props.userImageUploadModalOpen('avatar');
+  }
 
   componentDidMount() {
     this.props.loadProfileDetail(this.props.id);
     this.bannerHeihgt = this.refs.banner.offsetHeight;
-    window.addEventListener('scroll', this.handleScroll);
+    //window.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    //window.removeEventListener('scroll', this.handleScroll);
   }
 
   render() {
@@ -122,7 +131,7 @@ export default class UserPainting extends Component {
     const loadPainting = isLatest ? loadUserPaintingWithId : loadUserPaintingHotWithId;
     const profileBody = lodash.find(profileDetail, {user: +id});
     const profileHeatBody = profileBody ? profileHeat[profileBody.heat] : null;
-    const isMyPage = me.id && profileBody ? (me.id === +id ? true : false) : '';
+    const isMyPage = me.id == +id;
     return (<div className="UserPainting">
 
       <Helmet
@@ -143,6 +152,10 @@ export default class UserPainting extends Component {
               /> :
               <InlineSVG className="svg" src={require("../../utils/assets/default_banner.svg")}/>
           }
+          {
+            isMyPage ? 
+            <button onClick={this.handleBannerUploadOpen} className="bannerUploadButton shadow_distance button"><i className="zmdi zmdi-upload"/> 上传封面</button> : ''
+          }
         </div>
         <div className="profile">
           <div className="avatarImage">
@@ -150,6 +163,12 @@ export default class UserPainting extends Component {
               (profileBody && profileBody.avatar) ?
                 <img src={ resize(profileBody.avatar, 120)} alt={profileBody.nickname}/> :
                 <InlineSVG className="svg" src={require("../../utils/assets/default_avatar.svg")}/>
+            }
+            {
+              isMyPage ?
+                <button onClick={this.handleAvatarUploadOpen}
+                        className="avatarUploadButton shadow_distance button">
+                  <i className="zmdi zmdi-upload"/> 上传头像</button> : ''
             }
           </div>
           <div className="nickname">{profileBody && profileBody.nickname}</div>
@@ -204,7 +223,7 @@ export default class UserPainting extends Component {
             loadPainting={loadPainting}
             openModal={this.props.openModal}
             openTamashi={this.props.openTamashi}
-            isMe={me.id?true:false}
+            isMe={!!me.id}
             loginModalOpen={this.handleLoginModalOpen}
             waypoint={this.props.waypoint}
             preferences={preferences}

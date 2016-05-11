@@ -97,17 +97,17 @@ export default class uploadPaintingForm extends Component {
         <div className="grid-block">
           <div className="grid-content PaintingUpload__left">
             <Dropzone
-              className="PaintingUpload__dropzone"
-              activeClassName="PaintingUpload__dropzone_active"
+              className="Bumo-dropzone"
+              activeClassName="Bumo-dropzone_active"
               ref="file"
               {...file}
               multiple={false}
               onDrop={this.handleOnDrop}>
               {!this.selectedPainting ?
-                <div className="PaintingUpload__dropzone_intro">请点击或把图片拖放到这里上传</div> :
-                <div className="PaintingUpload__dropzone_frame">
-                  <span className="PaintingUpload__dropzone_helper"/>
-                  <img className="PaintingUpload__dropzone_img" src={this.selectedPainting.preview} alt="预览"/>
+                <div className="Bumo-dropzone_intro">请点击或把图片拖放到这里上传</div> :
+                <div className="Bumo-dropzone_frame">
+                  <span className="Bumo-dropzone_helper"/>
+                  <img className="Bumo-dropzone_img" src={this.selectedPainting.preview} alt="预览"/>
                 </div>
               }
             </Dropzone>

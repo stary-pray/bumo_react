@@ -1,0 +1,11 @@
+@import "../colors";
+
+.UserImageUpload {
+  &__title{
+    margin-bottom: 2rem;
+  }
+  &__container {
+    .Bumo-dropzone{
+    }
+  }
+}

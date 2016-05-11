@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
-import Helmet from "react-helmet";
 import * as authActions from "../../redux/modules/auth";
 import config from "../../config";
 import "./Login.scss";
@@ -100,7 +99,6 @@ export default class Login extends Component {
     }
     return (
       <div className="Login">
-        <Helmet title="Login"/>
         <div className="short-tabs">
           <span className="tab activated">登录</span>
           <span onClick={this.handleSwitchToRegister} className="tab">注册</span>

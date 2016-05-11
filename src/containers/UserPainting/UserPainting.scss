@@ -7,12 +7,17 @@
       position: relative;
       height: calc(100vh - 7rem);
       overflow: hidden;
-      .bannerBackground{
+      .bannerBackground {
         width: 100%;
         height: 100%;
         background-size: cover;
         background-position: 50%;
         transition: transform 0.2s linear;
+      }
+      .bannerUploadButton {
+        position: absolute;
+        right: 3rem;
+        top: 3rem;
       }
     }
     .avatarImage {
@@ -26,6 +31,18 @@
         border-radius: 100%;
         z-index: 1;
       }
+      &:hover{
+        .avatarUploadButton {
+          display: block;
+        }
+      }
+    }
+    .avatarUploadButton {
+      display: none;
+      position: absolute;
+      left: 7rem;
+      bottom: 3rem;
+      z-index: 3;
     }
     .nickname {
       position: absolute;
@@ -48,7 +65,7 @@
       padding-top: 3.25rem;
       font-size: 1.2rem;
     }
-    .NavControls{
+    .NavControls {
       margin-top: 5rem;
     }
   }

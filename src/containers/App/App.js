@@ -73,11 +73,13 @@ export default class App extends Component {
       this.props.PaintingModalComponent.isOpened !== nextProps.PaintingModalComponent.isOpened ||
       this.props.SearchResultComponent.isOpened !== nextProps.SearchResultComponent.isOpened ||
       this.props.MainHeaderComponent.isLoginModalOpened !== nextProps.MainHeaderComponent.isLoginModalOpened ||
+      this.props.MainHeaderComponent.isUserImageUploadModalOpened !== nextProps.MainHeaderComponent.isUserImageUploadModalOpened ||
       this.props.MainHeaderComponent.isRegisterModalOpened !== nextProps.MainHeaderComponent.isRegisterModalOpened
     ) {
       const isOpened = nextProps.PaintingModalComponent.isOpened ||
         nextProps.SearchResultComponent.isOpened ||
         nextProps.MainHeaderComponent.isLoginModalOpened ||
+        nextProps.MainHeaderComponent.isUserImageUploadModalOpened ||
         nextProps.MainHeaderComponent.isRegisterModalOpened;
       const app = document.getElementById('body');
       if (isOpened) {
