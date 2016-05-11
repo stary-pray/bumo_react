@@ -10,6 +10,7 @@ import NotFound from "./containers/NotFound/NotFound";
 import Me from "./containers/Me/Me";
 import Register from "./containers/Register/Register";
 import EditMe from "./containers/Me/EditMe";
+import MyImageEdit from "./containers/Me/MyImageEdit";
 import PaintingUpload from "./containers/PaintingUpload/PaintingUpload";
 import User from "./containers/User/User";
 import TagDetail from "./containers/TagDetail/TagDetail";
@@ -55,6 +56,10 @@ export default function Router(store) {
       <Route path="me" component={Me}/>
 
       <Route path="me/edit" component={EditMe}/>
+
+      <Route path="me/editAvatar" component={MyImageEdit}/>
+
+      <Route path="me/editBanner" component={MyImageEdit}/>
 
       <Route path="painting/:paintingId" component={PaintingDetail}/>
 

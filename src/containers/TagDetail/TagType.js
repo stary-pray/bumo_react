@@ -14,6 +14,7 @@ import {dropdownChange} from "../../redux/modules/containers/TagTypeDetail";
 import {openModal} from "../../redux/modules/containers/PaintingModal";
 import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
 import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
+import Helmet from "react-helmet";
 
 // tag details below
 
@@ -178,6 +179,7 @@ export default class TagType extends Component {
 
     return (
       <div className="TagType__container">
+        <Helmet title={`${tagType ? tagType : '全部标签'} - 恋绘.星祈`}/>
         <div className="TagType__wrapper">
           { loaded ?
             component.indexes.map((tagId)=> {

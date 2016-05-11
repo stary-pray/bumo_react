@@ -5,6 +5,7 @@ import {loadUser} from "../../redux/modules/containers/User";
 import {Link} from "react-router";
 import "./User.scss";
 import classNames from "classnames";
+import Helmet from "react-helmet";
 
 @connect(
   (state) => ({
@@ -70,6 +71,9 @@ export default class Tags extends Component {
     const {pageMeta, loading}=this.props.component;
     const isLastPage = !pageMeta.next;
     return (<div className="UserPage">
+      <Helmet
+        title="画手 - 恋绘.星祈"
+      />
       <div> {component.loaded ?
         <div className="collections">
           { component.indexes.map((userId)=> user[userId].first_painting?

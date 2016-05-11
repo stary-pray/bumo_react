@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import "../Home/Home.scss";
 import PaintingList from "../../components/PaintingList/PaintingList";
+import Helmet from "react-helmet";
 
 export default class TagPainting extends Component {
   static propTypes = {
@@ -41,7 +42,9 @@ export default class TagPainting extends Component {
     const loadPainting = isLatest ? loadTagPainting : loadTagPaintinHot;
 
     return (<div className="TagDetail__container">
-
+      <Helmet
+        title={`${tagName}-${tagType} - 恋绘.星祈`}
+      />
       <div className="pageHead">
         <h2>{tagName}</h2>
       </div>

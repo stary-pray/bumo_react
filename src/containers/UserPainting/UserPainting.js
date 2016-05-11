@@ -16,6 +16,9 @@ import {StickyContainer, Sticky} from "react-sticky";
 import BumoDropdown from "../../components/BumoDropdown/BumoDropdown";
 import {listModeDropdownChange} from "../../redux/modules/containers/Home";
 import classNames from "classnames";
+import Helmet from "react-helmet";
+
+
 
 @connect(
   (state, ownProps) => ({
@@ -29,9 +32,10 @@ import classNames from "classnames";
     page: state.containers.UserPainting.page,
     path: ownProps.route.path,
     openedTamashiId: state.containers.TamashiPopup.id,
-    me:state.me,
+    me: state.me,
     waypoint: state.waypoint,
     preferences: state.preferences,
+
   }),
   dispatch => bindActionCreators({
     loadUserPainting,
@@ -62,7 +66,7 @@ export default class UserPainting extends Component {
     path: PropTypes.string,
     openModal: PropTypes.func,
     openedTamashiId: PropTypes.number,
-    me:PropTypes.object,
+    me: PropTypes.object,
     loginModalOpen: PropTypes.func,
     waypoint: PropTypes.object,
     preferences: PropTypes.object,
@@ -76,10 +80,10 @@ export default class UserPainting extends Component {
     this.handleListModeDropdown = this.handleListModeDropdown.bind(this);
     this.handleListModeDropdownClose = this.handleListModeDropdownClose.bind(this);
     this.topPosition = 0;
-    this.handleScroll = lodash.throttle(()=>{
+    this.handleScroll = lodash.throttle(()=> {
       const top = window.pageYOffset || document.documentElement.scrollTop;
       this.topPosition = top / 2;
-      if(top < this.bannerHeihgt * 1.2){
+      if (top < this.bannerHeihgt * 1.2) {
         this.forceUpdate();
       }
     }, 500);
@@ -98,14 +102,13 @@ export default class UserPainting extends Component {
     this.props.listModeDropdownChange(false);
   }
 
-
   componentDidMount() {
     this.props.loadProfileDetail(this.props.id);
     this.bannerHeihgt = this.refs.banner.offsetHeight;
     window.addEventListener('scroll', this.handleScroll);
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
   }
 
@@ -119,7 +122,14 @@ export default class UserPainting extends Component {
     const loadPainting = isLatest ? loadUserPaintingWithId : loadUserPaintingHotWithId;
     const profileBody = lodash.find(profileDetail, {user: +id});
     const profileHeatBody = profileBody ? profileHeat[profileBody.heat] : null;
+    const isMyPage = me.id && profileBody ? (me.id === +id ? true : false) : '';
     return (<div className="UserPainting">
+
+      <Helmet
+        title={`${profileBody ? profileBody.nickname :''} - 恋绘.星祈`}
+        meta={[{description: profileBody? profileBody.introduction : ''}]}
+      />
+
       <div className="top">
         <div ref="banner" className="banner">
           {
@@ -143,18 +153,20 @@ export default class UserPainting extends Component {
             }
           </div>
           <div className="nickname">{profileBody && profileBody.nickname}</div>
-          <div className="introduction">
-            {profileBody && profileBody.introduction ? 
-              profileBody.introduction : 
-              <span className="secondary-color">...</span>
-            }
-          </div>
-          <div className="profileHeat"><i
-            className="zmdi zmdi-fire"/> {profileHeatBody && calculateHeat(profileHeatBody)}
+          <div>
+            <div className="introduction">
+              {profileBody && profileBody.introduction ?
+                profileBody.introduction :
+                <span className="secondary-color">...</span>
+              }
+            </div>
+            <div className="profileHeat"><i
+              className="zmdi zmdi-fire"/> {profileHeatBody && calculateHeat(profileHeatBody)}
+            </div>
           </div>
         </div>
-      </div>
-      <StickyContainer>
+        </div>
+        <StickyContainer>
           <Sticky className="NavControls" stickyClassName={'NavControls__sticky'}>
             <div className="leftSide">
               <Link onlyActiveOnIndex={true} activeClassName="active" to={`/p/${id}`}>
@@ -170,7 +182,8 @@ export default class UserPainting extends Component {
                   (<span><i className="zmdi zmdi-view-dashboard"/> 瀑布流 <i className="zmdi zmdi-caret-down"/></span>) :
                   (<span><i className="zmdi zmdi-view-module"/> 列表 <i className="zmdi zmdi-caret-down"/></span>) }
               </a>
-              <BumoDropdown positionClass="ListModeDropdown" isOpened={component.isListModeDropdownOpened} close={this.handleListModeDropdownClose}>
+              <BumoDropdown positionClass="ListModeDropdown" isOpened={component.isListModeDropdownOpened}
+                            close={this.handleListModeDropdownClose}>
                 <div className={classNames('BumoDropdownItem', {active: preferences.listMode === 'masonry'})}
                      onClick={()=>changePaintingListMode('masonry')}>
                   <i className="zmdi zmdi-view-dashboard"/> 瀑布流 <i className="zmdi zmdi-check check"/>
@@ -182,22 +195,23 @@ export default class UserPainting extends Component {
               </BumoDropdown>
             </div>
           </Sticky>
-      <PaintingList
-        key={path}
-        painting={userPainting}
-        component={component}
-        paintingHeat={paintingHeat}
-        profile={profile}
-        loadPainting={loadPainting}
-        openModal={this.props.openModal}
-        openTamashi={this.props.openTamashi}
-        isMe={me.id?true:false}
-        loginModalOpen={this.handleLoginModalOpen}
-        waypoint={this.props.waypoint}
-        preferences={preferences}
-        changePaintingListMode={changePaintingListMode}
-      />
-    </StickyContainer>
-  </div>);
-  }
-}
+          <PaintingList
+            key={path}
+            painting={userPainting}
+            component={component}
+            paintingHeat={paintingHeat}
+            profile={profile}
+            loadPainting={loadPainting}
+            openModal={this.props.openModal}
+            openTamashi={this.props.openTamashi}
+            isMe={me.id?true:false}
+            loginModalOpen={this.handleLoginModalOpen}
+            waypoint={this.props.waypoint}
+            preferences={preferences}
+            changePaintingListMode={changePaintingListMode}
+          />
+        </StickyContainer>
+      </div>
+      );
+      }
+      }
