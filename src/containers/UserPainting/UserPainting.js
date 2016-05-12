@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {loadUserPaintingHot, loadUserPainting, loadProfileDetail} from "../../redux/modules/containers/UserPainting";
+import {loadUserPaintingHot, loadUserPainting, loadProfileDetail, listModeDropdownChange} from "../../redux/modules/containers/UserPainting";
 import {Link} from "react-router";
 import {resize, calculateHeat} from "../../utils/common";
 import InlineSVG from "svg-inline-react";
@@ -14,7 +14,6 @@ import "./UserPainting.scss";
 import {changePaintingListMode} from "../../redux/modules/preferences";
 import {StickyContainer, Sticky} from "react-sticky";
 import BumoDropdown from "../../components/BumoDropdown/BumoDropdown";
-import {listModeDropdownChange} from "../../redux/modules/containers/Home";
 import classNames from "classnames";
 import Helmet from "react-helmet";
 
@@ -90,6 +89,14 @@ export default class UserPainting extends Component {
     }, 500);
   }
 
+
+
+  componentDidMount() {
+    this.props.loadProfileDetail(this.props.id);
+    this.bannerHeihgt = this.refs.banner.offsetHeight;
+    //window.addEventListener('scroll', this.handleScroll);
+  }
+
   handleLoginModalOpen() {
     this.props.loginModalOpen();
   }
@@ -102,7 +109,7 @@ export default class UserPainting extends Component {
   handleListModeDropdownClose() {
     this.props.listModeDropdownChange(false);
   }
-  
+
   handleBannerUploadOpen(){
     this.props.userImageUploadModalOpen('banner');
   }
@@ -110,13 +117,6 @@ export default class UserPainting extends Component {
   handleAvatarUploadOpen(){
     this.props.userImageUploadModalOpen('avatar');
   }
-
-  componentDidMount() {
-    this.props.loadProfileDetail(this.props.id);
-    this.bannerHeihgt = this.refs.banner.offsetHeight;
-    //window.addEventListener('scroll', this.handleScroll);
-  }
-
   componentWillUnmount() {
     //window.removeEventListener('scroll', this.handleScroll);
   }
@@ -153,7 +153,7 @@ export default class UserPainting extends Component {
               <InlineSVG className="svg" src={require("../../utils/assets/default_banner.svg")}/>
           }
           {
-            isMyPage ? 
+            isMyPage ?
             <button onClick={this.handleBannerUploadOpen} className="bannerUploadButton shadow_distance button"><i className="zmdi zmdi-upload"/> 上传封面</button> : ''
           }
         </div>

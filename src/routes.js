@@ -7,7 +7,6 @@ import PaintingDetail from "./containers/PaintingDetail/PaintingDetail";
 import UserPainting from "./containers/UserPainting/UserPainting";
 import Login from "./containers/Login/Login";
 import NotFound from "./containers/NotFound/NotFound";
-import Me from "./containers/Me/Me";
 import Register from "./containers/Register/Register";
 import EditMe from "./containers/Me/EditMe";
 import PaintingUpload from "./containers/PaintingUpload/PaintingUpload";
@@ -51,8 +50,6 @@ export default function Router(store) {
       <Route path="login" component={Login}/>
 
       <Route path="register" component={Register}/>
-
-      <Route path="me" component={Me}/>
 
       <Route path="me/edit" component={EditMe}/>
 

@@ -46,7 +46,7 @@ export default handleActions({
   }),
   [CHANGE_PAINTING_LIST_MODE]: (state, action) => ({
     ...state,
-    iisListModeDropdownOpened: false,
+    isListModeDropdownOpened: false,
   }),
   [routeChange]: (state) => initialState
 }, initialState);

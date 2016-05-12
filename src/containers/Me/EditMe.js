@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {load as loadMe} from '../../redux/modules/me';
-import {update as updateMe, uploadAvatar, uploadBanner}from '../../redux/modules/containers/MeUpdate';
+import {update as updateMe}from '../../redux/modules/containers/MeUpdate';
 import {Link} from 'react-router';
 import {reduxForm} from 'redux-form';
 import Dropzone from 'react-dropzone';
@@ -11,31 +11,31 @@ import {createNotification, createNotificationSuccess} from '../../redux/modules
 
 //import {loadSpec as loadMyPaintings} from '../../redux/models/Painting';
 
-@connect(
+@reduxForm({
+    form: 'updateMe',
+    fields: ['nickname', 'introduction', 'description'],
+  },
   (state) => ({
     me: state.me,
-    component:state.containers.MeUpdate
+    component: state.containers.MeUpdate,
+    initialValues: {
+      nickname: state.me.nickname,
+      introduction: state.me.introduction,
+      description: state. me.description
+    }
   }),
   dispatch => bindActionCreators({
-    loadMe,//loadMyPaintings
+    loadMe,
     updateMe,
-    uploadAvatar,
-    uploadBanner,
     createNotification
   }, dispatch)
 )
-@reduxForm({
-  form: 'updateMe',
-  fields: ['nickname', 'introduction', 'description', 'avatar','banner']
-})
 
 
 export default class updateMeForm extends Component {
   static propTypes = {
     me: PropTypes.object,
     loadMe: PropTypes.func,
-    updateMe: PropTypes.func,
-    uploadAvatar: PropTypes.func,
     fields: PropTypes.object,
     createNotification: PropTypes.func,
     component: PropTypes.object
@@ -55,38 +55,25 @@ export default class updateMeForm extends Component {
     });
   };
 
-  uploadAvatar = (files) => {
-    const data = new FormData();
-    files.forEach((file) => {
-      data.append('file', file);
-    });
-    this.props.uploadAvatar(data);
-  };
-
-  uploadBanner = (files) => {
-    const data = new FormData();
-    files.forEach((file) => {
-      data.append('file', file);
-    });
-    this.props.upload(data);
-  };
-
 
   render() {
-    const {component, fields:{nickname, introduction, description, avatar, banner},me} = this.props;
+    const {component, fields:{nickname,introduction, description},me} = this.props;
+    const initialForm = {
+      nickname: me.nickname,
+      introduction: me.introduction,
+      description: me.description
+    };
+    console.log(initialForm);
     return (
       <div>
+
         <form onSubmit={this.handleSubmit}>
           <div>
             <label>用户名</label>
             {me.username}
           </div>
           <div>
-            <label>邮箱</label>
-            {me.email}
-          </div>
-          <div>
-            <label>昵称*</label>{component.error ? (component.error.nickname?<div>请输入昵称</div>:''):''}
+            <label>昵称*</label>{component.error ? (component.error.nickname ? <div>请输入昵称</div> : '') : ''}
             <input value={me.nickname} ref="nickname" {...nickname}/>
           </div>
           <div>
@@ -97,38 +84,19 @@ export default class updateMeForm extends Component {
             <label>描述</label>
             <input value={me.description} ref="description" {...description}/>
           </div>
-          <div>
-            <label>头像</label><img src={me.avatar}/>
-            <Dropzone ref="avatar" multiple = {false} {...avatar} onDrop={ ( filesToUpload, e ) => {
-                avatar.onChange(filesToUpload);
-                this.uploadAvatar(filesToUpload);
-              }
-            }
-            >
-              {component.avatar_success ? this.props.createNotification({
-                message: <div>头像上传成功</div>,
-                level: 'success'
-              }) : ''}
-              {component.avatar_uploading ? <div>头像上传中…………</div>:<div>点击这里上传头像</div>}
-            </Dropzone>
-          </div>
-          <div>
-            <label>封面</label><img src={me.avatar}/>
-            <Dropzone ref="banner" multiple = {false} {...banner} onDrop={ ( filesToUpload, e ) => {
-                banner.onChange(filesToUpload);
-                this.uploadBanner(filesToUpload);
-              }
-            }
-            >
-              {component.banner_success ? this.props.createNotification({
-                message: <div>封面上传成功</div>,
-                level: 'success'
-              }) : ''}
-              {component.banner_uploading ? <div>封面上传中…………</div>:<div>点击这里上传封面</div>}
-            </Dropzone>
-          </div>
           <button onClick={this.handleSubmit}>提交</button>
         </form>
+        <div>
+          <div>你有{(me.balance ? me.balance.charged_qb : '')}个祈可以送给你爱的画家</div>
+          <div>你有{(me.balance ? me.balance.free_qb : '')}个星可以送给你爱的画家</div>
+          <div>你一共赚了{(me.balance ? me.balance.earned_qb : '')}钱</div>
+          <Link to="me/createCharge">
+            <div className="button">充值</div>
+          </Link>
+          <Link to="me/depositList">
+            <div className="button">我的订单</div>
+          </Link>
+        </div>
       </div>
 
     )
