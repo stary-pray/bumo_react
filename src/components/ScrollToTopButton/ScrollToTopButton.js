@@ -12,7 +12,6 @@ export default class ScrollToTopButton extends Component {
     this.handleScroll = throttle(()=> {
       const top = window.pageYOffset || document.documentElement.scrollTop;
       const windowHeight = window.innerHeight;
-      console.log(top, windowHeight, top * 1.5 > windowHeight);
       this.setState({show: top * 1.5 > windowHeight});
     }, 100);
   }
