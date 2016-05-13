@@ -68,7 +68,9 @@ export default class PaintingDetail extends Component {
 
   componentDidMount() {
     this.leftPanelScale = this.refs.leftPanel.offsetWidth / this.refs.leftPanel.offsetHeight;
-    Scroll.animateScroll.scrollToTop({smooth: false, duration: 0,});
+    if(!this.props.isInModal){
+      Scroll.animateScroll.scrollToTop({smooth: false, duration: 0,});
+    }
   }
 
   componentWillReceiveProps(nextProps) {
