@@ -1,13 +1,9 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import Helmet from 'react-helmet';
-import * as authAction from '../../redux/modules/auth';
-import config from '../../config';
-import {reduxForm} from 'redux-form';
-import {bindActionCreators} from 'redux';
+import React, {Component, PropTypes} from "react";
+import * as authAction from "../../redux/modules/auth";
+import config from "../../config";
+import {reduxForm} from "redux-form";
 import "./Register.scss";
 import {createNotification} from "../../redux/modules/notification";
-
 
 
 const validate = values => {
@@ -41,7 +37,11 @@ const validate = values => {
   return errors;
 };
 
-@connect(
+@reduxForm({
+    form: 'registerForm',
+    fields: ['email', 'username', 'password', 'password1', 'captcha'],
+    validate
+  },
   state => ({
     userLoad: state.auth.loaded,
     captcha: state.auth.captcha,
@@ -50,11 +50,6 @@ const validate = values => {
   {...authAction, createNotification}
 )
 
-@reduxForm({
-  form: 'registerForm',
-  fields: ['email', 'username', 'password', 'password1', 'captcha'],
-  validate
-})
 
 export default class registerForm extends Component {
   static propTypes = {
@@ -68,7 +63,7 @@ export default class registerForm extends Component {
     refreshCaptcha: PropTypes.func,
     createNotification: PropTypes.func,
     closeModal: PropTypes.func,
-    switchToLogin:PropTypes.func
+    switchToLogin: PropTypes.func
   };
 
   constructor() {
@@ -103,8 +98,8 @@ export default class registerForm extends Component {
 
   render() {
     const {captcha, registerError, userLoad} = this.props;
-    const {fields: {email, username, password, password1, captcha: captchaField }} = this.props;
-    const { invalid } = this.props;
+    const {fields: {email, username, password, password1, captcha: captchaField}} = this.props;
+    const {invalid} = this.props;
     let formError = '';
     if (registerError && registerError.email) {
       formError = registerError.email.map((sentence)=> {
@@ -135,45 +130,36 @@ export default class registerForm extends Component {
 
     return (
       <div className="Register">
-        <Helmet title="Register"/>
         <div className="short-tabs">
-          <span onClick={this.handleSwitchToLogin} className="tab activated">登录</span>
-          <span className="tab">注册</span>
+          <span onClick={this.handleSwitchToLogin} className="tab ">登录</span>
+          <span className="tab activated">注册</span>
         </div>
         <div onClick={this.handleAuthClose} className="close"/>
         <div>
           <form onSubmit={this.handleSubmit}>
-            <div>
-              <div>
-                <label>邮箱</label>
-                <input type="email" ref="email" placeholder="Email" {...email} />
-              </div>
+            <label>
+              <div>邮箱</div>
+              <input type="email" ref="email" {...email} />
               {email.touched && email.error && <div className="error">{email.error}</div>}
-            </div>
-            <div>
-              <div>
-                <label>用户名（只能包括字母、数字和下划线, 而且必须以字母开头）</label>
-                <input type="name" ref="username" placeholder="username" {...username} />
-              </div>
+            </label>
+            <label>
+              <div>用户名</div>
+              <input type="text" ref="username" placeholder="6~20位，可以是数字、字母和下划线的组合，但不以数字开头" {...username} />
               {username.touched && username.error && <div className="error">{username.error}</div>}
-            </div>
-            <div className="form-group">
-              <div>
-                <label>密码</label>
-                <input type="password" ref="password" placeholder="密码" {...password}/>
-              </div>
+            </label>
+            <label >
+              <div>密码</div>
+              <input type="password" ref="password" placeholder="密码" {...password}/>
               {password.touched && password.error && <div className="error">{password.error}</div>}
-            </div>
-            <div className="form-group">
-              <div>
-                <label>请再次输入密码</label>
-                <input type="password" ref="password1" placeholder="确认密码" {...password1}/>
-              </div>
+            </label>
+            <label>
+              <input type="password" ref="password1" placeholder="确认密码" {...password1}/>
               {password1.touched && password1.error && <div className="error">{password1.error}</div>}
-            </div>
-            <div className="form-group">
+            </label>
+            <label>
+              <div>验证码</div>
               <input type="text" ref="captcha" placeholder="验证码" {...captchaField}/>
-            </div>
+            </label>
             {captchaField.touched && captchaField.error && <div className="error">{captchaField.error}</div>}
             { captcha ?
               <div className="captcha">

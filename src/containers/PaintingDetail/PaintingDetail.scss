@@ -3,10 +3,51 @@
 
 .PaintingDetail {
   display: flex;
+  flex-direction: column;
   width: 100%;
   &.inModal {
     .go_previous, .go_next {
       display: none !important;
+    }
+  }
+  &__top {
+    display: flex;
+    width: 100%;
+    background-color: #222;
+  }
+  &__bottom {
+    background: $background;
+  }
+  &__fans {
+    padding: 3rem;
+    &-title {
+      margin-bottom: 1rem;
+    }
+    &-wrap {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+  &__fan {
+    flex: 0 0 auto;
+    background: white;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(31, 45, 61, .1);
+    &:hover {
+      box-shadow: 0 1px 2px 0 rgba(31, 45, 61, .3);
+      transition: box-shadow 0.2s ease-in;
+    }
+    &-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 100%;
+      margin-right: 1rem;
+      border: 1px white solid;
+    }
+    &-amount {
+      color: $lRed;
     }
   }
   .leftPanel {
@@ -65,7 +106,7 @@
   }
   .rightPanel {
     flex: 0 0 18rem;
-    background: rgba($lSliver, 0.8);
+    background: $background;
     position: relative;
     overflow: hidden;
     .userInfo {
@@ -201,6 +242,9 @@
             border-color: $lRed;
             color: $lRed;
           }
+          & > .zmdi {
+            padding-right: 3px;
+          }
         }
       }
       .tagLabel {
@@ -242,10 +286,10 @@
       min-height: 100%;
       min-width: 0;
     }
-    &_landscape{
+    &_landscape {
       flex-direction: row;
       > img {
-        min-height: 0%;
+        min-height: 0;
         min-width: 100%;
       }
     }
