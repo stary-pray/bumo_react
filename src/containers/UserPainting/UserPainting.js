@@ -21,6 +21,7 @@ import {StickyContainer, Sticky} from "react-sticky";
 import BumoDropdown from "../../components/BumoDropdown/BumoDropdown";
 import classNames from "classnames";
 import Helmet from "react-helmet";
+import Scroll from "react-scroll";
 
 @connect(
   (state, ownProps) => ({
@@ -103,6 +104,7 @@ export default class UserPainting extends Component {
     this.props.loadProfileDetail(this.props.id);
     this.bannerHeihgt = this.refs.banner.offsetHeight;
     window.addEventListener('scroll', this.handleScroll);
+    Scroll.animateScroll.scrollTo(window.innerHeight / 3 * 2, {smooth: false, duration: 0,});
   }
 
   handleLoginModalOpen() {
