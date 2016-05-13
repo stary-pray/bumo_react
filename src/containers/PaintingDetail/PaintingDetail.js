@@ -65,10 +65,11 @@ export default class PaintingDetail extends Component {
   }
 
   componentDidMount() {
-    this.leftPanelScale = this.refs.leftPanel.offsetWidth / this.refs.leftPanel.offsetHeight;
+    this.leftPanelScale =this.refs.leftPanel.offsetWidth / this.refs.leftPanel.offsetHeight;
   }
 
   componentWillReceiveProps(nextProps) {
+    this.leftPanelScale =this.refs.leftPanel.offsetWidth / this.refs.leftPanel.offsetHeight;
 
     if (this.props.id !== nextProps.id) {
       this.props.loadPaintingDetail(nextProps.id);
@@ -98,7 +99,7 @@ export default class PaintingDetail extends Component {
 
     return (
       <div className={"PaintingDetail " + (isInModal ? 'inModal' : '')}>
-        <Helmet 
+        <Helmet
           title={`${painting ? painting.title : ''} - 恋绘.星祈`}
           meta={[{description: painting ? painting.description : ''}]}
         />
@@ -179,7 +180,7 @@ export default class PaintingDetail extends Component {
             <div className="infoGroup">
               <label> 赞过的人 </label>
               {contributedUsersIDs.map((id)=>(<div key={id}>
-                {profile[id].nickname}
+                {profile[id].nickname} {contributedUsers[id].amount}
               </div>))}
             </div>
           </div>

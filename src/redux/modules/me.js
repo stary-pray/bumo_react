@@ -17,7 +17,7 @@ export default handleActions({
   initialState);
 
 export function isLoaded(globalState) {
-  return globalState.me.id;
+  return globalState && globalState.me.id;
 }
 
 export function load() {

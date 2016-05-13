@@ -104,7 +104,7 @@ export function initialAuth(){
 }
 
 export function isLoaded(globalState) {
-  return globalState.auth && globalState.auth.loaded;
+  return globalState && globalState.auth && globalState.auth.loaded;
 }
 
 export function login(email, password, captchaHash, captchaAnswer) {

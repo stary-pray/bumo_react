@@ -1,6 +1,7 @@
 import React from "react";
 import {IndexRoute, Route} from "react-router";
-import {isLoaded as isAuthLoaded, load as loadAuth} from "./redux/modules/auth";
+import {isLoaded as isAuthLoaded} from "./redux/modules/auth";
+import {isLoaded as isMeLoaded} from "./redux/modules/me";
 import App from "./containers/App/App";
 import Home from "./containers/Home/Home";
 import PaintingDetail from "./containers/PaintingDetail/PaintingDetail";
@@ -29,7 +30,7 @@ export default function Router(store) {
     }
 
     if (!isAuthLoaded(store.getState())) {
-      store.dispatch(loadAuth()).then(checkAuth);
+      store.dispatch(isMeLoaded()).then(checkAuth);
     } else {
       checkAuth();
     }
