@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from "react";
-import {connect} from "react-redux";
 import * as authActions from "../../redux/modules/auth";
 import config from "../../config";
 import "./Login.scss";
@@ -25,7 +24,11 @@ const validate = values => {
   return errors;
 };
 
-@connect(
+@reduxForm({
+    form: 'Login',
+    fields: ['email', 'password', 'captcha'],
+    validate
+  },
   state => ({
     userLoad: state.auth.loaded,
     captcha: state.auth.captcha,
@@ -33,12 +36,6 @@ const validate = values => {
   }),
   {...authActions, createNotification}
 )
-
-@reduxForm({
-  form: 'Login',
-  fields: ['email', 'password', 'captcha'],
-  validate
-})
 
 export default class Login extends Component {
   static propTypes = {

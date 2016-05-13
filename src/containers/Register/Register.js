@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from "react";
-import {connect} from "react-redux";
 import * as authAction from "../../redux/modules/auth";
 import config from "../../config";
 import {reduxForm} from "redux-form";
@@ -38,7 +37,11 @@ const validate = values => {
   return errors;
 };
 
-@connect(
+@reduxForm({
+    form: 'registerForm',
+    fields: ['email', 'username', 'password', 'password1', 'captcha'],
+    validate
+  },
   state => ({
     userLoad: state.auth.loaded,
     captcha: state.auth.captcha,
@@ -47,11 +50,6 @@ const validate = values => {
   {...authAction, createNotification}
 )
 
-@reduxForm({
-  form: 'registerForm',
-  fields: ['email', 'username', 'password', 'password1', 'captcha'],
-  validate
-})
 
 export default class registerForm extends Component {
   static propTypes = {
