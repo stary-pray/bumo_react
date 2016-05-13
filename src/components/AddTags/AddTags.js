@@ -79,8 +79,8 @@ export default class AddTags extends Component {
           <div onKeyDown={this.handleSubmit.bind(this)}>
             <input placeholder="名字" type="text" ref="tag"/>
           </div>
-
-          <a className="button" onClick={this.addTag.bind(this)}> 加 </a>
+          {tags.length<5?
+          <a className="button" onClick={this.addTag.bind(this)} > 加 </a>:''}
         </div>
 
         <div>{showExtra ? <div>
