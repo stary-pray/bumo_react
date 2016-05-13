@@ -68,7 +68,7 @@ export default class PaintingDetail extends Component {
 
   componentDidMount() {
     this.leftPanelScale = this.refs.leftPanel.offsetWidth / this.refs.leftPanel.offsetHeight;
-    Scroll.animateScroll.scrollToTop();
+    Scroll.animateScroll.scrollToTop({smooth: false, duration: 0,});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -186,37 +186,37 @@ export default class PaintingDetail extends Component {
           </div>
         </div>
         <div className="PaintingDetail__bottom">
-          <div className="PaintingDetail__fans">
-            <h3 className="PaintingDetail__fans-title">粉</h3>
-            <div className="PaintingDetail__fans-wrap">
-              {contributedUsersIDs.map((id)=> {
-                  console.log(contributedUsers);
-                  const contributedUser = contributedUsers[id];
-                  const contributedProfile = profile[contributedUser.profile];
-                  return (
-                    <div className="PaintingDetail__fan" key={id}>
-                      <Link to={`/p/${id}`}>
-                        <Avatar
-                          className="PaintingDetail__fan-avatar"
-                          avatar={contributedProfile.avatar}
-                          nickname={contributedProfile.nickname}
-                          width={60}
-                        />
-                      </Link>
-                      <div className="PaintingDetail__fan-wrap">
-                        <Link to={`/p/${contributedProfile.user}`} className="PaintingDetail__fan-nickname">
-                          {contributedProfile.nickname}
+          {contributedUsersIDs.length ?
+            <div className="PaintingDetail__fans">
+              <h3 className="PaintingDetail__fans-title">粉</h3>
+              <div className="PaintingDetail__fans-wrap">
+                {contributedUsersIDs.map((id)=> {
+                    const contributedUser = contributedUsers[id];
+                    const contributedProfile = profile[contributedUser.profile];
+                    return (
+                      <div className="PaintingDetail__fan" key={id}>
+                        <Link to={`/p/${id}`}>
+                          <Avatar
+                            className="PaintingDetail__fan-avatar"
+                            avatar={contributedProfile.avatar}
+                            nickname={contributedProfile.nickname}
+                            width={60}
+                          />
                         </Link>
-                        <div className="PaintingDetail__fan-amount">
-                          +{contributedUser.amount}
+                        <div className="PaintingDetail__fan-wrap">
+                          <Link to={`/p/${contributedProfile.user}`} className="PaintingDetail__fan-nickname">
+                            {contributedProfile.nickname}
+                          </Link>
+                          <div className="PaintingDetail__fan-amount">
+                            +{contributedUser.amount}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                }
-              )}
-            </div>
-          </div>
+                    );
+                  }
+                )}
+              </div>
+            </div> : ''}
         </div>
       </div>);
   }
