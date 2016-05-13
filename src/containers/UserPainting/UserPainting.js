@@ -1,7 +1,12 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {loadUserPaintingHot, loadUserPainting, loadProfileDetail, listModeDropdownChange} from "../../redux/modules/containers/UserPainting";
+import {
+  loadUserPaintingHot,
+  loadUserPainting,
+  loadProfileDetail,
+  listModeDropdownChange
+} from "../../redux/modules/containers/UserPainting";
 import {Link} from "react-router";
 import {resize, calculateHeat} from "../../utils/common";
 import InlineSVG from "svg-inline-react";
@@ -74,27 +79,30 @@ export default class UserPainting extends Component {
 
   constructor() {
     super();
+    this.state = {
+      bannerHeight: 0,
+      topPosition: 0,
+    };
     this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
     this.handleListModeDropdown = this.handleListModeDropdown.bind(this);
     this.handleListModeDropdownClose = this.handleListModeDropdownClose.bind(this);
     this.handleBannerUploadOpen = this.handleBannerUploadOpen.bind(this);
     this.handleAvatarUploadOpen = this.handleAvatarUploadOpen.bind(this);
     this.topPosition = 0;
-    this.handleScroll = lodash.throttle(()=> {
+    this.handleScroll = ()=> {
       const top = window.pageYOffset || document.documentElement.scrollTop;
-      this.topPosition = top / 2;
+      const topPosition = top / 2;
       if (top < this.bannerHeihgt * 1.2) {
-        this.forceUpdate();
+        window.requestAnimationFrame(()=> this.setState({topPosition}));
       }
-    }, 500);
+    };
   }
-
 
 
   componentDidMount() {
     this.props.loadProfileDetail(this.props.id);
     this.bannerHeihgt = this.refs.banner.offsetHeight;
-    //window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('scroll', this.handleScroll);
   }
 
   handleLoginModalOpen() {
@@ -110,21 +118,24 @@ export default class UserPainting extends Component {
     this.props.listModeDropdownChange(false);
   }
 
-  handleBannerUploadOpen(){
+  handleBannerUploadOpen() {
     this.props.userImageUploadModalOpen('banner');
   }
 
-  handleAvatarUploadOpen(){
+  handleAvatarUploadOpen() {
     this.props.userImageUploadModalOpen('avatar');
   }
+
   componentWillUnmount() {
-    //window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
   render() {
-    const {path, id, userPainting, component, paintingHeat, profile,
-      profileDetail, loadUserPaintingHot, loadUserPainting, subRoute, profileHeat,me,
-      preferences, changePaintingListMode} = this.props;
+    const {
+      path, id, userPainting, component, paintingHeat, profile,
+      profileDetail, loadUserPaintingHot, loadUserPainting, subRoute, profileHeat, me,
+      preferences, changePaintingListMode
+    } = this.props;
     const loadUserPaintingHotWithId = (pageIndex) => loadUserPaintingHot(id, pageIndex);
     const loadUserPaintingWithId = (pageIndex) => loadUserPainting(id, pageIndex);
     const isLatest = path && path.indexOf('/latest') > -1;
@@ -134,56 +145,57 @@ export default class UserPainting extends Component {
     const isMyPage = me.id == +id;
     return (<div className="UserPainting">
 
-      <Helmet
-        title={`${profileBody ? profileBody.nickname :''} - 恋绘.星祈`}
-        meta={[{description: profileBody? profileBody.introduction : ''}]}
-      />
+        <Helmet
+          title={`${profileBody ? profileBody.nickname :''} - 恋绘.星祈`}
+          meta={[{description: profileBody? profileBody.introduction : ''}]}
+        />
 
-      <div className="top">
-        <div ref="banner" className="banner">
-          {
-            (profileBody && profileBody.banner ) ?
-              <div
-                className="bannerBackground"
-                style={{
-                backgroundImage: 'url(' + resize(profileBody && profileBody.banner, 1000)+')',
-                transform: `translate3d(0px, ${this.topPosition}px, 0px)`
-                }}
-              /> :
-              <InlineSVG className="svg" src={require("../../utils/assets/default_banner.svg")}/>
-          }
-          {
-            isMyPage ?
-            <button onClick={this.handleBannerUploadOpen} className="bannerUploadButton shadow_distance button"><i className="zmdi zmdi-upload"/> 上传封面</button> : ''
-          }
-        </div>
-        <div className="profile">
-          <div className="avatarImage">
+        <div className="top">
+          <div ref="banner" className="banner">
             {
-              (profileBody && profileBody.avatar) ?
-                <img src={ resize(profileBody.avatar, 120)} alt={profileBody.nickname}/> :
-                <InlineSVG className="svg" src={require("../../utils/assets/default_avatar.svg")}/>
+              (profileBody && profileBody.banner ) ?
+                <div
+                  className="bannerBackground"
+                  style={{
+                backgroundImage: 'url(' + resize(profileBody && profileBody.banner, 1000)+')',
+                transform: `translate3d(0px, ${this.state.topPosition}px, 0px)`
+                }}
+                /> :
+                <InlineSVG className="svg" src={require("../../utils/assets/default_banner.svg")}/>
             }
             {
               isMyPage ?
-                <button onClick={this.handleAvatarUploadOpen}
-                        className="avatarUploadButton shadow_distance button">
-                  <i className="zmdi zmdi-upload"/> 上传头像</button> : ''
+                <button onClick={this.handleBannerUploadOpen} className="bannerUploadButton shadow_distance button"><i
+                  className="zmdi zmdi-upload"/> 上传封面</button> : ''
             }
           </div>
-          <div className="nickname">{profileBody && profileBody.nickname}</div>
-          <div>
-            <div className="introduction">
-              {profileBody && profileBody.introduction ?
-                profileBody.introduction :
-                <span className="secondary-color">...</span>
+          <div className="profile">
+            <div className="avatarImage">
+              {
+                (profileBody && profileBody.avatar) ?
+                  <img src={ resize(profileBody.avatar, 120)} alt={profileBody.nickname}/> :
+                  <InlineSVG className="svg" src={require("../../utils/assets/default_avatar.svg")}/>
+              }
+              {
+                isMyPage ?
+                  <button onClick={this.handleAvatarUploadOpen}
+                          className="avatarUploadButton shadow_distance button">
+                    <i className="zmdi zmdi-upload"/> 上传头像</button> : ''
               }
             </div>
-            <div className="profileHeat"><i
-              className="zmdi zmdi-fire"/> {profileHeatBody && calculateHeat(profileHeatBody)}
+            <div className="nickname">{profileBody && profileBody.nickname}</div>
+            <div>
+              <div className="introduction">
+                {profileBody && profileBody.introduction ?
+                  profileBody.introduction :
+                  <span className="secondary-color">...</span>
+                }
+              </div>
+              <div className="profileHeat"><i
+                className="zmdi zmdi-fire"/> {profileHeatBody && calculateHeat(profileHeatBody)}
+              </div>
             </div>
           </div>
-        </div>
         </div>
         <StickyContainer>
           <Sticky className="NavControls" stickyClassName={'NavControls__sticky'}>
@@ -231,6 +243,6 @@ export default class UserPainting extends Component {
           />
         </StickyContainer>
       </div>
-      );
-      }
-      }
+    );
+  }
+}
