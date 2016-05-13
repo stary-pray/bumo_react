@@ -5,6 +5,7 @@ import moment from "moment";
 import {logout, initialApp} from "../../redux/modules/auth";
 import MainHeader from "../MainHeader/MainHeader";
 import MainFooter from "../../components/MainFooter/MainFooter";
+import ScrollToTopButton from "../../components/ScrollToTopButton/ScrollToTopButton";
 import NotificationSystem from "react-notification-system";
 import PaintingModal from "../PaintingModal/PaintingModal";
 import SearchResult from "../SearchResult/SearchResult";
@@ -120,6 +121,7 @@ export default class App extends Component {
         <NotificationSystem ref="notificationSystem"/>
         <PaintingModal/>
         <SearchResult/>
+        <ScrollToTopButton />
       </div>
     );
   }

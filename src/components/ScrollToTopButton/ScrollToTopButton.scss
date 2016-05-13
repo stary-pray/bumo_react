@@ -1,0 +1,14 @@
+.ScrollToTopButton__button{
+  position: fixed;
+  right: 0;
+  bottom: 2rem;
+  opacity: 0.3;
+  transition: opacity 0.1s linear;
+  &:hover{
+    opacity: 1;
+  }
+  &-hide{
+    opacity: 0;
+    display: none;
+  }
+}
