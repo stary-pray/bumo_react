@@ -9,10 +9,11 @@
       overflow: hidden;
       .bannerBackground {
         width: 100%;
-        height: 100%;
+        height: calc(100% + 3rem);
         background-size: cover;
         background-position: 50%;
-        //transition: transform 0.2s linear;
+        position: relative;
+        top: -3rem;
       }
       .bannerUploadButton {
         position: absolute;

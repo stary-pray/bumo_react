@@ -4,6 +4,7 @@ import Masonry from "react-masonry-component";
 import "./PaintingList.scss";
 import classNames from "classnames";
 
+const defaultWidth = 250;
 export default class PaintingList extends Component {
   static propTypes = {
     painting: PropTypes.object,
@@ -60,14 +61,16 @@ export default class PaintingList extends Component {
 
   renderPaintingInfo(openModal, paintingId) {
     const {painting, paintingHeat, profile, isMe, preferences} = this.props;
+    const paintingBody = painting[paintingId];
+    const paintingWidth = paintingBody.width / paintingBody.height > 1.25 ? defaultWidth * 2 + 15 : defaultWidth;
     return (
       <PaintingInfo
         key={'painting' + paintingId}
-        heat={paintingHeat[painting[paintingId].heat]}
-        owner={profile[painting[paintingId].profile]}
-        painting={painting[paintingId]}
+        heat={paintingHeat[paintingBody.heat]}
+        owner={profile[paintingBody.profile]}
+        painting={paintingBody}
         openModal={openModal}
-        width={320}
+        width={paintingWidth}
         openTamashi={this.props.openTamashi}
         openedTamashiId={this.props.openedTamashiId}
         loginModalOpen={this.handleLoginModalOpen}
@@ -83,7 +86,7 @@ export default class PaintingList extends Component {
       <Masonry
         className={'BumoMasonry'}
         elementType={'ul'}
-        options={{ itemSelector: '.PaintingInfo__container', columnWidth: 320, gutter: 15, fitWidth: true }}
+        options={{ itemSelector: '.PaintingInfo__container', columnWidth: defaultWidth, gutter: 15, fitWidth: true }}
         disableImagesLoaded={false}
       >
         {component.loaded ?
