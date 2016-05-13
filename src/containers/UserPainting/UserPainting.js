@@ -92,7 +92,7 @@ export default class UserPainting extends Component {
     this.handleScroll = ()=> {
       const top = window.pageYOffset || document.documentElement.scrollTop;
       const topPosition = top / 2;
-      if (top < this.bannerHeihgt * 1.2) {
+      if (top < this.bannerHeihgt * 1) {
         window.requestAnimationFrame(()=> this.setState({topPosition}));
       }
     };
