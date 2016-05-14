@@ -5,6 +5,7 @@ import {
   loadUserPaintingHot,
   loadUserPainting,
   loadProfileDetail,
+  loadUserLikedPainting,
   listModeDropdownChange
 } from "../../redux/modules/containers/UserPainting";
 import {Link} from "react-router";
@@ -30,7 +31,7 @@ import Scroll from "react-scroll";
     profileDetail: state.models.profileDetail,
     paintingHeat: state.models.paintingHeat,
     profileHeat: state.models.profileHeat,
-    id: ownProps.params.ownerId,
+    id: +ownProps.params.ownerId,
     component: state.containers.UserPainting,
     page: state.containers.UserPainting.page,
     path: ownProps.route.path,
@@ -44,6 +45,7 @@ import Scroll from "react-scroll";
     loadUserPainting,
     loadUserPaintingHot,
     loadProfileDetail,
+    loadUserLikedPainting,
     openModal: PaintingModalActions.openModal,
     openTamashi: openTamashi,
     loginModalOpen,
@@ -63,6 +65,7 @@ export default class UserPainting extends Component {
     loadUserPaintingHot: PropTypes.func,
     loadUserPainting: PropTypes.func,
     loadProfileDetail: PropTypes.func,
+    loadUserLikedPainting: PropTypes.func,
     component: PropTypes.object,
     page: PropTypes.number,
     openTamashi: PropTypes.func,
@@ -136,12 +139,16 @@ export default class UserPainting extends Component {
     const {
       path, id, userPainting, component, paintingHeat, profile,
       profileDetail, loadUserPaintingHot, loadUserPainting, subRoute, profileHeat, me,
-      preferences, changePaintingListMode
+      preferences, changePaintingListMode,loadUserLikedPainting
     } = this.props;
     const loadUserPaintingHotWithId = (pageIndex) => loadUserPaintingHot(id, pageIndex);
     const loadUserPaintingWithId = (pageIndex) => loadUserPainting(id, pageIndex);
+    const loadUserLikedPaintingWithId = (pageIndex) => loadUserLikedPainting(id, pageIndex);
     const isLatest = path && path.indexOf('/latest') > -1;
-    const loadPainting = isLatest ? loadUserPaintingWithId : loadUserPaintingHotWithId;
+    const isLiked = path && path.indexOf('/liked') > -1;
+    const loadPainting = isLiked ?
+      loadUserLikedPaintingWithId :
+      (isLatest ? loadUserPaintingWithId : loadUserPaintingHotWithId);
     const profileBody = lodash.find(profileDetail, {user: +id});
     const profileHeatBody = profileBody ? profileHeat[profileBody.heat] : null;
     const isMyPage = me.id == +id;
@@ -207,6 +214,9 @@ export default class UserPainting extends Component {
               </Link>
               <Link activeClassName="active" to={`/p/${id}/latest`}>
                 <span>新作</span>
+              </Link>
+              <Link activeClassName="active" to={`/p/${id}/liked`}>
+                <span>喜欢</span>
               </Link>
             </div>
             <div className="rightSide">

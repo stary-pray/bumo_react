@@ -58,7 +58,9 @@ export default function Router(store) {
 
       <Route path="/latest" component={Home}/>
 
-      <Route path="p/:ownerId/:sub" component={UserPainting}/>
+      <Route path="p/:ownerId/latest" component={UserPainting}/>
+
+      <Route path="p/:ownerId/liked" component={UserPainting}/>
 
       <Route path="p/:ownerId" component={UserPainting}/>
 

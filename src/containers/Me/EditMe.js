@@ -15,8 +15,8 @@ import {createNotification} from "../../redux/modules/notification";
     component: state.containers.MeUpdate,
     initialValues: {
       nickname: state.me.nickname,
-      introduction: state.me.introduction,
-      description: state. me.description
+      introduction: state.me.introduction?state.me.introduction:'',
+      description: state.me.description?state.me.description:''
     }
   }),
   dispatch => bindActionCreators({
@@ -58,20 +58,20 @@ export default class updateMeForm extends Component {
         <form onSubmit={this.handleSubmit}>
           <label>
             <div>用户名</div>
-            {me.username}
+            <input type="text" value={me.username} readonly/>
           </label>
           <label>
             <div>昵称*</div>
             {component.error ? (component.error.nickname ? <div>昵称不能为空</div> : '') : ''}
-            <input type="text" value={me.nickname} ref="nickname" {...nickname}/>
+            <input type="text" ref="nickname" {...nickname}/>
           </label>
           <label>
             <div>介绍</div>
-            <input type="text" value={me.introduction} ref="introduction" {...introduction}/>
+            <input type="text" ref="introduction" {...introduction}/>
           </label>
           <label>
             <div>描述</div>
-            <input type="text" value={me.description} ref="description" {...description}/>
+            <input type="text" ref="description" {...description}/>
           </label>
           <button onClick={this.handleSubmit}>提交</button>
         </form>
