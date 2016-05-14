@@ -2,17 +2,13 @@
 
 .App {
   &__container {
-    position: relative;
-  }
-  &__content {
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
+    overflow: hidden;
+    display: block;
     position: relative;
     min-height: 100vh;
   }
   &__page{
-    flex: 1 1 auto;
+    min-height: calc(100vh - 7rem);
   }
 }
 

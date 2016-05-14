@@ -85,7 +85,7 @@ export default class Home extends Component {
 
     return (<div className="Home">
       <div className="pageHead">
-        <h1>绘画之魂的燃烧</h1>
+        <h1>绘画之魂完全燃烧</h1>
       </div>
 
       <StickyContainer>

@@ -109,15 +109,12 @@ export default class App extends Component {
     return (
       <div className="App__container border-box">
         <Helmet title="恋绘.星祈"/>
-        {/*<Navbar logout={this.handleLogout} me={me} loaded={loaded} />*/}
-        <div className="App__content">
-          <MainHeader routeParams={params}/>
-          <div className="App__page">
-            {this.props.children}
-          </div>
-          <MainFooter />
-          <Waypoint threshold={0.2} onPositionChange={this.waypointPositionChange}/>
+        <MainHeader routeParams={params}/>
+        <div className="App__page">
+          {this.props.children}
         </div>
+        <Waypoint threshold={0.05} onPositionChange={this.waypointPositionChange}/>
+        <MainFooter />
         <NotificationSystem ref="notificationSystem"/>
         <PaintingModal/>
         <SearchResult/>
