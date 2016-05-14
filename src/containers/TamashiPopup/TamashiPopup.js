@@ -17,7 +17,10 @@ import ReactCSSTransitionGroup from "react-addons-css-transition-group";
     tags: state.models.tags,
     me: state.me,
     likeActionComponent: state.containers.LikeAction,
-    profile: state.models.profile
+    profile: state.models.profile,
+    tagHeat: state.models.tagHeat,
+    paintingHeat: state.models.paintingHeat,
+    profileHeat:state.models.profileHeat
   }),
   {
     ...tamashiPopupActions,
@@ -41,6 +44,9 @@ export default class TamashiPopup extends Component {
     likeActionComponent: PropTypes.object,
     profile: PropTypes.object,
     hoverButton: PropTypes.func,
+    tagHeat: PropTypes.object,
+    paintingHeat: PropTypes.object,
+    profileHeat:PropTypes.object
   };
 
   constructor() {
@@ -99,7 +105,7 @@ export default class TamashiPopup extends Component {
   }
 
   render() {
-    const {heat, id, component, paintingDetail, tags, me, profile, positionClass, hoverButton} = this.props;
+    const {heat, id, component, paintingDetail, tags, me, profile, positionClass, hoverButton, tagHeat, paintingHeat, profileHeat} = this.props;
     const isOpened = id && component.id && (id == component.id);
 
     return (
@@ -146,26 +152,27 @@ export default class TamashiPopup extends Component {
               <hr/>
               <div className="section section-tamashi">
                 <label>作品</label>
-                {this.renderSectionWidth('p', paintingDetail[id].title, heat, component.hoverAmount)}
+                {this.renderSectionWidth('p', paintingDetail[id].title, paintingHeat[paintingDetail[id].heat], component.hoverAmount)}
               </div>
               <div className="section section-tags">
                 <label>作者</label>
-                {this.renderSectionWidth('t', profile[paintingDetail[id].profile].nickname, heat, component.hoverAmount)}
+                {this.renderSectionWidth('t', profile[paintingDetail[id].profile].nickname,profileHeat[paintingDetail[id].profile]
+                  , component.hoverAmount)}
                 <div className="section section-tags">
                   <label>标签</label>
                   {paintingDetail[id].tags.map((tagId)=>
-                    this.renderSectionWidth(tagId, tags[tagId].name, heat, component.hoverAmount)
+                    this.renderSectionWidth(tagId, tags[tagId].name, tagHeat[tags[tagId].heat], component.hoverAmount)
                   )}
                 </div>
                 <hr/>
                 <div className="section section-profile-balance">
                   <label>账户余额</label>
                   <div className="balance">
-                    <span className="balanceXing"> 
+                    <span className="balanceXing">
                       <i
                         className="zmdi zmdi-favorite"/>HP {me.balance.free_qb - (component.type === 'free' ? component.hoverAmount : 0)}
                     </span>
-                    <span className="balanceQi"> 
+                    <span className="balanceQi">
                       <i
                         className="zmdi zmdi-star"/>MP {me.balance.charged_qb - (component.type === 'paid' ? component.hoverAmount : 0)}
                     </span>
