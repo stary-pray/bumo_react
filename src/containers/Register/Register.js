@@ -76,6 +76,42 @@ export default class registerForm extends Component {
     this.props.getCaptcha();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const{registerError}=this.props;
+
+    let formError = '';
+    if (registerError && registerError.email) {
+      formError = registerError.email.map((sentence)=> {
+        switch (sentence) {
+          case "A user is already registered with this e-mail address.":
+            return <span key={sentence}>该邮箱已被注册过</span>;
+          default:
+            return <span key={sentence}>{sentence}</span>;
+        }
+      });
+    }
+    if (registerError && registerError.username) {
+      formError = registerError.username.map((sentence)=> {
+        switch (sentence) {
+          case "This username is already taken. Please choose another.":
+            return <span key={sentence}>用户名已存在</span>;
+          default:
+            return <span key={sentence}>{sentence}</span>;
+        }
+      });
+    }
+    if (registerError && registerError.password1) {
+      formError = <span> {registerError.password1[0]}</span>;
+    }
+    if (registerError && registerError.CAPTCHA_WRONG_ERROR) {
+      formError = <span>验证码错误 </span>;
+    }
+    if(registerError){this.props.createNotification({
+      message: <div className="error">{formError}</div>,
+      level: 'error'
+    })}
+
+  }
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -100,33 +136,7 @@ export default class registerForm extends Component {
     const {captcha, registerError, userLoad} = this.props;
     const {fields: {email, username, password, password1, captcha: captchaField}} = this.props;
     const {invalid} = this.props;
-    let formError = '';
-    if (registerError && registerError.email) {
-      formError = registerError.email.map((sentence)=> {
-        switch (sentence) {
-          case "A user is already registered with this e-mail address.":
-            return <span key={sentence}>该邮箱已被注册过</span>;
-          default:
-            return <span key={sentence}>{sentence}</span>;
-        }
-      });
-    }
-    if (registerError && registerError.username) {
-      formError = registerError.username.map((sentence)=> {
-        switch (sentence) {
-          case "This username is already taken. Please choose another .":
-            return <span key={sentence}>用户名已存在</span>;
-          default:
-            return <span key={sentence}>{sentence}</span>;
-        }
-      });
-    }
-    if (registerError && registerError.password1) {
-      formError = <span> {registerError.password1[0]}</span>;
-    }
-    if (registerError && registerError.CAPTCHA_WRONG_ERROR) {
-      formError = <span>验证码错误 </span>;
-    }
+
 
     return (
       <div className="Register">
@@ -172,10 +182,7 @@ export default class registerForm extends Component {
               注册
             </button>
           </form>
-          {registerError ? this.props.createNotification({
-            message: <div className="error">{formError}</div>,
-            level: 'error'
-          }) : ''}
+
           {userLoad &&
           <div>
             <p>你已经注册成功.</p>

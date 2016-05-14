@@ -20,8 +20,8 @@ import {createNotification, createNotificationSuccess} from '../../redux/modules
     component: state.containers.MeUpdate,
     initialValues: {
       nickname: state.me.nickname,
-      introduction: state.me.introduction,
-      description: state. me.description
+      introduction: state.me.introduction?state.me.introduction:'',
+      description: state.me.description?state.me.description:''
     }
   }),
   dispatch => bindActionCreators({
@@ -58,12 +58,7 @@ export default class updateMeForm extends Component {
 
   render() {
     const {component, fields:{nickname,introduction, description},me} = this.props;
-    const initialForm = {
-      nickname: me.nickname,
-      introduction: me.introduction,
-      description: me.description
-    };
-    console.log(initialForm);
+
     return (
       <div>
 
@@ -74,15 +69,15 @@ export default class updateMeForm extends Component {
           </div>
           <div>
             <label>昵称*</label>{component.error ? (component.error.nickname ? <div>请输入昵称</div> : '') : ''}
-            <input value={me.nickname} ref="nickname" {...nickname}/>
+            <input ref="nickname" {...nickname}/>
           </div>
           <div>
             <label>介绍</label>
-            <input value={me.introduction} ref="introduction" {...introduction}/>
+            <input ref="introduction" {...introduction}/>
           </div>
           <div>
             <label>描述</label>
-            <input value={me.description} ref="description" {...description}/>
+            <input ref="description" {...description}/>
           </div>
           <button onClick={this.handleSubmit}>提交</button>
         </form>
