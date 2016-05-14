@@ -10,7 +10,7 @@ import * as depositModule from "../modules/containers/Deposit";
 import * as getChargeModule from "../modules/models/Deposit";
 import * as PaintingUploadModule from "../modules/paintingUpload";
 import * as MainHeaderModule from "../modules/containers/MainHeader";
-
+import * as LikeActionModule from "../modules/containers/LikeAction";
 const TRULY = true;
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -52,7 +52,7 @@ function* updateAvatarOrBanner() {
 
 function* updateMe() {
   while (TRULY) {
-    yield take( meUpdateModule.UPDATE_SUCCESS);
+    const {result} = yield take([meUpdateModule.UPDATE_SUCCESS,LikeActionModule.FREE_LIKE_SUCCESS,LikeActionModule.PAY_LIKE_SUCCESS]);
     yield put(meModule.load());
   }
 }
