@@ -126,10 +126,7 @@ export default class Login extends Component {
                 </a>
               </div>
               : '' }
-            {loginError ? this.props.createNotification({
-              message: <div className="error">{formError}</div>,
-              level: 'error'
-            }) : ''}
+            {loginError ? <div className="error">{formError}</div> : ''}
             <button className="button hollow" onClick={this.handleSubmit}> 登录</button>
           </form>
         </div>
