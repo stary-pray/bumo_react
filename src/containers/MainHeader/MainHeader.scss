@@ -18,11 +18,16 @@
     svg {
       height: 2rem;
       font-style: normal;
-      transition: opacity 0.3s ease-in;
+    }
+    .doHover{
+      transition: fill 0.1s ease-in;
     }
     &:hover {
       svg {
-        opacity: .8;
+        //opacity: .8;
+      }
+      .doHover{
+        fill: $sakura;
       }
     }
   }
