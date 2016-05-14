@@ -38,6 +38,7 @@ export default class BumoDropdown extends Component {
         transitionLeaveTimeout={150}
       >
         {isOpened ? this.renderOpened() : ''}
-      </ReactCSSTransitionGroup>);
+      </ReactCSSTransitionGroup>
+    );
   }
 }

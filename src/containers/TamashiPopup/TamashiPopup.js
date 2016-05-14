@@ -8,6 +8,7 @@ import PayLike from "../Like/PayLike";
 import FreeLike from "../Like/FreeLike";
 import {load as loadPaintingDetail} from "../../redux/modules/models/PaintingDetail";
 import {createNotification} from "../../redux/modules/notification";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
 @connect(
   (state) => ({
@@ -39,6 +40,7 @@ export default class TamashiPopup extends Component {
     createNotification: PropTypes.func,
     likeActionComponent: PropTypes.object,
     profile: PropTypes.object,
+    hoverButton: PropTypes.func,
   };
 
   constructor() {
@@ -60,14 +62,14 @@ export default class TamashiPopup extends Component {
       this.props.createNotification({
         message: `给${paintingDetail[id].title}点了${likeAmount}个赞`,
         level: 'success'
-      })
+      });
     }
 
     if (freeLikeSuccess && (nextProps.component.id === likePaintingId) && (nextProps.component.id == id)) {
       this.props.createNotification({
         message: `给${paintingDetail[id].title}点了1个赞`,
         level: 'success'
-      })
+      });
     }
 
   }
@@ -76,64 +78,101 @@ export default class TamashiPopup extends Component {
     this.props.closeTamashi();
   }
 
+  renderSectionWidth(key, title, heatObj, hoverAmount) {
+    return (
+      <div key={key} className="section-with__container">
+        <div className="section-with__title">
+          {title}
+        </div>
+        <ReactCSSTransitionGroup
+          className="section-with__heat"
+          transitionName="HeatPreviewTransaction"
+          transitionEnterTimeout={150}
+          transitionLeaveTimeout={100}
+        >
+          <span className="section-with__heat-animate" key={hoverAmount}>
+            <i className="zmdi zmdi-fire"/> {calculateHeat(heatObj) + (hoverAmount || 0)}
+          </span>
+        </ReactCSSTransitionGroup>
+      </div>
+    );
+  }
+
   render() {
-    const {heat, id, component, paintingDetail, tags, me, profile, positionClass} = this.props;
+    const {heat, id, component, paintingDetail, tags, me, profile, positionClass, hoverButton} = this.props;
     const isOpened = id && component.id && (id == component.id);
 
     return (
       <BumoDropdown close={this.handleClosePopup} positionClass={positionClass} isOpened={isOpened}>
         <div className="TamashiPopup">
           <div className="top">
-            <div className="tamashi">
-              <i className="zmdi zmdi-fire"/>
-              {calculateHeat(heat)}
-            </div>
             <span onClick={this.handleClosePopup} className="close">
               <i className="zmdi zmdi-close"/>
             </span>
           </div>
-          {me.balance && paintingDetail[id] ?
+          {me.balance && paintingDetail[id] ? (
             <div>
               <div className="section section-xing">
-                <label>
-                  作品
-                </label>
-                <FreeLike paintingId={id} isDisabled={(paintingDetail[id].free_liked)||
-                (me.balance.free_qb<1)||(paintingDetail[id].owner===me.id)}>
-                  <i className="zmdi zmdi-star"/>
-                  +1</FreeLike>
+                <label>单纯的支持作品:</label>
+                <FreeLike
+                  paintingId={id}
+                  onMouseEnter={()=> hoverButton({type: 'free', hoverAmount: 1})}
+                  onMouseLeave={()=> hoverButton({type: 'free', hoverAmount: 0})}
+                  isDisabled={(paintingDetail[id].free_liked)|| (me.balance.free_qb<1)||(paintingDetail[id].owner===me.id)}
+                >
+                  <i className="zmdi zmdi-favorite"/> +1
+                </FreeLike>
+                  <span className="section__hint">
+                    {paintingDetail[id].owner != me.id && paintingDetail[id].free_liked ? '每个作品用HP只能支持一次' : ''}
+                    {paintingDetail[id].owner === me.id ? '不能给自己的作品续命' : ''}
+                  </span>
               </div>
               <div className="section section-qi">
-                <label>
-                  作者
-                </label>
-                <PayLike paintingId={id} amount={1}
-                         isDisabled={me.balance.charged_qb<1}><i
-                  className="zmdi zmdi-favorite"/> +1</PayLike>
-                <PayLike paintingId={id} amount={5}
-                         isDisabled={me.balance.charged_qb<5}>+5 </PayLike>
-                <PayLike paintingId={id} amount={10}
-                         isDisabled={me.balance.charged_qb<10}>+10</PayLike>
-                <PayLike paintingId={id} amount={50}
-                         isDisabled={me.balance.charged_qb<50}>+50</PayLike>
+                <label>也支持一下作者:</label>
+                {[1, 5, 10, 50]
+                  .filter(amount => (amount <= me.balance.charged_qb || amount === 1))
+                  .map((amount)=>
+                    <PayLike
+                      key={amount}
+                      paintingId={id}
+                      amount={amount}
+                      onMouseEnter={()=> hoverButton({type: 'paid', hoverAmount: amount})}
+                      onMouseLeave={()=> hoverButton({type: 'paid', hoverAmount: 0})}
+                      isDisabled={me.balance.charged_qb<1}>
+                      {amount === 1 ? <i className="zmdi zmdi-star"/> : '' } +{amount}
+                    </PayLike>
+                  )}
               </div>
-              <div className="section section-tags">
-                <label>标签</label>
-                {paintingDetail[id].tags.map((tagId)=><div
-                  key={"tags"+tagId}>{tags[tagId].name}_{tags[tagId].type}</div>)}
+              <hr/>
+              <div className="section section-tamashi">
+                <label>作品</label>
+                {this.renderSectionWidth('p', paintingDetail[id].title, heat, component.hoverAmount)}
               </div>
               <div className="section section-tags">
                 <label>作者</label>
-                {<div>{profile[paintingDetail[id].profile].nickname}</div>}
-              </div>
-              <div className="section section-profile-balance">
-                <label>余额</label>
-                <div className="balance">
-                  <span className="balanceXing"> <i className="zmdi zmdi-star"/>{me.balance.free_qb}</span>
-                  <span className="balanceQi"> <i className="zmdi zmdi-favorite"/>{me.balance.charged_qb}</span>
+                {this.renderSectionWidth('t', profile[paintingDetail[id].profile].nickname, heat, component.hoverAmount)}
+                <div className="section section-tags">
+                  <label>标签</label>
+                  {paintingDetail[id].tags.map((tagId)=>
+                    this.renderSectionWidth(tagId, tags[tagId].name, heat, component.hoverAmount)
+                  )}
+                </div>
+                <hr/>
+                <div className="section section-profile-balance">
+                  <label>账户余额</label>
+                  <div className="balance">
+                    <span className="balanceXing"> 
+                      <i
+                        className="zmdi zmdi-favorite"/>HP {me.balance.free_qb - (component.type === 'free' ? component.hoverAmount : 0)}
+                    </span>
+                    <span className="balanceQi"> 
+                      <i
+                        className="zmdi zmdi-star"/>MP {me.balance.charged_qb - (component.type === 'paid' ? component.hoverAmount : 0)}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div> : ''}
+            </div> ) : ''}
         </div>
       </BumoDropdown>
     );

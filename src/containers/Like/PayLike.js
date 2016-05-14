@@ -17,6 +17,8 @@ export default class PayLike extends Component {
     paintingId: PropTypes.number,
     payLike: PropTypes.func,
     amount: PropTypes.number.isRequired,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
     isDisabled: PropTypes.bool
   };
 
@@ -27,8 +29,14 @@ export default class PayLike extends Component {
 
 
   render() {
+    const {isDisabled} = this.props;
     return (
-      <button className="button hollow small" onClick={this.handlePayLike.bind(this)} disabled={this.props.isDisabled}>
+      <button
+        className={"button hollow small "  + (isDisabled ? 'is-disabled' : '')}
+        onClick={this.handlePayLike.bind(this)}
+        onMouseEnter={()=> !isDisabled && this.props.onMouseEnter()}
+        onMouseLeave={this.props.onMouseLeave}
+      >
         {this.props.children}
       </button>
     );

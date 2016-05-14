@@ -1,4 +1,5 @@
 @import "../colors";
+@import "../basic";
 
 .TamashiPopup {
   width: 16rem;
@@ -31,20 +32,26 @@
       right: 0;
       top: -18px;
       cursor: pointer;
-      &:hover{
+      &:hover {
         color: $lGrey;
       }
     }
   }
 
   .section {
+    margin: 0.5rem 0;
     > label {
       color: $dGrey;
+      margin-bottom: 0.2rem;
     }
 
     > .button.hollow {
       padding: 0.68em 0.85em;
       margin: 0 0.5rem 0.5rem 0;
+    }
+    &__hint{
+      font-size: 0.8rem;
+      color: $dGrey;
     }
   }
 
@@ -53,31 +60,91 @@
   }
   .section-xing {
     > .button {
-      border: 1px solid $dYellow;
-      color: $dYellow;
+      border: 1px solid $dGreen;
+      color: $dGreen;
       &:hover {
-        border: 1px solid $lYellow;
-        color: $lYellow;
+        border: 1px solid $lGreen;
+        color: $lGreen;
+      }
+      &.is-disabled {
+        border: 1px solid $lSliver;
+        color: $dSliver;
+        cursor: not-allowed;
       }
     }
   }
   .section-qi {
     > .button {
-      border: 1px solid $dRed;
-      color: $dRed;
+      border: 1px solid $dBlue;
+      color: $dBlue;
       &:hover {
-        border: 1px solid $lRed;
-        color: $lRed;
+        border: 1px solid $lBlue;
+        color: $lBlue;
+      }
+      &.is-disabled {
+        border: 1px solid $lSliver;
+        color: $dSliver;
+        cursor: not-allowed;
       }
     }
   }
   .section-profile-balance {
     .balanceXing {
-      color: $dYellow;
+      color: $dGreen;
       padding-right: 1rem;
     }
     .balanceQi {
+      color: $dBlue;
+    }
+  }
+  .section-with {
+    &__container {
+      display: flex;
+    }
+    &__title {
+      flex: 0 0 75%;
+      padding-right: 1rem;
+      overflow: hidden;
+      @extend .ellipses;
+    }
+    &__heat {
       color: $dRed;
+      position: relative;
+      width: 100%;
+      &-animate{
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 0;
+      }
+    }
+  }
+
+  .HeatPreviewTransaction {
+    &-enter {
+      opacity: 0.01;
+      transform: translate3d(0px, 4px, 0px);
+    }
+
+    &-enter.HeatPreviewTransaction-enter-active {
+      opacity: 1;
+      transform: translate3d(0px, 0px, 0px);
+      transition-property: opacity, transform;
+      transition-duration: 150ms;
+      transition-timing-function: ease-in;
+    }
+
+    &-leave {
+      opacity: 1;
+      transform: translate3d(0px, 0px, 0px);
+    }
+
+    &-leave.HeatPreviewTransaction-leave-active {
+      opacity: 0.01;
+      transform: translate3d(0px, 4px, 0px);
+      transition-property: opacity, transform;
+      transition-duration: 100ms;
+      transition-timing-function: ease-in;
     }
   }
 }

@@ -1,15 +1,10 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {load as loadMe} from '../../redux/modules/me';
-import {update as updateMe}from '../../redux/modules/containers/MeUpdate';
-import {Link} from 'react-router';
-import {reduxForm} from 'redux-form';
-import Dropzone from 'react-dropzone';
-import {createNotification, createNotificationSuccess} from '../../redux/modules/notification';
-
-
-//import {loadSpec as loadMyPaintings} from '../../redux/models/Painting';
+import React, {Component, PropTypes} from "react";
+import {bindActionCreators} from "redux";
+import {load as loadMe} from "../../redux/modules/me";
+import {update as updateMe} from "../../redux/modules/containers/MeUpdate";
+import {Link} from "react-router";
+import {reduxForm} from "redux-form";
+import {createNotification} from "../../redux/modules/notification";
 
 @reduxForm({
     form: 'updateMe',
@@ -58,32 +53,26 @@ export default class updateMeForm extends Component {
 
   render() {
     const {component, fields:{nickname,introduction, description},me} = this.props;
-    const initialForm = {
-      nickname: me.nickname,
-      introduction: me.introduction,
-      description: me.description
-    };
-    console.log(initialForm);
     return (
       <div>
-
         <form onSubmit={this.handleSubmit}>
-          <div>
-            <label>用户名</label>
+          <label>
+            <div>用户名</div>
             {me.username}
-          </div>
-          <div>
-            <label>昵称*</label>{component.error ? (component.error.nickname ? <div>请输入昵称</div> : '') : ''}
-            <input value={me.nickname} ref="nickname" {...nickname}/>
-          </div>
-          <div>
-            <label>介绍</label>
-            <input value={me.introduction} ref="introduction" {...introduction}/>
-          </div>
-          <div>
-            <label>描述</label>
-            <input value={me.description} ref="description" {...description}/>
-          </div>
+          </label>
+          <label>
+            <div>昵称*</div>
+            {component.error ? (component.error.nickname ? <div>昵称不能为空</div> : '') : ''}
+            <input type="text" value={me.nickname} ref="nickname" {...nickname}/>
+          </label>
+          <label>
+            <div>介绍</div>
+            <input type="text" value={me.introduction} ref="introduction" {...introduction}/>
+          </label>
+          <label>
+            <div>描述</div>
+            <input type="text" value={me.description} ref="description" {...description}/>
+          </label>
           <button onClick={this.handleSubmit}>提交</button>
         </form>
         <div>

@@ -17,17 +17,27 @@ export default class FreeLike extends Component {
   static propTypes = {
     paintingId: PropTypes.number,
     freeLike: PropTypes.func,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
     isDisabled: PropTypes.bool
   };
 
   handleFreeLike = (event) =>{
     event.preventDefault();
-    this.props.freeLike(this.props.paintingId);
+    if(!this.props.isDisabled){
+      this.props.freeLike(this.props.paintingId);
+    }
   };
 
   render() {
+    const {isDisabled} = this.props;
     return (
-    <button className="button hollow small" onClick={this.handleFreeLike.bind(this)} disabled={this.props.isDisabled}>
+    <button
+      className={"button hollow small " + (isDisabled ? 'is-disabled' : '') }
+      onClick={this.handleFreeLike.bind(this)}
+      onMouseEnter={()=> !isDisabled && this.props.onMouseEnter()}
+      onMouseLeave={this.props.onMouseLeave}
+    >
       {this.props.children}
     </button>
     );
