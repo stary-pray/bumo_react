@@ -1,19 +1,21 @@
 import {createStore as _createStore, applyMiddleware, compose} from "redux";
 import createMiddleware from "./middleware/clientMiddleware";
 import normailzeMiddleware from "./middleware/normailzeMiddleware";
-import sagaMiddleware from "redux-saga";
 import rootSaga from "./saga";
 import reducer from "./modules/reducer";
-import createLogger from "redux-logger";
+import createSagaMiddleware from "redux-saga";
 
 export default function createStore(getRoutes, client, data) {
   // Sync dispatched route actions to the history
-  const logger = createLogger();
-  const middleware = [createMiddleware(client), normailzeMiddleware, sagaMiddleware(rootSaga), 
-    //logger
-  ];
+  const sagaMiddleware = createSagaMiddleware();
+  const middleware = [createMiddleware(client), normailzeMiddleware, sagaMiddleware];
 
   const finalCreateStore = compose(applyMiddleware(...middleware), window.devToolsExtension ? window.devToolsExtension() : f => f)(_createStore);
 
-  return finalCreateStore(reducer, data);
+  const store = finalCreateStore(reducer, data);
+
+  sagaMiddleware.run(rootSaga);
+  
+  return store;
 }
+
