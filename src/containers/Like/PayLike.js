@@ -24,7 +24,9 @@ export default class PayLike extends Component {
 
   handlePayLike = (event) => {
     event.preventDefault();
-    this.props.payLike(this.props.paintingId, this.props.amount);
+    if (!this.props.isDisabled) {
+      this.props.payLike(this.props.paintingId, this.props.amount);
+    }
   };
 
 
