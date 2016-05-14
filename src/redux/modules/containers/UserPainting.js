@@ -13,6 +13,9 @@ export const LOAD_USER_PAINTING_HOT = 'bumo/painting/LOAD_USER_PAINTING_HOT';
 export const LOAD_USER_PAINTING_HOT_SUCCESS = 'bumo/painting/LOAD_USER_PAINTING_HOT_SUCCESS';
 export const LOAD_USER_PAINTING_HOT_FAIL = 'bumo/painting/LOAD_USER_PAINTING_HOT_FAIL';
 
+export const LOAD_USER_LIKED_PAINTING = 'bumo/painting/LOAD_USER_LIKED_PAINTING';
+export const LOAD_USER_LIKED_PAINTING_SUCCESS = 'bumo/painting/LOAD_USER_LIKED_PAINTING_SUCCESS';
+export const LOAD_USER_LIKED_PAINTING_FAIL = 'bumo/painting/LOAD_USER_LIKED_PAINTING_FAIL';
 const LIST_MODE_DROPDOWN_CHANGE = 'cp/UserPainting/LIST_MODE_DROPDOWN_CHANGE';
 
 export function loadProfileDetail(userId) {
@@ -39,6 +42,13 @@ export function loadUserPaintingHot(ownerId, index) {
   };
 }
 
+export function loadUserLikedPainting(ownerId, index) {
+  return {
+    types: [LOAD_USER_LIKED_PAINTING,  LOAD_USER_LIKED_PAINTING_SUCCESS , LOAD_USER_LIKED_PAINTING_FAIL],
+    promise: (client) => client.get('/api/paintings/liked?liked_owner=' + ownerId + '&page=' + index),
+    normalizeSchema: 'painting'
+  };
+}
 const initialState = {
   pageMeta: {
     current: 0,
@@ -53,12 +63,14 @@ export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case LOAD_USER_PAINTING:
     case LOAD_USER_PAINTING_HOT:
+    case LOAD_USER_LIKED_PAINTING:
       return {
         ...state,
         loading: true
       };
     case LOAD_USER_PAINTING_SUCCESS:
     case LOAD_USER_PAINTING_HOT_SUCCESS:
+    case LOAD_USER_LIKED_PAINTING_SUCCESS:
       return {
         ...state,
         loaded: true,
