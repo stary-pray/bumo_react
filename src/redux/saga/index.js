@@ -1,5 +1,4 @@
 // import {fork, call, take, put} from 'redux-saga'
-
 import {fork, take, put, select} from "redux-saga/effects";
 import {browserHistory} from "react-router";
 import * as authModule from "../modules/auth";
@@ -11,24 +10,30 @@ import * as getChargeModule from "../modules/models/Deposit";
 import * as PaintingUploadModule from "../modules/paintingUpload";
 import * as MainHeaderModule from "../modules/containers/MainHeader";
 import * as LikeActionModule from "../modules/containers/LikeAction";
+import {checkTokenValid} from "../../utils/common";
 const TRULY = true;
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+function loadMeOrLogout(){
+  const {valid, needRefresh} = checkTokenValid();
+  if(valid){
+    return put(meModule.load());
+  } else if(needRefresh){
+    return put(authModule.logout());
+  }
+}
+
 function* initialApp() {
   yield take(authModule.INITIAL_APP);
-  try{
-    yield put(meModule.load());
-  } catch(e) {
-    console.log('login failed');
-  }
+  yield loadMeOrLogout();
 }
 
 function* loginSuccess() {
   while (TRULY) {
     const {result} = yield take(authModule.LOGIN_SUCCESS);
     localStorage.setItem('token', result.token);
-    yield put(meModule.load());
+    yield loadMeOrLogout();
     yield put(MainHeaderModule.modalClose());
   }
 }
@@ -36,7 +41,7 @@ function* loginSuccess() {
 function* paintingUploadSuccess() {
   while (TRULY) {
     const {result} =yield take(PaintingUploadModule.UPLOAD_SUCCESS);
-    browserHistory.push('/painting/'+result.id);
+    browserHistory.push('/painting/' + result.id);
   }
 }
 
@@ -46,14 +51,21 @@ function* updateAvatarOrBanner() {
     yield put(MainHeaderModule.modalClose());
     const userId = yield select(state => state.me.id);
     yield put(userPaintingModule.loadProfileDetail(userId));
-    yield put(meModule.load());
+    yield loadMeOrLogout();
   }
 }
 
 function* updateMe() {
   while (TRULY) {
-    const {result} = yield take([meUpdateModule.UPDATE_SUCCESS,LikeActionModule.FREE_LIKE_SUCCESS,LikeActionModule.PAY_LIKE_SUCCESS]);
-    yield put(meModule.load());
+    const {result} = yield take([meUpdateModule.UPDATE_SUCCESS, LikeActionModule.FREE_LIKE_SUCCESS, LikeActionModule.PAY_LIKE_SUCCESS]);
+    yield loadMeOrLogout();
+  }
+}
+
+function* updateMeEveryQuarterHour() {
+  while (TRULY) {
+    yield delay(15 * 60 * 1000);
+    yield loadMeOrLogout();
   }
 }
 
@@ -61,7 +73,7 @@ function* registerSuccess() {
   while (TRULY) {
     const {result} = yield take(authModule.REGISTER_SUCCESS);
     localStorage.setItem('token', result.token);
-    yield put(meModule.load());
+    yield loadMeOrLogout();
     yield put(MainHeaderModule.modalClose());
   }
 }
@@ -94,7 +106,7 @@ function* depositLastPageLoaded() {
   while (TRULY) {
     const action = yield take(depositModule.GoDepositLastPage);
     // yield delay(2000);
-    yield put(getChargeModule.getCharge(action.page-2));
+    yield put(getChargeModule.getCharge(action.page - 2));
   }
 }
 
@@ -113,6 +125,7 @@ export default function* root() {
     fork(getCaptcha),
     fork(registerSuccess),
     fork(updateMe),
+    fork(updateMeEveryQuarterHour),
     fork(depositNextPageLoaded),
     fork(depositLastPageLoaded),
     fork(paintingUploadSuccess),

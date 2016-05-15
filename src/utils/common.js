@@ -1,4 +1,5 @@
-const HEAT_HALF_LIFE = 30; // days 
+const HEAT_HALF_LIFE = 30; // days
+import jwt_decode from "jwt-decode";
 
 export const resize = (url, minWidth)=> {
   let width;
@@ -30,6 +31,24 @@ export const calculateHeat = (heatObj, like_amount = 0) => {
 };
 
 export const imageHeight = (rawWidth, rawHeight, newWidth)=> newWidth / rawWidth * rawHeight;
+
+export const checkTokenValid = ()=> {
+  const token = localStorage.getItem('token');
+  if (token) {
+    try {
+      const tokenPayload = jwt_decode(token);
+      if (tokenPayload && ((tokenPayload.exp * 1000) - 3600) > +new Date()) {
+        return {valid: true, needRefresh: false};
+      }
+    } catch (e) {
+      console.info('decode jwt error');
+    }
+    console.info('jwt expired');
+    localStorage.removeItem('token');
+    return {valid: false, needRefresh: true};
+  }
+  return {valid: false, needRefresh: false};
+};
 
 export const getScrollBarWidth = ()=> {
   const inner = document.createElement('p');

@@ -24,6 +24,7 @@
     "classnames": "2.2.5",
     "connect-history-api-fallback": "1.2.0",
     "foundation-apps": "^1.2.0",
+    "jwt-decode": "2.0.1",
     "lodash": "^4.2.1",
     "material-design-iconic-font": "^2.2.0",
     "moment": "2.13.0",
