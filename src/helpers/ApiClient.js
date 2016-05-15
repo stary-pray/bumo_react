@@ -1,11 +1,10 @@
-import superagent from 'superagent';
-import config from '../config';
+import superagent from "superagent";
 
 const methods = ['get', 'post', 'put', 'patch', 'del'];
 
 function formatUrl(path) {
   const adjustedPath = path[0] !== '/' ? '/' + path : path;
-  return config.serverApi + adjustedPath;
+  return adjustedPath;
 }
 
 /*

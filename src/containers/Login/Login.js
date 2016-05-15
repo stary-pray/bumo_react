@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from "react";
 import * as authActions from "../../redux/modules/auth";
-import config from "../../config";
 import "./Login.scss";
 import {reduxForm} from "redux-form";
 import {createNotification} from "../../redux/modules/notification";
@@ -122,7 +121,7 @@ export default class Login extends Component {
             { captcha ?
               <div className="captcha">
                 <a onClick={this.handleGetCaptcha} href="">
-                  <img src={`${config.serverApi}/api/auth/captcha/image/${captcha}/`} alt=""/>
+                  <img src={`/api/auth/captcha/image/${captcha}/`} alt=""/>
                 </a>
               </div>
               : '' }
