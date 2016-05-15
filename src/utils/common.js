@@ -1,3 +1,5 @@
+const HEAT_HALF_LIFE = 30; // days 
+
 export const resize = (url, minWidth)=> {
   let width;
   if (url && !url.match(/\.svg$/)) {
@@ -22,7 +24,7 @@ export const calculateHeat = (heatObj, like_amount = 0) => {
   const last_heat = heatObj.point;
   const late_modified = heatObj.modified;
   const max_heat = heatObj.max_point;
-  const q = 0.5 ** ((+Date.now() - +new Date(late_modified)) / (14 * 24 * 60 * 60 * 1000));
+  const q = 0.5 ** ((+Date.now() - +new Date(late_modified)) / (HEAT_HALF_LIFE * 24 * 60 * 60 * 1000));
   const new_heat = (last_heat + like_amount) * q;
   return Math.round(new_heat > max_heat / 2 ? new_heat : max_heat / 2);
 };
