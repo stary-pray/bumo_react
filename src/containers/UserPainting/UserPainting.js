@@ -152,6 +152,7 @@ export default class UserPainting extends Component {
     const profileBody = lodash.find(profileDetail, {user: +id});
     const profileHeatBody = profileBody ? profileHeat[profileBody.heat] : null;
     const isMyPage = me.id == +id;
+
     return (<div className="UserPainting">
 
         <Helmet

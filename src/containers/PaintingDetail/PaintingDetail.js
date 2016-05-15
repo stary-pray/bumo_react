@@ -27,7 +27,8 @@ import Scroll from "react-scroll";
     component: state.containers.PaintingDetail,
     id: ownProps.id || +ownProps.params.paintingId,
     me: state.me,
-    contributedUsers: state.models.contributedUsers
+    contributedUsers: state.models.contributedUsers,
+    profileHeat:state.models.profileHeat
   }),
   dispatch => bindActionCreators({
     loadPaintingDetail,
@@ -52,7 +53,8 @@ export default class PaintingDetail extends Component {
     openTamashi: PropTypes.func.isRequired,
     me: PropTypes.object,
     loginModalOpen: PropTypes.func,
-    contributedUsers: PropTypes.object
+    contributedUsers: PropTypes.object,
+    profileHeat: PropTypes.object
   };
 
   constructor() {
@@ -90,12 +92,14 @@ export default class PaintingDetail extends Component {
   }
 
   render() {
-    const {paintingDetail, id, paintingHeat, profile, tags, tagHeat, isInModal, me, contributedUsers} = this.props;
+    const {paintingDetail, id, paintingHeat, profile, tags, tagHeat, isInModal, me, contributedUsers,profileHeat} = this.props;
     const {loaded} = this.props.component;
     const painting = paintingDetail[id];
     const ownerId = painting ? painting.owner : -1;
     const profileId = painting ? painting.profile : -1;
     const ownerProfile = profile[profileId];
+    const profileHeatId = ownerProfile && ownerProfile.heat;
+    const ownerProfileHeat =profileHeatId && profileHeat[profileHeatId];
     const tagsArray = painting ? painting.tags : [];
     const contributedUsersIDs = painting ? painting.contributed_users : [];
     const previousLink = painting && painting.user_previous_painting ? `/painting/${painting.user_previous_painting}` : '';
@@ -149,8 +153,10 @@ export default class PaintingDetail extends Component {
               <h4 className="nickname"><Link to={'/p/'+ ownerId}> {ownerProfile ? ownerProfile.nickname : '---'} </Link>
               </h4>
               <p className="introduction"><Link
-                to={'/p/'+ ownerId}>   {ownerProfile && ownerProfile.introduction} </Link>
+                to={'/p/'+ ownerId}> {ownerProfile && ownerProfile.introduction} </Link>
               </p>
+              <span className="heat"><i
+                className="zmdi zmdi-fire"/>{ownerProfileHeat && calculateHeat(ownerProfileHeat)}</span>
             </div>
             <div className="info">
               <h1 className="title"><Link to={`/painting/${id}`}> { painting ? painting.title : '---' }</Link></h1>

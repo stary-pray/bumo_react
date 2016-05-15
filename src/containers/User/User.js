@@ -6,7 +6,7 @@ import {Link} from "react-router";
 import "./User.scss";
 import classNames from "classnames";
 import Helmet from "react-helmet";
-import {resize} from "../../utils/common";
+import {resize, calculateHeat} from "../../utils/common";
 
 @connect(
   (state) => ({
@@ -71,6 +71,7 @@ export default class Tags extends Component {
     const {user, component,profileHeat} = this.props;
     const {pageMeta, loading}=this.props.component;
     const isLastPage = !pageMeta.next;
+    console.log(+Date.now());
     return (<div className="UserPage">
       <Helmet
         title="画手 - 恋绘.星祈"
@@ -86,7 +87,7 @@ export default class Tags extends Component {
                 </Link>
                 <h4 className="type"/>
                 <h2 className="heat">
-                  <i className="zmdi zmdi-fire"/> {Math.round(profileHeat[user[userId].heat].point)}
+                  <i className="zmdi zmdi-fire"/> {calculateHeat(profileHeat[user[userId].heat])}
                 </h2>
           </div>:''
           )}
