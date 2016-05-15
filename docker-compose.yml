@@ -1,0 +1,15 @@
+bumo_react_data:
+  image: daocloud.io/akinoniku/bumo_react:master-init
+
+bumo_nginx:
+  image: nginx:1.10
+  restart: always
+  volumes:
+  - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  expose:
+  - 80
+  - 443
+  volumes_from:
+  - bumo_react_data:ro
+  environment:
+  - VIRTUAL_HOST=*.3acg.com

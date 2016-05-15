@@ -33,11 +33,11 @@ RUN cd /var/bumo/bumo_react && npm run build
 
 # rsync
 #RUN rsync -av /var/bumo/bumo_react/dist /srv --exclude *.map
-RUN cp -r /var/bumo/bumo_react/dist /tmp/srv/
-ADD ./src/favicon.ico /tmp/srv/dist/favicon.ico
+RUN mkdir /tmp/srv && cp -r /var/bumo/bumo_react/dist /tmp/srv/bumo_react
+ADD ./src/favicon.ico /tmp/srv/bumo_react/favicon.ico
 
 # qrsync
 # RUN /tmp/qrsync /var/bumo/bumo_react/qr_conf.json
 
-VOLUME /tmp/srv/dist
+VOLUME /tmp/srv/bumo_react
 
