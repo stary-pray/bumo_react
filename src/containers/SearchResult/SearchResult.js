@@ -44,7 +44,7 @@ export default class SearchResult extends Component {
         browserHistory.push(`/painting/${item.key}`);
         break;
       case 'PaintingTag':
-        browserHistory.push(`/tags/${item.type}/${item.name}`);
+        browserHistory.push(`/tag/${item.type}/${item.name}`);
         break;
       case 'Profile':
         browserHistory.push('/p/' + item.key);
@@ -71,6 +71,18 @@ export default class SearchResult extends Component {
         <span onClick={this.handleCloseSearch} className="close"><i className="zmdi zmdi-close"/></span>
       </h4>
       <SearchBar {...this.props} />
+      { resultGroups.PaintingTag &&
+      <div className="SearchResult_group">
+        <label>标签</label>
+        {resultGroups.PaintingTag.map((tag)=>
+          <div onClick={()=>this.goToItem(tag)} className="SearchResult_item Tag" key={tag.key}>
+            <div className="rightSide">
+              <div className="main ellipses">{tag.name} : {tag.type}</div>
+            </div>
+          </div>
+        )}
+      </div>
+      }
       { resultGroups.Painting &&
       <div className="SearchResult_group">
         <label>画作</label>
@@ -81,18 +93,6 @@ export default class SearchResult extends Component {
             </div>
             <div className="rightSide">
               <div className="main ellipses">{painting.title}</div>
-            </div>
-          </div>
-        )}
-      </div>
-      }
-      { resultGroups.PaintingTag &&
-      <div className="SearchResult_group">
-        <label>标签</label>
-        {resultGroups.PaintingTag.map((tag)=>
-          <div onClick={()=>this.goToItem(tag)} className="SearchResult_item Tag" key={tag.key}>
-            <div className="rightSide">
-              <div className="main ellipses">{tag.name} : {tag.type}</div>
             </div>
           </div>
         )}
