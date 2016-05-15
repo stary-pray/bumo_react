@@ -64,7 +64,7 @@ export default function Router(store) {
 
       <Route path="p/:ownerId" component={UserPainting}/>
 
-      <Route path="me/paintingUpload" component={PaintingUpload}/>
+      <Route path="me/PaintingUpload" component={PaintingUpload}/>
 
       <Route path="user" component={User}/>
 

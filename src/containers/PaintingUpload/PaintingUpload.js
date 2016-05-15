@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {upload, toggleExtra, selectedImage, removeSelectedImage} from "../../redux/modules/paintingUpload";
+import {upload, toggleExtra, selectedImage, removeSelectedImage} from "../../redux/modules/PaintingUpload";
 import {reduxForm} from "redux-form";
 import Dropzone from "react-dropzone";
 import lodash from "lodash";

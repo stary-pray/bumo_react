@@ -7,7 +7,7 @@ import * as meUpdateModule from "../modules/containers/MeUpdate";
 import * as userPaintingModule from "../modules/containers/UserPainting";
 import * as depositModule from "../modules/containers/Deposit";
 import * as getChargeModule from "../modules/models/Deposit";
-import * as PaintingUploadModule from "../modules/paintingUpload";
+import * as PaintingUploadModule from "../modules/PaintingUpload";
 import * as MainHeaderModule from "../modules/containers/MainHeader";
 import * as LikeActionModule from "../modules/containers/LikeAction";
 import {checkTokenValid} from "../../utils/common";

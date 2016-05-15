@@ -97,7 +97,7 @@ export default class TopNav extends Component {
       </section>
       {isLogined ?
         <div className="user-notification-panel grid-content">
-          <Link to="/me/paintingUpload" className="item"><i className="zmdi zmdi-cloud-upload"/> 发布
+          <Link to="/me/PaintingUpload" className="item"><i className="zmdi zmdi-cloud-upload"/> 发布
           </Link>
         <span onClick={this.handleOpenDropdown} className="item">
           <i className="zmdi zmdi-account"/> {me.nickname}

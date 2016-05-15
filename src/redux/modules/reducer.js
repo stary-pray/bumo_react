@@ -7,7 +7,7 @@ import notification from "./notification";
 import waypoint from "./waypoint";
 import models from "./models/reducer";
 import containers from "./containers/reducer";
-import paintingUpload from "./paintingUpload";
+import paintingUpload from "./PaintingUpload";
 import tags from "./tags";
 import preferences from "./preferences";
 
