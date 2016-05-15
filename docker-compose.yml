@@ -8,10 +8,8 @@ bumoProxy:
   - /var/run/docker.sock:/tmp/docker.sock:ro
 bumoReactData:
   image: daocloud.io/akinoniku/bumo_react:master-809c10e
-  volumes:
-  - /tmp/srv/bumo_react:/tmp/srv/bumo_react
 bumoNginx:
-  image: nginx:1.10
+  image: daocloud.io/akinoniku/bumo_react_nginx:master-init
   restart: always
   expose:
   - '80'
