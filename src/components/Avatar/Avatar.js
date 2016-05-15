@@ -14,7 +14,7 @@ export default class Avatar extends Component {
     const {avatar, nickname, width, className} = this.props;
     return (
       avatar ?
-        <img className={"Avatar__image " + className} src={ resize(avatar, width)} alt={nickname}/> :
+        <img className={"Avatar__image pic " + className} src={ resize(avatar, width)} alt={nickname}/> :
         <InlineSVG className={"Avatar__placeHolder svg " + className} src={require("../../utils/assets/default_avatar.svg")}/>
     );
   }
