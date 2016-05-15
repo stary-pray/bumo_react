@@ -1,0 +1,58 @@
+@import "../colors";
+
+.EditMe {
+  &__container {
+    .pageHead {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+  &__hint {
+    color: $dGrey !important;
+    font-size: 0.8rem;
+    padding-left: 1rem;
+  }
+  &__balance {
+    .zmdi {
+      padding-right: 0.1rem;
+    }
+    &_hp {
+      margin-right: 1rem;
+      margin-bottom: 0.5rem;
+      color: $dGreen;
+    }
+    &_mp {
+      color: $dBlue;
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    &_add-mp {
+      margin-left: 1rem;
+      margin-bottom: 0;
+      background: $dBlue;
+      &:hover {
+        background: $lBlue;
+      }
+    }
+  }
+  &__income {
+    &_mp {
+      color: $dBlue;
+      display: flex;
+      align-items: center;
+      &-transfer {
+        margin-left: 1rem;
+        margin-bottom: 0;
+        background: $dBlue;
+        &:hover {
+          background: $lBlue;
+        }
+      }
+      &-deposit{
+        margin-bottom: 0;
+      }
+    }
+  }
+}
