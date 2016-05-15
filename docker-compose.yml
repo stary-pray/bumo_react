@@ -1,7 +1,16 @@
-bumo_react_data:
-  image: daocloud.io/akinoniku/bumo_react:master-init
+bumoProxy:
+  restart: always
+  image: jwilder/nginx-proxy
+  volumes:
+  - /var/run/docker.sock:/tmp/docker.sock:ro
+  ports:
+  - 80:80
+  - 443:443
 
-bumo_nginx:
+bumoReactData:
+  image: daocloud.io/akinoniku/bumo_react:master-e0cd63d
+
+bumoNginx:
   image: nginx:1.10
   restart: always
   volumes:
@@ -10,6 +19,6 @@ bumo_nginx:
   - 80
   - 443
   volumes_from:
-  - bumo_react_data:ro
+  - bumoReactData:ro
   environment:
   - VIRTUAL_HOST=*.3acg.com
