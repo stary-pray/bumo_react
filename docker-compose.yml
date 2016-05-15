@@ -1,24 +1,22 @@
 bumoProxy:
-  restart: always
   image: jwilder/nginx-proxy
-  volumes:
-  - /var/run/docker.sock:/tmp/docker.sock:ro
+  restart: always
   ports:
   - 80:80
   - 443:443
-
+  volumes:
+  - /var/run/docker.sock:/tmp/docker.sock:ro
 bumoReactData:
-  image: daocloud.io/akinoniku/bumo_react:master-e0cd63d
-
+  image: daocloud.io/akinoniku/bumo_react:master-809c10e
+  volumes:
+  - /tmp/srv/bumo_react:/tmp/srv/bumo_react
 bumoNginx:
   image: nginx:1.10
   restart: always
-  volumes:
-  - ./nginx.conf:/etc/nginx/nginx.conf:ro
   expose:
-  - 80
-  - 443
+  - '80'
+  - '443'
   volumes_from:
-  - bumoReactData:ro
+  - bumoReactData
   environment:
   - VIRTUAL_HOST=*.3acg.com
