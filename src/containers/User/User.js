@@ -6,6 +6,7 @@ import {Link} from "react-router";
 import "./User.scss";
 import classNames from "classnames";
 import Helmet from "react-helmet";
+import {resize} from "../../utils/common";
 
 @connect(
   (state) => ({
@@ -79,7 +80,7 @@ export default class Tags extends Component {
           { component.indexes.map((userId)=> user[userId].first_painting?
           <div className="paintingCollection" key={userId}>
                 <span className="img"
-                      style={{backgroundImage: `url(${user[userId].first_painting.attachment})`}}/>
+                      style={{backgroundImage: `url(${resize(user[userId].first_painting.attachment, 240)})`}}/>
                 <Link className="name" to={'/p/' +userId}>
                   <h2>{user[userId].nickname}</h2>
                 </Link>
