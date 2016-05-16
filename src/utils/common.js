@@ -1,5 +1,6 @@
 const HEAT_HALF_LIFE = 30; // days
 import jwt_decode from "jwt-decode";
+import some from "lodash/some";
 
 export const resize = (url, minWidth)=> {
   let width;
@@ -74,4 +75,8 @@ export const getScrollBarWidth = ()=> {
   document.body.removeChild(outer);
 
   return (w1 - w2);
+};
+
+export const compareAttrs = (obj1, obj2, attrs, isArray = false)=> {
+  return some(attrs, (attr)=> obj1[attr] !== obj2[attr]);
 };

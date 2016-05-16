@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from "react";
+import {compareAttrs} from "../../utils/common";
 import PaintingInfo from "../PaintingInfo/PaintingInfo";
 import Masonry from "react-masonry-component";
 import "./PaintingList.scss";
@@ -10,16 +11,17 @@ export default class PaintingList extends Component {
     painting: PropTypes.object,
     profile: PropTypes.object,
     paintingHeat: PropTypes.object,
-    loadPainting: PropTypes.func,
     component: PropTypes.object,
-    openModal: PropTypes.func,
-    openTamashi: PropTypes.func.isRequired,
     waypoint: PropTypes.object,
     openedTamashiId: PropTypes.number,
     isMe: PropTypes.bool,
-    loginModalOpen: PropTypes.func,
     preferences: PropTypes.object,
+    
+    loginModalOpen: PropTypes.func,
     changePaintingListMode: PropTypes.func,
+    loadPainting: PropTypes.func,
+    openModal: PropTypes.func,
+    openTamashi: PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -41,6 +43,11 @@ export default class PaintingList extends Component {
       this.waypointOnEnter();
     }
   }
+  
+  shouldComponentUpdate(nextProps){
+    return compareAttrs(this.props, nextProps, ['component', 'openedTamashiId', 'isMe', 'preferences', 'paintingHeat']);
+  }
+
 
   loadMore() {
     const {pageMeta, loading} = this.props.component;

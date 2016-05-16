@@ -15,6 +15,9 @@ import {getScrollBarWidth} from "../../utils/common";
 import Waypoint from "react-waypoint";
 import "./App.scss";
 
+// import Pref from 'react-addons-perf';
+// window['Pref'] = Pref;
+
 moment.locale('zh-cn');
 
 @connect(

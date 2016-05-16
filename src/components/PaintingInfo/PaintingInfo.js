@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from "react";
-import {resize, imageHeight, calculateHeat} from "../../utils/common";
+import {resize, imageHeight, calculateHeat, compareAttrs} from "../../utils/common";
 import {Link} from "react-router";
 import "./PaintingInfo.scss";
 import InlineSVG from "svg-inline-react";
@@ -11,12 +11,13 @@ export default class PaintingInfo extends Component {
     painting: PropTypes.object,
     heat: PropTypes.object,
     width: PropTypes.number,
-    openModal: PropTypes.func,
-    openTamashi: PropTypes.func.isRequired,
     openedTamashiId: PropTypes.number,
     isMe: PropTypes.bool,
-    loginModalOpen: PropTypes.func,
     mode: PropTypes.string,
+    
+    loginModalOpen: PropTypes.func,
+    openModal: PropTypes.func,
+    openTamashi: PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -24,6 +25,10 @@ export default class PaintingInfo extends Component {
     this.openModal = this.openModal.bind(this);
     this.openTamashi = this.openTamashi.bind(this);
     this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+    return compareAttrs(this.props, nextProps, ['heat', 'mode', 'openedTamashiId']);
   }
 
   openModal() {
