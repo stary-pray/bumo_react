@@ -3,30 +3,39 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import lodash from 'lodash';
 import {addTag, deleteTag} from '../../redux/modules/tags';
+import {searchTagHeat} from '../../redux/modules/searchTagHeat'
 import './AddTags.scss';
+import {calculateHeat} from "../../utils/common";
+
 
 @connect(
   (state) => ({
-    tags: state.tags
+    tags: state.tags,
+    tagsModel: state.models.tags,
+    tagHeat: state.models.tagHeat
   }),
   dispatch => bindActionCreators({
     addTag,
     deleteTag,
+    searchTagHeat
   }, dispatch)
 )
 
 
 export default class AddTags extends Component {
   static propTypes = {
-    tags: PropTypes.object,
+    tags: PropTypes.array,
     addTag: PropTypes.func,
     deleteTag: PropTypes.func,
     showExtra: PropTypes.bool,
     toggleExtra: PropTypes.func,
+    searchTagHeat:PropTypes.func,
+    tagsModel:PropTypes.object,
+    tagHeat:PropTypes.object
   };
 
   componentDidMount() {
-    this.type = "角色";
+    this.type = "人物";
   }
 
   handleSubmit(e) {
@@ -41,6 +50,7 @@ export default class AddTags extends Component {
   addTag(e) {
     const name = this.refs.tag.value.trim();
     this.props.addTag(name, this.type);
+    this.props.searchTagHeat(this.type,name);
   }
   deleteTag(index) {
     this.props.deleteTag(index);
@@ -61,14 +71,14 @@ export default class AddTags extends Component {
   }
 
   render() {
-    const {tags, showExtra} = this.props;
+    const {tags, showExtra,tagsModel,tagHeat} = this.props;
     return (
       <div className="AddTags">
         <label>标签种类(最多只能有五个)</label>
         <div className="tag">
           <div>
             <select onChange={this.logType.bind(this)} id="type">
-              <option value="角色">角色</option>
+              <option value="人物">人物</option>
               <option value="作品">作品</option>
               <option value="活动">活动</option>
               <option value="性别">性别</option>
@@ -88,10 +98,17 @@ export default class AddTags extends Component {
         </div> : ''}</div>
 
         <div>
-          { lodash.map(tags, (tag, index) =>(<div>
-            <div key={"tag-" + tag.name+' '+ tag.type}>{tag.name}_{tag.type}</div>
+          { lodash.map(tags, (tag, index) =>{
+            const tagFind =lodash.find(tagsModel, {
+              name: tag.name,
+              type: tag.type
+            });
+            return(<div key={"tag-" + tag.name+' '+ tag.type}>
+            <div >{tag.name}_{tag.type}</div>
+              <div>{tagFind?calculateHeat(tagHeat[tagFind.heat]):0}</div>
             <a className="button" onClick={this.deleteTag.bind(this,index)}> 删 </a>
-          </div>) )}
+
+          </div>)} )}
         </div>
       </div>
 

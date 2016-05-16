@@ -10,6 +10,7 @@ import containers from "./containers/reducer";
 import paintingUpload from "./PaintingUpload";
 import tags from "./tags";
 import preferences from "./preferences";
+import searchTagHeat from "./searchTagHeat";
 
 export default combineReducers({
   routing: routerReducer,
@@ -22,5 +23,6 @@ export default combineReducers({
   notification,
   paintingUpload,
   preferences,
-  tags
+  tags,
+  searchTagHeat
 });

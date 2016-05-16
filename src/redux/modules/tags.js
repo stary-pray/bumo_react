@@ -1,4 +1,5 @@
 import _ from "lodash";
+import searchTagHeat from "./models/TagDetail";
 
 export const ADD_TAG = 'bumo/ADD_TAG';
 export const DELETE_TAG = 'bumo/DELETE_TAG';
@@ -9,10 +10,14 @@ const initialState = [];
 export default function addTags(state = initialState, action) {
   switch (action.type) {
     case ADD_TAG:
-      return _.uniqBy([...state, {
+      var oldItem = _.find(state, {
         name: action.name,
         type: action.tagType
-      }],'name','type');
+      });
+      return oldItem ? state : [...state, {
+        name: action.name,
+        type: action.tagType
+      }];
 
     case DELETE_TAG:
       var newState = state.slice();

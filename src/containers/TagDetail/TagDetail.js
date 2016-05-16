@@ -2,12 +2,16 @@ import React, {Component, PropTypes} from "react";
 import "../Home/Home.scss";
 import PaintingList from "../../components/PaintingList/PaintingList";
 import Helmet from "react-helmet";
+import find from 'lodash/find';
+import {calculateHeat} from  "../../utils/common";
 
 export default class TagPainting extends Component {
   static propTypes = {
     painting: PropTypes.object,
     profile: PropTypes.object,
     paintingHeat: PropTypes.object,
+    tagHeat: PropTypes.object,
+    tags: PropTypes.object,
     component: PropTypes.object,
     paintingDetail: PropTypes.object,
     path: PropTypes.string,
@@ -34,19 +38,21 @@ export default class TagPainting extends Component {
 
   render() {
     const {painting, component, paintingHeat, profile, loadTagPaintingDetail,
-      loadTagPaintingDetailHot, path, me, tagType, tagName, preferences} = this.props;
+      loadTagPaintingDetailHot, path, me, tagType, tagName, preferences, tagHeat, tags} = this.props;
 
     const loadTagPainting = (pageIndex) => loadTagPaintingDetail(tagType, tagName, pageIndex);
     const loadTagPaintinHot = (pageIndex) => loadTagPaintingDetailHot(tagType, tagName, pageIndex);
     const isLatest = path && path.indexOf('/latest') > -1;
     const loadPainting = isLatest ? loadTagPainting : loadTagPaintinHot;
+    const tagObj = find(tags, {type: tagType, name: tagName});
+    const tagHeatObj = tagHeat[tagObj.heat];
 
     return (<div className="TagDetail__container">
       <Helmet
         title={`${tagName}-${tagType} - 恋绘.星祈`}
       />
       <div className="pageHead">
-        <h2>{tagName}</h2>
+        <h2>{tagName} {tagHeatObj ? calculateHeat(tagHeatObj) : ''}</h2>
       </div>
 
       <PaintingList
