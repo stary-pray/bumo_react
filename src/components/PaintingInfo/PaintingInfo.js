@@ -14,7 +14,7 @@ export default class PaintingInfo extends Component {
     openedTamashiId: PropTypes.number,
     isMe: PropTypes.bool,
     mode: PropTypes.string,
-    
+
     loginModalOpen: PropTypes.func,
     openModal: PropTypes.func,
     openTamashi: PropTypes.func.isRequired,
@@ -82,10 +82,11 @@ export default class PaintingInfo extends Component {
       <li style={{width: width, height: imageHeight(painting.width, painting.height, width) }}
           className={"PaintingInfo__container PaintingInfo__thumbnail " + (isOpenedTamashi ? 'isOpened' : "") }>
         <div className="topInfo">
-          <a onClick={isMe?this.openTamashi:this.handleLoginModalOpen} className="heat">
+          {painting.status!==1 ? <div>审核中...</div>:
+          <a onClick={isMe? this.openTamashi:this.handleLoginModalOpen} className="heat">
             <i className="zmdi zmdi-fire"/>
             <span>{calculateHeat(heat)}</span>
-          </a>
+          </a>}
         </div>
         <img onClick={this.openModal} className="bumo_thumbnail" src={resize(painting.attachment,width)}/>
         <div className="bottomInfo">
