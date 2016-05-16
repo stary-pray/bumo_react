@@ -31,7 +31,7 @@ export default class SearchResult extends Component {
     closeSearch: PropTypes.func,
     doSearch: PropTypes.func,
   };
-  
+
   constructor(){
     super();
     this.handleCloseSearch = this.handleCloseSearch.bind(this);
@@ -50,7 +50,7 @@ export default class SearchResult extends Component {
         browserHistory.push('/p/' + item.key);
     }
   }
-  
+
   handleCloseSearch(){
     this.props.closeSearch();
   }
@@ -63,7 +63,7 @@ export default class SearchResult extends Component {
 
   renderOpened() {
     const {component} = this.props;
-    const {isSearching, results} = component;
+    const {isSearching, results, count} = component;
     const resultGroups = _.groupBy(results, 'modelType');
     return (<div className="SearchResult">
       <h4 className="SearchResultHeader">
@@ -71,6 +71,8 @@ export default class SearchResult extends Component {
         <span onClick={this.handleCloseSearch} className="close"><i className="zmdi zmdi-close"/></span>
       </h4>
       <SearchBar {...this.props} />
+      {count == 0 ? <div>找不到你的搜索</div>:
+        <div>
       { resultGroups.PaintingTag &&
       <div className="SearchResult_group">
         <label>标签</label>
@@ -112,7 +114,8 @@ export default class SearchResult extends Component {
           </div>
         )}
       </div>
-      }
+      }</div>}
+
     </div>);
   }
 

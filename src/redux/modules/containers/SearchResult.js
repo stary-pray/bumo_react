@@ -19,6 +19,7 @@ const initialState = {
   focus: false,
   inputText: '',
   results: [],
+  count:null
 };
 
 export default handleActions({
@@ -42,7 +43,8 @@ export default handleActions({
   [DO_SEARCH_SUCCESS]: (state, action)=> ({
     ...state,
     isSearching: false,
-    results: action.result.results
+    results: action.result.results,
+    count: action.result.count
   }),
   [OPEN_SEARCH]: (state) => ({
     ...state,
@@ -51,6 +53,7 @@ export default handleActions({
   [CLOSE_SEARCH]: (state) => ({
     ...state,
     isOpened: false,
+    count:null
   }),
   [LOCATION_CHANGE]: (state) => ({
     ...state,
