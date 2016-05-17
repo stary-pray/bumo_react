@@ -7,6 +7,7 @@ import "./User.scss";
 import classNames from "classnames";
 import Helmet from "react-helmet";
 import {resize, calculateHeat} from "../../utils/common";
+import InlineSVG from "svg-inline-react";
 
 @connect(
   (state) => ({
@@ -26,7 +27,7 @@ export default class Tags extends Component {
     loadUser: PropTypes.func,
     user: PropTypes.object,
     component: PropTypes.object,
-    profileHeat:PropTypes.object,
+    profileHeat: PropTypes.object,
     waypoint: PropTypes.object
   };
 
@@ -78,18 +79,19 @@ export default class Tags extends Component {
       />
       <div> {component.loaded ?
         <div className="collections">
-          { component.indexes.map((userId)=> user[userId].first_painting?
-          <div className="paintingCollection" key={userId}>
-                <span className="img"
-                      style={{backgroundImage: `url(${resize(user[userId].first_painting.attachment, 240)})`}}/>
-                <Link className="name" to={'/p/' +userId}>
-                  <h2>{user[userId].nickname}</h2>
-                </Link>
-                <h4 className="type"/>
-                <h2 className="heat">
-                  <i className="zmdi zmdi-fire"/> {calculateHeat(profileHeat[user[userId].heat])}
-                </h2>
-          </div>:''
+          { component.indexes.map((userId)=>
+            <div className="paintingCollection" key={userId}>
+              {user[userId].banner ?
+                <span className="img" style={{backgroundImage: `url(${resize(user[userId].banner, 240)})`}}/> :
+                <InlineSVG className="svg" src={require("../../utils/assets/default_banner.svg")}/>}
+              <Link className="name" to={'/p/' +userId}>
+                <h2>{user[userId].nickname}</h2>
+              </Link>
+              <h4 className="type"/>
+              <h2 className="heat">
+                <i className="zmdi zmdi-fire"/> {calculateHeat(profileHeat[user[userId].heat])}
+              </h2>
+            </div>
           )}
           <button
             onClick={this.loadMore}

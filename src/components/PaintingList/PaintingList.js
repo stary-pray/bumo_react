@@ -16,7 +16,6 @@ export default class PaintingList extends Component {
     openedTamashiId: PropTypes.number,
     isMe: PropTypes.bool,
     preferences: PropTypes.object,
-    
     loginModalOpen: PropTypes.func,
     changePaintingListMode: PropTypes.func,
     loadPainting: PropTypes.func,
@@ -43,7 +42,7 @@ export default class PaintingList extends Component {
       this.waypointOnEnter();
     }
   }
-  
+
   shouldComponentUpdate(nextProps){
     return compareAttrs(this.props, nextProps, ['component', 'openedTamashiId', 'isMe', 'preferences', 'paintingHeat']);
   }

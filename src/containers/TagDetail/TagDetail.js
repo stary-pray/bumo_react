@@ -45,7 +45,7 @@ export default class TagPainting extends Component {
     const isLatest = path && path.indexOf('/latest') > -1;
     const loadPainting = isLatest ? loadTagPainting : loadTagPaintinHot;
     const tagObj = find(tags, {type: tagType, name: tagName});
-    const tagHeatObj = tagHeat[tagObj.heat];
+    const tagHeatObj = tagObj && tagHeat[tagObj.heat];
 
     return (<div className="TagDetail__container">
       <Helmet
