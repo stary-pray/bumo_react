@@ -82,7 +82,7 @@ export default class PaintingInfo extends Component {
       <li style={{width: width, height: imageHeight(painting.width, painting.height, width) }}
           className={"PaintingInfo__container PaintingInfo__thumbnail " + (isOpenedTamashi ? 'isOpened' : "") }>
         <div className="topInfo">
-          {painting.status!==1 ? <div>审核中...</div>:
+          {painting.status!== 2 ? <div>审核中...</div>:
           <a onClick={isMe? this.openTamashi:this.handleLoginModalOpen} className="heat">
             <i className="zmdi zmdi-fire"/>
             <span>{calculateHeat(heat)}</span>

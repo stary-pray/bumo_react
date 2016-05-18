@@ -163,7 +163,7 @@ export default class PaintingDetail extends Component {
               <p className="description">{ painting && painting.description }</p>
               <div className="infoGroup">
                 <label> 作品魂 </label>
-                {painting&&painting.status !==1 ?<div>审核中...</div>:
+                {painting&&painting.status !== 2 ?<div>审核中...</div>:
                   <a onClick={me.id ? this.openTamashi: this.handleLoginModalOpen} className="button hollow heat">
                     <i className="zmdi zmdi-fire"/>
                     <span>{paintingHeat && paintingHeat[id] && calculateHeat(paintingHeat[id])}</span>

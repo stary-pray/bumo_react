@@ -64,7 +64,6 @@ export default class uploadPaintingForm extends Component {
       title: this.refs.title.value,
       description: this.refs.description.value,
       'private': false,
-      status: 0,
       quote_from: '',
       copyright: 2,
       tags: JSON.stringify(this.props.tags)
