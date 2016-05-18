@@ -2,11 +2,13 @@ const HEAT_HALF_LIFE = 30; // days
 import jwt_decode from "jwt-decode";
 import some from "lodash/some";
 
+let webpSupported = false;
+
 export const resize = (url, minWidth)=> {
   let width;
   if (url && !url.match(/\.svg$/)) {
     width = minWidth * (window.devicePixelRatio || 1);
-    return url + "?imageMogr2/format/jpg/interlace/1/thumbnail/" + width + "x";
+    return url + `?imageMogr2/format/${webpSupported ? 'webp' : 'jpg'}/thumbnail/${width}x/interlace/1`;
   } else {
     return url;
   }
@@ -16,7 +18,7 @@ export const resizeHeight = (url, minHeight)=> {
   let height;
   if (url && !url.match(/\.svg$/)) {
     height = minHeight * (window.devicePixelRatio || 1);
-    return url + "?imageMogr2/format/jpg/interlace/1/thumbnail/x" + height;
+    return url + `?imageMogr2/format/${webpSupported ? 'webp' : 'jpg'}/thumbnail/x${height}/interlace/1`;
   } else {
     return url;
   }
@@ -80,3 +82,28 @@ export const getScrollBarWidth = ()=> {
 export const compareAttrs = (obj1, obj2, attrs, isArray = false)=> {
   return some(attrs, (attr)=> obj1[attr] !== obj2[attr]);
 };
+
+
+const _setBrowserWebp = () => {
+  const supported = localStorage.getItem('webpSupported');
+  if (supported == null) {
+    _testWebp((supported)=> {
+      webpSupported = supported;
+      localStorage.setItem('webpSupported', +supported + '');
+    });
+  } else {
+    webpSupported = !!+supported;
+  }
+};
+
+const _testWebp = (callback) => {
+  const webP = new Image();
+  webP.src = 'data:image/webp;base64,UklGRi4AAABXRUJQVlA4TCEAAAAvAUAAEB8wAiMw' +
+    'AgSSNtse/cXjxyCCmrYNWPwmHRH9jwMA';
+  webP.onload = webP.onerror = function () {
+    callback(webP.height === 2);
+  };
+};
+
+_setBrowserWebp();
+

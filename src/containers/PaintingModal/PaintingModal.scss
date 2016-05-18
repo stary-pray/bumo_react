@@ -8,6 +8,7 @@
   width: 100%;
   z-index: 5;
   background: rgba(white, 0.7);
+  overflow: auto;
   > .previous, > .next {
     position: absolute;
     height: 80%;

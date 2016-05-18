@@ -188,7 +188,7 @@ export default class PaintingDetail extends Component {
 
               <div className="infoGroup">
                 <label> 信息 </label>
-                <p>发布: {painting && moment(painting.modified).fromNow()}</p>
+                <p>发布: {painting && moment(painting.created).fromNow()}</p>
               </div>
             </div>
             { painting && paintingHeat && paintingHeat[id] &&
