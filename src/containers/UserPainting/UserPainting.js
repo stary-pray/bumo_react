@@ -248,6 +248,7 @@ export default class UserPainting extends Component {
             loadPainting={loadPainting}
             openModal={this.props.openModal}
             openTamashi={this.props.openTamashi}
+            openedTamashiId={this.props.openedTamashiId}
             isMe={!!me.id}
             loginModalOpen={this.handleLoginModalOpen}
             waypoint={this.props.waypoint}

@@ -213,14 +213,12 @@
       }
       .heat{
         font-size: 1rem;
-        position: absolute;
         color: $lRed;
-        bottom: 1rem;
         width: 11rem;
         text-align: left;
-        right: -6rem;
         z-index: 2;
         font-weight: 300;
+        padding-right: 1rem;
         text-shadow: 1px 1px 2px rgba($lBlack, 0.6);
         overflow: hidden;
         white-space: nowrap;

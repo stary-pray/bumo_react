@@ -152,11 +152,10 @@ export default class PaintingDetail extends Component {
               <span className="background"/>
               <h4 className="nickname"><Link to={'/p/'+ ownerId}> {ownerProfile ? ownerProfile.nickname : '---'} </Link>
               </h4>
-              <p className="introduction"><Link
-                to={'/p/'+ ownerId}> {ownerProfile && ownerProfile.introduction} </Link>
+              <p className="introduction">
+              <span className="heat"> <i className="zmdi zmdi-fire"/> {ownerProfileHeat && calculateHeat(ownerProfileHeat)} </span>
+                <Link to={'/p/'+ ownerId}> {ownerProfile && ownerProfile.introduction} </Link>
               </p>
-              <span className="heat"><i
-                className="zmdi zmdi-fire"/>{ownerProfileHeat && calculateHeat(ownerProfileHeat)}</span>
             </div>
             <div className="info">
               <h1 className="title"><Link to={`/painting/${id}`}> { painting ? painting.title : '---' }</Link></h1>
