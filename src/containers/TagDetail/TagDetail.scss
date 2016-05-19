@@ -30,7 +30,14 @@
       padding-right: 4rem;
     }
   }
-
+  &__heat {
+    color: $lRed;
+    font-size: 0.8em;
+    > .zmdi {
+      padding-right: 0.3rem;
+      padding-left: 1rem;
+    }
+  }
 }
 
 

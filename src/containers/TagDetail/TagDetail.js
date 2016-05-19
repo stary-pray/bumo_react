@@ -2,8 +2,8 @@ import React, {Component, PropTypes} from "react";
 import "../Home/Home.scss";
 import PaintingList from "../../components/PaintingList/PaintingList";
 import Helmet from "react-helmet";
-import find from 'lodash/find';
-import {calculateHeat} from  "../../utils/common";
+import find from "lodash/find";
+import {calculateHeat} from "../../utils/common";
 
 export default class TagPainting extends Component {
   static propTypes = {
@@ -52,7 +52,7 @@ export default class TagPainting extends Component {
         title={`${tagName}-${tagType} - 恋绘.星祈`}
       />
       <div className="pageHead">
-        <h2>{tagName} {tagHeatObj ? calculateHeat(tagHeatObj) : ''}</h2>
+        <h2>{tagName} <span className="TagDetail__heat"><i className="zmdi zmdi-fire"/>{tagHeatObj ? calculateHeat(tagHeatObj) : ''}</span></h2>
       </div>
 
       <PaintingList
