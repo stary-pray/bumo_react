@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import InlineSVG from "svg-inline-react";
 import {load as loadPaintingDetail} from "../../redux/modules/models/PaintingDetail";
-import {Link} from "react-router";
+import {Link, browserHistory} from "react-router";
 import moment from "moment";
 import {createNotification} from "../../redux/modules/notification";
 import {resize, resizeHeight, calculateHeat} from "../../utils/common";
@@ -90,6 +90,11 @@ export default class PaintingDetail extends Component {
   handleLoginModalOpen() {
     this.props.loginModalOpen();
   }
+  
+  goProfile(ownerId){
+    browserHistory.push(`/p/${ownerId}`);
+  }
+  
 
   render() {
     const {paintingDetail, id, paintingHeat, profile, tags, tagHeat, isInModal, me, contributedUsers,profileHeat} = this.props;
@@ -133,7 +138,7 @@ export default class PaintingDetail extends Component {
             </Link>
           </div>
           <div className="rightPanel">
-            <div className="userInfo">
+            <div onClick={()=> this.goProfile(ownerId)} className="userInfo">
               <Link className="avatarImage" to={'/p/'+ ownerId}>
                 <Avatar
                   avatar={ownerProfile && ownerProfile.avatar}

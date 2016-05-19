@@ -121,6 +121,7 @@
       position: relative;
       height: 10rem;
       overflow: hidden;
+      cursor: pointer;
       &:hover {
         > .avatarImage > img, > .avatarImage svg {
           transform: translate(0, -0.2rem);
