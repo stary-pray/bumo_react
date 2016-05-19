@@ -41,13 +41,13 @@ export default class SearchResult extends Component {
   goToItem(item) {
     switch (item.modelType) {
       case 'Painting':
-        browserHistory.push(`/painting/${item.key}`);
+        browserHistory.push(`/p/${item.key}`);
         break;
       case 'PaintingTag':
         browserHistory.push(`/tag/${item.type}/${item.name}`);
         break;
       case 'Profile':
-        browserHistory.push('/p/' + item.key);
+        browserHistory.push('/u/' + item.key);
     }
   }
 
@@ -71,7 +71,7 @@ export default class SearchResult extends Component {
         <span onClick={this.handleCloseSearch} className="close"><i className="zmdi zmdi-close"/></span>
       </h4>
       <SearchBar {...this.props} />
-      {count == 0 ? <div>找不到你的搜索</div>:
+      {count == 0 ? <div>还没有相关的结果</div>:
         <div>
       { resultGroups.PaintingTag &&
       <div className="SearchResult_group">

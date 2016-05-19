@@ -90,11 +90,11 @@ export default class PaintingDetail extends Component {
   handleLoginModalOpen() {
     this.props.loginModalOpen();
   }
-  
+
   goProfile(ownerId){
-    browserHistory.push(`/p/${ownerId}`);
+    browserHistory.push(`/u/${ownerId}`);
   }
-  
+
 
   render() {
     const {paintingDetail, id, paintingHeat, profile, tags, tagHeat, isInModal, me, contributedUsers,profileHeat} = this.props;
@@ -107,8 +107,8 @@ export default class PaintingDetail extends Component {
     const ownerProfileHeat =profileHeatId && profileHeat[profileHeatId];
     const tagsArray = painting ? painting.tags : [];
     const contributedUsersIDs = painting ? painting.contributed_users : [];
-    const previousLink = painting && painting.user_previous_painting ? `/painting/${painting.user_previous_painting}` : '';
-    const nextLink = painting && painting.user_next_painting ? `/painting/${painting.user_next_painting}` : '';
+    const previousLink = painting && painting.user_previous_painting ? `/p/${painting.user_previous_painting}` : '';
+    const nextLink = painting && painting.user_next_painting ? `/p/${painting.user_next_painting}` : '';
 
     return (
       <div className={"PaintingDetail " + (isInModal ? 'inModal' : '')}>
@@ -139,7 +139,7 @@ export default class PaintingDetail extends Component {
           </div>
           <div className="rightPanel">
             <div onClick={()=> this.goProfile(ownerId)} className="userInfo">
-              <Link className="avatarImage" to={'/p/'+ ownerId}>
+              <Link className="avatarImage" to={'/u/'+ ownerId}>
                 <Avatar
                   avatar={ownerProfile && ownerProfile.avatar}
                   nickname={ownerProfile && ownerProfile.nickname}
@@ -155,15 +155,15 @@ export default class PaintingDetail extends Component {
                   <InlineSVG className="svg" src={require("../../utils/assets/default_banner.svg")}/>
               }
               <span className="background"/>
-              <h4 className="nickname"><Link to={'/p/'+ ownerId}> {ownerProfile ? ownerProfile.nickname : '---'} </Link>
+              <h4 className="nickname"><Link to={'/u/'+ ownerId}> {ownerProfile ? ownerProfile.nickname : '---'} </Link>
               </h4>
               <p className="introduction">
               <span className="heat"> <i className="zmdi zmdi-fire"/> {ownerProfileHeat && calculateHeat(ownerProfileHeat)} </span>
-                <Link to={'/p/'+ ownerId}> {ownerProfile && ownerProfile.introduction} </Link>
+                <Link to={'/u/'+ ownerId}> {ownerProfile && ownerProfile.introduction} </Link>
               </p>
             </div>
             <div className="info">
-              <h1 className="title"><Link to={`/painting/${id}`}> { painting ? painting.title : '---' }</Link></h1>
+              <h1 className="title"><Link to={`/p/${id}`}> { painting ? painting.title : '---' }</Link></h1>
               <p className="description">{ painting && painting.description }</p>
               <div className="infoGroup">
                 <label> 作品魂 </label>
@@ -209,7 +209,7 @@ export default class PaintingDetail extends Component {
                     const contributedProfile = profile[contributedUser.profile];
                     return (
                       <div className="PaintingDetail__fan" key={id}>
-                        <Link to={`/p/${id}`}>
+                        <Link to={`/u/${id}`}>
                           <Avatar
                             className="PaintingDetail__fan-avatar"
                             avatar={contributedProfile.avatar}
@@ -218,7 +218,7 @@ export default class PaintingDetail extends Component {
                           />
                         </Link>
                         <div className="PaintingDetail__fan-wrap">
-                          <Link to={`/p/${contributedProfile.user}`} className="PaintingDetail__fan-nickname">
+                          <Link to={`/u/${contributedProfile.user}`} className="PaintingDetail__fan-nickname">
                             {contributedProfile.nickname}
                           </Link>
                           <div className="PaintingDetail__fan-amount">

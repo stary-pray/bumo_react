@@ -111,7 +111,7 @@ export default class TopNav extends Component {
         </div>
       }
       <BumoDropdown isOpened={component.notificationDropdownOpened} close={this.handleCloseDropdown}>
-        <Link to={`/p/${me.id}`} className="BumoDropdownItem">
+        <Link to={`/u/${me.id}`} className="BumoDropdownItem">
           <i className="zmdi zmdi-home"/> 我的主页
         </Link>
         <Link to="/me/edit" className="BumoDropdownItem">

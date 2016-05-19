@@ -60,8 +60,8 @@ export default class PaintingInfo extends Component {
         <div className="PaintingInfo__intro">
           <Link
             className="PaintingInfo__intro_title ellipses"
-            to={'/painting/' + painting.id}> {painting.title} </Link >
-          <Link className="PaintingInfo__intro_nickname ellipses" to={'/p/' + owner.user}> {owner.nickname} </Link >
+            to={'/p/' + painting.id}> {painting.title} </Link >
+          <Link className="PaintingInfo__intro_nickname ellipses" to={'/u/' + owner.user}> {owner.nickname} </Link >
           <a
             onClick={isMe ? this.openTamashi : this.handleLoginModalOpen}
             className="PaintingInfo__intro_heat">
@@ -91,11 +91,11 @@ export default class PaintingInfo extends Component {
         <img onClick={this.openModal} className="bumo_thumbnail" src={resize(painting.attachment,width)}/>
         <div className="bottomInfo">
           <div className="left">
-            <Link className="title ellipses" to={'/painting/' + painting.id}> {painting.title} </Link >
-            <Link className="nickname ellipses" to={'/p/' + owner.user}> {owner.nickname} </Link >
+            <Link className="title ellipses" to={'/p/' + painting.id}> {painting.title} </Link >
+            <Link className="nickname ellipses" to={'/u/' + owner.user}> {owner.nickname} </Link >
           </div>
           <div className="right">
-            <Link className="avatar" to={'/p/' + owner.user}>
+            <Link className="avatar" to={'/u/' + owner.user}>
               {
                 owner.avatar ?
                   <img src={ resize(owner.avatar, 80)} alt={owner.nickname}/> :

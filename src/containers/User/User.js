@@ -86,7 +86,7 @@ export default class Tags extends Component {
               {user[userId].banner ?
                 <span className="img" style={{backgroundImage: `url(${resize(user[userId].banner, 240)})`}}/> :
                 <InlineSVG className="svg" src={require("../../utils/assets/default_banner.svg")}/>}
-              <Link className="name" to={'/p/' +userId}>
+              <Link className="name" to={'/u/' +userId}>
                 <h2>{user[userId].nickname}</h2>
               </Link>
               <h4 className="type"/>

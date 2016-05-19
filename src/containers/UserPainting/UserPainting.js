@@ -210,13 +210,13 @@ export default class UserPainting extends Component {
         <StickyContainer>
           <Sticky className="NavControls" stickyClassName={'NavControls__sticky'}>
             <div className="leftSide">
-              <Link onlyActiveOnIndex={true} activeClassName="active" to={`/p/${id}`}>
+              <Link onlyActiveOnIndex={true} activeClassName="active" to={`/u/${id}`}>
                 <span>热门</span>
               </Link>
-              <Link activeClassName="active" to={`/p/${id}/latest`}>
+              <Link activeClassName="active" to={`/u/${id}/latest`}>
                 <span>新作</span>
               </Link>
-              <Link activeClassName="active" to={`/p/${id}/liked`}>
+              <Link activeClassName="active" to={`/u/${id}/liked`}>
                 <span>喜欢</span>
               </Link>
             </div>

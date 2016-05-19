@@ -54,15 +54,15 @@ export default function Router(store) {
 
       <Route path="me/edit" component={EditMe}/>
 
-      <Route path="painting/:paintingId" component={PaintingDetail}/>
+      <Route path="p/:paintingId" component={PaintingDetail}/>
 
       <Route path="/latest" component={Home}/>
 
-      <Route path="p/:ownerId/latest" component={UserPainting}/>
+      <Route path="u/:ownerId/latest" component={UserPainting}/>
 
-      <Route path="p/:ownerId/liked" component={UserPainting}/>
+      <Route path="u/:ownerId/liked" component={UserPainting}/>
 
-      <Route path="p/:ownerId" component={UserPainting}/>
+      <Route path="u/:ownerId" component={UserPainting}/>
 
       <Route path="me/PaintingUpload" component={PaintingUpload}/>
 

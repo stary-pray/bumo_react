@@ -109,6 +109,7 @@ export default class PaintingList extends Component {
 
   renderCard(openModal) {
     const {component} = this.props;
+
     return (
       <ul className="PaintingList__card">
         {component.loaded ?
