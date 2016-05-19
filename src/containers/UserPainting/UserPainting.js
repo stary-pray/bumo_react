@@ -253,6 +253,7 @@ export default class UserPainting extends Component {
             waypoint={this.props.waypoint}
             preferences={preferences}
             changePaintingListMode={changePaintingListMode}
+            openedTamashiId={this.props.openedTamashiId}
           />
         </StickyContainer>
       </div>

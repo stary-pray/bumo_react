@@ -50,8 +50,10 @@ export default class Tags extends Component {
     }
   }
 
-  componetWillUnmount() {
-    this.loadMore.cancel();
+  componentDidUpdate() {
+    if (!this.props.component.loading && !this.props.component.loaded) {
+      this.loadMore();
+    }
   }
 
   loadMore() {

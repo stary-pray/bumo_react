@@ -47,6 +47,11 @@ export default class PaintingList extends Component {
     return compareAttrs(this.props, nextProps, ['component', 'openedTamashiId', 'isMe', 'preferences', 'paintingHeat']);
   }
 
+  componentDidUpdate() {
+    if (!this.props.component.loading && !this.props.component.loaded) {
+      this.loadMore();
+    }
+  }
 
   loadMore() {
     const {pageMeta, loading} = this.props.component;
