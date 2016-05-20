@@ -177,7 +177,7 @@ export default class TagType extends Component {
 
     return (
       <div className="TagType__container">
-        <Helmet title={`${tagType ? tagType : '全部标签'} - 恋绘.星祈`}/>
+        <Helmet title={`${tagType ? tagType : '全部标签'} - 恋绘·星祈`}/>
         <div className="TagType__wrapper">
           { loaded ?
             component.indexes.map((tagId)=> {

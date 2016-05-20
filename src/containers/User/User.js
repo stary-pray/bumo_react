@@ -77,7 +77,7 @@ export default class Tags extends Component {
     console.log(+Date.now());
     return (<div className="UserPage">
       <Helmet
-        title="画手 - 恋绘.星祈"
+        title="画手 - 恋绘·星祈"
       />
       <div> {component.loaded ?
         <div className="collections">

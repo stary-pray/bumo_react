@@ -111,7 +111,7 @@ export default class App extends Component {
     const {params} = this.props;
     return (
       <div className="App__container border-box">
-        <Helmet title="恋绘.星祈"/>
+        <Helmet title="恋绘·星祈"/>
         <MainHeader routeParams={params}/>
         <div className="App__page">
           {this.props.children}

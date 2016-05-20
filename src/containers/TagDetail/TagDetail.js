@@ -49,7 +49,7 @@ export default class TagPainting extends Component {
 
     return (<div className="TagDetail__container">
       <Helmet
-        title={`${tagName}-${tagType} - 恋绘.星祈`}
+        title={`${tagName}-${tagType} - 恋绘·星祈`}
       />
       <div className="pageHead">
         <h2>{tagName} <span className="TagDetail__heat"><i className="zmdi zmdi-fire"/>{tagHeatObj ? calculateHeat(tagHeatObj) : ''}</span></h2>

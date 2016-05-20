@@ -113,7 +113,7 @@ export default class PaintingDetail extends Component {
     return (
       <div className={"PaintingDetail " + (isInModal ? 'inModal' : '')}>
         <Helmet
-          title={`${painting ? painting.title : ''} - 恋绘.星祈`}
+          title={`${painting ? painting.title : ''} - 恋绘·星祈`}
           meta={[{description: painting ? painting.description : ''}]}
         />
         <div className="PaintingDetail__top">

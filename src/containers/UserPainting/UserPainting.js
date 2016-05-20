@@ -156,7 +156,7 @@ export default class UserPainting extends Component {
     return (<div className="UserPainting">
 
         <Helmet
-          title={`${profileBody ? profileBody.nickname :''} - 恋绘.星祈`}
+          title={`${profileBody ? profileBody.nickname :''} - 恋绘·星祈`}
           meta={[{description: profileBody? profileBody.introduction : ''}]}
         />
 
