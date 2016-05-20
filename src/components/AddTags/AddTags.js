@@ -88,7 +88,7 @@ export default class AddTags extends Component {
               </select>
             </div>
             <div onKeyDown={this.handleSubmit.bind(this)}>
-              <input placeholder="" type="text" ref="tag"/>
+              <input placeholder="请尽量使用中文 =A=" type="text" ref="tag"/>
             </div>
             <a className="button success" onClick={this.addTag.bind(this)}> 添加 </a>
           </div>
@@ -106,8 +106,8 @@ export default class AddTags extends Component {
             return (<div className="AddTags__list" key={"tag-" + tag.name+' '+ tag.type}>
               <span className="AddTags__list_type">{tag.type} - </span>
               <span className="AddTags__list_name ellipses"> {tag.name}</span>
-              <span className="AddTags__list_heat"> {tagFind ? 
-                <span className="point"> <i className="zmdi zmdi-fire"/> {calculateHeat(tagHeat[tagFind.heat])}</span> : 
+              <span className="AddTags__list_heat"> {tagFind ?
+                <span className="point"> <i className="zmdi zmdi-fire"/> {calculateHeat(tagHeat[tagFind.heat])}</span> :
                 <span className="new">新标签</span>}
               </span>
               <a className="button hollow success small AddTags__list_remove" onClick={this.deleteTag.bind(this,index)}>

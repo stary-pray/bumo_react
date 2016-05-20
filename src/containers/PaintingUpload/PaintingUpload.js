@@ -88,7 +88,7 @@ export default class uploadPaintingForm extends Component {
 
   render() {
     const {fields:{title, description, file}, paintingUpload, toggleExtra, invalid} = this.props;
-    const {loading} = this.props.paintingUpload
+    const {loading} = this.props.paintingUpload;
     return (
       <form className="grid-container grid-block vertical PaintingUpload__container">
         <div className="PaintingUpload__title grid-content">
@@ -138,37 +138,3 @@ export default class uploadPaintingForm extends Component {
   }
 }
 
-
-{/*<div>
- <label>头像</label><img src={me.avatar}/>
- <Dropzone ref="avatar" multiple={false} {...avatar} onDrop={ ( filesToUpload, e ) => {
- avatar.onChange(filesToUpload);
- this.uploadAvatar(filesToUpload);
- }
- }
- >
- <div>Try dropping some files here, or click to select files to upload.</div>
- </Dropzone>
- </div>*
-
-
- handleSubmit = (event) => {
- event.preventDefault();
- this.props.updateMe({
- nickname: this.refs.nickname.value,
- introduction: this.refs.introduction.value,
- description: this.refs.description.value,
- avatar: this.refs.avatar.value
- });
- };
-
-
-
- uploadAvatar = (files) => {
- const data = new FormData();
- files.forEach((file) => {
- data.append('file', file);
- });
- this.props.uploadAvatar(data);
- };*/
-}
