@@ -1,9 +1,10 @@
 import React, {Component, PropTypes} from "react";
 import {resize, imageHeight, calculateHeat, compareAttrs} from "../../utils/common";
-import {Link} from "react-router";
+import {Link, browserHistory} from "react-router";
 import "./PaintingInfo.scss";
 import InlineSVG from "svg-inline-react";
 import TahashiPopup from "../../containers/TamashiPopup/TamashiPopup";
+import indexOf from "lodash/indexOf";
 
 export default class PaintingInfo extends Component {
   static propTypes = {
@@ -25,9 +26,10 @@ export default class PaintingInfo extends Component {
     this.openModal = this.openModal.bind(this);
     this.openTamashi = this.openTamashi.bind(this);
     this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
+    this.handleClickMain = this.handleClickMain.bind(this);
   }
 
-  shouldComponentUpdate(nextProps, nextState){
+  shouldComponentUpdate(nextProps, nextState) {
     return compareAttrs(this.props, nextProps, ['heat', 'mode', 'openedTamashiId']);
   }
 
@@ -44,13 +46,23 @@ export default class PaintingInfo extends Component {
     this.props.loginModalOpen();
   }
 
+  handleClickMain(event) {
+    const {painting} = this.props;
+    const userAgent = (window.navigator && navigator.userAgent) || "";
+    if(userAgent.test(/(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i) && !userAgent.test(/ipad/i)){
+      browserHistory.push(`/p/${painting.id}`);
+    } else if(indexOf(event.target.classList, 'bottomInfo') > -1 || indexOf(event.target.classList, 'topInfo') > -1){
+      this.openModal();
+    }
+  }
+
   renderCard() {
     const {painting, heat, owner, isMe} = this.props;
     const width = this.props.width || 320;
     const isOpenedTamashi = this.props.openedTamashiId === painting.id;
 
     return (
-      <li className={"PaintingInfo__container PaintingInfo__card " + (isOpenedTamashi ? 'isOpened' : "") }>
+      <li onClick={this.handleClickMain} className={"PaintingInfo__container PaintingInfo__card " + (isOpenedTamashi ? 'isOpened' : "") }>
         <div className="PaintingInfo__image-thumbnail">
           <img
             onClick={this.openModal}
@@ -79,14 +91,14 @@ export default class PaintingInfo extends Component {
     const width = this.props.width || 320;
     const isOpenedTamashi = this.props.openedTamashiId === painting.id;
     return (
-      <li style={{width: width, height: imageHeight(painting.width, painting.height, width) }}
+      <li onClick={this.handleClickMain} style={{width: width, height: imageHeight(painting.width, painting.height, width) }}
           className={"PaintingInfo__container PaintingInfo__thumbnail " + (isOpenedTamashi ? 'isOpened' : "") }>
         <div className="topInfo">
-          {painting.status!== 2 ? <div>审核中...</div>:
-          <a onClick={isMe? this.openTamashi:this.handleLoginModalOpen} className="heat">
-            <i className="zmdi zmdi-fire"/>
-            <span>{calculateHeat(heat)}</span>
-          </a>}
+          {painting.status !== 2 ? <div>审核中...</div> :
+            <a onClick={isMe? this.openTamashi:this.handleLoginModalOpen} className="heat">
+              <i className="zmdi zmdi-fire"/>
+              <span>{calculateHeat(heat)}</span>
+            </a>}
         </div>
         <img onClick={this.openModal} className="bumo_thumbnail" src={resize(painting.attachment,width)}/>
         <div className="bottomInfo">
@@ -110,12 +122,12 @@ export default class PaintingInfo extends Component {
   }
 
   render() {
-    switch (this.props.mode){
+    switch (this.props.mode) {
       case 'masonry':
-        return  this.renderMasonry();
+        return this.renderMasonry();
       case 'card':
       default:
-        return  this.renderCard();
+        return this.renderCard();
     }
   }
 }
