@@ -1,9 +1,35 @@
-.AddTags{
+@import '../../containers/colors';
+.AddTags {
   margin-top: 1rem;
-  .tag{
+  .tag {
     display: flex;
     > div {
       margin-right: 1rem;
+    }
+  }
+  &__list {
+    display: flex;
+    align-items: baseline;
+    &_type{
+      flex: 0 0 3.5rem;
+    }
+    &_name{
+      flex: 1 1 auto;
+    }
+    &_heat{
+      flex: 0 0 5rem;
+      > .point {
+        color: $lRed;
+      }
+      > .new {
+        color: $lGrey;
+      }
+    }
+    &_remove{
+      flex: 0 0 2rem;
+      border: 0!important;
+      font-size: 1rem!important;
+      margin: 0;
     }
   }
 }

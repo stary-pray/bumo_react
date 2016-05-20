@@ -1,5 +1,9 @@
 @import "colors";
 
+select {
+  line-height: 1;
+}
+
 .NavControls {
   position: relative;
   display: flex;

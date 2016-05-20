@@ -124,10 +124,12 @@ export default class uploadPaintingForm extends Component {
               <textarea ref="description" {...description} cols="30" rows="3"/>
             </label>
             <AddTags showExtra={paintingUpload.showExtra} toggleExtra={toggleExtra}/>
-            {!loading ?
-              <button className="button" disabled={invalid} onClick={this.handleSubmit}>提交</button> :
-              <p>照片上传中...</p>
-            }
+            <button
+              className={"button " + ((loading || invalid) ? 'disabled' : '')}
+              disabled={invalid || loading}
+              onClick={this.handleSubmit}>
+              { !loading ? '提交审核' : '上传中...'}
+            </button>
           </div>
         </div>
       </form>
