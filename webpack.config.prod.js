@@ -56,9 +56,9 @@ export default {
             const html = FileSystem.readFileSync(path.join(__dirname, htmlFileName), "utf8");
 
             const htmlOutput = html
-              .replace( /\/bumo\.vendors\.js/i, publicPath + stats.assetsByChunkName.vendors[0])
-              .replace( /\/bumo\.bundle\.app\.js/i, publicPath + stats.assetsByChunkName.app[0])
-              .replace( /\/bumo\.styles\.css/i, publicPath + stats.assetsByChunkName.app[1])
+              .replace( /bumo\.vendors\.js/i, publicPath + stats.assetsByChunkName.vendors[0])
+              .replace( /bumo\.bundle\.app\.js/i, publicPath + stats.assetsByChunkName.app[0])
+              .replace( /bumo\.styles\.css/i, publicPath + stats.assetsByChunkName.app[1])
               ;
             FileSystem.writeFileSync( path.join(__dirname, htmlFileName), htmlOutput);
           }
