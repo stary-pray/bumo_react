@@ -14,6 +14,16 @@ export const resize = (url, minWidth)=> {
   }
 };
 
+export const resizeWidthSquare = (url, minWidth)=> {
+  let width;
+  if (url && !url.match(/\.svg$/)) {
+    width = minWidth * (window.devicePixelRatio || 1);
+    return url + `?imageMogr2/format/${webpSupported ? 'webp' : 'jpg'}/thumbnail/${width}x/crop/${width}x${width}/interlace/1`;
+  } else {
+    return url;
+  }
+};
+
 export const resizeHeight = (url, minHeight)=> {
   let height;
   if (url && !url.match(/\.svg$/)) {

@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from "react";
-import {resize, imageHeight, calculateHeat, compareAttrs} from "../../utils/common";
+import {resize, resizeWidthSquare, imageHeight, calculateHeat, compareAttrs} from "../../utils/common";
 import {Link, browserHistory} from "react-router";
 import "./PaintingInfo.scss";
 import InlineSVG from "svg-inline-react";
@@ -110,7 +110,7 @@ export default class PaintingInfo extends Component {
             <Link className="avatar" to={'/u/' + owner.user}>
               {
                 owner.avatar ?
-                  <img src={ resize(owner.avatar, 80)} alt={owner.nickname}/> :
+                  <img src={ resizeWidthSquare(owner.avatar, 80)} alt={owner.nickname}/> :
                   <InlineSVG className="svg" src={require("../../utils/assets/default_avatar.svg")}/>
               }
             </Link >
