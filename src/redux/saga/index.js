@@ -41,7 +41,7 @@ function* loginSuccess() {
 function* paintingUploadSuccess() {
   while (TRULY) {
     const {result} =yield take(PaintingUploadModule.UPLOAD_SUCCESS);
-    browserHistory.push('/painting/' + result.id);
+    browserHistory.push('/p/' + result.id);
   }
 }
 
