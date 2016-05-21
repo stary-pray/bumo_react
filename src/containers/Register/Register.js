@@ -15,7 +15,7 @@ const validate = values => {
   if (!values.username) {
     errors.username = '请输入用户名';
   } else if (!/^[a-zA-Z][a-zA-Z0-9_]{4,15}$/.test(values.username)) {
-    errors.username = '请输入有效的用户名';
+    errors.username = '有效的用户名:6~20位，可以是数字、字母和下划线的组合，但不以数字开头';
   }
   if (!values.password) {
     errors.password = '请输入密码';
