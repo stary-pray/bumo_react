@@ -119,6 +119,7 @@
     .left {
       flex: 1 1 auto;
       margin-left: 1rem;
+      overflow: hidden;
       > a {
         display: block;
       }
