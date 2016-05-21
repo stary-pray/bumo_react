@@ -49,7 +49,7 @@ export default class PaintingInfo extends Component {
   handleClickMain(event) {
     const {painting} = this.props;
     const userAgent = (window.navigator && navigator.userAgent) || "";
-    if(userAgent.test(/(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i) && !userAgent.test(/ipad/i)){
+    if(/(iphone|ipod|((?:android)?.*?mobile)|blackberry|nokia)/i.test(userAgent) && !/ipad/i.test(userAgent)){
       browserHistory.push(`/p/${painting.id}`);
     } else if(indexOf(event.target.classList, 'bottomInfo') > -1 || indexOf(event.target.classList, 'topInfo') > -1){
       this.openModal();
