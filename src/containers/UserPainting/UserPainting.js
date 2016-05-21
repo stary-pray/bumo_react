@@ -9,7 +9,7 @@ import {
   listModeDropdownChange
 } from "../../redux/modules/containers/UserPainting";
 import {Link} from "react-router";
-import {resize, calculateHeat} from "../../utils/common";
+import {resize, resizeWidthSquare, calculateHeat} from "../../utils/common";
 import InlineSVG from "svg-inline-react";
 import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
 import {userImageUploadModalOpen, loginModalOpen} from "../../redux/modules/containers/MainHeader";
@@ -183,7 +183,7 @@ export default class UserPainting extends Component {
             <div className="avatarImage">
               {
                 (profileBody && profileBody.avatar) ?
-                  <img src={ resize(profileBody.avatar, 120)} alt={profileBody.nickname}/> :
+                  <img src={ resizeWidthSquare(profileBody.avatar, 120)} alt={profileBody.nickname}/> :
                   <InlineSVG className="svg" src={require("../../utils/assets/default_avatar.svg")}/>
               }
               {
