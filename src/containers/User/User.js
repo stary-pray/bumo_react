@@ -82,7 +82,7 @@ export default class Tags extends Component {
       <div> {component.loaded ?
         <div className="collections">
           { component.indexes.map((userId)=>
-            <div className="paintingCollection" key={userId}>
+            <Link  to={'/u/' +userId} className="paintingCollection" key={userId}>
               {user[userId].banner ?
                 <span className="img" style={{backgroundImage: `url(${resize(user[userId].banner, 240)})`}}/> :
                 <InlineSVG className="svg" src={require("../../utils/assets/default_banner.svg")}/>}
@@ -93,7 +93,7 @@ export default class Tags extends Component {
               <h2 className="heat">
                 <i className="zmdi zmdi-fire"/> {calculateHeat(profileHeat[user[userId].heat])}
               </h2>
-            </div>
+            </Link>
           )}
           <button
             onClick={this.loadMore}
