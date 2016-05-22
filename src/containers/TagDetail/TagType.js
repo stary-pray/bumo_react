@@ -129,43 +129,45 @@ export default class TagType extends Component {
           <Link activeClassName="active" to={`/tag/`}>
             <span>全部</span>
           </Link>
-          {tagTypes.map(tagTypeName =>
-            <Link key={tagTypeName} activeClassName="active" to={`/tag/${tagTypeName}`}>
-              <span>{tagTypeName}</span>
-            </Link>
-          )}
+             {tagTypes.map(tagTypeName =>
+               <Link key={tagTypeName} activeClassName="active" to={`/tag/${tagTypeName}`}>
+                 <span>{tagTypeName}</span>
+               </Link>
+             )}
         </div>
-        { tagName ?
-          <div className="rightSide">
-            <a onClick={ this.handleDropdown}>
-              { sub ?
-                (<span><i className="zmdi zmdi-flash"/> 最新 </span>) :
-                (<span><i className="zmdi zmdi-fire"/> 热门 </span>) }
-              <span className="separator">|</span>
-              { preferences.listMode === 'masonry' ?
-                (<span><i className="zmdi zmdi-view-dashboard"/> 瀑布流 <i className="zmdi zmdi-caret-down"/></span>) :
-                (<span><i className="zmdi zmdi-view-module"/> 列表 <i className="zmdi zmdi-caret-down"/></span>) }
-            </a>
-            <BumoDropdown positionClass="ListModeDropdown" isOpened={component.isDropdownOpened}
-                          close={this.handleDropdownClose}>
-              <Link to={`/tag/${tagType}/${tagName}`} activeClassName="active" className="BumoDropdownItem">
-                <i className="zmdi zmdi-fire"/> 热门 <i className="zmdi zmdi-check check"/>
-              </Link>
-              <Link to={`/tag/${tagType}/${tagName}/latest`} activeClassName="active" className="BumoDropdownItem">
-                <i className="zmdi zmdi-flash"/> 最新 <i className="zmdi zmdi-check check"/>
-              </Link>
-              <hr/>
-              <div className={classNames('BumoDropdownItem', {active: preferences.listMode === 'masonry'})}
-                   onClick={()=>changePaintingListMode('masonry')}>
-                <i className="zmdi zmdi-view-dashboard"/> 瀑布流 <i className="zmdi zmdi-check check"/>
-              </div>
-              <div className={classNames('BumoDropdownItem', {active: preferences.listMode === 'card'})}
-                   onClick={()=>changePaintingListMode('card')}>
-                <i className="zmdi zmdi-view-module"/> 列表 <i className="zmdi zmdi-check check"/>
-              </div>
-            </BumoDropdown>
-          </div> : ''
-        }
+              { tagName ?
+                <div className="rightSide">
+                  <a onClick={ this.handleDropdown}>
+                     { sub ?
+                       (<span><i className="zmdi zmdi-flash"/> 最新 </span>) :
+                       (<span><i className="zmdi zmdi-fire"/> 热门 </span>) }
+                       <span className="separator">|</span>
+                     { preferences.listMode === 'masonry' ?
+                       (<span><i className="zmdi zmdi-view-dashboard"/> 瀑布流 <i
+                         className="zmdi zmdi-caret-down"/></span>) :
+                       (<span><i className="zmdi zmdi-view-module"/> 列表 <i className="zmdi zmdi-caret-down"/></span>) }
+                  </a>
+                  <BumoDropdown positionClass="ListModeDropdown" isOpened={component.isDropdownOpened}
+                                close={this.handleDropdownClose}>
+                    <Link to={`/tag/${tagType}/${tagName}`} activeClassName="active" className="BumoDropdownItem">
+                      <i className="zmdi zmdi-fire"/> 热门 <i className="zmdi zmdi-check check"/>
+                    </Link>
+                    <Link to={`/tag/${tagType}/${tagName}/latest`} activeClassName="active"
+                          className="BumoDropdownItem">
+                      <i className="zmdi zmdi-flash"/> 最新 <i className="zmdi zmdi-check check"/>
+                    </Link>
+                    <hr/>
+                    <div className={classNames('BumoDropdownItem', {active: preferences.listMode === 'masonry'})}
+                         onClick={()=>changePaintingListMode('masonry')}>
+                      <i className="zmdi zmdi-view-dashboard"/> 瀑布流 <i className="zmdi zmdi-check check"/>
+                    </div>
+                    <div className={classNames('BumoDropdownItem', {active: preferences.listMode === 'card'})}
+                         onClick={()=>changePaintingListMode('card')}>
+                      <i className="zmdi zmdi-view-module"/> 列表 <i className="zmdi zmdi-check check"/>
+                    </div>
+                  </BumoDropdown>
+                </div> : ''
+              }
       </Sticky>
     );
   }
@@ -179,25 +181,28 @@ export default class TagType extends Component {
       <div className="TagType__container">
         <Helmet title={`${tagType ? tagType : '全部标签'} - 恋绘·星祈`}/>
         <div className="TagType__wrapper">
-          { loaded ?
-            component.indexes.map((tagId)=> {
-              const tag = tags[tagId];
-              const heat = _.find(tagHeat, {id: tag.heat});
-              const topPainting = tag.paintings ? _.find(painting, {id: tag.paintings[0]}) : '';
-              const tagUrl = '/tag/' + tags[tagId].type + '/' + tags[tagId].name;
-              return (
-                <div onClick={()=>browserHistory.push(tagUrl)} className="paintingCollection" key={'tagType' + tagId}>
+             { loaded ?
+               component.indexes.map((tagId)=> {
+                 const tag = tags[tagId];
+                 const heat = _.find(tagHeat, {id: tag.heat});
+                 const topPainting = tag.paintings ? _.find(painting, {id: tag.paintings[0]}) : '';
+                 const tagUrl = '/tag/' + tags[tagId].type + '/' + tags[tagId].name;
+                 return (
+                   topPainting ?
+                   <div onClick={()=>browserHistory.push(tagUrl)} className="paintingCollection"
+                        key={'tagType' + tagId}>
                   <span className="img"
                         style={{backgroundImage: `url(${topPainting ? resize(topPainting.attachment, 320) : ''})`}}/>
-                  <Link className="name" to={tagUrl}>
-                    <h2>{tags[tagId].name}</h2>
-                  </Link>
-                  <h4 className="type">{tags[tagId].type}</h4>
-                  <h2 className="heat"><i className="zmdi zmdi-fire"/> {calculateHeat(heat)}</h2>
-                </div>
-              );
-            }) : ''
-          }
+                     <Link className="name" to={tagUrl}>
+                       <h2>{tags[tagId].name}</h2>
+                     </Link>
+                     <h4 className="type">{tags[tagId].type}</h4>
+                     <h2 className="heat"><i className="zmdi zmdi-fire"/> {calculateHeat(heat)}</h2>
+                   </div>
+                     :''
+                 );
+               }) : ''
+             }
         </div>
         <button
           onClick={this.loadMore}
