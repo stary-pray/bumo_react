@@ -39,11 +39,12 @@ export default class AddTags extends Component {
   }
 
   handleSubmit(e) {
-    event.preventDefault();
-    event.stopPropagation();
     const name = e.target.value.trim();
     if (e.which === 13) {
+      e.stopPropagation();
+      e.preventDefault();
       this.props.addTag(name, this.type);
+      this.props.searchTagHeat(this.type, name);
     }
   }
 

@@ -58,8 +58,7 @@ export default class uploadPaintingForm extends Component {
     this.data = data;
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  handleSubmit () {
     lodash.forOwn({
       title: this.refs.title.value,
       description: this.refs.description.value,
@@ -71,7 +70,7 @@ export default class uploadPaintingForm extends Component {
       this.data.append(key, value);
     });
     this.props.upload(this.data);
-  };
+  }
 
   handleOnDrop = (paintingToUpload) => {
     const {fields:{file}, selectedImage} = this.props;
@@ -124,12 +123,13 @@ export default class uploadPaintingForm extends Component {
               <textarea ref="description" {...description} cols="30" rows="3"/>
             </label>
             <AddTags showExtra={paintingUpload.showExtra} toggleExtra={toggleExtra}/>
-            <button
+            <a
+              onClick={()=> this.handleSubmit()}
+              type="button"
               className={"button " + ((loading || invalid) ? 'disabled' : '')}
-              disabled={invalid || loading}
-              onClick={this.handleSubmit}>
+              disabled={invalid || loading}>
               { !loading ? '提交审核' : '上传中...'}
-            </button>
+            </a>
           </div>
         </div>
       </form>
