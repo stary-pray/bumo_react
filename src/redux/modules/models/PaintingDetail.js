@@ -1,6 +1,6 @@
-export const LOAD_DETAIL = 'bumo/paintingDetail/LOAD';
-export const LOAD_DETAIL_SUCCESS = 'bumo/paintingDetail/LOAD_SUCCESS';
-export const LOAD_DETAIL_FAIL = 'bumo/paintingDetail/LOAD_FAIL';
+export const LOAD_DETAIL = 'bumo/paintingDetail/LOAD_DETAIL';
+export const LOAD_DETAIL_SUCCESS = 'bumo/paintingDetail/LOAD_DETAIL_SUCCESS';
+export const LOAD_DETAIL_FAIL = 'bumo/paintingDetail/LOAD_DETAIL_FAIL';
 
 export function load(paintingId) {
   return {

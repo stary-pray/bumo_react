@@ -48,7 +48,7 @@ export default class AddTags extends Component {
     }
   }
 
-  addTag(e) {
+  addTag() {
     const name = this.refs.tag.value.trim();
     this.props.addTag(name, this.type);
     this.props.searchTagHeat(this.type, name);

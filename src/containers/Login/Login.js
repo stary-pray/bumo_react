@@ -62,6 +62,24 @@ export default class Login extends Component {
     this.props.getCaptcha();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const {loginError} = this.props;
+    let formError = '';
+    if (loginError && loginError.CAPTCHA_WRONG_ERROR) {
+      formError = <span> 验证码错误 </span>;
+    }
+    if (loginError && loginError.non_field_errors) {
+      formError = <span> 用户名或者密码错误 </span>;
+    }
+    if (loginError && loginError.PASSWORD_NEEDED) {
+      formError = <span> 请输入密码 </span>;
+    }
+    if(loginError){this.props.createNotification({
+      message: <div className="error">{formError}</div>,
+      level: 'error'
+    })}
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
     this.props.login(this.refs.email.value, this.refs.password.value, this.props.captcha, this.refs.captcha.value);
@@ -125,7 +143,6 @@ export default class Login extends Component {
                 </a>
               </div>
               : '' }
-            {loginError ? <div className="error">{formError}</div> : ''}
             <button className="button hollow" onClick={this.handleSubmit}> 登录</button>
           </form>
         </div>

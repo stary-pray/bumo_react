@@ -1,4 +1,4 @@
-import lodash from 'lodash';
+import lodash from "lodash";
 const initialState = {
   profile: {},
   painting: {},
@@ -6,7 +6,7 @@ const initialState = {
   likes:{},
   tags:{},
   users:{},
-  tagDetail:{}
+  tagDetail:{},
 };
 
 export default function reducer(state = initialState, action) {

@@ -14,6 +14,8 @@ const schemas = {
   bumoStar: new Schema('bumoStar'),
   deposit: new Schema('deposit'),
   contributedUsers: new Schema('contributedUsers'),
+  comments: new Schema('comments'),
+
 };
 
 schemas.painting.define({
@@ -49,6 +51,11 @@ schemas.contributedUsers.define({
   profile: schemas.profile,
 });
 
+schemas.comments.define({
+  profile: schemas.profile,
+});
+
+
 export default function normalizeMiddleware() {
   return (next) => (action) => {
     if (action.type && action.type.match(/SUCCESS$/)) {
@@ -73,6 +80,12 @@ export default function normalizeMiddleware() {
           break;
         case 'deposit':
           action.normalized = normalize(action.result.results, arrayOf(schemas.deposit));
+          break;
+        case 'comments':
+          action.normalized = normalize(action.result.results, arrayOf(schemas.comments));
+          break;
+        case 'comment':
+          action.normalized = normalize(action.result, schemas.comments);
           break;
         default:
       }

@@ -10,7 +10,10 @@ import * as getChargeModule from "../modules/models/Deposit";
 import * as PaintingUploadModule from "../modules/PaintingUpload";
 import * as MainHeaderModule from "../modules/containers/MainHeader";
 import * as LikeActionModule from "../modules/containers/LikeAction";
+import * as PaintingDetailModule from "../modules/models/PaintingDetail";
+import {createNotification} from "../../redux/modules/notification";
 import {checkTokenValid} from "../../utils/common";
+
 const TRULY = true;
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -57,8 +60,16 @@ function* updateAvatarOrBanner() {
 
 function* updateMe() {
   while (TRULY) {
-    const {result} = yield take([meUpdateModule.UPDATE_SUCCESS, LikeActionModule.FREE_LIKE_SUCCESS, LikeActionModule.PAY_LIKE_SUCCESS]);
+    const {result} = yield take([meUpdateModule.INITIAL_UPDATE_ME, LikeActionModule.FREE_LIKE_SUCCESS, LikeActionModule.PAY_LIKE_SUCCESS]);
     yield loadMeOrLogout();
+  }
+}
+
+function* intialUpdateMe() {
+  while (TRULY) {
+    const {result} = yield take(meUpdateModule.UPDATE_SUCCESS);
+    yield put(meUpdateModule.initialUpdateMe());
+
   }
 }
 
@@ -117,6 +128,21 @@ function* getCaptcha() {
   }
 }
 
+
+function* loadPaintingChecking() {
+  while (TRULY){
+    const {result} = yield take(PaintingDetailModule.LOAD_DETAIL_SUCCESS);
+    console.log(result.status);
+    if(result.status!==2){
+      yield put(createNotification({
+        message: '画作正在审核中,审核完毕会出现在首页上',
+        level: 'warning' 
+      }));
+    }
+  }
+
+}
+
 export default function* root() {
   yield [
     fork(loginSuccess),
@@ -131,5 +157,7 @@ export default function* root() {
     fork(paintingUploadSuccess),
     fork(updateAvatarOrBanner),
     fork(initialApp),
+    fork(intialUpdateMe),
+    fork(loadPaintingChecking)
   ];
 }

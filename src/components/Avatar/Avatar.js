@@ -9,13 +9,14 @@ export default class Avatar extends Component {
     width: PropTypes.number.isRequired,
     className: PropTypes.string,
   };
-  
+
   render() {
     const {avatar, nickname, width, className} = this.props;
+    const height = +width;
     return (
       avatar ?
         <img className={"Avatar__image pic " + className} src={ resizeWidthSquare(avatar, width)} alt={nickname}/> :
-        <InlineSVG className={"Avatar__placeHolder svg " + className} src={require("../../utils/assets/default_avatar.svg")}/>
+        <InlineSVG style={{width: width, height: height}} className={"Avatar__placeHolder svg " + className} src={require("../../utils/assets/default_avatar.svg")}/>
     );
   }
 }

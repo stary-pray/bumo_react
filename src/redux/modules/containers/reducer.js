@@ -15,6 +15,7 @@ import PaintingModal from "./PaintingModal";
 import SearchResult from "./SearchResult";
 import TamashiPopup from "./TamashiPopup";
 import TagPaintingDetail from "./TagPaintingDetail";
+import Comments from "./Comments";
 
 export default combineReducers({
   Home,
@@ -32,5 +33,6 @@ export default combineReducers({
   PaintingModal,
   SearchResult,
   TamashiPopup,
-  TagPaintingDetail
+  TagPaintingDetail,
+  Comments
 });

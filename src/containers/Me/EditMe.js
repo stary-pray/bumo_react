@@ -34,16 +34,30 @@ export default class updateMeForm extends Component {
     loadMe: PropTypes.func,
     fields: PropTypes.object,
     createNotification: PropTypes.func,
-    component: PropTypes.object
+    component: PropTypes.object,
+    updateMe: PropTypes.func
   };
+
+
+
+  componentWillReceiveProps(nextProps) {
+    const{profile_update}=this.props.component;
+    console.log(profile_update);
+    if(profile_update)
+    {this.props.createNotification({
+      message: <div className="success">资料更新成功</div>,
+      level: 'success'
+    });}
+
+  }
 
   compomemtWillMount() {
     this.props.loadMe();
   }
 
-
   handleSubmit = (event) => {
     event.preventDefault();
+    console.log(event);
     this.props.updateMe({
       nickname: this.refs.nickname.value,
       introduction: this.refs.introduction.value,
@@ -60,7 +74,7 @@ export default class updateMeForm extends Component {
           <h1>账户设定</h1>
         </div>
         <div className="grid-block grid-container medium-up-2 small-up-1">
-          <form className="grid-content" onSubmit={this.handleSubmit}>
+          <form className="grid-content">
             <label>
               <div>用户名(不可修改)</div>
               <input type="text" value={me.username} readOnly={true}/>
@@ -78,9 +92,9 @@ export default class updateMeForm extends Component {
               <div>描述</div>
               <input type="text" ref="description" {...description}/>
             </label>
-            <button className="button" onClick={this.handleSubmit}>保存</button>
+            <a className="button" onClick={this.handleSubmit}>保存</a>
           </form>
-          <div className="grid-content">
+          <div className="grid-content">a
             <div className="EditMe__balance">
               <h5>余额</h5>
               <div className="EditMe__balance_hp">

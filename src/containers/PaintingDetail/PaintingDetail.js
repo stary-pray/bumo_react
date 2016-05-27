@@ -6,7 +6,6 @@ import InlineSVG from "svg-inline-react";
 import {load as loadPaintingDetail} from "../../redux/modules/models/PaintingDetail";
 import {Link, browserHistory} from "react-router";
 import moment from "moment";
-import {createNotification} from "../../redux/modules/notification";
 import {resize, resizeHeight, calculateHeat} from "../../utils/common";
 import "./PaintingDetail.scss";
 import TahashiPopup from "../../containers/TamashiPopup/TamashiPopup";
@@ -15,6 +14,8 @@ import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
 import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
 import classNames from "classnames";
 import Scroll from "react-scroll";
+import CommentForm from "../../containers/CommentForm/CommentForm";
+import CommentList from "../../containers/CommentList/CommentList";
 
 
 @connect(
@@ -32,9 +33,8 @@ import Scroll from "react-scroll";
   }),
   dispatch => bindActionCreators({
     loadPaintingDetail,
-    createNotification,
     openTamashi: openTamashi,
-    loginModalOpen
+    loginModalOpen,
   }, dispatch)
 )
 
@@ -54,7 +54,7 @@ export default class PaintingDetail extends Component {
     me: PropTypes.object,
     loginModalOpen: PropTypes.func,
     contributedUsers: PropTypes.object,
-    profileHeat: PropTypes.object
+    profileHeat: PropTypes.object,
   };
 
   constructor() {
@@ -76,6 +76,8 @@ export default class PaintingDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+
+
     this.leftPanelScale = this.refs.leftPanel.offsetWidth / this.refs.leftPanel.offsetHeight;
 
     if (this.props.id !== nextProps.id) {
@@ -231,6 +233,8 @@ export default class PaintingDetail extends Component {
                 )}
               </div>
             </div> : ''}
+           <CommentForm paintingId={id}/>
+           <CommentList paintingId={id}/>
         </div>
       </div>);
   }
