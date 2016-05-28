@@ -15,6 +15,7 @@ const schemas = {
   deposit: new Schema('deposit'),
   contributedUsers: new Schema('contributedUsers'),
   comments: new Schema('comments'),
+  painterContribute: new Schema('painterContribute')
 
 };
 
@@ -55,6 +56,11 @@ schemas.comments.define({
   profile: schemas.profile,
 });
 
+schemas.painterContribute.define({
+  profile: schemas.profile,
+});
+
+
 
 export default function normalizeMiddleware() {
   return (next) => (action) => {
@@ -86,6 +92,9 @@ export default function normalizeMiddleware() {
           break;
         case 'comment':
           action.normalized = normalize(action.result, schemas.comments);
+          break;
+        case 'painterContribute':
+          action.normalized = normalize(action.result.results, arrayOf(schemas.painterContribute));
           break;
         default:
       }

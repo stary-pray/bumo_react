@@ -7,6 +7,7 @@ const initialState = {
   tags:{},
   users:{},
   tagDetail:{},
+  painterContribute:{}
 };
 
 export default function reducer(state = initialState, action) {
