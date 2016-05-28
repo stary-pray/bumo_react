@@ -69,6 +69,7 @@ export default class TamashiPopup extends Component {
         message: `给${paintingDetail[id].title}点了${likeAmount}个赞`,
         level: 'success'
       });
+      this.handleClosePopup();
     }
 
     if (freeLikeSuccess && (nextProps.component.id === likePaintingId) && (nextProps.component.id == id)) {
@@ -76,6 +77,7 @@ export default class TamashiPopup extends Component {
         message: `给${paintingDetail[id].title}点了1个赞`,
         level: 'success'
       });
+      this.handleClosePopup();
     }
 
   }
@@ -179,7 +181,7 @@ export default class TamashiPopup extends Component {
                   </div>
                 </div>
               </div>
-            </div> ) : ''}
+            </div> ) : (<p className="hint">载入中..</p>) }
         </div>
       </BumoDropdown>
     );
