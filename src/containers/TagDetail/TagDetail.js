@@ -4,7 +4,6 @@ import PaintingList from "../../components/PaintingList/PaintingList";
 import Helmet from "react-helmet";
 import find from "lodash/find";
 import {calculateHeat} from "../../utils/common";
-import PainterContribute from "../../containers/PainterContribute/PainterContribute";
 
 export default class TagPainting extends Component {
   static propTypes = {
@@ -56,8 +55,6 @@ export default class TagPainting extends Component {
         <h2>{tagName} <span className="TagDetail__heat"><i className="zmdi zmdi-fire"/>{tagHeatObj ? calculateHeat(tagHeatObj) : ''}</span></h2>
       </div>
 
-      <PainterContribute tagName={tagName} tagType={tagType}/>
-
       <PaintingList
         key={path}
         painting={painting}
@@ -72,6 +69,8 @@ export default class TagPainting extends Component {
         loginModalOpen={this.handleLoginModalOpen}
         waypoint={this.props.waypoint}
         preferences={preferences}
+        tagName={tagName}
+        tagType={tagType}
       />
     </div>);
   }

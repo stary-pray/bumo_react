@@ -4,6 +4,7 @@ import PaintingInfo from "../PaintingInfo/PaintingInfo";
 import Masonry from "react-masonry-component";
 import "./PaintingList.scss";
 import classNames from "classnames";
+import PainterContribute from "../../containers/PainterContribute/PainterContribute";
 
 const defaultWidth = 250;
 export default class PaintingList extends Component {
@@ -21,6 +22,8 @@ export default class PaintingList extends Component {
     loadPainting: PropTypes.func,
     openModal: PropTypes.func,
     openTamashi: PropTypes.func.isRequired,
+    tagType: PropTypes.string,
+    tagName: PropTypes.string,
   };
 
   constructor() {
@@ -92,7 +95,7 @@ export default class PaintingList extends Component {
   }
 
   renderMasonry(openModal) {
-    const {component} = this.props;
+    const {component, tagName, tagType} = this.props;
     return (
       <Masonry
         className={'BumoMasonry'}
@@ -100,6 +103,7 @@ export default class PaintingList extends Component {
         options={{ itemSelector: '.PaintingInfo__container', columnWidth: defaultWidth, gutter: 15, fitWidth: true }}
         disableImagesLoaded={false}
       >
+        { (component.loaded && tagName && tagType) ? <PainterContribute className="PaintingInfo__container" tagName={tagName} tagType={tagType}/> : '' }
         {component.loaded ?
           component.indexes.map((paintingId)=> this.renderPaintingInfo(openModal, paintingId))
           : ''}
@@ -108,10 +112,11 @@ export default class PaintingList extends Component {
   }
 
   renderCard(openModal) {
-    const {component} = this.props;
+    const {component, tagName, tagType} = this.props;
 
     return (
       <ul className="PaintingList__card">
+        { (component.loaded && tagName && tagType) ? <PainterContribute className="PaintingInfo__container is-card" tagName={tagName} tagType={tagType}/> : '' }
         {component.loaded ?
           component.indexes.map((paintingId)=> this.renderPaintingInfo(openModal, paintingId))
           : ''}

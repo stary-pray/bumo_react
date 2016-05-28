@@ -1,0 +1,54 @@
+@import "../colors";
+
+.PainterContribute {
+  &__container {
+    width: 250px;
+    &.is-card{
+      max-height: 30rem;
+      min-height: 20rem;
+      padding-bottom: 3rem;
+      flex: 1 1 22rem;
+    }
+  }
+  &__wrapper {
+    background-color: $lSliver;
+    transition: background-color 0.2s ease-out;
+    border: $lSliver solid 1px;
+    padding: 1rem;
+    &:hover{
+      background-color: #fefefe;
+    }
+  }
+  &__item {
+    display: flex;
+    padding-bottom: 0.5rem;
+    font-weight: bold;
+    &-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 100%;
+      margin-right: 1rem;
+      border: 1px white solid;
+      flex: 0 0 2rem;
+      svg {
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+      }
+    }
+    &-nickname {
+      padding-right: 1rem;
+      flex: 1 1 6rem;
+    }
+    &-amount {
+      color: $lRed;
+      flex: 0 0 3rem;
+    }
+  }
+}
+
+.is-card > .PainterContribute__wrapper {
+  max-width: 20rem;
+  margin: 0 auto;
+  overflow-y: auto;
+}

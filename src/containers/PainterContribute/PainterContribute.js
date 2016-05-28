@@ -1,8 +1,10 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import {Link} from "react-router";
 import {loadPainterContribute} from "../../redux/modules/models/PainterContribute";
 import Avatar from "../../components/Avatar/Avatar";
+import "./PainterContribute.scss";
 
 @connect(
   (state) => ({
@@ -22,6 +24,7 @@ export default class PainterContribute extends Component {
     painterContribute: PropTypes.object,
     tagType: PropTypes.string,
     tagName: PropTypes.string,
+    className: PropTypes.string,
     component: PropTypes.object
   };
 
@@ -43,20 +46,21 @@ export default class PainterContribute extends Component {
   }
 
   render() {
-    const{painterContribute, profile, component} =this.props;
+    const{painterContribute, profile, component, className} =this.props;
 
-    return (<div>
-        <label>标签贡献者</label>
-        {component.loaded ?
-          component.indexes.map((id)=>
-            <div key={"painterContribute"+id}>
-              <span>{profile[painterContribute[id].profile].nickname}</span>
-              <Avatar avatar={profile[painterContribute[id].profile].avatar} width={20}/>
-              <span>{Math.round(painterContribute[id].point)}</span>
-            </div>
-          )
-          : ''}
-      </div>
-    )
+    return (<li className={"PainterContribute__container " + className} >
+        <div className="PainterContribute__wrapper">
+          <label>画师贡献</label>
+          {component.loaded ?
+            component.indexes.filter((id)=> painterContribute[id].point > 0).map((id)=>
+              <Link to={`/u/${profile[painterContribute[id].profile].user}`} className="PainterContribute__item " key={"painterContribute_"+id}>
+                <Avatar className="PainterContribute__item-avatar" avatar={profile[painterContribute[id].profile].avatar} width={30}/>
+                <span className="PainterContribute__item-nickname">{profile[painterContribute[id].profile].nickname}</span>
+                <span className="PainterContribute__item-amount"> + {Math.round(painterContribute[id].point)}</span>
+              </Link>
+            ) : '' }
+        </div> 
+      </li>
+    );
   }
 }
