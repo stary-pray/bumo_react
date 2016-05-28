@@ -5,6 +5,7 @@
   top: 0;
   left: 0;
   min-height: 100%;
+  max-height: 100%;
   width: 100%;
   z-index: 5;
   background: rgba(white, 0.7);
@@ -49,16 +50,17 @@
   }
   > .close {
     position: absolute;
-    color: $lCyan;
     top: 0;
     right: 0;
     z-index: 6;
     font-size: 3rem;
     line-height: 1;
-    padding: 0.25rem 1rem 3rem 3rem;
+    padding: 0.5rem 0.75rem 0.5rem 0.5rem;
     cursor: pointer;
+    border-radius: 100%;
     .zmdi {
-      color: $dGrey;
+      color: $lSliver;
+      text-shadow: 0 1px 2px #333;
       transition-property: color, text-shadow;
       transition-duration: 0.1s;
       transition-timing-function: ease-in;

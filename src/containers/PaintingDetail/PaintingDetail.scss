@@ -6,6 +6,9 @@
   flex-direction: column;
   width: 100%;
   &.inModal {
+    margin-bottom: 2rem;
+    border: $lSliver 1px solid;
+    box-shadow: 0 2px 8px rgba(31, 45, 61, .3);
     .go_previous, .go_next {
       display: none !important;
     }
@@ -17,52 +20,46 @@
   }
   &__bottom {
     background: $background;
-  }
-  &__fans {
-    padding: 3rem;
-    &-title {
-      margin-bottom: 1rem;
-    }
-    &-wrap {
-      display: flex;
-      flex-wrap: wrap;
-    }
+    display: flex;
   }
   &__fan {
-    flex: 0 0 auto;
-    background: white;
-    padding: 1rem;
     display: flex;
-    align-items: center;
-    box-shadow: 0 2px 8px rgba(31, 45, 61, .1);
-    margin-right: 2rem;
-    margin-bottom: 2rem;
-    &:hover {
-      box-shadow: 0 1px 2px 0 rgba(31, 45, 61, .3);
-      transition: box-shadow 0.2s ease-in;
-    }
+    padding-bottom: 0.5rem;
+    font-weight: bold;
     &-avatar {
-      width: 60px;
-      height: 60px;
+      width: 30px;
+      height: 30px;
       border-radius: 100%;
       margin-right: 1rem;
       border: 1px white solid;
+      flex: 0 0 2rem;
       svg {
-        width: 60px;
-        height: 60px;
+        width: 30px;
+        height: 30px;
         border-radius: 100%;
       }
     }
+    &-nickname {
+      padding-right: 1rem;
+      flex: 1 1 6rem;
+    }
     &-amount {
       color: $lRed;
+      flex: 0 0 3rem;
     }
   }
+  &__left_bottom {
+    background: #fefefe;
+  }
   .leftPanel {
+    flex: 1 1 15rem;
+  }
+  .leftPanel__top {
     position: relative;
     height: calc(100vh - 3rem);
     max-height: calc(100vh - 3rem);
     background-color: #222;
-    flex: 1 1 15rem;
+    //flex: 1 1 15rem;
     display: flex;
     flex-direction: column;
     .image {
@@ -212,7 +209,7 @@
         transition-duration: 0.15s;
         transition-timing-function: ease-in;
       }
-      .heat{
+      .heat {
         font-size: 1rem;
         color: $lRed;
         width: 11rem;

@@ -1,5 +1,6 @@
 import {handleActions} from "redux-actions";
 import * as CommentActions from "../models/Comments";
+import * as PaintingDetailActions from "../models/PaintingDetail";
 import _ from "lodash";
 
 
@@ -38,6 +39,7 @@ export default handleActions({
       pageMeta: action.result,
       indexes: _.uniq([...state.indexes,...action.normalized.result])
     }),
+    [PaintingDetailActions.LOAD_DETAIL]: ()=>(initialState),
     ['@@router/LOCATION_CHANGE']: ()=>(initialState)
   },
   initialState

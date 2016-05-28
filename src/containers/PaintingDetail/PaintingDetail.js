@@ -13,7 +13,6 @@ import Avatar from "../../components/Avatar/Avatar";
 import {openTamashi} from "../../redux/modules/containers/TamashiPopup";
 import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
 import classNames from "classnames";
-import Scroll from "react-scroll";
 import CommentForm from "../../containers/CommentForm/CommentForm";
 import CommentList from "../../containers/CommentList/CommentList";
 
@@ -29,7 +28,7 @@ import CommentList from "../../containers/CommentList/CommentList";
     id: ownProps.id || +ownProps.params.paintingId,
     me: state.me,
     contributedUsers: state.models.contributedUsers,
-    profileHeat:state.models.profileHeat
+    profileHeat: state.models.profileHeat
   }),
   dispatch => bindActionCreators({
     loadPaintingDetail,
@@ -70,8 +69,8 @@ export default class PaintingDetail extends Component {
 
   componentDidMount() {
     this.leftPanelScale = this.refs.leftPanel.offsetWidth / this.refs.leftPanel.offsetHeight;
-    if(!this.props.isInModal){
-      Scroll.animateScroll.scrollToTop({smooth: false, duration: 0,});
+    if (!this.props.isInModal) {
+      //Scroll.animateScroll.scrollToTop({smooth: false, duration: 0,});
     }
   }
 
@@ -93,20 +92,20 @@ export default class PaintingDetail extends Component {
     this.props.loginModalOpen();
   }
 
-  goProfile(ownerId){
+  goProfile(ownerId) {
     browserHistory.push(`/u/${ownerId}`);
   }
 
 
   render() {
-    const {paintingDetail, id, paintingHeat, profile, tags, tagHeat, isInModal, me, contributedUsers,profileHeat} = this.props;
+    const {paintingDetail, id, paintingHeat, profile, tags, tagHeat, isInModal, me, contributedUsers, profileHeat} = this.props;
     const {loaded} = this.props.component;
     const painting = paintingDetail[id];
     const ownerId = painting ? painting.owner : -1;
     const profileId = painting ? painting.profile : -1;
     const ownerProfile = profile[profileId];
     const profileHeatId = ownerProfile && ownerProfile.heat;
-    const ownerProfileHeat =profileHeatId && profileHeat[profileHeatId];
+    const ownerProfileHeat = profileHeatId && profileHeat[profileHeatId];
     const tagsArray = painting ? painting.tags : [];
     const contributedUsersIDs = painting ? painting.contributed_users : [];
     const previousLink = painting && painting.user_previous_painting ? `/p/${painting.user_previous_painting}` : '';
@@ -119,26 +118,36 @@ export default class PaintingDetail extends Component {
           meta={[{description: painting ? painting.description : ''}]}
         />
         <div className="PaintingDetail__top">
-          <div ref="leftPanel" className="leftPanel">
-            <div
-              className={classNames("PaintingDetail__image-wrapper",
+
+          {/* leftPanel */}
+          <div className="leftPanel">
+            <div ref="leftPanel" className="leftPanel__top">
+              <div
+                className={classNames("PaintingDetail__image-wrapper",
                       {'PaintingDetail__image-wrapper_landscape':
                       painting && (painting.width / painting.height > this.leftPanelScale) })}
-            >
-              {painting ?
-                <img
-                  className="PaintingDetail__image-full"
-                  src={painting && resizeHeight(painting.attachment, 800)} alt="detail"/> : ''
-              }
+              >
+                {painting ?
+                  <img
+                    className="PaintingDetail__image-full"
+                    src={painting && resizeHeight(painting.attachment, 800)} alt="detail"/> : ''}
+              </div>
+              <Link to={previousLink} className={'go_previous ' + (previousLink ? '' : 'disabled')}
+                    disabled={!previousLink}>
+                <i className="zmdi zmdi-chevron-left"/>
+              </Link>
+              <Link to={nextLink} className={'go_next '+ (nextLink ? '' : 'disabled')} disabled={!nextLink}>
+                <i className="zmdi zmdi-chevron-right"/>
+              </Link>
+
             </div>
-            <Link to={previousLink} className={'go_previous ' + (previousLink ? '' : 'disabled')}
-                  disabled={!previousLink}>
-              <i className="zmdi zmdi-chevron-left"/>
-            </Link>
-            <Link to={nextLink} className={'go_next '+ (nextLink ? '' : 'disabled')} disabled={!nextLink}>
-              <i className="zmdi zmdi-chevron-right"/>
-            </Link>
+            <div className="PaintingDetail__left_bottom">
+              <CommentForm paintingId={id}/>
+              {loaded? <CommentList paintingId={id}/> : '' }
+            </div>
           </div>
+
+          {/* rightPanel */}
           <div className="rightPanel">
             <div onClick={()=> this.goProfile(ownerId)} className="userInfo">
               <Link className="avatarImage" to={'/u/'+ ownerId}>
@@ -160,7 +169,8 @@ export default class PaintingDetail extends Component {
               <h4 className="nickname"><Link to={'/u/'+ ownerId}> {ownerProfile ? ownerProfile.nickname : '---'} </Link>
               </h4>
               <p className="introduction">
-              <span className="heat"> <i className="zmdi zmdi-fire"/> {ownerProfileHeat && calculateHeat(ownerProfileHeat)} </span>
+                <span className="heat"> <i
+                  className="zmdi zmdi-fire"/> {ownerProfileHeat && calculateHeat(ownerProfileHeat)} </span>
                 <Link to={'/u/'+ ownerId}> {ownerProfile && ownerProfile.introduction} </Link>
               </p>
             </div>
@@ -169,7 +179,7 @@ export default class PaintingDetail extends Component {
               <p className="description">{ painting && painting.description }</p>
               <div className="infoGroup">
                 <label> 作品魂 </label>
-                {painting&&painting.status !== 2 ?<div>审核中...</div>:
+                {painting && painting.status !== 2 ? <div>审核中...</div> :
                   <a onClick={me.id ? this.openTamashi: this.handleLoginModalOpen} className="button hollow heat">
                     <i className="zmdi zmdi-fire"/>
                     <span>{paintingHeat && paintingHeat[id] && calculateHeat(paintingHeat[id])}</span>
@@ -189,53 +199,48 @@ export default class PaintingDetail extends Component {
                         className="zmdi zmdi-fire"/> {calculateHeat(tagHeat[tags[id].heat])}</span>
                       </Link>
                     </div>)) :
-                  '')}
+                  <p className="infoGroup__nothing">没有标签 =A=</p>)}
               </div>
 
               <div className="infoGroup">
                 <label> 信息 </label>
                 <p>发布: {painting && moment(painting.created).fromNow()}</p>
               </div>
+
+              {contributedUsersIDs.length ?
+                <div className="infoGroup">
+                  <label> 粉 </label>
+                  {contributedUsersIDs.map((id)=> {
+                      const contributedUser = contributedUsers[id];
+                      const contributedProfile = profile[contributedUser.profile];
+                      return (
+                        <Link to={`/u/${id}`} className="PaintingDetail__fan" key={id}>
+                          <Avatar
+                            className="PaintingDetail__fan-avatar"
+                            avatar={contributedProfile.avatar}
+                            nickname={contributedProfile.nickname}
+                            width={30}
+                          />
+                            <span className="PaintingDetail__fan-nickname ellipses">
+                              {contributedProfile.nickname}
+                            </span>
+                          <span className="PaintingDetail__fan-amount ellipses">
+                            +{contributedUser.amount}
+                          </span>
+                        </Link>
+                      );
+                    }
+                  )
+                  }
+                </div>
+                : ''}
+
             </div>
             { painting && paintingHeat && paintingHeat[id] &&
             <TahashiPopup positionClass="PaintingDetailPopup" id={painting.id} heat={paintingHeat[id]}/> }
           </div>
         </div>
-        <div className="PaintingDetail__bottom">
-          {contributedUsersIDs.length ?
-            <div className="PaintingDetail__fans">
-              <h3 className="PaintingDetail__fans-title">粉</h3>
-              <div className="PaintingDetail__fans-wrap">
-                {contributedUsersIDs.map((id)=> {
-                    const contributedUser = contributedUsers[id];
-                    const contributedProfile = profile[contributedUser.profile];
-                    return (
-                      <div className="PaintingDetail__fan" key={id}>
-                        <Link to={`/u/${id}`}>
-                          <Avatar
-                            className="PaintingDetail__fan-avatar"
-                            avatar={contributedProfile.avatar}
-                            nickname={contributedProfile.nickname}
-                            width={60}
-                          />
-                        </Link>
-                        <div className="PaintingDetail__fan-wrap">
-                          <Link to={`/u/${contributedProfile.user}`} className="PaintingDetail__fan-nickname">
-                            {contributedProfile.nickname}
-                          </Link>
-                          <div className="PaintingDetail__fan-amount">
-                            +{contributedUser.amount}
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  }
-                )}
-              </div>
-            </div> : ''}
-           <CommentForm paintingId={id}/>
-           <CommentList paintingId={id}/>
-        </div>
+
       </div>);
   }
 }

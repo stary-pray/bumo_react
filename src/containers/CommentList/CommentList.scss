@@ -1,0 +1,32 @@
+@import "../colors";
+
+.CommentList {
+  &__container {
+    padding: 0 1rem 1rem;
+  }
+  &__item {
+    display: flex;
+    margin-bottom: 0.5rem;
+  }
+  &__avatar {
+    flex: 0 0 4rem;
+    padding-top: 1.5rem;
+    .Avatar__component {
+      height: 40px;
+      width: 40px;
+      border-radius: 100%;
+    }
+  }
+  &__content {
+    flex: 1 1 auto;
+    border-top: 1px solid $lSliver;
+    padding-top: 0.5rem;
+  }
+  &__username {
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  &__text {
+    margin-bottom: 0.5rem;
+  }
+}

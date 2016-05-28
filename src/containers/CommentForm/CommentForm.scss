@@ -1,0 +1,33 @@
+@import "../colors";
+
+.CommentForm {
+  &__container {
+    padding: 1rem;
+  }
+  &__title {
+    padding-bottom: 1rem;
+  }
+  &__form {
+  }
+  &__top {
+    display: flex;
+  }
+  &__avatar {
+    flex: 0 0 4rem;
+    .Avatar__component {
+      height: 40px;
+      width: 40px;
+      border-radius: 100%;
+    }
+  }
+  &__textarea{
+    flex: 1 1 auto;
+    padding: 0.5rem;
+  }
+  &__submit{
+    flex: 0 0 5rem;
+    height: 100%;
+    margin-left: 4rem;
+    margin-top: 1rem;
+  }
+}

@@ -15,8 +15,8 @@ export default class Avatar extends Component {
     const height = +width;
     return (
       avatar ?
-        <img className={"Avatar__image pic " + className} src={ resizeWidthSquare(avatar, width)} alt={nickname}/> :
-        <InlineSVG style={{width: width, height: height}} className={"Avatar__placeHolder svg " + className} src={require("../../utils/assets/default_avatar.svg")}/>
+        <img className={"Avatar__component Avatar__image pic " + className} src={ resizeWidthSquare(avatar, width)} alt={nickname}/> :
+        <InlineSVG style={{width: width, height: height}} className={"Avatar__component Avatar__placeHolder svg " + className} src={require("../../utils/assets/default_avatar.svg")}/>
     );
   }
 }

@@ -1,8 +1,10 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
+import {Link} from "react-router";
 import {bindActionCreators} from "redux";
 import {loadComments, deleteComments} from "../../redux/modules/models/Comments";
 import Avatar from "../../components/Avatar/Avatar";
+import "./CommentList.scss";
 
 @connect(
   (state) => ({
@@ -21,10 +23,10 @@ import Avatar from "../../components/Avatar/Avatar";
 export default class CommentList extends Component {
   static propTypes = {
     loadComments: PropTypes.func,
-    deleteComments:PropTypes.func,
-    me:PropTypes.object,
+    deleteComments: PropTypes.func,
+    me: PropTypes.object,
     paintingId: PropTypes.number,
-    comments:PropTypes.object,
+    comments: PropTypes.object,
     component: PropTypes.object,
     profile: PropTypes.object,
     paintingDetail: PropTypes.object
@@ -45,38 +47,47 @@ export default class CommentList extends Component {
     }
   }
 
-  loadComments(){
-    const{paintingId}=this.props;
+  loadComments() {
+    const {paintingId}=this.props;
     const {pageMeta, loading} = this.props.component;
     if (loading || !pageMeta.next) return;
     this.props.loadComments(paintingId, pageMeta.next);
   }
 
-  deleteComments(paintingId,index) {
-    this.props.deleteComments(paintingId,index);
+  deleteComments(paintingId, index) {
+    this.props.deleteComments(paintingId, index);
   }
 
   render() {
-    const{me,comments,component,profile,paintingId, paintingDetail} =this.props;
+    const {me, comments, component, profile, paintingId, paintingDetail} =this.props;
     const {pageMeta, loading} = component;
 
     const isLastPage = !pageMeta.next;
 
-    return (<div>
-        <label>评论</label>
+    return (<div className="CommentList__container">
         {component.loaded ?
           component.indexes.map((commentId)=>
-            <div key={"comment"+commentId}>
-           <span>{profile[comments[commentId].profile].nickname}</span>
-           <Avatar avatar={profile[comments[commentId].profile].avatar} width={20}/>
-            <span>{comments[commentId].text}</span>
-            {(me.id==comments[commentId].owner || me.id==(paintingDetail[paintingId]&&paintingDetail[paintingId].owner))?
-              <a onClick={this.deleteComments.bind(this,paintingId,commentId)}>删除</a>
-              :''}
+            <div className="CommentList__item" key={"comment"+commentId}>
+              <div className="CommentList__avatar">
+                <Avatar avatar={profile[comments[commentId].profile].avatar} width={20}/>
+              </div>
+              <div className="CommentList__content">
+                <Link className="CommentList__username"
+                      to={`/u/${profile[comments[commentId].profile].user}`}>
+                  {profile[comments[commentId].profile].nickname}
+                </Link>
+                <p className="CommentList__text typo">{comments[commentId].text}</p>
+                <div className="CommentList__actions">
+                  {(me.id == comments[commentId].owner || me.id == (paintingDetail[paintingId] && paintingDetail[paintingId].owner)) ?
+                    <a onClick={this.deleteComments.bind(this,paintingId,commentId)}>删除</a>
+                    : ''}
+                </div>
+              </div>
             </div>
           )
           : ''}
         <button
+          className={"button hollow PaintingList__pageButton " + (loading || isLastPage ? 'disabled' : '' )}
           onClick={this.loadComments}>
           { loading ? '载入中...' : (isLastPage ? '没有更多评论' : '载入更多') }
         </button>
