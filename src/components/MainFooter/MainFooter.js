@@ -10,7 +10,7 @@ export default class MainFooter extends Component {
       <div className="MainFooter__right">
         <a className="secondary-color small-font hide" href="">关于星祈</a>
         <span className="secondary-color small-font hide"> | </span>
-        <a className="secondary-color small-font" href="">粤ICP备14019972号</a>
+        <a className="secondary-color small-font" href="http://www.miitbeian.gov.cn">粤ICP备14019972号</a>
       </div>
     </div>);
   }
