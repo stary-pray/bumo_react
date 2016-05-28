@@ -15,6 +15,7 @@ import {loginModalOpen} from "../../redux/modules/containers/MainHeader";
 import classNames from "classnames";
 import CommentForm from "../../containers/CommentForm/CommentForm";
 import CommentList from "../../containers/CommentList/CommentList";
+import Scroll from "react-scroll";
 
 
 @connect(
@@ -70,7 +71,7 @@ export default class PaintingDetail extends Component {
   componentDidMount() {
     this.leftPanelScale = this.refs.leftPanel.offsetWidth / this.refs.leftPanel.offsetHeight;
     if (!this.props.isInModal) {
-      //Scroll.animateScroll.scrollToTop({smooth: false, duration: 0,});
+      Scroll.animateScroll.scrollToTop({smooth: false, duration: 0,});
     }
   }
 
