@@ -38,7 +38,7 @@ export const calculateHeat = (heatObj, like_amount = 0) => {
   const last_heat = heatObj.point;
   const late_modified = heatObj.modified;
   const max_heat = heatObj.max_point;
-  const q = 0.5 ** ((+Date.now() - +new Date(late_modified)) / (HEAT_HALF_LIFE * 24 * 60 * 60 * 1000));
+  const q = Math.pow(0.5, ((+Date.now() - +new Date(late_modified)) / (HEAT_HALF_LIFE * 24 * 60 * 60 * 1000)));
   const new_heat = (last_heat + like_amount) * q;
   return Math.round(new_heat > max_heat / 2 ? new_heat : max_heat / 2);
 };
@@ -46,6 +46,7 @@ export const calculateHeat = (heatObj, like_amount = 0) => {
 export const imageHeight = (rawWidth, rawHeight, newWidth)=> newWidth / rawWidth * rawHeight;
 
 export const checkTokenValid = ()=> {
+  if(!window['localStorage']) return;
   const token = localStorage.getItem('token');
   if (token) {
     try {
@@ -95,6 +96,10 @@ export const compareAttrs = (obj1, obj2, attrs, isArray = false)=> {
 
 
 const _setBrowserWebp = () => {
+  if(!window['localStorage']) { // native
+    webpSupported = false;
+    return;
+  }
   const supported = localStorage.getItem('webpSupported');
   if (supported == null) {
     _testWebp((supported)=> {

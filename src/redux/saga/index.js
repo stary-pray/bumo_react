@@ -1,6 +1,5 @@
 // import {fork, call, take, put} from 'redux-saga'
 import {fork, take, put, select} from "redux-saga/effects";
-import {browserHistory} from "react-router";
 import * as authModule from "../modules/auth";
 import * as meModule from "../modules/me";
 import * as meUpdateModule from "../modules/containers/MeUpdate";
@@ -13,6 +12,12 @@ import * as LikeActionModule from "../modules/containers/LikeAction";
 import * as PaintingDetailModule from "../modules/models/PaintingDetail";
 import {createNotification} from "../../redux/modules/notification";
 import {checkTokenValid} from "../../utils/common";
+
+let browserHistory = {push: ()=> ''};
+if(window['localStorage']){
+  const router = require("react-router");
+  browserHistory = router.browserHistory;
+}
 
 const TRULY = true;
 

@@ -1,10 +1,12 @@
 import superagent from "superagent";
+import config from "../config";
 
 const methods = ['get', 'post', 'put', 'patch', 'del'];
+const baseUrl = window['localStorage'] ? '' : config.serverApi;
 
 function formatUrl(path) {
   const adjustedPath = path[0] !== '/' ? '/' + path : path;
-  return adjustedPath;
+  return adjustedPath.indexOf('/') === 0 ? baseUrl + adjustedPath : adjustedPath;
 }
 
 /*
@@ -18,7 +20,7 @@ class _ApiClient {
     methods.forEach((method) =>
       this[method] = (path, {params, data} = {}) => new Promise((resolve, reject) => {
         const request = superagent[method](formatUrl(path));
-        const token = localStorage.getItem('token');
+        const token = window['localStorage'] ? localStorage.getItem('token') : null;
 
         if (params) {
           request.query(params);
@@ -31,7 +33,9 @@ class _ApiClient {
         if (data) {
           request.send(data);
         }
-        request.end((err, {body} = {}) => err ? reject(body || err) : resolve(body));
+        request.end((err, {body} = {}) => {
+          return err ? reject(body || err) : resolve(body);
+        });
       }));
   }
 }
