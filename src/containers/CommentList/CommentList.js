@@ -5,6 +5,8 @@ import {bindActionCreators} from "redux";
 import {loadComments, deleteComments} from "../../redux/modules/models/Comments";
 import Avatar from "../../components/Avatar/Avatar";
 import "./CommentList.scss";
+import {createNotification} from "../../redux/modules/notification";
+import moment from "moment";
 
 @connect(
   (state) => ({
@@ -16,7 +18,8 @@ import "./CommentList.scss";
   }),
   dispatch => bindActionCreators({
     loadComments,
-    deleteComments
+    deleteComments,
+    createNotification
   }, dispatch)
 )
 
@@ -29,7 +32,8 @@ export default class CommentList extends Component {
     comments: PropTypes.object,
     component: PropTypes.object,
     profile: PropTypes.object,
-    paintingDetail: PropTypes.object
+    paintingDetail: PropTypes.object,
+    createNotification:PropTypes.func
   };
 
   constructor() {
@@ -45,6 +49,16 @@ export default class CommentList extends Component {
     if (!this.props.component.loading && !this.props.component.loaded) {
       this.loadComments();
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let commentError = '';
+    if (!this.props.component.error && nextProps.component.error) {
+      commentError = <span> 评论过于频繁,一分钟之后再评论 </span>;
+      this.props.createNotification({
+      message: <div className="error">{commentError}</div>,
+      level: 'error'
+    })}
   }
 
   loadComments() {
@@ -72,10 +86,13 @@ export default class CommentList extends Component {
                 <Avatar avatar={profile[comments[commentId].profile].avatar} width={20}/>
               </div>
               <div className="CommentList__content">
+                <div className="CommentList__info">
                 <Link className="CommentList__username"
                       to={`/u/${profile[comments[commentId].profile].user}`}>
                   {profile[comments[commentId].profile].nickname}
                 </Link>
+                  <p className="CommentList__created">{moment(comments[commentId].created).format("MMMDo kk:mm")}</p>
+                  </div>
                 <p className="CommentList__text typo">{comments[commentId].text}</p>
                 <div className="CommentList__actions">
                   {(me.id == comments[commentId].owner || me.id == (paintingDetail[paintingId] && paintingDetail[paintingId].owner)) ?

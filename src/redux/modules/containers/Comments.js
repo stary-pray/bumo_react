@@ -11,22 +11,32 @@ const initialState = {
   },
   indexes: [],
   loaded: false,
-  loading: false
+  loading: false,
+  error: null
 };
 
 
 export default handleActions({
-
-[CommentActions.ADD_PAINTING_COMMENTS_SUCCESS]: (state, action) => ({
+    [CommentActions.ADD_PAINTING_COMMENTS]: (state, action) => ({
     ...state,
-    indexes: _.uniq([action.normalized.result,...state.indexes])
+    error: false,
   }),
+
+    [CommentActions.ADD_PAINTING_COMMENTS_SUCCESS]: (state, action) => ({
+      ...state,
+      error: false,
+      indexes: _.uniq([action.normalized.result, ...state.indexes])
+    }),
+    [CommentActions.ADD_PAINTING_COMMENTS_FAIL]: (state, action) => ({
+      ...state,
+      error: action.error
+    }),
     [CommentActions.DELETE_PAINTING_COMMENTS_SUCCESS]: (state, action) => (
 
     {
       ...state,
+      error: false,
       indexes: _.without(state.indexes, action.result.id),
-
     }),
     [CommentActions.LOAD_PAINTING_COMMENTS]: (state, action) => ({
       ...state,
@@ -37,7 +47,7 @@ export default handleActions({
       loading: false,
       loaded: true,
       pageMeta: action.result,
-      indexes: _.uniq([...state.indexes,...action.normalized.result])
+      indexes: _.uniq([...state.indexes, ...action.normalized.result])
     }),
     [PaintingDetailActions.LOAD_DETAIL]: ()=>(initialState),
     ['@@router/LOCATION_CHANGE']: ()=>(initialState)
