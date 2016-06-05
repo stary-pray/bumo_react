@@ -57,7 +57,8 @@ export default class CommentList extends Component {
       commentError = <span> 评论过于频繁,一分钟之后再评论 </span>;
       this.props.createNotification({
       message: <div className="error">{commentError}</div>,
-      level: 'error'
+      level: 'error',
+      position:'tl',
     })}
   }
 
