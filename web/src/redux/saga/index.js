@@ -141,12 +141,12 @@ function* loadPaintingChecking() {
     if(result.status!==2){
       yield put(createNotification({
         message: '画作正在审核中,审核完毕会出现在首页上',
-        level: 'warning' 
+        level: 'warning'
       }));
     }
   }
-
 }
+
 
 export default function* root() {
   yield [
@@ -163,6 +163,6 @@ export default function* root() {
     fork(updateAvatarOrBanner),
     fork(initialApp),
     fork(intialUpdateMe),
-    fork(loadPaintingChecking)
+    fork(loadPaintingChecking),
   ];
 }
