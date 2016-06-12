@@ -25,9 +25,11 @@ build/Release
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
+web/node_modules
 
 #dist folder
 dist
+web/dist
 
 #Webstorm metadata
 .idea
@@ -72,3 +74,5 @@ buck-out/
 \.buckd/
 android/app/libs
 android/keystores/debug.keystore
+
+web/.babelrc

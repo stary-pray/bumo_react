@@ -7,9 +7,9 @@
 import React, {Component} from "react";
 import {AppRegistry} from "react-native";
 import {Provider} from "react-redux";
-import ApiClient from "./src/helpers/ApiClient";
-import createStore from "./src/redux/create.mobile";
-import App from "./src/components_mobile/App.mobile";
+import ApiClient from "./web/src/helpers/ApiClient";
+import createStore from "./web/src/redux/create.mobile.js";
+import App from "./web/src/components_mobile/App.mobile.js";
 
 const client = new ApiClient();
 const store = createStore(client);
