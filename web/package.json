@@ -22,6 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "babel-polyfill": "^6.3.14",
+    "blueimp-load-image": "2.6.1",
     "classnames": "2.2.5",
     "connect-history-api-fallback": "1.2.0",
     "foundation-apps": "^1.2.0",
