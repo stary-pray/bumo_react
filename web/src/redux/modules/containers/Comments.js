@@ -12,38 +12,47 @@ const initialState = {
   indexes: [],
   loaded: false,
   loading: false,
-  error: null
+  addError: false,
+  addSuccess:false
 };
 
 
 export default handleActions({
     [CommentActions.ADD_PAINTING_COMMENTS]: (state, action) => ({
-    ...state,
-    error: false,
+    ...state, 
+      addSuccess:false,
+      addError: false,
   }),
 
     [CommentActions.ADD_PAINTING_COMMENTS_SUCCESS]: (state, action) => ({
       ...state,
-      error: false,
+      addSuccess:true,
+      addError: false,
       indexes: _.uniq([action.normalized.result, ...state.indexes])
     }),
     [CommentActions.ADD_PAINTING_COMMENTS_FAIL]: (state, action) => ({
       ...state,
-      error: action.error
+      addSuccess:false,
+      addError: action.error
     }),
     [CommentActions.DELETE_PAINTING_COMMENTS_SUCCESS]: (state, action) => (
 
     {
       ...state,
-      error: false,
+      addSuccess:false,
+      addError: false,
       indexes: _.without(state.indexes, action.result.id),
     }),
     [CommentActions.LOAD_PAINTING_COMMENTS]: (state, action) => ({
       ...state,
+      addSuccess:false,
+      addError: false,
       loading: true
     }),
     [CommentActions.LOAD_PAINTING_COMMENTS_SUCCESS]: (state, action) => ({
       ...state,
+      addSuccess:false,
+      addError: false,
       loading: false,
       loaded: true,
       pageMeta: action.result,

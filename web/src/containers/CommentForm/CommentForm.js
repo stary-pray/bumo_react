@@ -9,6 +9,7 @@ import "./CommentForm.scss";
 @connect(
   (state) => ({
     me: state.me,
+    component: state.containers.Comments,
   }),
   dispatch => bindActionCreators({
     addComments,
@@ -28,17 +29,24 @@ export default class Comment extends Component {
     deleteComments: PropTypes.func,
     me: PropTypes.object,
     paintingId: PropTypes.number,
+    component: PropTypes.object
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.component.addSuccess && nextProps.component.addSuccess) {
+      this.props.resetForm()
+    }
+  }
 
   handleSubmit = (event) => {
     const {paintingId} =this.props;
     event.stopPropagation();
     if(this.refs.comment.value.trim()){
       this.props.addComments(paintingId, this.refs.comment.value.trim());
-      this.props.resetForm();
     }
   };
+
+
 
   render() {
     const {me, fields:{comment}} =this.props;

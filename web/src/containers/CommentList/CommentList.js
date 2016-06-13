@@ -8,6 +8,7 @@ import "./CommentList.scss";
 import {createNotification} from "../../redux/modules/notification";
 import moment from "moment";
 
+
 @connect(
   (state) => ({
     me: state.me,
@@ -53,12 +54,11 @@ export default class CommentList extends Component {
 
   componentWillReceiveProps(nextProps) {
     let commentError = '';
-    if (!this.props.component.error && nextProps.component.error) {
+    if (!this.props.component.addError && nextProps.component.addError) {
       commentError = <span> 评论过于频繁,一分钟之后再评论 </span>;
       this.props.createNotification({
       message: <div className="error">{commentError}</div>,
       level: 'error',
-      position:'tl',
     })}
   }
 
