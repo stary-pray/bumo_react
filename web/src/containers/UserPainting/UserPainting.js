@@ -5,9 +5,9 @@ import {
   loadUserPaintingHot,
   loadUserPainting,
   loadProfileDetail,
-  loadUserLikedPainting,
-  listModeDropdownChange
-} from "../../redux/modules/containers/UserPainting";
+  loadUserLikedPainting
+} from "../../redux/modules/models/UserPainting";
+import {listModeDropdownChange} from "../../redux/modules/containers/UserPainting";
 import {Link} from "react-router";
 import {resize, resizeWidthSquare, calculateHeat} from "../../utils/common";
 import InlineSVG from "svg-inline-react";
@@ -254,7 +254,6 @@ export default class UserPainting extends Component {
             waypoint={this.props.waypoint}
             preferences={preferences}
             changePaintingListMode={changePaintingListMode}
-            openedTamashiId={this.props.openedTamashiId}
           />
         </StickyContainer>
       </div>
