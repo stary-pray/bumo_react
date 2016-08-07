@@ -41,9 +41,9 @@ export default class TagPainting extends Component {
       loadTagPaintingDetailHot, path, me, tagType, tagName, preferences, tagHeat, tags} = this.props;
 
     const loadTagPainting = (pageIndex) => loadTagPaintingDetail(tagType, tagName, pageIndex);
-    const loadTagPaintinHot = (pageIndex) => loadTagPaintingDetailHot(tagType, tagName, pageIndex);
+    const loadTagPaintingHot = (pageIndex) => loadTagPaintingDetailHot(tagType, tagName, pageIndex);
     const isLatest = path && path.indexOf('/latest') > -1;
-    const loadPainting = isLatest ? loadTagPainting : loadTagPaintinHot;
+    const loadPainting = isLatest ? loadTagPainting : loadTagPaintingHot;
     const tagObj = find(tags, {type: tagType, name: tagName});
     const tagHeatObj = tagObj && tagHeat[tagObj.heat];
 

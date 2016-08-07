@@ -46,7 +46,7 @@ export default class PaintingList extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps){
+  shouldComponentUpdate(nextProps) {
     return compareAttrs(this.props, nextProps, ['component', 'openedTamashiId', 'isMe', 'preferences', 'paintingHeat']);
   }
 
@@ -100,10 +100,11 @@ export default class PaintingList extends Component {
       <Masonry
         className={'BumoMasonry'}
         elementType={'ul'}
-        options={{ itemSelector: '.PaintingInfo__container', columnWidth: defaultWidth, gutter: 15, fitWidth: true }}
+        options={{itemSelector: '.PaintingInfo__container', columnWidth: defaultWidth, gutter: 15, fitWidth: true}}
         disableImagesLoaded={false}
       >
-        { (component.loaded && tagName && tagType) ? <PainterContribute className="PaintingInfo__container" tagName={tagName} tagType={tagType}/> : '' }
+        { (component.loaded && tagName && tagType) ?
+          <PainterContribute className="PaintingInfo__container" tagName={tagName} tagType={tagType}/> : '' }
         {component.loaded ?
           component.indexes.map((paintingId)=> this.renderPaintingInfo(openModal, paintingId))
           : ''}
@@ -116,10 +117,11 @@ export default class PaintingList extends Component {
 
     return (
       <ul className="PaintingList__card">
-        { (component.loaded && tagName && tagType) ? <PainterContribute className="PaintingInfo__container is-card" tagName={tagName} tagType={tagType}/> : '' }
-        {component.loaded ?
-          component.indexes.map((paintingId)=> this.renderPaintingInfo(openModal, paintingId))
-          : ''}
+          { (component.loaded && tagName && tagType) ?
+            <PainterContribute className="PaintingInfo__container is-card" tagName={tagName} tagType={tagType}/> : '' }
+          {component.loaded ?
+            component.indexes.map((paintingId)=> this.renderPaintingInfo(openModal, paintingId))
+            : ''}
       </ul>
     );
   }
@@ -141,12 +143,12 @@ export default class PaintingList extends Component {
     const openModal = (id) => this.props.openModal({id: id, indexes: component.indexes});
     return (
       <div className="PaintingList">
-        {this.renderList(openModal)}
-        <button
-          onClick={this.loadMore}
-          className={classNames("button hollow PaintingList__pageButton", {disabled: isLastPage || loading}) }>
-          { loading ? '载入中...' : (isLastPage ? '已到最后一页' : '载入更多') }
-        </button>
+           {this.renderList(openModal)}
+             <button
+               onClick={this.loadMore}
+               className={classNames("button hollow PaintingList__pageButton", {disabled: isLastPage || loading}) }>
+               { loading ? '载入中...' : (isLastPage ? '已到最后一页' : '载入更多') }
+             </button>
       </div>
     );
   }

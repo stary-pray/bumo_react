@@ -24,6 +24,5 @@ export default handleActions({
     loading: false,
     pageMeta: action.result,
     indexes: _.uniq([...state.indexes, ...action.normalized.result])
-  }),
-  ['@@router/LOCATION_CHANGE']: (state, action) => (initialState)
+  })
 }, initialState);

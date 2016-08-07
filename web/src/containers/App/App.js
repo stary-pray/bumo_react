@@ -18,6 +18,8 @@ import "./App.scss";
 // import Pref from 'react-addons-perf';
 // window['Pref'] = Pref;
 
+window['isNative'] = !!window['localStorage'];
+
 moment.locale('zh-cn');
 
 @connect(

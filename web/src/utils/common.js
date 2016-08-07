@@ -1,6 +1,7 @@
 const HEAT_HALF_LIFE = 30; // days
 import jwt_decode from "jwt-decode";
 import some from "lodash/some";
+import {getItem, removeItem} from "../helpers/storage";
 
 let webpSupported = false;
 
@@ -45,9 +46,8 @@ export const calculateHeat = (heatObj, like_amount = 0) => {
 
 export const imageHeight = (rawWidth, rawHeight, newWidth)=> newWidth / rawWidth * rawHeight;
 
-export const checkTokenValid = ()=> {
-  if(!window['localStorage']) return;
-  const token = localStorage.getItem('token');
+export const checkTokenValid = async ()=> {
+  const token = await getItem('token');
   if (token) {
     try {
       const tokenPayload = jwt_decode(token);
@@ -58,7 +58,7 @@ export const checkTokenValid = ()=> {
       console.info('decode jwt error');
     }
     console.info('jwt expired');
-    localStorage.removeItem('token');
+    await removeItem('token');
     return {valid: false, needRefresh: true};
   }
   return {valid: false, needRefresh: false};

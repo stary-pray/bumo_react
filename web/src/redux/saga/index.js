@@ -1,5 +1,5 @@
 // import {fork, call, take, put} from 'redux-saga'
-import {fork, take, put, select} from "redux-saga/effects";
+import {fork, take, put, select, call} from "redux-saga/effects";
 import * as authModule from "../modules/auth";
 import * as meModule from "../modules/me";
 import * as meUpdateModule from "../modules/containers/MeUpdate";
@@ -12,36 +12,33 @@ import * as LikeActionModule from "../modules/containers/LikeAction";
 import * as PaintingDetailModule from "../modules/models/PaintingDetail";
 import {createNotification} from "../../redux/modules/notification";
 import {checkTokenValid} from "../../utils/common";
+import {setItem, removeItem} from "../../helpers/storage";
 
 let browserHistory = {push: ()=> ''};
-if(window['localStorage']){
-  //const router = require("react-router");
-  //browserHistory = router.browserHistory;
-}
 
 const TRULY = true;
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-function loadMeOrLogout(){
-  const {valid, needRefresh} = checkTokenValid();
+function* loadMeOrLogout(){
+  const {valid, needRefresh} = yield call(checkTokenValid);
   if(valid){
-    return put(meModule.load());
+    return yield put(meModule.load());
   } else if(needRefresh){
-    return put(authModule.logout());
+    return yield put(authModule.logout());
   }
 }
 
 function* initialApp() {
   yield take(authModule.INITIAL_APP);
-  yield loadMeOrLogout();
+  yield call(loadMeOrLogout);
 }
 
 function* loginSuccess() {
   while (TRULY) {
     const {result} = yield take(authModule.LOGIN_SUCCESS);
-    localStorage.setItem('token', result.token);
-    yield loadMeOrLogout();
+    yield setItem('token', result.token);
+    yield call(loadMeOrLogout);
     yield put(MainHeaderModule.modalClose());
   }
 }
@@ -59,14 +56,14 @@ function* updateAvatarOrBanner() {
     yield put(MainHeaderModule.modalClose());
     const userId = yield select(state => state.me.id);
     yield put(userPaintingModule.loadProfileDetail(userId));
-    yield loadMeOrLogout();
+    yield call(loadMeOrLogout);
   }
 }
 
 function* updateMe() {
   while (TRULY) {
     const {result} = yield take([meUpdateModule.INITIAL_UPDATE_ME, LikeActionModule.FREE_LIKE_SUCCESS, LikeActionModule.PAY_LIKE_SUCCESS]);
-    yield loadMeOrLogout();
+    yield call(loadMeOrLogout);
   }
 }
 
@@ -81,15 +78,15 @@ function* intialUpdateMe() {
 function* updateMeEveryQuarterHour() {
   while (TRULY) {
     yield delay(15 * 60 * 1000);
-    yield loadMeOrLogout();
+    yield call(loadMeOrLogout);
   }
 }
 
 function* registerSuccess() {
   while (TRULY) {
     const {result} = yield take(authModule.REGISTER_SUCCESS);
-    localStorage.setItem('token', result.token);
-    yield loadMeOrLogout();
+    yield setItem('token', result.token);
+    yield call(loadMeOrLogout);
     yield put(MainHeaderModule.modalClose());
   }
 }
@@ -97,7 +94,7 @@ function* registerSuccess() {
 function* logout() {
   while (TRULY) {
     yield take(authModule.LOGOUT);
-    localStorage.removeItem('token');
+    yield removeItem('token');
     yield put({type: authModule.LOGOUT_SUCCESS});
   }
 }

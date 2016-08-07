@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {loadUser} from "../../redux/modules/containers/User";
+import {loadUser} from "../../redux/modules/models/User";
 import {Link} from "react-router";
 import "./User.scss";
 import classNames from "classnames";

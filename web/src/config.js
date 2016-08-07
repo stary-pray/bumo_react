@@ -8,7 +8,7 @@ const environment = {
 }[process.env.NODE_ENV || 'development'];
 
 module.exports = Object.assign({
-  serverApi: 'http://f.3acg.com:8000',
+  serverApi: 'http://192.168.1.66:8000',
   app: {
     title: '恋绘·星祈',
     description: '恋绘·星祈',
