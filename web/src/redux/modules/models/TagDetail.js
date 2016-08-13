@@ -31,9 +31,6 @@ export function loadTagPaintingDetailHot(tagType,tagName,index) {
 
 
 
-
-
-
 export function loadTagTypeDetail(tagType,index){
   const typeString = tagType ? '&type='+tagType : '';
   return{

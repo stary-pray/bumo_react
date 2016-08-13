@@ -35,7 +35,6 @@ export default class TagTypeDetail extends Component {
 
   loadMore() {
     const{tagType} = this.props;
-    console.log('tagType', tagType)
     const {pageMeta, loading} = this.props.component[tagType];
     if (loading || !pageMeta.next) return;
     this.props.loadTagTypeDetail(tagType,pageMeta.next);

@@ -34,8 +34,11 @@ export default class App {
     Navigation.startTabBasedApp({
       tabs: [{
         label: '发现',
-        screen: 'bumo.Home',
-        title: '发现'
+        screen: 'bumo.FindPainting',
+        title: '发现',
+        navigatorStyle: {
+          navBarHidden: true,
+        },
       },
         {
           label: '标签',

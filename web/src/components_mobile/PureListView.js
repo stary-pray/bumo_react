@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {AppRegistry, StyleSheet, Text, View, ListView, TouchableHighlight, Image} from "react-native";
 import Lightbox from "react-native-lightbox";
+import OrderPainting from "./OrderPainting";
 
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -13,6 +14,8 @@ export default class PureListView extends Component {
     navigator: PropTypes.object,
     profile: PropTypes.object,
     orderType: PropTypes.object,
+    tagType: PropTypes.string,
+    paintingHeat: PropTypes.object
   };
 
   componentWillMount() {
@@ -31,11 +34,12 @@ export default class PureListView extends Component {
 
 
   loadMore() {
+    const{tagType} = this.props;
     const {pageMeta, loading} = this.props.component;
-
-
     if (loading || !pageMeta.next) return;
-    this.props.loadPainting(pageMeta.next);
+    tagType ?
+      this.props.loadPainting(tagType,pageMeta.next):
+       this.props.loadPainting(pageMeta.next);
 
   }
 
@@ -49,9 +53,9 @@ export default class PureListView extends Component {
   }
 
   renderRow(rowData, sectionID, rowID) {
-    const {profile} = this.props;
+    const {profile, paintingHeat} = this.props;
     const OwnerObj = profile[rowData.owner];
-
+    const heatObj = paintingHeat[rowData.heat];
     return (
 
       <View style={styles.rowContainer}>
@@ -72,6 +76,8 @@ export default class PureListView extends Component {
                               underlayColor='#dddddd'>
             <View style={styles.like}>
               <Text style={styles.title}>喜欢</Text>
+              <Text style={styles.title}>{heatObj.point}</Text>
+
             </View>
           </TouchableHighlight>
         </View>
@@ -93,16 +99,26 @@ export default class PureListView extends Component {
     })
   }
 
+  renderHeader(){
+    return(
+      <OrderPainting/>
+    )
+
+}
   render() {
-    const {component, painting}=this.props;
+    const {component, painting, tagType, loadPainting}=this.props;
     var orderPainting = component.loaded
       ? component.indexes.map((paintingId)=> painting[paintingId])
       : [];
     const source = dataSource.cloneWithRows(orderPainting);
+    console.log('tagType', tagType);
+    console.log('loadPainting', loadPainting);
+    console.log('orderPainting', orderPainting);
     return (
-      <ListView dataSource={source}
+    <ListView dataSource={source}
                 renderRow={this.renderRow.bind(this)}
                 onEndReached={this.loadMore.bind(this)}
+              renderHeader={this.renderHeader.bind(this)}
       />
     )
   }
@@ -128,8 +144,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10
   },
   thumb: {
-    width: 400,
-    height: 200,
+    width: 375,
+    height: 266,
   },
   separator: {
     height: 1,

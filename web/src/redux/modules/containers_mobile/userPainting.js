@@ -1,12 +1,9 @@
-import {CHANGE_PAINTING_LIST_MODE} from "../preferences";
 import {createAction} from "redux-actions";
 import * as UserPaintingAction from "../models/UserPainting";
+import lodash from "lodash";
 
 
-const LIST_MODE_DROPDOWN_CHANGE = 'cp/UserPainting/LIST_MODE_DROPDOWN_CHANGE';
-const INITIAL_USER_PAINTING = 'bumo/INITIAL_TAG_PAINTING';
-
-
+const INITIAL_USER_PAINTING = 'bumo/INITIAL_USER_PAINTING'
 export const initialUserPainting = createAction(INITIAL_USER_PAINTING);
 
 const initialState = {
@@ -19,7 +16,14 @@ const initialState = {
   loading: false
 };
 
-export default function reducer(state = initialState, action = {}) {
+const initialOrderUserPaintingState ={
+  'Hot': initialState,
+  'Latest': initialState,
+  'Like' : initialState
+};
+
+
+function handleOrderUserPainting(state = initialState, action = {}) {
   switch (action.type) {
     case UserPaintingAction.LOAD_USER_PAINTING:
     case UserPaintingAction.LOAD_USER_PAINTING_HOT:
@@ -40,16 +44,6 @@ export default function reducer(state = initialState, action = {}) {
       };
     case UserPaintingAction.LOAD_PROFILE_DETAIL_SUCCESS:
       return state;
-    case LIST_MODE_DROPDOWN_CHANGE:
-      return {
-        ...state,
-        isListModeDropdownOpened: action.payload
-      };
-    case CHANGE_PAINTING_LIST_MODE:
-      return {
-        ...state,
-        isListModeDropdownOpened: false
-      };
     case INITIAL_USER_PAINTING:
       return initialState
         ;
@@ -59,5 +53,19 @@ export default function reducer(state = initialState, action = {}) {
 
 }
 
-export const listModeDropdownChange = createAction(LIST_MODE_DROPDOWN_CHANGE);
+export default function reducer(state = initialOrderUserPaintingState, action){
+  const newSubState = {};
+  switch(action.type){
+    case  UserPaintingAction.LOAD_USER_PAINTING_HOT:
+    case UserPaintingAction.LOAD_USER_PAINTING_HOT_SUCCESS:
+      newSubState['Hot'] = handleOrderUserPainting(state['Hot'], action);
+      return lodash.assign(state, newSubState);
+    case  UserPaintingAction.LOAD_USER_PAINTING:
+    case UserPaintingAction.LOAD_USER_PAINTING_SUCCESS:
+      newSubState['Latest'] = handleOrderUserPainting(state['Latest'], action);
+      return lodash.assign(state, newSubState);
+    default:
+      return state;
+  }
+}
 

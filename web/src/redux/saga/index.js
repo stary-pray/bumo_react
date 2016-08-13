@@ -2,7 +2,6 @@
 import {fork, take, put, select, call} from "redux-saga/effects";
 import * as authModule from "../modules/auth";
 import * as meModule from "../modules/me";
-import * as meUpdateModule from "../modules/containers/MeUpdate";
 import * as userPaintingModule from "../modules/containers/UserPainting";
 import * as depositModule from "../modules/containers/Deposit";
 import * as getChargeModule from "../modules/models/Deposit";
@@ -52,7 +51,7 @@ function* paintingUploadSuccess() {
 
 function* updateAvatarOrBanner() {
   while (TRULY) {
-    yield take([meUpdateModule.UPLOAD_AVATAR_SUCCESS, meUpdateModule.UPLOAD_BANNER_SUCCESS]);
+    yield take([meModule.UPLOAD_AVATAR_SUCCESS, meModule.UPLOAD_BANNER_SUCCESS]);
     yield put(MainHeaderModule.modalClose());
     const userId = yield select(state => state.me.id);
     yield put(userPaintingModule.loadProfileDetail(userId));
@@ -62,15 +61,15 @@ function* updateAvatarOrBanner() {
 
 function* updateMe() {
   while (TRULY) {
-    const {result} = yield take([meUpdateModule.INITIAL_UPDATE_ME, LikeActionModule.FREE_LIKE_SUCCESS, LikeActionModule.PAY_LIKE_SUCCESS]);
+    const {result} = yield take([meModule.INITIAL_UPDATE_ME, LikeActionModule.FREE_LIKE_SUCCESS, LikeActionModule.PAY_LIKE_SUCCESS]);
     yield call(loadMeOrLogout);
   }
 }
 
 function* intialUpdateMe() {
   while (TRULY) {
-    const {result} = yield take(meUpdateModule.UPDATE_SUCCESS);
-    yield put(meUpdateModule.initialUpdateMe());
+    const {result} = yield take(meModule.UPDATE_SUCCESS);
+    yield put(meModule.initialUpdateMe());
 
   }
 }

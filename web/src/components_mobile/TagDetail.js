@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {AppRegistry, StyleSheet, Text, View, ListView, TouchableHighlight, Image} from "react-native";
 import {connect} from "react-redux";
-import {loadTagPaintingDetailHot} from "../redux/modules/models/TagDetail";
+import {loadTagPaintingDetailHot, loadTagPaintingDetail} from "../redux/modules/models/TagDetail";
 import {intialTagPainting} from "../redux/modules/containers_mobile/tagPaintingDetail";
 import PureListView from "./PureListView";
 
@@ -21,15 +21,23 @@ export default class TagDetail extends Component {
 
 
   render(){
-    const{component,painting,loadTagPaintingDetailHot, tagType, tagName, profile}=this.props;
+    const{component,painting,loadTagPaintingDetailHot,
+      tagType, tagName, profile, loadTagPaintingDetail, orderPainting,paintingHeat}=this.props;
     console.log(tagType, tagName);
     const loadTagPaintingHot = (pageIndex) => loadTagPaintingDetailHot(tagType, tagName, pageIndex);
+    const loadTagPainting = (pageIndex) => loadTagPaintingDetail(tagType, tagName, pageIndex);
+    const orderType = orderPainting.orderType == '热门' ? 'Hot' : 'Latest';
+    const load = orderPainting.orderType == '热门' ? loadTagPaintingHot : loadTagPainting;
+
+
 
     return(
       <PureListView painting={painting}
-                    component={component} loadPainting={loadTagPaintingHot}
+                    component={component} loadPainting={load}
+                    orderType={orderType}
                     navigator={this.props.navigator}
                     profile={profile}
+                    paintingHeat={paintingHeat}
       />
     )
   }
@@ -42,10 +50,13 @@ export default connect(
     painting: state.models.painting,
     me: state.me,
     component: state.containers.tagPaintingDetail,
-    profile: state.models.profile
+    profile: state.models.profile,
+    orderPainting: state.containers.orderPainting,
+    paintingHeat: state.models.paintingHeat
   }),
   {
     loadTagPaintingDetailHot,
+    loadTagPaintingDetail,
     intialTagPainting
   }
 )(TagDetail);

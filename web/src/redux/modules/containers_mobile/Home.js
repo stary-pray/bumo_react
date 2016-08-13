@@ -11,7 +11,6 @@ const initialState = {
   indexes: [],
   loaded: false,
   loading: false,
-  isListModeDropdownOpened: false,
 };
 
 const initialOrderPaintingState ={

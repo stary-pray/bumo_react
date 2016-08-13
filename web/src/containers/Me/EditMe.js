@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from "react";
 import {bindActionCreators} from "redux";
-import {load as loadMe} from "../../redux/modules/me";
-import {update as updateMe} from "../../redux/modules/containers/MeUpdate";
+import {load as loadMe, update as updateMe} from "../../redux/modules/me";
 import {Link} from "react-router";
 import {reduxForm} from "redux-form";
 import {createNotification} from "../../redux/modules/notification";
@@ -38,7 +37,9 @@ export default class updateMeForm extends Component {
     updateMe: PropTypes.func
   };
 
-
+  componentWillMount() {
+    this.props.loadMe();
+  }
 
   componentWillReceiveProps(nextProps) {
     const{profile_update}=this.props.component;
@@ -51,9 +52,7 @@ export default class updateMeForm extends Component {
 
   }
 
-  compomemtWillMount() {
-    this.props.loadMe();
-  }
+
 
   handleSubmit = (event) => {
     event.preventDefault();

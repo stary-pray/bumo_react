@@ -2,6 +2,7 @@ import {combineReducers} from "redux";
 import Home from "./Home";
 import navigation from "./navigation";
 import loginInfo from "./loginInfo";
+import registerInfo from "./registerInfo";
 import paintingDetail from "./paintingDetail";
 import tagType from "./tagType";
 import tagPaintingDetail from "./tagPaintingDetail";
@@ -11,6 +12,8 @@ import comments from "./comments";
 import commentLog from "./commentLog";
 import user from "./user";
 import orderPainting from "./orderPainting";
+import tagTypePainting from "./tagTypePainting";
+import meUpdate from "./meUpdate";
 export default combineReducers({
   Home,
   navigation,
@@ -23,5 +26,8 @@ export default combineReducers({
   comments,
   commentLog,
   user,
-  orderPainting
+  orderPainting,
+  tagTypePainting,
+  registerInfo,
+  meUpdate
 });

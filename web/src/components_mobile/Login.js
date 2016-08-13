@@ -46,7 +46,6 @@ if(!!nextProps.token){
     console.log(captcha);
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>登录</Text>
         <TextInput style={styles.input} placeholder='邮箱' onChangeText={this.handleChangeEmail.bind(this)}/>
         <TextInput style={styles.input} placeholder='密码' onChangeText={this.handleChangePassword.bind(this)}/>
         <TextInput style={styles.input} placeholder='验证码' onChangeText={this.handleChangeCaptcha.bind(this)}/>
@@ -76,11 +75,6 @@ if(!!nextProps.token){
 const styles = StyleSheet.create({
   container: {
     marginTop: 65,
-  },
-  title: {
-    fontSize: 20,
-    color: '#656565',
-    alignSelf: 'center'
   },
   input: {
     height: 36,

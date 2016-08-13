@@ -21,7 +21,14 @@ export default class Me extends Component {
   handleLogin() {
     this.props.navigator.showModal({
       screen: "bumo.Login",
-      title: "Modal",
+      title: "登录",
+      animationType: 'slide-up'
+    });
+  }
+  handleRegister() {
+    this.props.navigator.showModal({
+      screen: "bumo.Register",
+      title: "注册",
       animationType: 'slide-up'
     });
   }
@@ -42,9 +49,14 @@ export default class Me extends Component {
                 </View>
             </TouchableHighlight></View>
             :
+            <View>
             <TouchableHighlight onPress={this.handleLogin.bind(this)} underlayColor='#dddddd'>
               <Text style={styles.nickname}>登录</Text>
             </TouchableHighlight>
+              <TouchableHighlight onPress={this.handleRegister.bind(this)} underlayColor='#dddddd'>
+                <Text style={styles.nickname}>注册</Text>
+              </TouchableHighlight>
+            </View>
           }
 
         </View>

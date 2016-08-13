@@ -23,14 +23,13 @@ export default class User extends Component {
 
   renderRow(rowData, sectionID, rowID) {
     return (<View>
-      {rowData.first_painting ?
       <TouchableHighlight onPress={()=>this.rowPressed(rowData.id)}
                           underlayColor='#dddddd'>
         <View style={styles.rowContainer}>
           <Image style={styles.thumb} source={{uri: rowData.avatar}}/>
           <Text style={styles.title}>{rowData.nickname}</Text>
         </View>
-      </TouchableHighlight>:<View/>}
+      </TouchableHighlight>
       </View>
     );
   }
@@ -53,8 +52,6 @@ export default class User extends Component {
     var orderUser= component.loaded
       ? component.indexes.map((userId)=> user[userId])
       : [];
-
-    console.log(component);
     const source = dataSource.cloneWithRows(orderUser);
     return (
       <ListView dataSource={source}
