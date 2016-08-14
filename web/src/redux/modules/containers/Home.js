@@ -40,6 +40,17 @@ export default handleActions({
     pageMeta: action.result,
     indexes: _.uniq([...state.indexes, ...action.normalized.result])
   }),
+  [PaintingActions.LOAD_TAG_TYPE_PAINTING]: (state, action) => ({
+    ...state,
+    loading: true
+  }),
+  [PaintingActions.LOAD_TAG_TYPE_PAINTING_HOT]: (state, action) => ({
+    ...state,
+    loaded: true,
+    pageMeta: action.result,
+    indexes: _.uniq([...state.indexes, ...action.normalized.result]),
+    loading: false
+  }),
   [LIST_MODE_DROPDOWN_CHANGE]: (state, action) => ({
     ...state,
     isListModeDropdownOpened: action.payload
