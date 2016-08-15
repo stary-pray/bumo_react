@@ -1,7 +1,12 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {load as loadPainting, loadHot as loadHotPainting} from "../../redux/modules/models/Painting";
+import {
+  load as loadPainting,
+  loadHot as loadHotPainting,
+  loadTagTypePainting,
+  loadTagTypePaintingHot
+} from "../../redux/modules/models/Painting";
 import {Link} from "react-router";
 import "./Home.scss";
 import PaintingList from "../../components/PaintingList/PaintingList";
@@ -30,6 +35,8 @@ import classNames from "classnames";
   dispatch => bindActionCreators({
     loadPainting,
     loadHotPainting,
+    loadTagTypePainting,
+    loadTagTypePaintingHot,
     openModal: PaintingModalActions.openModal,
     openTamashi,
     loginModalOpen,
@@ -50,7 +57,6 @@ export default class Home extends Component {
     openedTamashiId: PropTypes.number,
     me: PropTypes.object,
     preferences: PropTypes.object,
-    
     loginModalOpen: PropTypes.func,
     loadPainting: PropTypes.func,
     loadHotPainting: PropTypes.func,
