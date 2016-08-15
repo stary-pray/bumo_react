@@ -7,6 +7,7 @@ import PureListView from "./PureListView";
 import ParallaxView from "react-native-parallax-view";
 import lodash from "lodash";
 
+
 export default class UserPainting extends Component {
 
   static propTypes = {
@@ -31,6 +32,7 @@ export default class UserPainting extends Component {
     })
   }
 
+
   render(){
     const{component,painting,loadUserPaintingHot,
       UserId, profile, paintingHeat, loadUserPainting, orderPainting, me}=this.props;
@@ -45,7 +47,8 @@ export default class UserPainting extends Component {
     return(
       <ParallaxView backgroundSource={{uri: profileBody.banner}}
                     windowHeight={300}>
-        <Image style={styles.avatar} source={{uri: profileBody.avatar}}/>
+
+        <Image style={styles.avatar} source={{uri: profileBody.avatar}} />
         <Text>{profileBody.nickname}</Text>
         <Text>{profileBody.introduction}</Text>
         {me.id == UserId ?

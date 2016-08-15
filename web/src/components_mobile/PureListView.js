@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {AppRegistry, StyleSheet, Text, View, ListView, TouchableHighlight, Image} from "react-native";
 import Lightbox from "react-native-lightbox";
+import shallowCompare from "react-addons-shallow-compare";
 import OrderPainting from "./OrderPainting";
 
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -23,6 +24,10 @@ export default class PureListView extends Component {
     this.loadMore();
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   componentWillReceiveProps(nextProps) {
     console.log(this.props.orderType, nextProps.orderType);
     if (this.props.orderType != nextProps.orderType) {
@@ -34,12 +39,12 @@ export default class PureListView extends Component {
 
 
   loadMore() {
-    const{tagType} = this.props;
+    const {tagType} = this.props;
     const {pageMeta, loading} = this.props.component;
     if (loading || !pageMeta.next) return;
     tagType ?
-      this.props.loadPainting(tagType,pageMeta.next):
-       this.props.loadPainting(pageMeta.next);
+      this.props.loadPainting(tagType, pageMeta.next) :
+      this.props.loadPainting(pageMeta.next);
 
   }
 
@@ -99,26 +104,34 @@ export default class PureListView extends Component {
     })
   }
 
-  renderHeader(){
-    return(
+  renderHeader() {
+    return (
       <OrderPainting/>
     )
 
-}
+  }
+
+  handleOnEndReached() {
+    if (this.props.component.loaded && !this.props.component.loading) {
+      this.loadMore();
+    }
+  }
+
   render() {
     const {component, painting, tagType, loadPainting}=this.props;
     var orderPainting = component.loaded
       ? component.indexes.map((paintingId)=> painting[paintingId])
       : [];
     const source = dataSource.cloneWithRows(orderPainting);
-    console.log('tagType', tagType);
-    console.log('loadPainting', loadPainting);
-    console.log('orderPainting', orderPainting);
+
     return (
-    <ListView dataSource={source}
-                renderRow={this.renderRow.bind(this)}
-                onEndReached={this.loadMore.bind(this)}
-              renderHeader={this.renderHeader.bind(this)}
+      <ListView style={{flex:1}}
+                dataSource={source}
+        renderRow={this.renderRow.bind(this)}
+        onEndReached={this.handleOnEndReached.bind(this)}
+        onEndReachedThreshold={50}
+        renderHeader={this.renderHeader.bind(this)}
+        automaticallyAdjustContentInsets={false}
       />
     )
   }

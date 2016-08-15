@@ -14,6 +14,7 @@ import user from "./user";
 import orderPainting from "./orderPainting";
 import tagTypePainting from "./tagTypePainting";
 import meUpdate from "./meUpdate";
+import meUpdateInfo from "./meUpdateInfo";
 export default combineReducers({
   Home,
   navigation,
@@ -29,5 +30,6 @@ export default combineReducers({
   orderPainting,
   tagTypePainting,
   registerInfo,
-  meUpdate
+  meUpdate,
+  meUpdateInfo
 });
