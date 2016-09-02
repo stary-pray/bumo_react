@@ -25,7 +25,6 @@ export default class Home extends Component {
     const load = orderPainting.orderType == '热门' ? loadHotPainting : loadPainting;
     const orderType = orderPainting.orderType == '热门' ? 'Hot' : 'Latest';
     return (
-
         <PureListView painting={painting}
                       component={component[orderType]}
                       orderType={orderType}

@@ -1,52 +1,31 @@
+import {ListView, Text, Image, Dimensions, StyleSheet, View, TouchableHighlight} from "react-native";
 import React, {Component, PropTypes} from "react";
-import {AppRegistry, StyleSheet, Text, View, ListView, TouchableHighlight, Image, Dimensions} from "react-native";
+import {connect} from "react-redux";
 import Lightbox from "react-native-lightbox";
-import shallowCompare from "react-addons-shallow-compare";
-import OrderPainting from "./OrderPainting";
+import {calculateHeat} from "../utils/common";
 import moment from "moment";
 import "moment/locale/zh-cn";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import {calculateHeat} from "../utils/common";
 
-moment.locale('zh-cn');
+const dataSource = new ListView.DataSource({
+  rowHasChanged: (r1, r2) => r1 !== r2
+});
 
-const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-export default class PureListView extends Component {
-
+export default class PaintingListView extends Component {
   static propTypes = {
-    painting: PropTypes.object,
-    loadPainting: PropTypes.func,
-    component: PropTypes.object,
-    navigator: PropTypes.object,
-    profile: PropTypes.object,
     orderType: PropTypes.string,
-    tagType: PropTypes.string,
-    paintingHeat: PropTypes.object
+    load: PropTypes.func,
   };
 
   componentWillMount() {
-    this.loadMore(this.props);
+    this.loadMore();
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.orderType != nextProps.orderType) {
-      this.loadMore(nextProps);
-    }
-  }
-
-
-  loadMore(props) {
-    const {tagType} = props;
-    const {pageMeta, loading} = props.component;
-    if (loading || !pageMeta.next) return
-    tagType ?
-      props.loadPainting(tagType, pageMeta.next) :
-      props.loadPainting(pageMeta.next);
+  loadMore() {
+    const {orderType} = this.props;
+    const {pageMeta, loading} = this.props.component[orderType];
+    if (loading || !pageMeta.next) return;
+    this.props.load(pageMeta.next);
 
   }
 
@@ -59,7 +38,7 @@ export default class PureListView extends Component {
     })
   }
 
-  renderRow(rowData, sectionID, rowID) {
+  renderRow(rowData, sectionId, rowID) {
     const {profile, paintingHeat} = this.props;
     const OwnerObj = profile[rowData.owner];
     const heatObj = paintingHeat[rowData.heat];
@@ -76,8 +55,10 @@ export default class PureListView extends Component {
             resizeMode: 'contain'
           }
           }>
-          <Image style={{width: windowWidth,
-            height: windowWidth / rowData.width * rowData.height}}
+          <Image style={{
+            width: windowWidth,
+            height: windowWidth / rowData.width * rowData.height
+          }}
                  resizeMode={Image.resizeMode.cover}
                  source={{uri: `${rowData.attachment}?imageMogr2/thumbnail/${windowWidth * 2}x/interlace/1`}}/>
         </Lightbox>
@@ -113,60 +94,25 @@ export default class PureListView extends Component {
           </View>
         </View>
       </View>
+
     )
-      ;
-  }
-
-  rowPressed(paintingId) {
-    const {painting}=this.props;
-    var paintingTitle = painting[paintingId].title;
-    console.log('1', this.props.navigator
-    );
-    this.props.navigator.push({
-      title: paintingTitle,
-      name: paintingTitle,
-      screen: 'bumo.PaintingDetail',
-      passProps: {paintingId: paintingId}
-    })
-  }
-
-  renderHeader() {
-    return (
-      <OrderPainting/>
-    )
-
-  }
-
-  handleOnEndReached() {
-    if (this.props.component.loaded && !this.props.component.loading) {
-      this.loadMore(this.props);
-    }
   }
 
   render() {
-    const {component, painting, tagType, loadPainting}=this.props;
-    const {loading} =this.props.component;
-    console.log('loading',loading);
-    var orderPainting = component.loaded
-      ? component.indexes.map((paintingId)=> painting[paintingId])
+    const {orderType, painting, component} = this.props;
+    var orderPainting = component[orderType].loaded
+      ? component[orderType].indexes.map((orderId)=> painting[orderId])
       : [];
     const source = dataSource.cloneWithRows(orderPainting);
-
     return (
-
-      <ListView style={{flex: 1, backgroundColor: '#EFEFF4'}}
-                dataSource={source}
-                renderRow={this.renderRow.bind(this)}
-                onEndReached={this.handleOnEndReached.bind(this)}
-                onEndReachedThreshold={50}
-                renderHeader={this.renderHeader.bind(this)}
-                automaticallyAdjustContentInsets={false}
+      <ListView
+        dataSource={source}
+        renderRow={this.renderRow.bind(this)}
+        onEndReached={this.loadMore.bind(this)}
       />
     )
   }
-
 }
-
 const styles = StyleSheet.create({
   rowContainer: {
     marginBottom: 15,
@@ -234,14 +180,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 8
   },
-  likeCount:{
-    color:'#EE634C',
-    fontSize:14,
+  likeCount: {
+    color: '#EE634C',
+    fontSize: 14,
     marginTop: 8,
     height: 25,
   },
-  likeButton:{
+  likeButton: {
     marginTop: 2,
 
   }
 });
+export default connect(
+  (state, ownProps) => ({
+    component: state.containers.userPainting,
+    painting: state.models.painting,
+    profileHeat: state.models.profileHeat,
+    profile: state.models.profile,
+    paintingHeat: state.models.paintingHeat
+  }),
+  {}
+)(PaintingListView);

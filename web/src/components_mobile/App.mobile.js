@@ -7,6 +7,7 @@ import createStore from "../redux/create.mobile.js";
 import {registerScreens} from "./screens";
 
 window['isNative'] = !!window['localStorage'];
+console.disableYellowBox = true;
 
 
 const client = new ApiClient();
@@ -24,37 +25,46 @@ export default class App {
   }
 
 
-
-
   onStoreUpdate() {
   }
 
   startApp(root) {
 
     Navigation.startTabBasedApp({
-      tabs: [{
-        label: '发现',
-        screen: 'bumo.FindPainting',
-        title: '发现',
-        navigatorStyle: {
-          navBarHidden: true,
+      tabs: [
+        {
+          label: '发现',
+          screen: 'bumo.FindPainting',
+          title: '发现',
+          navigatorStyle: {
+            navBarHidden: true,
+          },
         },
-      },
         {
           label: '标签',
           screen: 'bumo.TagType',
-          title: '标签'
+          title: '标签',
+          navigatorStyle: {
+            navBarHidden: true,
+          },
         },
         {
           label: '画家',
           screen: 'bumo.User',
           title: '画家',
+          navigatorStyle: {
+            navBarHidden: true,
+          },
         },
         {
           label: '我',
           screen: 'bumo.Me',
           title: '我',
-        }],
+          navigatorStyle: {
+            navBarHidden: true,
+          },
+        }
+      ],
 
       title: 'Redux Example'
     })

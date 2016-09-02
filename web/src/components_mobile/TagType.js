@@ -9,33 +9,24 @@ export default class TagType extends Component {
 
 
 
-  handleTagType(){
-    console.log('tag');
-   }
-
-  renderNav(){
-    const tagTypes = ['人物', '作品', '属性','活动'];
-    return(
-      <View style={styles.header}>
-        <Text style={styles.typeName}>全部</Text>
-        {tagTypes.map(tagTypeName=>
-          <TouchableHighlight onPress={this.handleTagType.bind(this, tagTypeName)}
-                              underlayColor='#dddddd' style={styles.typeName}>
-        <Text  key={tagTypeName}  >{tagTypeName}</Text>
-          </TouchableHighlight>)}
-      </View>
-    )
-  }
-
   render(){
     return(
-        <ScrollableTabView onChangeTab={this.handleTagType.bind(this)}>
-        <TagTypeDetail tagType="人物" navigator={this.props.navigator} tabLabel="人物"/>
+
+        <ScrollableTabView tabBarTextStyle={{fontSize: 14}}
+                           tabBarInactiveTextColor={'#8F8E94'}
+                           tabBarActiveTextColor={'#05AD97'}
+                           tabBarUnderlineColor={'#05AD97'}
+                           style={{
+                             marginTop: 25,
+                           }}>
+          <TagTypeDetail tagType="all" navigator={this.props.navigator} tabLabel="全部"/>
+          <TagTypeDetail tagType="人物" navigator={this.props.navigator} tabLabel="人物"/>
           <TagTypeDetail tagType='作品'  navigator={this.props.navigator} tabLabel='作品' />
           <TagTypeDetail tagType="属性" navigator={this.props.navigator} tabLabel="属性" />
           <TagTypeDetail tagType="活动" navigator={this.props.navigator} tabLabel="活动" />
 
         </ScrollableTabView>
+
     )
   }
 
@@ -43,18 +34,7 @@ export default class TagType extends Component {
 }
 
 var styles = StyleSheet.create({
-  TagTypeContainer:{
-    flex:1
-  },
-  header:{
-    backgroundColor:'grey',
-    marginTop: 65,
-    flexDirection: 'row',
-    height:65
-  },
-  typeName:{
-    flex:1,
-  }
+
 });
 
 export default connect(

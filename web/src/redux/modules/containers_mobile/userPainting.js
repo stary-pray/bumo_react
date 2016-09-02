@@ -64,6 +64,16 @@ export default function reducer(state = initialOrderUserPaintingState, action){
     case UserPaintingAction.LOAD_USER_PAINTING_SUCCESS:
       newSubState['Latest'] = handleOrderUserPainting(state['Latest'], action);
       return lodash.assign(state, newSubState);
+    case  UserPaintingAction.LOAD_USER_LIKED_PAINTING:
+    case UserPaintingAction.LOAD_USER_LIKED_PAINTING_SUCCESS:
+      newSubState['Like'] = handleOrderUserPainting(state['Like'], action);
+      return lodash.assign(state, newSubState);
+    case INITIAL_USER_PAINTING:
+      newSubState['Hot'] = handleOrderUserPainting(state['Hot'], action);
+      newSubState['Latest'] = handleOrderUserPainting(state['Latest'], action);
+      newSubState['Like'] = handleOrderUserPainting(state['Like'], action);
+      return lodash.assign(state, newSubState);
+
     default:
       return state;
   }

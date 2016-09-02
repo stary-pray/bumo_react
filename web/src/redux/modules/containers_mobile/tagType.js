@@ -15,6 +15,7 @@ const initialState = {
 };
 
 const initialTypeState = {
+  'all': initialState,
   '人物': initialState,
   '作品': initialState,
   '属性': initialState,

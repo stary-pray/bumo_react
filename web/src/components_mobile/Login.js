@@ -42,8 +42,16 @@ if(!!nextProps.token){
   }
   render() {
     const {captcha, loginError}=this.props;
-    const alertMessage = '用户名错误';
-    console.log(captcha);
+    let alertMessage = '';
+    if (loginError && loginError.CAPTCHA_WRONG_ERROR) {
+      alertMessage ="验证码错误";
+    }
+    if (loginError && loginError.non_field_errors) {
+      alertMessage ="用户名或者密码错误";
+    }
+    if (loginError && loginError.PASSWORD_NEEDED) {
+      alertMessage = "请输入密码 ";
+    }
     return (
       <View style={styles.container}>
         <TextInput style={styles.input} placeholder='邮箱' onChangeText={this.handleChangeEmail.bind(this)}/>

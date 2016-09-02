@@ -15,6 +15,8 @@ import PaintingModal from "./PaintingModal";
 import FindPainting from "./FindPainting";
 import TagTypePainting from "./TagTypePainting";
 import EditMe from "./EditMe";
+import SearchResult from "./SearchResult";
+import CameraImage from "./CameraImage";
 
 export function registerScreens(store, Provider){
   Navigation.registerComponent('bumo.FindPainting',()=>FindPainting, store, Provider);
@@ -33,4 +35,7 @@ export function registerScreens(store, Provider){
   Navigation.registerComponent('bumo.User',()=>User, store, Provider);
   Navigation.registerComponent('bumo.PaintingModal',()=>PaintingModal, store, Provider);
   Navigation.registerComponent('bumo.EditMe',()=>EditMe, store, Provider);
+  Navigation.registerComponent('bumo.SearchResult', ()=>SearchResult, store, Provider);
+  Navigation.registerComponent('bumo.CameraImage', ()=>CameraImage, store, Provider);
+
 }

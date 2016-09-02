@@ -15,6 +15,9 @@ import orderPainting from "./orderPainting";
 import tagTypePainting from "./tagTypePainting";
 import meUpdate from "./meUpdate";
 import meUpdateInfo from "./meUpdateInfo";
+import searchInfo from "./searchInfo";
+import searchResult from "./searchResult";
+import cameraImage from "./cameraImage";
 export default combineReducers({
   Home,
   navigation,
@@ -31,5 +34,8 @@ export default combineReducers({
   tagTypePainting,
   registerInfo,
   meUpdate,
-  meUpdateInfo
+  meUpdateInfo,
+  searchInfo,
+  searchResult,
+  cameraImage
 });
