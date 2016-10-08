@@ -6,7 +6,6 @@ import registerInfo from "./registerInfo";
 import paintingDetail from "./paintingDetail";
 import tagType from "./tagType";
 import tagPaintingDetail from "./tagPaintingDetail";
-import backButton from "./backButton";
 import userPainting from "./userPainting";
 import comments from "./comments";
 import commentLog from "./commentLog";
@@ -25,7 +24,6 @@ export default combineReducers({
   paintingDetail,
   tagType,
   tagPaintingDetail,
-  backButton,
   userPainting,
   comments,
   commentLog,

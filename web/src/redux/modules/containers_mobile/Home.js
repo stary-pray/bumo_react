@@ -27,7 +27,7 @@ const handleOrderPainting = handleActions({
     ...state,
     loaded: true,
     pageMeta: action.result,
-    indexes: _.uniq([...state.indexes, ...action.normalized.result]),
+    indexes: lodash.uniq([...state.indexes, ...action.normalized.result]),
     loading: false
   }),
   [PaintingActions.LOAD]: (state, action) => ({
@@ -39,7 +39,7 @@ const handleOrderPainting = handleActions({
     loaded: true,
     loading: false,
     pageMeta: action.result,
-    indexes: _.uniq([...state.indexes, ...action.normalized.result])
+    indexes: lodash.uniq([...state.indexes, ...action.normalized.result])
   })
 }, initialState);
 

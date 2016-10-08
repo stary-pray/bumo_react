@@ -8,12 +8,13 @@ import {
   TouchableHighlight,
   Image,
   TextInput,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from "react-native";
 import {connect} from "react-redux";
 import {logSearch} from "../redux/modules/containers_mobile/searchInfo";
 import {doSearch} from "../redux/modules/containers_mobile/searchResult";
-import _ from "lodash";
+import lodash from "lodash";
 
 
 export default class SearchResult extends Component {
@@ -27,7 +28,7 @@ export default class SearchResult extends Component {
 
   constructor() {
     super();
-    this.debounceDoSearch = _.debounce((value)=> {
+    this.debounceDoSearch = lodash.debounce((value)=> {
       if (value) {
         this.props.doSearch(value);
       }
@@ -37,25 +38,39 @@ export default class SearchResult extends Component {
   handleLogSearch(searchResult) {
     this.props.logSearch(searchResult);
     this.debounceDoSearch(searchResult);
-
   }
 
+  handleCancel() {
+    this.props.navigator.pop({
+      animated: true
+    })
+  }
 
   render() {
     const {component} = this.props;
     const {isSearching, results, count} = component;
-    const resultGroups = _.groupBy(results, 'modelType');
+    const resultGroups = lodash.groupBy(results, 'modelType');
+    const windowWidth = Dimensions.get('window').width;
+
     console.log(resultGroups);
-    return (<View>
-        <TextInput style={styles.input} placeholder='搜索' onChangeText={this.handleLogSearch.bind(this)}/>
-        <View>
-          {count == 0 ? <View>
+    return (
+      <View>
+        <View style={styles.search}>
+          <TextInput style={styles.input} placeholder='搜索' onChangeText={this.handleLogSearch.bind(this)}/>
+          <TouchableHighlight onPress={this.handleCancel.bind(this)}>
+            <Text style={styles.cancel}>取消</Text>
+          </TouchableHighlight>
+        </View>
+
+        {count == 0 ?
+          <View style={styles.resultContainer}>
             <Text style={styles.result}>还没有相关结果</Text>
-          </View> : <View>
+          </View> :
+          <View style={styles.resultContainer}>
             {resultGroups.PaintingTag &&
             <View>
               <Text style={styles.label}>标签</Text>
-              <ScrollView style={styles.scrollView}>
+              <ScrollView style={styles.scrollView} horizontal={true}>
                 {resultGroups.PaintingTag.map((tag)=><View>
                   <Text style={styles.result}>{tag.name} : {tag.type}</Text>
                 </View>)}
@@ -64,60 +79,78 @@ export default class SearchResult extends Component {
             {resultGroups.Painting &&
             <View>
               <Text style={styles.label}>画作</Text>
-              <ScrollView style={styles.scrollView}>
+              <ScrollView style={styles.scrollView} horizontal={true}>
 
-                {resultGroups.Painting.map((painting)=><View>
-                  <Text style={styles.result}>{painting.title}</Text>
+                {resultGroups.Painting.map((painting)=>
+                  <View key={painting.id} style={styles.result}>
+                  <Image style={{width: windowWidth/3, height:windowWidth/3, marginTop:10, marginRight:10, paddingRight:5}}
+                         resizeMode={Image.resizeMode.cover}
+                         source={{uri: `https://o4dv415rs.qnssl.com/${painting.attachment}?imageMogr2/thumbnail/${windowWidth}x/interlace/1`}}/>
                 </View>)}
               </ScrollView>
             </View>}
             {resultGroups.Profile &&
             <View>
               <Text style={styles.label}>用户</Text>
-              <ScrollView style={styles.scrollView}>
+              <ScrollView style={styles.scrollView} horizontal={true}>
                 {resultGroups.Profile.map((profile)=><View>
                   <Text style={styles.result}>{profile.nickname}</Text>
                 </View>)}
               </ScrollView>
             </View>}
           </View>
-          }
-        </View>
+        }
       </View>
     )
   }
-
 }
 const styles = StyleSheet.create({
-  label:{
-    fontSize: 20,
-    color: '#48BBEC',
+  search: {
+    flexDirection: 'row',
+    marginTop: 10,
+    height: 30,
+    alignItems: 'center'
   },
   input: {
-    height: 36,
-    padding: 4,
-    margin: 15,
-    fontSize: 18,
-    borderWidth: 1,
-    borderColor: '#48BBEC',
-    borderRadius: 8,
-    color: '#48BBEC'
+    marginLeft: 7.5,
+    marginRight: 7.5,
+    borderRadius: 5,
+    backgroundColor: 'rgba(3,3,3,0.09)',
+    flex: 5
+  },
+  cancel: {
+    flex: 1,
+    color: '#8F8E94',
+    alignSelf: "center",
+    margin: 5
+  },
+  resultContainer: {
+    marginTop:10,
+    borderTopWidth: 1,
+    borderColor: '#C7C7CD',
+  },
+  label: {
+    backgroundColor: 'rgba(3,3,3,0.09)',
+    fontSize: 15,
+    color: '#8F8E94',
+    padding: 5,
+    shadowColor: '#8F8E94',
+    shadowOffset: {x: 0, y: 5},
+    shadowRadius: 2,
+    shadowOpacity: 0.2,
   },
   result: {
-    fontSize: 18
+
   },
-  scrollView:{
-    height: 100
+
+  scrollView: {
+    height:Dimensions.get('window').width/2.5
   }
 });
-
-
 export default connect(
-  (state, ownProps) => ({
-    component: state.containers.searchResult,
-  }),
+  (state, ownProps) =>
+    ({component: state.containers.searchResult,}),
   {
     logSearch,
     doSearch
-  }
-)(SearchResult);
+  })(SearchResult);

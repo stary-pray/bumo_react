@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from "react";
 import {AppRegistry, StyleSheet, Text, View, ListView, TouchableHighlight, Image, Dimensions} from "react-native";
 import {loadTagTypeDetail} from "../redux/modules/models/TagDetail";
 import {connect} from "react-redux";
-import _ from "lodash";
+import lodash from "lodash";
 import {calculateHeat} from "../utils/common";
 import {switchTagType} from "../redux/modules/containers_mobile/navigation";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -56,7 +56,7 @@ export default class TagTypeDetail extends Component {
   renderRow(rowData, sectionID, rowID) {
     const {painting, tagHeat, tags, tagType}= this.props;
     const windowWidth = Dimensions.get('window').width;
-    const topPainting = rowData.paintings ? _.find(painting, {id: rowData.paintings[0]}) : '';
+    const topPainting = rowData.paintings ? lodash.find(painting, {id: rowData.paintings[0]}) : '';
     return (
       <TouchableHighlight onPress={this.handleTagDetail.bind(this, rowData.type, rowData.name)} underlayColor='#dddddd'>
         {topPainting ? <View style={styles.rowContainer}>

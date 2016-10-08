@@ -10,7 +10,12 @@ export default class FindPainting extends Component {
     this.props.navigator.push({
       screen: "bumo.SearchResult",
       title: "搜索",
-      animationType: 'slide-down'
+      animationType: 'slide-down',
+      navigatorStyle:{
+        navBarTextColor: '#8F8E94',
+        navBarButtonColor: '#8F8E94',
+        navBarHidden: true,
+      }
     });
   }
 
@@ -18,9 +23,11 @@ export default class FindPainting extends Component {
 
     return (
       <View style={{marginTop: 25, flex: 1, flexDirection: 'column',}}>
-        <View style={styles.searchInput}>
-          <Text style={ styles.searchText } onPress={this.handleSearch.bind(this)}>搜索</Text>
+        <TouchableHighlight  onPress={this.handleSearch.bind(this)}>
+        <View style={styles.searchInput} >
+          <Text style={ styles.searchText }>搜索</Text>
         </View>
+          </TouchableHighlight>
         <ScrollableTabView
           tabBarTextStyle={{fontSize: 14}}
           tabBarInactiveTextColor={'#8F8E94'}

@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from "react";
 import BumoTabViews from "./BumoTabViews.ios";
 import {Navigator, StyleSheet, View, Text, TouchableOpacity} from "react-native";
-import {pressLeftButton} from "../redux/modules/containers_mobile/backButton";
 import {connect} from "react-redux";
 
 export default class BumoNavigator extends Component {
