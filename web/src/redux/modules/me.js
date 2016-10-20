@@ -15,6 +15,7 @@ export const UPLOAD_AVATAR_FAIL = 'bumo/me/UPLOAD_AVATAR_FAIL';
 export const UPLOAD_BANNER = 'bumo/me/UPLOAD_BANNER';
 export const UPLOAD_BANNER_SUCCESS = 'bumo/me/UPLOAD_BANNER_SUCCESS';
 export const UPLOAD_BANNER_FAIL = 'bumo/me/UPLOAD_BANNER_FAIL';
+
 export const INITIAL_UPDATE_ME = 'bumo/me/INITIAL_UPDATE_ME';
 
 const initialState = {};
@@ -51,7 +52,7 @@ export function update(profile) {
 export function uploadAvatar(files) {
   return {
     types: [UPLOAD_AVATAR, UPLOAD_AVATAR_SUCCESS, UPLOAD_AVATAR_FAIL],
-    promise: (client) => client.put('/api/my/profile-upload?type=0&aaa=bbb&ccc=ddd', {
+    promise: (client) => client.put('/api/my/profile-upload?type=0', {
       data: files
     })
   };
@@ -59,7 +60,7 @@ export function uploadAvatar(files) {
 export function uploadBanner(files) {
   return {
     types: [UPLOAD_BANNER, UPLOAD_BANNER_SUCCESS, UPLOAD_BANNER_FAIL],
-    promise: (client) => client.put('/api/my/profile-upload?type=1&aaa=bbb&ccc=ddd', {
+    promise: (client) => client.put('/api/my/profile-upload?type=1', {
       data: files
     })
   };

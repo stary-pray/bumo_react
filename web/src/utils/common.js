@@ -1,7 +1,10 @@
-const HEAT_HALF_LIFE = 30; // days
 import jwt_decode from "jwt-decode";
 import some from "lodash/some";
 import {getItem, removeItem} from "../helpers/storage";
+
+export const AUTH0_DOMAIN = 'akinoniku.auth0.com';
+export const AUTH0_CLIENT = 'auspnqFnkHXFpXEEt3ekP4Ht87fW6HLD';
+const HEAT_HALF_LIFE = 30; // days
 
 let webpSupported = false;
 

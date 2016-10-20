@@ -4,6 +4,19 @@ select {
   line-height: 1;
 }
 
+// auth0 overwrite
+.auth0-lock-badge, .auth0-lock-badge-bottom {
+  display: none;
+}
+
+.auth0-global-message.auth0-global-message-error {
+  background: $lRed!important;
+}
+
+.auth0-lock-container *{
+  // border-radius: 0!important;
+}
+
 .NavControls {
   position: relative;
   display: flex;

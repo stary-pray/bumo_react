@@ -21,7 +21,7 @@ export const getItem = async (key)=> {
 
 export const removeItem = async (key)=> {
   if(hasLocalStorage){
-    return localStorage.getItem(key);
+    return localStorage.removeItem(key);
   } else {
     const AsyncStorage = window['BumoAsyncStorage'];
     return await AsyncStorage.removeItem(key);

@@ -6,11 +6,13 @@ import {openSearch} from "../../redux/modules/containers/SearchResult";
 import * as mainHeaderActions from "../../redux/modules/containers/MainHeader";
 import "./MainHeader.scss";
 import BumoDropdown from "../../components/BumoDropdown/BumoDropdown";
-import {logout} from "../../redux/modules/auth";
-import Login from "../Login/Login";
+import {logout, login, auth0Profile} from "../../redux/modules/auth";
+import {load as loadMe, putNewUser} from "../../redux/modules/me";
 import UserImageUpload from "../UserImageUpload/UserImageUpload";
-import Register from "../Register/Register";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import Auth0Lock from "auth0-lock";
+import {AUTH0_CLIENT, AUTH0_DOMAIN} from "../../utils/common.js";
+import {setItem} from "../../helpers/storage";
 
 @connect(
   (state, ownProps) => ({
@@ -19,7 +21,11 @@ import ReactCSSTransitionGroup from "react-addons-css-transition-group";
   }),
   {
     openSearch: openSearch,
-    logout: logout,
+    logout,
+    login,
+    loadMe,
+    auth0Profile,
+    putNewUser,
     ...mainHeaderActions,
   }
 )
@@ -32,6 +38,10 @@ export default class TopNav extends Component {
     openNotificationDropdown: PropTypes.func,
     closeNotificationDropdown: PropTypes.func,
     logout: PropTypes.func,
+    login: PropTypes.func,
+    loadMe: PropTypes.func,
+    auth0Profile: PropTypes.func,
+    putNewUser: PropTypes.func,
     loginModalOpen: PropTypes.func,
     registerModalOpen: PropTypes.func,
     modalClose: PropTypes.func,
@@ -46,6 +56,45 @@ export default class TopNav extends Component {
     this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
     this.handleRegisterModalOpen = this.handleRegisterModalOpen.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
+    this.lock = null;
+  }
+
+  createLoginOrSignupModal(){
+    if(!this.lock){
+      const defaultOptions = {
+        avatar: null,
+        autoclose: true,
+        language: 'zh',
+        theme: {
+          //labeledSubmitButton: false,
+          logo: require('!file!../../utils/assets/green.svg'),
+          primaryColor: "#1abc9c"
+        },
+        auth: {
+          redirect: false,
+        },
+        languageDictionary: {
+          //signUpTerms: "I agree to the <a href='/terms' target='_new'>terms of service</a> and <a href='/privacy' target='_new'>privacy policy</a>.",
+          title: "恋绘·星祈",
+        },
+      };
+      this.lock = new Auth0Lock(AUTH0_CLIENT, AUTH0_DOMAIN, defaultOptions);
+
+      this.lock
+        .on('authenticated', async(authResult) => {
+          await setItem("preAuth", authResult.idToken);
+          this.lock.getProfile(authResult.idToken, (err, profile)=> {
+            this.props.auth0Profile(profile);
+            this.props.login();
+          });
+          // if(profile.email_verified){
+          //   this.props.putNewUser();
+          // }
+        })
+        .on('hide', () => {
+          this.handleModalClose()
+        })
+    }
   }
 
   handleOpenSearch() {
@@ -65,10 +114,14 @@ export default class TopNav extends Component {
   }
 
   handleLoginModalOpen() {
+    this.createLoginOrSignupModal();
+    this.lock.show({initialScreen: 'login'});
     this.props.loginModalOpen();
   }
 
   handleRegisterModalOpen() {
+    this.createLoginOrSignupModal();
+    this.lock.show({initialScreen: 'signUp'});
     this.props.registerModalOpen();
   }
 
@@ -78,7 +131,7 @@ export default class TopNav extends Component {
 
   render() {
     const {component, me} = this.props;
-    const {isLoginModalOpened, isRegisterModalOpened, isUserImageUploadModalOpened, userImageUploadType} = component;
+    const {isUserImageUploadModalOpened, userImageUploadType} = component;
     const isLogined = me && me.id;
     return (<div id="main-header">
       <IndexLink className="logo" to="/">
@@ -126,13 +179,9 @@ export default class TopNav extends Component {
         transitionEnterTimeout={300}
         transitionLeaveTimeout={300}
       >
-        {(isLoginModalOpened || isRegisterModalOpened || isUserImageUploadModalOpened) &&
+        {(isUserImageUploadModalOpened) &&
         <div className="LoginModal">
           <div className="LoginModalBackground"/>
-          {isLoginModalOpened ?
-            <Login closeModal={this.handleModalClose} switchToRegister={this.handleRegisterModalOpen}/> : ''}
-          {isRegisterModalOpened ?
-            <Register closeModal={this.handleModalClose} switchToLogin={this.handleLoginModalOpen}/> : ''}
           {isUserImageUploadModalOpened ?
             <UserImageUpload isOpened={isUserImageUploadModalOpened} closeModal={this.handleModalClose} type={userImageUploadType} /> : '' }
         </div>

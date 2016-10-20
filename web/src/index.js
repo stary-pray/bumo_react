@@ -13,6 +13,8 @@ const client = new ApiClient();
 const dest = document.getElementById('app');
 const store = createStore(client);
 
+console.disableYellowBox = true;
+
 const history = syncHistoryWithStore(browserHistory, store);
 
 const component = (

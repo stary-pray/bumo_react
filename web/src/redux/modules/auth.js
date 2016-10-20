@@ -1,4 +1,4 @@
-import {handleActions} from "redux-actions";
+import {handleActions, createAction} from "redux-actions";
 import * as meAction from "./me";
 
 export const INITIAL_APP = 'bumo/auth/INITIAL_APP';
@@ -25,8 +25,11 @@ export const REFRESH_CAPTCHA = 'bumo/auth/REFRESH_CAPTCHA';
 export const REFRESH_CAPTCHA_SUCCESS = 'bumo/auth/REFRESH_CAPTCHA_SUCCESS';
 export const REFRESH_CAPTCHA_FAIL = 'bumo/auth/REFRESH_CAPTCHA_FAIL';
 
+export const AUTH0_PROFILE = 'bumo/auth/AUTH0_PROFILE';
+
 const initialState = {
-  loaded: false
+  loaded: false,
+  auth0: null,
 };
 
 export default handleActions({
@@ -89,6 +92,9 @@ export default handleActions({
   [REFRESH_CAPTCHA_SUCCESS]: (state, action) => ({
     captcha: action.result.key
   }),
+  [AUTH0_PROFILE]: (state, action)=> ({
+    auth0: action.payload
+  })
 }, initialState);
 
 export function initialApp(){
@@ -107,31 +113,18 @@ export function isLoaded(globalState) {
   return globalState && globalState.auth && globalState.auth.loaded;
 }
 
-export function login(email, password, captchaHash, captchaAnswer) {
+export function login() {
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-    promise: (client) => client.post('/api/auth/login/', {
-      data: {
-        email,
-        password,
-        captchaHash,
-        captchaAnswer
-      }
-    })
+    promise: (client) => client.get('/api/my/token/')
   };
 }
 
-export function register(email, username, password, captchaHash, captchaAnswer) {
+export function register() {
   return {
     types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
-    promise: (client) => client.post('/api/auth/registration/', {
-      data: {
-        email,
-        username,
-        password,
-        captchaHash,
-        captchaAnswer
-      }
+    promise: (client) => client.post('/api/my/token/', {
+      data: {}
     })
   };
 }
@@ -154,3 +147,5 @@ export function refreshCaptcha() {
     promise: (client) => client.get('/api/auth/captcha/refresh/')
   };
 }
+
+export const auth0Profile = createAction(AUTH0_PROFILE);

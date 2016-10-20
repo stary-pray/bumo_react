@@ -19,11 +19,11 @@ const TRULY = true;
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-function* loadMeOrLogout(){
+function* loadMeOrLogout() {
   const {valid, needRefresh} = yield call(checkTokenValid);
-  if(valid){
+  if (valid) {
     return yield put(meModule.load());
-  } else if(needRefresh){
+  } else if (needRefresh) {
     return yield put(authModule.logout());
   }
 }
@@ -38,7 +38,18 @@ function* loginSuccess() {
     const {result} = yield take(authModule.LOGIN_SUCCESS);
     yield setItem('token', result.token);
     yield call(loadMeOrLogout);
-    yield put(MainHeaderModule.modalClose());
+  }
+}
+
+function* loginFail() {
+  while (TRULY) {
+    const {error} = yield take(authModule.LOGIN_FAIL);
+    if (error && error.err === 'not_user') {
+      const {email_verified} = yield select(state => state.auth.auth0);
+      if (email_verified) {
+        yield put(authModule.register());
+      }
+    }
   }
 }
 
@@ -102,7 +113,7 @@ function* logoutSuccess() {
   while (TRULY) {
     yield take(authModule.LOGOUT_SUCCESS);
     browserHistory.push('');
-    setTimeout(()=> location.reload(), 10);
+    setTimeout(() => location.reload(), 10);
   }
 }
 
@@ -122,19 +133,12 @@ function* depositLastPageLoaded() {
   }
 }
 
-function* getCaptcha() {
-  while (TRULY) {
-    const {result} = yield take([authModule.LOGIN_FAIL, authModule.REGISTER_FAIL]);
-    yield put(authModule.getCaptcha());
-  }
-}
-
 
 function* loadPaintingChecking() {
-  while (TRULY){
+  while (TRULY) {
     const {result} = yield take(PaintingDetailModule.LOAD_DETAIL_SUCCESS);
     console.log(result.status);
-    if(result.status!==2){
+    if (result.status !== 2) {
       yield put(createNotification({
         message: '画作正在审核中,审核完毕会出现在首页上',
         level: 'warning'
@@ -147,9 +151,9 @@ function* loadPaintingChecking() {
 export default function* root() {
   yield [
     fork(loginSuccess),
+    fork(loginFail),
     fork(logout),
     fork(logoutSuccess),
-    fork(getCaptcha),
     fork(registerSuccess),
     fork(updateMe),
     fork(updateMeEveryQuarterHour),
