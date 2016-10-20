@@ -13,6 +13,12 @@
     display: flex;
     flex-direction: column;
   }
+  &__inner {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
   &__image-thumbnail {
     display: flex;
     vertical-align: middle;
@@ -59,11 +65,17 @@
   //width: 20rem;
   list-style: none;
   margin-bottom: 1rem;
-  overflow: hidden;
+  //overflow: hidden;
   cursor: pointer;
+  transition-property: transform, box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in;
+  box-shadow: 0 20px 20px rgba(0,0,0,.08);
+  transform: translate(0, 0);
 
   &.isOpened {
     overflow: visible;
+    z-index: 1;
     .bottomInfo, .topInfo {
       transform: translate(0, 0);
       opacity: 1;
@@ -76,6 +88,8 @@
   }
 
   &:hover {
+    box-shadow: 0 40px 40px rgba(0,0,0,.16);
+    transform: translate(0, -0.5rem);
     .bottomInfo, .topInfo {
       transform: translate(0, 0);
       opacity: 1;
@@ -84,6 +98,7 @@
 
   .topInfo {
     position: absolute;
+    overflow: hidden;
     top: 0;
     height: 4rem;
     padding-bottom: 2rem;
@@ -93,7 +108,7 @@
     transform: translate(0, -1rem);
     opacity: 0;
     transition-property: transform, opacity;
-    transition-duration: 0.15s;
+    transition-duration: 0.2s;
     transition-timing-function: ease-in;
 
     display: flex;
@@ -103,6 +118,7 @@
 
   .bottomInfo {
     position: absolute;
+    overflow: hidden;
     bottom: 0;
     height: 6rem;
     padding-top: 2rem;
@@ -111,7 +127,7 @@
     transform: translate(0, 1rem);
     opacity: 0;
     transition-property: transform, opacity;
-    transition-duration: 0.15s;
+    transition-duration: 0.2s;
     transition-timing-function: ease-in;
 
     display: flex;

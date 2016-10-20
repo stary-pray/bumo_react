@@ -8,7 +8,7 @@
   max-height: 100%;
   width: 100%;
   z-index: 5;
-  background: rgba(white, 0.7);
+  background: rgba(black, 0.7);
   overflow: auto;
   > .previous, > .next {
     position: absolute;
@@ -75,7 +75,7 @@
   > .PaintingDetail {
     position: relative;
     top: 2rem;
-    width: calc(100vw - 4rem);
+    width: calc(100vw - 5rem);
     left: 2rem;
     background: white;
     border-radius: 4px;
