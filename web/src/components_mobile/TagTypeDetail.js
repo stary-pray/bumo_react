@@ -10,7 +10,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-export default class TagTypeDetail extends Component {
+class TagTypeDetail extends Component {
 
   static propTypes = {
     tagType: PropTypes.string,

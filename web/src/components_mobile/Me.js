@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {logout} from "../redux/modules/auth";
 
 
-export default class Me extends Component {
+class Me extends Component {
   handleHeader(me) {
     this.props.navigator.push({
       title: me.nickname,

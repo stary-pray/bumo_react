@@ -6,7 +6,7 @@ import PureListView from "./PureListView";
 import {initialApp} from "../redux/modules/auth";
 
 
-export default class Home extends Component {
+class Home extends Component {
 
   static propTypes = {
     painting: PropTypes.object,

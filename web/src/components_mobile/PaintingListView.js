@@ -11,7 +11,7 @@ const dataSource = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2
 });
 
-export default class PaintingListView extends Component {
+class PaintingListView extends Component {
   static propTypes = {
     orderType: PropTypes.string,
     load: PropTypes.func,

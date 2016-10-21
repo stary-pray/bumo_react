@@ -64,6 +64,7 @@ export default class PureListView extends Component {
     const OwnerObj = profile[rowData.owner];
     const heatObj = paintingHeat[rowData.heat];
     const windowWidth = Dimensions.get('window').width;
+    console.info(rowData.attachment);
     return (
       <View style={styles.rowContainer}>
         <Lightbox
@@ -79,7 +80,7 @@ export default class PureListView extends Component {
           <Image style={{width: windowWidth,
             height: windowWidth / rowData.width * rowData.height}}
                  resizeMode={Image.resizeMode.cover}
-                 source={{uri: `${rowData.attachment}?imageMogr2/thumbnail/${windowWidth * 2}x/interlace/1`}}/>
+                 source={{uri: `${rowData.attachment}?imageMogr2/format/webp/thumbnail/${windowWidth * 2}x/interlace/1`}}/>
         </Lightbox>
         <View style={styles.infoContainer}>
           <TouchableHighlight

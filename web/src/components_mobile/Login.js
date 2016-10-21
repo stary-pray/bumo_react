@@ -4,7 +4,7 @@ import {logCaptcha, logEmail, logPassword} from "../redux/modules/containers_mob
 import {connect} from "react-redux";
 import {serverApi} from "../config";
 import {Alert, AppRegistry, StyleSheet, Text, View, ListView, TouchableHighlight, Image, TextInput} from "react-native";
-export default class Login extends Component {
+class Login extends Component {
   componentWillMount() {
     this.props.getCaptcha();
   }

@@ -5,7 +5,7 @@ import {switchTagType} from "../redux/modules/containers_mobile/navigation";
 import {loadTagTypeDetail} from "../redux/modules/models/TagDetail";
 import TagTypeDetail from "./TagTypeDetail";
 import ScrollableTabView from "react-native-scrollable-tab-view";
-export default class TagType extends Component {
+class TagType extends Component {
 
 
 

@@ -10,7 +10,7 @@ var BUTTONS = [
   '取消'
 ];
 var CANCEL_INDEX = 2;
-export default class OrderPainting extends Component {
+class OrderPainting extends Component {
 
 
   showActionSheet() {

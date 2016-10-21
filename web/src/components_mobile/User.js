@@ -7,7 +7,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-export default class User extends Component {
+class User extends Component {
 
   static propTypes = {
     painting: PropTypes.object

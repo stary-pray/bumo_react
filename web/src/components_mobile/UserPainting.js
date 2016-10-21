@@ -11,13 +11,17 @@ import ScrollableTabView from "react-native-scrollable-tab-view";
 import PaintingListView from "./PaintingListView";
 
 
-export default class UserPainting extends Component {
+class UserPainting extends Component {
 
   static propTypes = {
     painting: PropTypes.object,
     UserId: PropTypes.number
   };
 
+  static navigatorStyle = {
+    drawUnderNavBar: true,
+    navBarTransparent: true
+  };
 
   componentWillUnmount() {
 

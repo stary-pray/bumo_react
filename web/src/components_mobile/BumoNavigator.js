@@ -3,7 +3,7 @@ import BumoTabViews from "./BumoTabViews.ios";
 import {Navigator, StyleSheet, View, Text, TouchableOpacity} from "react-native";
 import {connect} from "react-redux";
 
-export default class BumoNavigator extends Component {
+class BumoNavigator extends Component {
   render() {
     return (
       <Navigator

@@ -5,7 +5,7 @@ import {loadTagTypePainting, loadTagTypePaintingHot} from "../redux/modules/mode
 import PureListView from "./PureListView";
 
 
-export default class TagTypePainting extends Component {
+class TagTypePainting extends Component {
 
   static propTypes = {
     painting: PropTypes.object,

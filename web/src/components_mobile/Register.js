@@ -12,7 +12,7 @@ import {serverApi} from "../config";
 import {Alert, AppRegistry, StyleSheet, Text, View, ListView, TouchableHighlight, Image, TextInput} from "react-native";
 
 
-export default class Register extends Component {
+class Register extends Component {
   componentWillMount() {
     this.props.getCaptcha();
   }

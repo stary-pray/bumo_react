@@ -17,7 +17,7 @@ import {doSearch} from "../redux/modules/containers_mobile/searchResult";
 import lodash from "lodash";
 
 
-export default class SearchResult extends Component {
+class SearchResult extends Component {
 
   static propTypes = {
     logSearch: PropTypes.func

@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {update as updateMe, load} from "../redux/modules/me";
 import {logNickname, logIntroduction, initialForm} from "../redux/modules/containers_mobile/meUpdateInfo";
 
-export default class EditMe extends Component {
+class EditMe extends Component {
 
   componentWillMount() {
     this.props.load();

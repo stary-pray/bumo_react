@@ -3,7 +3,7 @@ import React, {Component, PropTypes} from "react";
 import {load as loadPaintingDetail} from "../redux/modules/models/PaintingDetail";
 import {connect} from "react-redux";
 
-export default class PaintingModal extends Component {
+class PaintingModal extends Component {
 
   static propTypes = {
     paintingId: PropTypes.number,

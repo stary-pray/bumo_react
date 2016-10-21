@@ -5,7 +5,7 @@ import {switchTab} from "../redux/modules/containers_mobile/navigation";
 import {connect} from "react-redux";
 import Home from "./Home.mobile";
 import TagType from "./TagType";
-export default class BumoTabViews extends Component {
+class BumoTabViews extends Component {
   render() {
     const{component}=this.props;
     return (
