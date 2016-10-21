@@ -3168,7 +3168,13 @@ react-native-vector-icons@^2.0.3:
     lodash "^4.0.0"
     yargs "^4.7.0"
 
-react-native@^0.35.0:
+react-native-webp:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-webp/-/react-native-webp-0.3.0.tgz#e7baee18fb292e3b30854861ec2cbdafe5c62031"
+  dependencies:
+    react-native "*"
+
+react-native@*, react-native@^0.35.0:
   version "0.35.0"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.35.0.tgz#59a53e80109a728a7f6c7c9f0f0899c8b14c13b2"
   dependencies:

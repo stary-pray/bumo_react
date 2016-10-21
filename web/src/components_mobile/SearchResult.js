@@ -85,7 +85,7 @@ class SearchResult extends Component {
                   <View key={painting.id} style={styles.result}>
                   <Image style={{width: windowWidth/3, height:windowWidth/3, marginTop:10, marginRight:10, paddingRight:5}}
                          resizeMode={Image.resizeMode.cover}
-                         source={{uri: `https://o4dv415rs.qnssl.com/${painting.attachment}?imageMogr2/thumbnail/${windowWidth}x/interlace/1`}}/>
+                         source={{uri: `https://o4dv415rs.qnssl.com/${painting.attachment}?imageMogr2/format/webp/thumbnail/${windowWidth}x/interlace/1`}}/>
                 </View>)}
               </ScrollView>
             </View>}

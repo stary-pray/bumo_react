@@ -64,7 +64,6 @@ export default class PureListView extends Component {
     const OwnerObj = profile[rowData.owner];
     const heatObj = paintingHeat[rowData.heat];
     const windowWidth = Dimensions.get('window').width;
-    console.info(rowData.attachment);
     return (
       <View style={styles.rowContainer}>
         <Lightbox

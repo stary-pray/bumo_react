@@ -18,6 +18,7 @@
     "react-native-parallax-view": "^2.0.5",
     "react-native-scrollable-tab-view": "^0.6.0",
     "react-native-vector-icons": "^2.0.3",
+    "react-native-webp": "^0.3.0",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",
     "redux-actions": "^0.12.0",
