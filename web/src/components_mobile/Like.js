@@ -3,7 +3,7 @@ import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import {freeLike, payLike} from "../redux/modules/containers/LikeAction";
 
-export default class Like extends Component {
+class Like extends Component {
 
   static propTypes = {
     painting:PropTypes.object,

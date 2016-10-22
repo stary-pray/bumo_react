@@ -5,6 +5,7 @@ import {Provider} from "react-redux";
 import ApiClient from "../helpers/ApiClient";
 import createStore from "../redux/create.mobile.js";
 import {registerScreens} from "./screens";
+import {iconsMap} from "./NavigatorIcons";
 
 window['isNative'] = !!window['localStorage'];
 console.disableYellowBox = true;
@@ -36,6 +37,7 @@ export default class App {
           label: '发现',
           screen: 'bumo.FindPainting',
           title: '发现',
+          icon: iconsMap['explore'],
           navigatorStyle: {
             navBarHidden: true,
           },

@@ -5,7 +5,7 @@ import {loadComments, deleteComments, addComments} from "../redux/modules/models
 import {logComment} from "../redux/modules/containers_mobile/commentLog";
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-export default class Comment extends Component {
+class Comment extends Component {
 
   static propTypes = {
     paintingId: PropTypes.number,

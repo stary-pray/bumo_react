@@ -6,7 +6,7 @@ import {intialTagPainting} from "../redux/modules/containers_mobile/tagPaintingD
 import PureListView from "./PureListView";
 
 
-export default class TagDetail extends Component {
+class TagDetail extends Component {
 
   static propTypes = {
     painting:PropTypes.object,

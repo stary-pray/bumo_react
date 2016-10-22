@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, ListView, TouchableHighlight, Image, CameraRoll,
 import {logCameraImage} from "../redux/modules/containers_mobile/cameraImage";
 import {connect} from "react-redux";
 
-export default class CameraImage extends Component{
+class CameraImage extends Component{
 
   constructor(){
     super();

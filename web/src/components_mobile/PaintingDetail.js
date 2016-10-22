@@ -6,7 +6,7 @@ import {calculateHeat} from "../utils/common";
 import moment from "moment";
 import Comments from "./Comment";
 import Lightbox from "react-native-lightbox";
-export default class PaintingDetail extends Component {
+class PaintingDetail extends Component {
 
   static propTypes = {
     paintingId: PropTypes.number,

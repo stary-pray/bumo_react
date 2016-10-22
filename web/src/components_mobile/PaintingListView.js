@@ -11,7 +11,7 @@ const dataSource = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2
 });
 
-export default class PaintingListView extends Component {
+class PaintingListView extends Component {
   static propTypes = {
     orderType: PropTypes.string,
     load: PropTypes.func,
@@ -60,7 +60,7 @@ export default class PaintingListView extends Component {
             height: windowWidth / rowData.width * rowData.height
           }}
                  resizeMode={Image.resizeMode.cover}
-                 source={{uri: `${rowData.attachment}?imageMogr2/thumbnail/${windowWidth * 2}x/interlace/1`}}/>
+                 source={{uri: `${rowData.attachment}?imageMogr2/format/webp/thumbnail/${windowWidth * 2}x/interlace/1`}}/>
         </Lightbox>
         <View style={styles.infoContainer}>
           <TouchableHighlight
