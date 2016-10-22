@@ -1,5 +1,9 @@
 @import "colors";
 
+body {
+  min-width: 750px;
+}
+
 select {
   line-height: 1;
 }
@@ -10,10 +14,10 @@ select {
 }
 
 .auth0-global-message.auth0-global-message-error {
-  background: $lRed!important;
+  background: $lRed !important;
 }
 
-.auth0-lock-container *{
+.auth0-lock-container * {
   // border-radius: 0!important;
 }
 
@@ -55,10 +59,10 @@ select {
       text-align: right;
       font-size: 1rem;
       display: block;
-      > .separator{
+      > .separator {
         padding: 0 0.5rem 0 0.3rem;
       }
-      &:hover{
+      &:hover {
         color: $lGrey;
       }
       &.active {
@@ -106,13 +110,13 @@ select {
   }
 }
 
-.modalCloseButton{
+.modalCloseButton {
   border-radius: 5px;
   cursor: pointer;
   position: absolute;
   right: 0;
   top: 0;
-  &:after{
+  &:after {
     background: transparent;
     border-radius: 3px;
     color: #bbb;
@@ -132,7 +136,6 @@ select {
 *:focus {
   outline: none;
 }
-
 
 .Bumo-dropzone {
   border: 2px dashed $lCyan;

@@ -108,7 +108,7 @@ export default class TamashiPopup extends Component {
 
   render() {
     const {heat, id, component, paintingDetail, tags, me, profile, positionClass, hoverButton, tagHeat, paintingHeat, profileHeat} = this.props;
-    const isOpened = id && component.id && (id == component.id);
+    const isOpened = id && component.id && (id == component.id) && me.balance && paintingDetail[id];
 
     return (
       <BumoDropdown close={this.handleClosePopup} positionClass={positionClass} isOpened={isOpened}>
