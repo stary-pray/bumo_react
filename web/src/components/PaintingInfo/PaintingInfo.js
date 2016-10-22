@@ -78,7 +78,7 @@ export default class PaintingInfo extends Component {
             onClick={isMe ? this.openTamashi : this.handleLoginModalOpen}
             className="PaintingInfo__intro_heat">
             <i className="zmdi zmdi-fire"/>
-            <span>{calculateHeat(heat)}</span>
+            <span>{calculateHeat(heat)}°</span>
           </a>
         </div>
         <TahashiPopup positionClass="PaintingInfoPopup" id={painting.id} heat={heat}/>
@@ -98,7 +98,7 @@ export default class PaintingInfo extends Component {
           {painting.status !== 2 ? <div>审核中...</div> :
             <a onClick={isMe? this.openTamashi:this.handleLoginModalOpen} className="heat">
               <i className="zmdi zmdi-fire"/>
-              <span>{calculateHeat(heat)}</span>
+              <span>{calculateHeat(heat)}°</span>
             </a>}
         </div>
         <img onClick={this.openModal} className="bumo_thumbnail" src={resize(painting.attachment,width)}/>

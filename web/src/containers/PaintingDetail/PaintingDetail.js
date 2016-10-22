@@ -211,7 +211,7 @@ export default class PaintingDetail extends Component {
               </h4>
               <p className="introduction">
                 <span className="heat"> <i
-                  className="zmdi zmdi-fire"/> {ownerProfileHeat && calculateHeat(ownerProfileHeat)} </span>
+                  className="zmdi zmdi-fire"/> {ownerProfileHeat && calculateHeat(ownerProfileHeat)}° </span>
                 <Link to={'/u/'+ ownerId}> {ownerProfile && ownerProfile.introduction} </Link>
               </p>
             </div>
@@ -219,11 +219,11 @@ export default class PaintingDetail extends Component {
               <h1 className="title"><Link to={`/p/${id}`}> { painting ? painting.title : '---' }</Link></h1>
               <p className="description">{ painting && painting.description }</p>
               <div className="infoGroup">
-                <label> 作品魂 </label>
+                <label> 温度 </label>
                 {painting && painting.status !== 2 ? <div>审核中...</div> :
                   <a onClick={me.id ? this.openTamashi: this.handleLoginModalOpen} className="button hollow heat">
                     <i className="zmdi zmdi-fire"/>
-                    <span>{paintingHeat && paintingHeat[id] && calculateHeat(paintingHeat[id])}</span>
+                    <span>{paintingHeat && paintingHeat[id] && calculateHeat(paintingHeat[id])}°</span>
                   </a>
                 }
               </div>
@@ -237,7 +237,7 @@ export default class PaintingDetail extends Component {
                         <span className="name">{tags[id].name}</span>
                         <span className="type">{tags[id].type}</span>
                       <span className="heat"><i
-                        className="zmdi zmdi-fire"/> {calculateHeat(tagHeat[tags[id].heat])}</span>
+                        className="zmdi zmdi-fire"/> {calculateHeat(tagHeat[tags[id].heat])}°</span>
                       </Link>
                     </div>)) :
                   <p className="infoGroup__nothing">没有标签 =A=</p>)}

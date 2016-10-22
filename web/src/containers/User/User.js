@@ -91,7 +91,7 @@ export default class Tags extends Component {
               </Link>
               <h4 className="type"/>
               <h2 className="heat">
-                <i className="zmdi zmdi-fire"/> {calculateHeat(profileHeat[user[userId].heat])}
+                <i className="zmdi zmdi-fire"/> {calculateHeat(profileHeat[user[userId].heat])}°
               </h2>
             </Link>
           )}

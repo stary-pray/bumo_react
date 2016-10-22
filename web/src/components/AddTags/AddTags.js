@@ -108,7 +108,7 @@ export default class AddTags extends Component {
               <span className="AddTags__list_type">{tag.type} - </span>
               <span className="AddTags__list_name ellipses"> {tag.name}</span>
               <span className="AddTags__list_heat"> {tagFind ?
-                <span className="point"> <i className="zmdi zmdi-fire"/> {calculateHeat(tagHeat[tagFind.heat])}</span> :
+                <span className="point"> <i className="zmdi zmdi-fire"/> {calculateHeat(tagHeat[tagFind.heat])}°</span> :
                 <span className="new">新标签</span>}
               </span>
               <a className="button hollow success small AddTags__list_remove" onClick={this.deleteTag.bind(this,index)}>

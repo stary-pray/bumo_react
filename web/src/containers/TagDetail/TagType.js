@@ -197,7 +197,7 @@ export default class TagType extends Component {
                        <h2>{tags[tagId].name}</h2>
                      </Link>
                      <h4 className="type">{tags[tagId].type}</h4>
-                     <h2 className="heat"><i className="zmdi zmdi-fire"/> {calculateHeat(heat)}</h2>
+                     <h2 className="heat"><i className="zmdi zmdi-fire"/> {calculateHeat(heat)}°</h2>
                    </div>
                      :''
                  );

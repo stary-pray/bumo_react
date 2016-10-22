@@ -202,7 +202,7 @@ export default class UserPainting extends Component {
                 }
               </div>
               <div className="profileHeat"><i
-                className="zmdi zmdi-fire"/> {profileHeatBody && calculateHeat(profileHeatBody)}
+                className="zmdi zmdi-fire"/> {profileHeatBody && calculateHeat(profileHeatBody)}°
               </div>
             </div>
           </div>

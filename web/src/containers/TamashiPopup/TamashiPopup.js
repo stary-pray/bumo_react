@@ -99,7 +99,7 @@ export default class TamashiPopup extends Component {
           transitionLeaveTimeout={100}
         >
           <span className="section-with__heat-animate" key={hoverAmount}>
-            <i className="zmdi zmdi-fire"/> {calculateHeat(heatObj) + (hoverAmount || 0)}
+            <i className="zmdi zmdi-fire"/> {calculateHeat(heatObj) + (hoverAmount || 0)}°
           </span>
         </ReactCSSTransitionGroup>
       </div>
