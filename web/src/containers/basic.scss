@@ -140,6 +140,9 @@ select {
 .Bumo-dropzone {
   border: 2px dashed $lCyan;
   min-height: 20rem;
+  cursor: pointer;
+  background-color: white;
+  transition: background-color 0.2s ease-in;
   &:hover {
     background-color: $lSliver;
   }

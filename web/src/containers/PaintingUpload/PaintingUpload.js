@@ -91,7 +91,7 @@ export default class uploadPaintingForm extends Component {
     return (
       <form className="grid-container grid-block vertical PaintingUpload__container">
         <div className="PaintingUpload__title grid-content">
-          <h1>发布画作</h1>
+          <h1>投稿 <small>(请务必保证该作品是您自己画的)</small></h1>
         </div>
         <div className="grid-block">
           <div className="grid-content PaintingUpload__left">
@@ -128,7 +128,7 @@ export default class uploadPaintingForm extends Component {
               type="button"
               className={"button " + ((loading || invalid) ? 'disabled' : '')}
               disabled={invalid || loading}>
-              { !loading ? '提交审核' : '上传中...'}
+              { !loading ? '提交' : '上传中...'}
             </a>
           </div>
         </div>

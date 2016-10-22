@@ -93,7 +93,7 @@ export default class updateMeForm extends Component {
             </label>
             <a className="button" onClick={this.handleSubmit}>保存</a>
           </form>
-          <div className="grid-content">a
+          <div className="grid-content">
             <div className="EditMe__balance">
               <h5>余额</h5>
               <div className="EditMe__balance_hp">
