@@ -137,7 +137,6 @@ function* depositLastPageLoaded() {
 function* loadPaintingChecking() {
   while (TRULY) {
     const {result} = yield take(PaintingDetailModule.LOAD_DETAIL_SUCCESS);
-    console.log(result.status);
     if (result.status !== 2) {
       yield put(createNotification({
         message: '画作正在审核中,审核完毕会出现在首页上',

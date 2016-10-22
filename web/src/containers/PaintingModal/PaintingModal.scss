@@ -72,11 +72,13 @@
       }
     }
   }
-  > .PaintingDetail {
+  &__transition-wrapper {
     position: relative;
+    min-height: 100%;
     top: 2rem;
     width: calc(100vw - 5rem);
     left: 2rem;
+    margin-bottom: 2rem;
     background: white;
     border-radius: 4px;
     overflow: hidden;
@@ -86,12 +88,12 @@
 .PaintingModalTransition {
   &-enter {
     opacity: 0.01;
-    transform: translate3d(0px, -10px, 0px);
+    transform: translateY(10px);
   }
 
   &-enter.PaintingModalTransition-enter-active{
     opacity: 1;
-    transform: translate3d(0px, 0, 0px);
+    transform: translateY(0);
     transition-property: opacity, transform;
     transition-duration: 250ms;
     transition-delay: 50ms;
@@ -100,15 +102,79 @@
 
   &-leave {
     opacity: 1;
-    transform: translate3d(0px, 0, 0px);
+    transform: translateY(0);
   }
 
   &-leave.PaintingModalTransition-leave-active {
     opacity: 0.01;
-    transform: translate3d(0px, -10px, 0px);
+    transform: translateY(10px);
     transition-property: opacity, transform;
     transition-duration: 250ms;
     transition-delay: 50ms;
     transition-timing-function: ease-in;
+  }
+}
+
+.PaintingModalSwitchTransitionRight {
+  &-enter {
+    opacity: 0.2;
+    transform: translateX(50px) scale(0.95);
+    position: absolute;
+  }
+
+  &-enter.PaintingModalSwitchTransitionRight-enter-active{
+    opacity: 1;
+    transform: translateX(0px) scale(1);
+    transition-property: opacity, transform;
+    transition-duration: 250ms;
+    transition-delay: 50ms;
+    transition-timing-function: ease-out;
+  }
+
+  &-leave {
+    opacity: 1;
+    transform: translateX(0px) scale(1);
+    position: absolute;
+  }
+
+  &-leave.PaintingModalSwitchTransitionRight-leave-active {
+    opacity: 0.2;
+    transform: translateX(-50px) scale(0.95);
+    transition-property: opacity, transform;
+    transition-duration: 250ms;
+    transition-delay: 50ms;
+    transition-timing-function: ease-out;
+  }
+}
+
+.PaintingModalSwitchTransitionLeft {
+  &-enter {
+    opacity: 0.2;
+    transform: translateX(-50px) scale(0.95);
+    position: absolute;
+  }
+
+  &-enter.PaintingModalSwitchTransitionLeft-enter-active{
+    opacity: 1;
+    transform: translateX(0px) scale(1);
+    transition-property: opacity, transform;
+    transition-duration: 250ms;
+    transition-delay: 50ms;
+    transition-timing-function: ease-out;
+  }
+
+  &-leave {
+    opacity: 1;
+    transform: translateX(0px) scale(1);
+    position: absolute;
+  }
+
+  &-leave.PaintingModalSwitchTransitionLeft-leave-active {
+    opacity: 0.2;
+    transform: translateX(50px) scale(0.95);
+    transition-property: opacity, transform;
+    transition-duration: 250ms;
+    transition-delay: 50ms;
+    transition-timing-function: ease-out;
   }
 }

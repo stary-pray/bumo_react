@@ -3,7 +3,7 @@ import Helmet from "react-helmet";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import InlineSVG from "svg-inline-react";
-import {load as loadPaintingDetail} from "../../redux/modules/models/PaintingDetail";
+import {load as loadPaintingDetail, preload as preloadPaintingDetail} from "../../redux/modules/models/PaintingDetail";
 import {Link, browserHistory} from "react-router";
 import moment from "moment";
 import {resize, resizeHeight, calculateHeat} from "../../utils/common";
@@ -16,6 +16,8 @@ import classNames from "classnames";
 import CommentForm from "../../containers/CommentForm/CommentForm";
 import CommentList from "../../containers/CommentList/CommentList";
 import Scroll from "react-scroll";
+import Mousetrap from "mousetrap";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
 
 @connect(
@@ -33,6 +35,7 @@ import Scroll from "react-scroll";
   }),
   dispatch => bindActionCreators({
     loadPaintingDetail,
+    preloadPaintingDetail,
     openTamashi: openTamashi,
     loginModalOpen,
   }, dispatch)
@@ -47,6 +50,7 @@ export default class PaintingDetail extends Component {
     paintingHeat: PropTypes.object,
     component: PropTypes.object,
     loadPaintingDetail: PropTypes.func,
+    preloadPaintingDetail: PropTypes.func,
     tags: PropTypes.object,
     tagHeat: PropTypes.object,
     isInModal: PropTypes.bool,
@@ -61,6 +65,14 @@ export default class PaintingDetail extends Component {
     super();
     this.openTamashi = this.openTamashi.bind(this);
     this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
+    this.goNext = this.goNext.bind(this);
+    this.goPrevious = this.goPrevious.bind(this);
+  }
+
+  componentWillUnmount() {
+    if (!this.props.isInModal) {
+      Mousetrap.unbind(['l', 'right', 'h', 'left']);
+    }
   }
 
 
@@ -69,20 +81,44 @@ export default class PaintingDetail extends Component {
   }
 
   componentDidMount() {
+
     this.leftPanelScale = this.refs.leftPanel.offsetWidth / this.refs.leftPanel.offsetHeight;
     if (!this.props.isInModal) {
       Scroll.animateScroll.scrollToTop({smooth: false, duration: 0,});
+      Mousetrap.bind(['l', 'right'], () => this.goNext());
+      Mousetrap.bind(['h', 'left'], () => this.goPrevious());
     }
   }
 
   componentWillReceiveProps(nextProps) {
-
-
     this.leftPanelScale = this.refs.leftPanel.offsetWidth / this.refs.leftPanel.offsetHeight;
 
     if (this.props.id !== nextProps.id) {
       this.props.loadPaintingDetail(nextProps.id);
     }
+
+    if (!this.props.component.loaded && nextProps.component.loaded && !this.props.isInModal) {
+      const nextPaintingId = nextProps.paintingDetail[nextProps.id].user_next_painting;
+      const previousPaintingId = nextProps.paintingDetail[nextProps.id].user_previous_painting;
+      !nextProps.paintingDetail[nextPaintingId] && this.props.preloadPaintingDetail(nextPaintingId);
+      !nextProps.paintingDetail[previousPaintingId] && this.props.preloadPaintingDetail(previousPaintingId);
+    }
+    this.goLeft = nextProps.id > this.props.id;
+    this.goRight = nextProps.id < this.props.id;
+  }
+
+  goNext() {
+    const {paintingDetail, id} = this.props;
+    const painting = paintingDetail[id];
+    const nextLink = painting && painting.user_next_painting ? `/p/${painting.user_next_painting}` : '';
+    nextLink && browserHistory.push(nextLink);
+  }
+
+  goPrevious() {
+    const {paintingDetail, id} = this.props;
+    const painting = paintingDetail[id];
+    const previousLink = painting && painting.user_previous_painting ? `/p/${painting.user_previous_painting}` : '';
+    previousLink && browserHistory.push(previousLink);
   }
 
   openTamashi() {
@@ -123,16 +159,20 @@ export default class PaintingDetail extends Component {
           {/* leftPanel */}
           <div className="leftPanel">
             <div ref="leftPanel" className="leftPanel__top">
-              <div
+              <ReactCSSTransitionGroup
                 className={classNames("PaintingDetail__image-wrapper",
-                      {'PaintingDetail__image-wrapper_landscape':
-                      painting && (painting.width / painting.height > this.leftPanelScale) })}
+                  {
+                    'PaintingDetail__image-wrapper_landscape': painting && (painting.width / painting.height > this.leftPanelScale)
+                  })}
+                transitionName={ this.goLeft ? ("PaintingDetailSwitchTransitionLeft") : (this.goRight ? "PaintingDetailSwitchTransitionRight" : '')}
+                transitionEnterTimeout={250}
+                transitionLeaveTimeout={250}
               >
                 {painting ?
-                  <img
-                    className="PaintingDetail__image-full"
-                    src={painting && resizeHeight(painting.attachment, 800)} alt="detail"/> : ''}
-              </div>
+                  <img key={painting.id}
+                       className="PaintingDetail__image-full"
+                       src={painting && resizeHeight(painting.attachment, 800)} alt="detail"/> : ''}
+              </ReactCSSTransitionGroup>
               <Link to={previousLink} className={'go_previous ' + (previousLink ? '' : 'disabled')}
                     disabled={!previousLink}>
                 <i className="zmdi zmdi-chevron-left"/>

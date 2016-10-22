@@ -15,25 +15,25 @@ export default class ScrollToTopButton extends Component {
       this.setState({show: top * 1.5 > windowHeight});
     }, 100);
   }
-  
+
   componentDidMount(){
     window.addEventListener('scroll', this.handleScroll);
   }
-  
+
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
   }
-  
+
   scrollToTop(){
-    Scroll.animateScroll.scrollToTop();
+    Scroll.animateScroll.scrollToTop({duration: 200});
   }
-  
+
   render() {
     return (
-      <button 
-        onClick={this.scrollToTop} 
-        className={"button ScrollToTopButton__button " + (this.state.show ? '' : 'ScrollToTopButton__button-hide')}> 
-        <i className="zmdi zmdi-chevron-up"/> 
+      <button
+        onClick={this.scrollToTop}
+        className={"button ScrollToTopButton__button " + (this.state.show ? '' : 'ScrollToTopButton__button-hide')}>
+        <i className="zmdi zmdi-chevron-up"/>
       </button>
     );
   }

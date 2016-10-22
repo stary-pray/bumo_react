@@ -28,7 +28,6 @@ export function addComments(paintingId, text) {
 }
 
 export function deleteComments(paintingId, id) {
-  console.log(id);
   return {
     types: [DELETE_PAINTING_COMMENTS, DELETE_PAINTING_COMMENTS_SUCCESS,DELETE_PAINTING_COMMENTS_FAIL],
     promise: (client) => client.del('/api/paintings/'+paintingId+'/delete_comment',{data:{id}}),

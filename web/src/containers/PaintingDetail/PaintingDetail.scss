@@ -6,9 +6,7 @@
   flex-direction: column;
   width: 100%;
   &.inModal {
-    margin-bottom: 2rem;
-    border: $lSliver 1px solid;
-    box-shadow: 0 2px 8px rgba(31, 45, 61, .3);
+    box-shadow: 0 40px 40px rgba(0, 0, 0, 0.5);
     .go_previous, .go_next {
       display: none !important;
     }
@@ -160,7 +158,8 @@
         top: 0;
         height: 100%;
         width: 100%;
-        background-image: linear-gradient(-180deg, rgba(87, 113, 136, 0.00) 0%, rgba(62, 83, 103, 0.00) 20%, rgba(44, 62, 80, 0.9) 100%);
+        background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%);
+        //background-image: linear-gradient(-180deg, rgba(87, 113, 136, 0.00) 0%, rgba(62, 83, 103, 0.00) 20%, rgba(44, 62, 80, 0.9) 100%);
         //background: rgba($lBlack, 0.7);
         z-index: 2;
       }
@@ -330,5 +329,65 @@
   &__image_preload {
     max-width: 100%;
     max-height: 100%;
+  }
+}
+
+.PaintingDetailSwitchTransitionRight {
+  &-enter {
+    opacity: 0.01;
+    transform: translateX(10px);
+    position: absolute;
+  }
+
+  &-enter.PaintingDetailSwitchTransitionRight-enter-active{
+    opacity: 1;
+    transform: translateX(0px);
+    transition-property: opacity, transform;
+    transition-duration: 250ms;
+    transition-timing-function: ease-out;
+  }
+
+  &-leave {
+    opacity: 1;
+    transform: translateX(0px);
+    position: absolute;
+  }
+
+  &-leave.PaintingDetailSwitchTransitionRight-leave-active {
+    opacity: 0.01;
+    transform: translateX(-10px);
+    transition-property: opacity, transform;
+    transition-duration: 250ms;
+    transition-timing-function: ease-out;
+  }
+}
+
+.PaintingDetailSwitchTransitionLeft {
+  &-enter {
+    opacity: 0.01;
+    transform: translateX(-10px);
+    position: absolute;
+  }
+
+  &-enter.PaintingDetailSwitchTransitionLeft-enter-active{
+    opacity: 1;
+    transform: translateX(0px);
+    transition-property: opacity, transform;
+    transition-duration: 250ms;
+    transition-timing-function: ease-out;
+  }
+
+  &-leave {
+    opacity: 1;
+    transform: translateX(0px);
+    position: absolute;
+  }
+
+  &-leave.PaintingDetailSwitchTransitionLeft-leave-active {
+    opacity: 0.01;
+    transform: translateX(10px);
+    transition-property: opacity, transform;
+    transition-duration: 250ms;
+    transition-timing-function: ease-out;
   }
 }

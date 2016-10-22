@@ -17,7 +17,9 @@
     .Avatar__component {
       height: 40px;
       width: 40px;
-      border-radius: 100%;
+      display: block;
+      border-radius: 40px;
+      overflow: hidden;
     }
   }
   &__textarea{
