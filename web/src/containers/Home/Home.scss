@@ -1,9 +1,61 @@
+@import "../colors";
+
 .Home{
   width: 100%;
   position: relative;
+  top: -3rem;
 
   > h1, >p {
     padding-left: 2rem;
+  }
+
+  &__banner {
+    position: relative;
+    height: 15rem;
+    background-size: cover;
+    &_title {
+      position: absolute;
+      top: 6rem;
+      left: 10rem;
+      > p {
+        font-size: 1.8rem;
+        color: #FFFFFF;
+        letter-spacing: 0.43px;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.50);
+        &.Home__banner_title-second{
+          text-indent: 1em;
+        }
+      }
+    }
+  }
+
+  &__intro {
+    display: flex;
+    justify-content: space-around;
+    &_word {
+      flex: 0 0 20rem;
+      padding: 3rem 0;
+      position: relative;
+      &.is-left {
+        border-right: 1px solid $lSliver;
+        > .zmdi {
+          color: $dSliver;
+        }
+      }
+      &.is-right {
+        > .zmdi {
+          color: $dSliver;
+        }
+      }
+      > h4 {
+        margin-bottom: 0.4em;
+      }
+      > .zmdi {
+        position: absolute;
+        left: -1.5em;
+        font-size: 3rem;
+      }
+    }
   }
 
   .NavControls{

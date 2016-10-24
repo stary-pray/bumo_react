@@ -91,8 +91,24 @@ export default class Home extends Component {
     const load = isLatest ? loadPainting : loadHotPainting;
 
     return (<div className="Home">
-      <div className="pageHead">
-        <h1>绘画之魂完全燃烧</h1>
+      <div className="Home__banner" style={{backgroundImage: `url(${require('../../utils/assets/飞翔.jpg')})`}}>
+        <h1 className="Home__banner_title">
+          <p>展示、发现画作</p>
+          <p className="Home__banner_title-second">影响二次元潮流</p>
+        </h1>
+      </div>
+
+      <div className="Home__intro grid-container">
+        <div className="Home__intro_word is-left">
+          <i className="zmdi zmdi-palette" />
+          <h4>我会画画</h4>
+          <p>投稿并给画作打上标签吧。</p>
+        </div>
+        <div className="Home__intro_word is-right">
+          <i className="zmdi zmdi-favorite" />
+          <h4>我会吃瓜（围观）</h4>
+          <p>简单「点赞」吧。<br />这会增加作画、标签以及作者的「温度」。</p>
+        </div>
       </div>
 
       <StickyContainer>

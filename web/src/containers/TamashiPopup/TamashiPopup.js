@@ -99,7 +99,7 @@ export default class TamashiPopup extends Component {
           transitionLeaveTimeout={100}
         >
           <span className="section-with__heat-animate" key={hoverAmount}>
-            <i className="zmdi zmdi-fire"/> {calculateHeat(heatObj) + (hoverAmount || 0)}°
+            <i className="zmdi zmdi-fire"/> {calculateHeat(heatObj)}° { hoverAmount ? `+${hoverAmount}` : ''}
           </span>
         </ReactCSSTransitionGroup>
       </div>
@@ -172,11 +172,11 @@ export default class TamashiPopup extends Component {
                   <div className="balance">
                     <span className="balanceXing">
                       <i
-                        className="zmdi zmdi-favorite"/>HP {me.balance.free_qb - (component.type === 'free' ? component.hoverAmount : 0)}
+                        className="zmdi zmdi-favorite"/>HP {me.balance.free_qb}{(component.hoverAmount && component.type === 'free' ? `-${component.hoverAmount}` : ``)}
                     </span>
                     <span className="balanceQi">
                       <i
-                        className="zmdi zmdi-star"/>MP {me.balance.charged_qb - (component.type === 'paid' ? component.hoverAmount : 0)}
+                        className="zmdi zmdi-star"/>MP {me.balance.charged_qb}{(component.hoverAmount && component.type === 'paid' ? `-${component.hoverAmount}` : ``)}
                     </span>
                   </div>
                 </div>

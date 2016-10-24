@@ -133,7 +133,9 @@ export default class TopNav extends Component {
     const {component, me} = this.props;
     const {isUserImageUploadModalOpened, userImageUploadType} = component;
     const isLogined = me && me.id;
-    return (<div id="main-header">
+    const {pathname} = window.location;
+    const isHomePage = pathname === '/' || pathname === '/latest';
+    return (<div id="main-header" className={isHomePage ? 'is-home-page' : ''}>
       <IndexLink className="logo" to="/">
         <InlineSVG className="svg" src={require("./bumo_logo.svg")}/>
       </IndexLink>
@@ -141,16 +143,16 @@ export default class TopNav extends Component {
         <IndexLink activeClassName="active" className="nav-item" to="/">
           <i className="zmdi zmdi-compass"/>发现
         </IndexLink>
-        <Link activeClassName="active" className="nav-item" to="/user">
-          <i className="zmdi zmdi-palette"/>画手
-        </Link>
         <Link activeClassName="active" className="nav-item" to="/tag/人物">
           <i className="zmdi zmdi-label"/>标签
+        </Link>
+        <Link activeClassName="active" className="nav-item" to="/user">
+          <i className="zmdi zmdi-palette"/>画手
         </Link>
       </section>
       {isLogined ?
         <div className="user-notification-panel grid-content">
-          <Link to="/me/PaintingUpload" className="item"><i className="zmdi zmdi-cloud-upload"/> 发布
+          <Link to="/me/PaintingUpload" className="item"><i className="zmdi zmdi-cloud-upload"/> 投稿
           </Link>
         <span onClick={this.handleOpenDropdown} className="item">
           <i className="zmdi zmdi-account"/> {me.nickname}
