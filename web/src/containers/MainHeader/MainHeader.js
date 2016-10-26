@@ -12,12 +12,14 @@ import UserImageUpload from "../UserImageUpload/UserImageUpload";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import Auth0Lock from "auth0-lock";
 import {AUTH0_CLIENT, AUTH0_DOMAIN} from "../../utils/common.js";
-import {setItem} from "../../helpers/storage";
+import {setItem, removeItem, getItem} from "../../helpers/storage";
+import {checkTokenValid} from "../../utils/common";
 
 @connect(
   (state, ownProps) => ({
     component: state.containers.MainHeader,
     me: state.me,
+    auth: state.auth,
   }),
   {
     openSearch: openSearch,
@@ -57,6 +59,19 @@ export default class TopNav extends Component {
     this.handleRegisterModalOpen = this.handleRegisterModalOpen.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
     this.lock = null;
+    this.createLoginOrSignupModal();
+  }
+
+  componentDidMount(){
+    this.getProfileIfHasAuth0Token();
+  }
+
+  async getProfileIfHasAuth0Token() {
+    const {valid} = await checkTokenValid();
+    const preAuth = await getItem("preAuth");
+    if(preAuth && !valid){
+      this.getAuth0Profile(preAuth);
+    }
   }
 
   createLoginOrSignupModal(){
@@ -83,18 +98,23 @@ export default class TopNav extends Component {
       this.lock
         .on('authenticated', async(authResult) => {
           await setItem("preAuth", authResult.idToken);
-          this.lock.getProfile(authResult.idToken, (err, profile)=> {
-            this.props.auth0Profile(profile);
-            this.props.login();
-          });
-          // if(profile.email_verified){
-          //   this.props.putNewUser();
-          // }
+          this.getAuth0Profile(authResult.idToken);
         })
         .on('hide', () => {
           this.handleModalClose()
         })
     }
+  }
+
+  getAuth0Profile(idToken) {
+    this.lock.getProfile(idToken, (err, profile)=> {
+      if(err) {
+        removeItem("preAuth")
+      } else {
+        this.props.auth0Profile(profile);
+        this.props.login();
+      }
+    });
   }
 
   handleOpenSearch() {
@@ -113,15 +133,24 @@ export default class TopNav extends Component {
     this.props.logout();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const currentComponent = this.props.component;
+    const nextComponent = nextProps.component;
+    if(!currentComponent.isLoginModalOpened && nextComponent.isLoginModalOpened) {
+      this.lock.show({initialScreen: 'login'});
+    }
+
+    if(!currentComponent.isRegisterModalOpened && nextComponent.isRegisterModalOpened) {
+      this.lock.show({initialScreen: 'signUp'});
+    }
+
+  }
+
   handleLoginModalOpen() {
-    this.createLoginOrSignupModal();
-    this.lock.show({initialScreen: 'login'});
     this.props.loginModalOpen();
   }
 
   handleRegisterModalOpen() {
-    this.createLoginOrSignupModal();
-    this.lock.show({initialScreen: 'signUp'});
     this.props.registerModalOpen();
   }
 
@@ -130,9 +159,10 @@ export default class TopNav extends Component {
   }
 
   render() {
-    const {component, me} = this.props;
+    const {component, me, auth: {auth0}} = this.props;
     const {isUserImageUploadModalOpened, userImageUploadType} = component;
     const isLogined = me && me.id;
+    const isAuth0Logined = auth0 && auth0.user_id;
     const {pathname} = window.location;
     const isHomePage = pathname === '/' || pathname === '/latest';
     return (<div id="main-header" className={isHomePage ? 'is-home-page' : ''}>
@@ -150,15 +180,22 @@ export default class TopNav extends Component {
           <i className="zmdi zmdi-palette"/>画手
         </Link>
       </section>
-      {isLogined ?
+      {isLogined || isAuth0Logined ?
         <div className="user-notification-panel grid-content">
-          <Link to="/me/PaintingUpload" className="item"><i className="zmdi zmdi-cloud-upload"/> 投稿
-          </Link>
-        <span onClick={this.handleOpenDropdown} className="item">
-          <i className="zmdi zmdi-account"/> {me.nickname}
-        </span>
+          { isLogined ?
+          <Link to="/me/PaintingUpload" className="item">
+            <i className="zmdi zmdi-cloud-upload"/> 投稿
+          </Link> : '' }
+          {!isLogined && isAuth0Logined ?
+            <a className="item double">
+              <i className="zmdi zmdi-email-open"/> 验证邮箱
+            </a> : '' }
+          <span onClick={this.handleOpenDropdown} className="item">
+            <i className="zmdi zmdi-account"/> {me.nickname || auth0.username}
+          </span>
           <span onClick={this.handleOpenSearch} className="item"><i className="zmdi zmdi-search"/> 搜索</span>
-        </div> :
+        </div>
+        :
         <div className="user-notification-panel grid-content">
           <span onClick={this.handleLoginModalOpen} className="item"><i className="zmdi zmdi-sign-in"/> 登录</span>
           <span onClick={this.handleRegisterModalOpen} className="item"><i className="zmdi zmdi-account-add"/> 注册</span>
@@ -166,12 +203,21 @@ export default class TopNav extends Component {
         </div>
       }
       <BumoDropdown isOpened={component.notificationDropdownOpened} close={this.handleCloseDropdown}>
+        {isLogined ?
         <Link to={`/u/${me.id}`} className="BumoDropdownItem">
           <i className="zmdi zmdi-home"/> 我的主页
         </Link>
-        <Link to="/me/edit" className="BumoDropdownItem">
+          : '' }
+        {isLogined ?
+        < Link to = "/me/edit" className="BumoDropdownItem">
           <i className="zmdi zmdi-settings"/> 设置
-        </Link>
+          </Link>
+          : '' }
+        {!isLogined ?
+          < Link to = "/me/edit" className="BumoDropdownItem">
+            <i className="zmdi zmdi-mail-send"/> 重发验证邮件
+          </Link>
+          : '' }
         <div onClick={this.handleLogout} className="BumoDropdownItem">
           <i className="zmdi zmdi-power-off"/> 退出
         </div>

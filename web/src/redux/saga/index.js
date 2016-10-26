@@ -45,9 +45,14 @@ function* loginFail() {
   while (TRULY) {
     const {error} = yield take(authModule.LOGIN_FAIL);
     if (error && error.err === 'not_user') {
-      const {email_verified} = yield select(state => state.auth.auth0);
+      const {email_verified, email} = yield select(state => state.auth.auth0);
       if (email_verified) {
         yield put(authModule.register());
+      } else {
+        yield put(createNotification({
+          message: `我们已经向您发送了一封确认邮件，请前往您的邮箱「${email}」确认`,
+          level: 'warning'
+        }));
       }
     }
   }

@@ -164,6 +164,9 @@
     color: white;
     text-align: center;
     justify-content: space-between;
+    &.double {
+      flex: 0 0 6rem;
+    }
     @extend .ellipses;
     &:hover {
       color: $dSliver;
