@@ -9,6 +9,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 //import {initialTagType} from "../redux/modules/containers_mobile/tagType";
 
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+const windowWidth = Dimensions.get('window').width;
 
 class TagTypeDetail extends Component {
 
@@ -47,23 +48,21 @@ class TagTypeDetail extends Component {
     this.props.navigator.push({
       title: tagType,
       screen: 'bumo.TagDetail',
-      passProps: {tagType: tagType, tagName: tagName}
+      passProps: {tagType: tagType, tagName: tagName},
     })
-
-
   }
 
   renderRow(rowData, sectionID, rowID) {
     const {painting, tagHeat, tags, tagType}= this.props;
-    const windowWidth = Dimensions.get('window').width;
     const topPainting = rowData.paintings ? lodash.find(painting, {id: rowData.paintings[0]}) : '';
+    console.log(topPainting);
     return (
-      <TouchableHighlight onPress={this.handleTagDetail.bind(this, rowData.type, rowData.name)} underlayColor='#dddddd'>
-        {topPainting ? <View style={styles.rowContainer}>
+        topPainting ?
+          (<TouchableHighlight style={styles.rowContainer} onPress={this.handleTagDetail.bind(this, rowData.type, rowData.name)} underlayColor='#dddddd'>
           <View>
             <Image style={{
-              width: windowWidth - 20,
-              height: (windowWidth - 20) / topPainting.width * topPainting.height
+              width:(windowWidth - 40)/2,
+              height: 150
             }}
                    resizeMode={Image.resizeMode.cover}
                    source={{uri: topPainting.attachment}}/>
@@ -80,8 +79,8 @@ class TagTypeDetail extends Component {
               }
             </View>
           </View>
-        </View> : <View/>}
-      </TouchableHighlight>
+          </TouchableHighlight>)
+         : <View/>
     );
   }
 
@@ -93,7 +92,7 @@ class TagTypeDetail extends Component {
       : [];
     const source = dataSource.cloneWithRows(orderTags);
     return (
-      <ListView style={{flex: 1, backgroundColor: '#EFEFF4', padding: 10}}
+      <ListView contentContainerStyle={styles.list}
                 dataSource={source}
                 renderRow={this.renderRow.bind(this)}
                 onEndReached={this.loadMore.bind(this)}
@@ -105,10 +104,18 @@ class TagTypeDetail extends Component {
 }
 
 const styles = StyleSheet.create({
+  list:{
+    flex:1,
+    backgroundColor:'#EFEFF4',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
   rowContainer: {
-    marginBottom: 15,
+    marginHorizontal:10,
+    marginTop:10,
+    width:(windowWidth - 40)/2,
+    height: 200,
     backgroundColor: '#FFFFFF',
-    flexDirection: 'column',
     shadowColor: '#8F8E94',
     shadowOffset: {x: 0, y: 5},
     shadowRadius: 2,
@@ -117,18 +124,18 @@ const styles = StyleSheet.create({
   },
   info: {
     alignItems: 'center',
-    marginTop: 15
+    marginTop: 8
   },
   title: {
-    fontSize: 18,
+    fontSize: 14,
     color: '#16A085'
   },
   tagHeat: {
-    fontSize: 14,
+    fontSize: 10,
     color: '#EE634C'
   },
   type:{
-    fontSize:14,
+    fontSize:10,
     color: '#C7C7CD'
 
   }

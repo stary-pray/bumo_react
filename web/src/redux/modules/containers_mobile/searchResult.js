@@ -3,6 +3,8 @@ import {handleActions} from "redux-actions";
 const DO_SEARCH = 'bumo/SearchResult/do_search';
 const DO_SEARCH_SUCCESS = 'bumo/SearchResult/do_search_success';
 const DO_SEARCH_FAIL = 'bumo/SearchResult/do_search_fail';
+const INIT_SEARCH = 'bumo/SearchResult/init_search';
+
 
 const LOCATION_CHANGE = '@@router/LOCATION_CHANGE';
 
@@ -13,6 +15,7 @@ const initialState = {
 };
 
 export default handleActions({
+  [INIT_SEARCH]:(state)=>(initialState),
   [DO_SEARCH]: (state) => ({
     ...state,
     isSearching: true,
@@ -31,3 +34,9 @@ export function doSearch(text) {
     promise: (client) => client.get('/api/public/search?text=' + text)
   };
 }
+export function initSearch() {
+  return {
+    type:INIT_SEARCH,
+  };
+}
+

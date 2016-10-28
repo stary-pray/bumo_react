@@ -13,8 +13,8 @@ class PaintingDetail extends Component {
   };
 
   static navigatorStyle = {
-
     tabBarHidden: true,
+    navBarButtonColor: '#05AD97',
   };
 
 

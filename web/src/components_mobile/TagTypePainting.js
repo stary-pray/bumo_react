@@ -7,11 +7,17 @@ import PureListView from "./PureListView";
 
 class TagTypePainting extends Component {
 
+
   static propTypes = {
     painting: PropTypes.object,
     tagType: PropTypes.string,
     loadTagTypePainting: PropTypes.func,
     loadTagTypePaintingHot: PropTypes.func
+  };
+
+  static navigatorStyle = {
+    tabBarHidden: true,
+    navBarButtonColor: '#05AD97',
   };
 
   render() {

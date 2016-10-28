@@ -8,7 +8,7 @@ export default class FindPainting extends Component {
 
   handleSearch() {
     this.props.navigator.push({
-      screen: "bumo.SearchResult",
+      screen: "bumo.SearchResultNew",
       title: "搜索",
       animationType: 'slide-down',
       navigatorStyle:{
@@ -32,7 +32,7 @@ export default class FindPainting extends Component {
           tabBarTextStyle={{fontSize: 14}}
           tabBarInactiveTextColor={'#8F8E94'}
           tabBarActiveTextColor={'#05AD97'}
-          tabBarUnderlineColor={'#05AD97'}
+          tabBarUnderlineStyle ={{backgroundColor:'#05AD97'}}
           style={{
             borderTopWidth: 0.5,
             borderTopColor: '#C7C7CD',
@@ -52,9 +52,8 @@ export default class FindPainting extends Component {
 }
 
 const styles = StyleSheet.create({
-
   searchInput: {
-    flex: 0,
+    flex: 1,
     height: 30,
     marginLeft: 7.5,
     marginRight: 7.5,
