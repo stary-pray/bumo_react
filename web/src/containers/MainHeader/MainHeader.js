@@ -15,6 +15,24 @@ import {AUTH0_CLIENT, AUTH0_DOMAIN} from "../../utils/common.js";
 import {setItem, removeItem, getItem} from "../../helpers/storage";
 import {checkTokenValid} from "../../utils/common";
 
+const defaultOptions = {
+  avatar: null,
+  autoclose: true,
+  language: 'zh',
+  theme: {
+    //labeledSubmitButton: false,
+    logo: require('!file!../../utils/assets/green.svg'),
+    primaryColor: "#1abc9c"
+  },
+  auth: {
+    redirect: false,
+  },
+  languageDictionary: {
+    //signUpTerms: "I agree to the <a href='/terms' target='_new'>terms of service</a> and <a href='/privacy' target='_new'>privacy policy</a>.",
+    title: "恋绘·星祈",
+  },
+};
+
 @connect(
   (state, ownProps) => ({
     component: state.containers.MainHeader,
@@ -58,6 +76,7 @@ export default class TopNav extends Component {
     this.handleLoginModalOpen = this.handleLoginModalOpen.bind(this);
     this.handleRegisterModalOpen = this.handleRegisterModalOpen.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
+    this.getAuth0Profile = this.getAuth0Profile.bind(this);
     this.lock = null;
     this.createLoginOrSignupModal();
   }
@@ -76,23 +95,6 @@ export default class TopNav extends Component {
 
   createLoginOrSignupModal(){
     if(!this.lock){
-      const defaultOptions = {
-        avatar: null,
-        autoclose: true,
-        language: 'zh',
-        theme: {
-          //labeledSubmitButton: false,
-          logo: require('!file!../../utils/assets/green.svg'),
-          primaryColor: "#1abc9c"
-        },
-        auth: {
-          redirect: false,
-        },
-        languageDictionary: {
-          //signUpTerms: "I agree to the <a href='/terms' target='_new'>terms of service</a> and <a href='/privacy' target='_new'>privacy policy</a>.",
-          title: "恋绘·星祈",
-        },
-      };
       this.lock = new Auth0Lock(AUTH0_CLIENT, AUTH0_DOMAIN, defaultOptions);
 
       this.lock
@@ -106,8 +108,9 @@ export default class TopNav extends Component {
     }
   }
 
-  getAuth0Profile(idToken) {
-    this.lock.getProfile(idToken, (err, profile)=> {
+  async getAuth0Profile(idToken) {
+    let token = idToken || await getItem("preAuth");
+    this.lock.getProfile(token, (err, profile)=> {
       if(err) {
         removeItem("preAuth")
       } else {
@@ -131,6 +134,9 @@ export default class TopNav extends Component {
 
   handleLogout() {
     this.props.logout();
+    this.lock.logout({
+      returnTo: window.location.origin
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -187,11 +193,11 @@ export default class TopNav extends Component {
             <i className="zmdi zmdi-cloud-upload"/> 投稿
           </Link> : '' }
           {!isLogined && isAuth0Logined ?
-            <a className="item double">
+            <a onClick={()=> this.getAuth0Profile()} className="item double">
               <i className="zmdi zmdi-email-open"/> 验证邮箱
             </a> : '' }
           <span onClick={this.handleOpenDropdown} className="item">
-            <i className="zmdi zmdi-account"/> {me.nickname || auth0.username}
+            <i className="zmdi zmdi-account"/> {me.nickname || auth0.username || auth0.nickname}
           </span>
           <span onClick={this.handleOpenSearch} className="item"><i className="zmdi zmdi-search"/> 搜索</span>
         </div>
