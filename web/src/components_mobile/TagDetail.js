@@ -13,6 +13,10 @@ class TagDetail extends Component {
     tagType: PropTypes.string,
     tagName: PropTypes.string
   };
+  static navigatorStyle = {
+    tabBarHidden: true,
+    navBarButtonColor: '#05AD97',
+  };
 
   componentWillUnmount() {
     this.props.intialTagPainting();

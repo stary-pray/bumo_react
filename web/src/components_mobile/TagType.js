@@ -15,7 +15,7 @@ class TagType extends Component {
         <ScrollableTabView tabBarTextStyle={{fontSize: 14}}
                            tabBarInactiveTextColor={'#8F8E94'}
                            tabBarActiveTextColor={'#05AD97'}
-                           tabBarUnderlineColor={'#05AD97'}
+                           tabBarUnderlineStyle ={{backgroundColor:'#05AD97'}}
                            style={{
                              marginTop: 25,
                            }}>

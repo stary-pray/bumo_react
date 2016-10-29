@@ -20,7 +20,8 @@ class UserPainting extends Component {
 
   static navigatorStyle = {
     drawUnderNavBar: true,
-    navBarTransparent: true
+    navBarTransparent: true,
+    navBarButtonColor: '#05AD97',
   };
 
   componentWillUnmount() {

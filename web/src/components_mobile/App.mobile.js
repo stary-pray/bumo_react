@@ -43,17 +43,20 @@ export default class App {
           },
         },
         {
-          label: '标签',
-          screen: 'bumo.TagType',
-          title: '标签',
-          navigatorStyle: {
-            navBarHidden: true,
-          },
-        },
-        {
           label: '画家',
           screen: 'bumo.User',
           title: '画家',
+          icon: iconsMap['palette--active'],
+          navigatorStyle: {
+            navBarHidden: true,
+
+          },
+        },
+        {
+          label: '标签',
+          screen: 'bumo.TagType',
+          title: '标签',
+          icon: iconsMap['local-offer'],
           navigatorStyle: {
             navBarHidden: true,
           },
@@ -62,13 +65,16 @@ export default class App {
           label: '我',
           screen: 'bumo.Me',
           title: '我',
+          icon: iconsMap['person'],
           navigatorStyle: {
             navBarHidden: true,
           },
         }
       ],
-
-      title: 'Redux Example'
+      title: 'Redux Example',
+      tabsStyle: {
+        tabBarSelectedButtonColor: '#05AD97',
+      }
     })
   }
 }
