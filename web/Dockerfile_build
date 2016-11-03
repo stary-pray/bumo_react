@@ -17,7 +17,7 @@ RUN rm -rf /build/node_modules \
 && mv .babelrc.bak .babelrc \
 && npm run build \
 && rm -rf /build/dist/*.map \
-&& mv /build/dist /srv
+&& mv /build/dist /srv/
 
 ADD ./src/favicon.ico /build/dist/favicon.ico
 
