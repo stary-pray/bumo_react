@@ -2,14 +2,12 @@ version: "2.0"
 build:
     lite_image:
         compile:
-            dockerfile_path: /Dockerfile_build
-            build_dir: ./web
+            dockerfile_path: Dockerfile_build
+            build_dir: /web
             cache: true
-
         extract:
             - /srv
-
         package:
-              dockerfile_path: /Dockerfile_serve
-              build_dir: ./web
+              dockerfile_path: Dockerfile_serve
+              build_dir: /web
               cache: true
