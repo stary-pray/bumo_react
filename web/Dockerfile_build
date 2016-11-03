@@ -10,7 +10,7 @@ COPY . /build
 
 RUN rm -rf /build/node_modules \
 && mv /tmp/node_modules /build/node_modules \
-&& cd /var/bumo/bumo_react && npm run build \
+&& cd /build && npm run build \
 && rm -rf /build/dist/*.map \
 && mv /build/dist /srv
 
