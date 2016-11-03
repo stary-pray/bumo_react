@@ -6,7 +6,7 @@ ADD ./package.json /tmp/package.json
 RUN cd /tmp && npm install
 
 # start compile
-COPY ./web /build
+COPY . /build
 
 RUN rm -rf /build/node_modules \
 && mv /tmp/node_modules /build/node_modules \
