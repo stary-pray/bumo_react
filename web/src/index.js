@@ -7,6 +7,7 @@ import {Router, browserHistory} from "react-router";
 import {syncHistoryWithStore} from "react-router-redux";
 import "./containers/foundation.scss";
 import getRoutes from "./routes";
+import ReactGA from "react-ga";
 
 const client = new ApiClient();
 
@@ -17,8 +18,15 @@ console.disableYellowBox = true;
 
 const history = syncHistoryWithStore(browserHistory, store);
 
+ReactGA.initialize('UA-32474933-4');
+
+function logPageView() {
+  ReactGA.set({ page: window.location.pathname });
+  ReactGA.pageview(window.location.pathname);
+}
+
 const component = (
-  <Router history={history}>
+  <Router history={history} onUpdate={logPageView}>
     {getRoutes(store)}
   </Router>
 );
