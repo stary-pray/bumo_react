@@ -10,6 +10,9 @@
     overflow: hidden;
     display: flex;
     background-color: white;
+    &.is-redirect-page {
+      display: none;
+    }
   }
   &__left {
     flex: 1 1 auto;

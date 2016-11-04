@@ -3,7 +3,9 @@ import "./MainFooter.scss";
 
 export default class MainFooter extends Component {
   render() {
-    return (<div className="MainFooter__container">
+    const {pathname} = window.location;
+    const onRedirectPath = pathname === '/redirect';
+    return (<div className={"MainFooter__container " + (onRedirectPath ? 'is-redirect-page' : '') }>
       <div className="MainFooter__left">
         <span className="secondary-color"> © 2016 星祈 </span>
       </div>

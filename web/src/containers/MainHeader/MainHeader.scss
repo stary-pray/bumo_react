@@ -15,6 +15,9 @@
     background-image: none;
     z-index: 1;
   }
+  &.is-redirect-page {
+    display: none;
+  }
   .logo {
     flex: 0 0 15rem;
     position: relative;

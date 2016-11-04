@@ -1,0 +1,22 @@
+@import "../../containers/colors";
+
+.Redirect {
+  &__container {
+    padding: 2rem;
+    margin-top: 20vh;
+    width: 600px;
+    background: $lSliver;
+    border-radius: 4px;
+  }
+  &__title {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  &__button-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 4rem;
+  }
+}
+

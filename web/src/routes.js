@@ -14,6 +14,7 @@ import TagDetail from "./containers/TagDetail/TagDetail";
 import CreateCharge from "./containers/Deposit/CreateCharge";
 import DepositList from "./containers/Deposit/DepositList";
 import TagType from "./containers/TagDetail/TagType";
+import Redirect from "./components/Redirect/Redirect";
 
 
 export default function Router(store) {
@@ -69,6 +70,8 @@ export default function Router(store) {
       <Route path="me/depositList" component={DepositList}/>
 
       <Route path="me/createCharge" component={CreateCharge}/>
+
+      <Route path="redirect" component={Redirect}/>
 
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404}/>

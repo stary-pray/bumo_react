@@ -171,7 +171,8 @@ export default class TopNav extends Component {
     const isAuth0Logined = auth0 && auth0.user_id;
     const {pathname} = window.location;
     const isHomePage = pathname === '/' || pathname === '/latest';
-    return (<div id="main-header" className={isHomePage ? 'is-home-page' : ''}>
+    const onRedirectPath = pathname === '/redirect';
+    return (<div id="main-header" className={(isHomePage ? 'is-home-page ' : '') + (onRedirectPath ? 'is-redirect-page' : '')}>
       <IndexLink className="logo" to="/">
         <InlineSVG className="svg" src={require("./bumo_logo.svg")}/>
       </IndexLink>
