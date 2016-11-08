@@ -25,7 +25,8 @@ const defaultOptions = {
     primaryColor: "#1abc9c"
   },
   auth: {
-    redirect: false,
+    redirect: true,
+    redirectUrl: `${window.location.protocol}//${window.location.host}`
   },
   languageDictionary: {
     //signUpTerms: "I agree to the <a href='/terms' target='_new'>terms of service</a> and <a href='/privacy' target='_new'>privacy policy</a>.",
