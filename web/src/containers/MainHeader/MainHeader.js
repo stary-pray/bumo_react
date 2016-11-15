@@ -26,7 +26,7 @@ const defaultOptions = ()=> ({
   },
   auth: {
     redirect: true,
-    redirectUrl: window.location.href,
+    redirectUrl: `${window.location.protocol}//${window.location.host}`,
     responseType: `token`
   },
   languageDictionary: {
