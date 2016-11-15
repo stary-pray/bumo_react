@@ -158,7 +158,7 @@ export default class TamashiPopup extends Component {
               </div>
               <div className="section section-tags">
                 <label>作者</label>
-                {this.renderSectionWidth('t', profile[paintingDetail[id].profile].nickname,profileHeat[paintingDetail[id].profile]
+                {this.renderSectionWidth('t', profile[paintingDetail[id].profile].nickname,profileHeat[profile[paintingDetail[id].profile].heat]
                   , component.hoverAmount)}
                 <div className="section section-tags">
                   <label>标签</label>
