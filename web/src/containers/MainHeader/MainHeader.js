@@ -175,7 +175,7 @@ export default class TopNav extends Component {
     const onRedirectPath = pathname === '/redirect';
     return (<div id="main-header" className={(isHomePage ? 'is-home-page ' : '') + (onRedirectPath ? 'is-redirect-page' : '')}>
       <IndexLink className="logo" to="/">
-        <InlineSVG className="svg" src={require("./bumo_logo.svg")}/>
+        <InlineSVG className="svg" src={require("./bumo_logo_new.svg")}/>
       </IndexLink>
       <section className="mono nav-section">
         <IndexLink activeClassName="active" className="nav-item" to="/">
