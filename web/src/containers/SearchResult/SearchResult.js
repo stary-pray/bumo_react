@@ -9,7 +9,7 @@ import * as containerAction from "../../redux/modules/containers/SearchResult";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import onClickOutside from "react-onclickoutside";
 
-const CDN_DOMAIN = 'http://7sbq0u.com1.z0.glb.clouddn.com/';
+const CDN_DOMAIN = 'https://media.3acg.com/media/';
 
 @connect(
   (state, ownProps) => ({
