@@ -8,7 +8,9 @@ import {syncHistoryWithStore} from "react-router-redux";
 import "./containers/foundation.scss";
 import getRoutes from "./routes";
 import ReactGA from "react-ga";
-import "./utils/browser.js";
+import {isUnsupported} from "./utils/browser.js";
+
+const isSupport = !isUnsupported;
 
 const client = new ApiClient();
 

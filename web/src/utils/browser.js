@@ -1,6 +1,6 @@
 import bowser from "bowser";
 
-const isUnsupported = bowser.isUnsupportedBrowser({
+export const isUnsupported = bowser.isUnsupportedBrowser({
   msie: "12",
   edge: "13",
   firefox: "40",
