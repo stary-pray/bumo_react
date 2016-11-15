@@ -12,7 +12,7 @@ export const resize = (url, minWidth)=> {
   let width;
   if (url && !url.match(/\.svg$/)) {
     width = minWidth * (window.devicePixelRatio || 1);
-    return url + `?imageMogr2/format/${webpSupported ? 'webp' : 'jpg'}/thumbnail/${width}x/interlace/1`;
+    return url + `!/format/${webpSupported ? 'webp' : 'jpg'}/fw/${width}/quality/75`;
   } else {
     return url;
   }
@@ -22,7 +22,7 @@ export const resizeWidthSquare = (url, minWidth)=> {
   let width;
   if (url && !url.match(/\.svg$/)) {
     width = minWidth * (window.devicePixelRatio || 1);
-    return url + `?imageMogr2/format/${webpSupported ? 'webp' : 'jpg'}/thumbnail/${width}x/crop/${width}x${width}/interlace/1`;
+    return url + `!/format/${webpSupported ? 'webp' : 'jpg'}/fw/${width}/clip/${width}x${width}a0s0/gravity/center/quality/75`;
   } else {
     return url;
   }
@@ -32,7 +32,7 @@ export const resizeHeight = (url, minHeight)=> {
   let height;
   if (url && !url.match(/\.svg$/)) {
     height = minHeight * (window.devicePixelRatio || 1);
-    return url + `?imageMogr2/format/${webpSupported ? 'webp' : 'jpg'}/thumbnail/x${height}/interlace/1`;
+    return url + `!/format/${webpSupported ? 'webp' : 'jpg'}/fh/${height}/quality/75`;
   } else {
     return url;
   }

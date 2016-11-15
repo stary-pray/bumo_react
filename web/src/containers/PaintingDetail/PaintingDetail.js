@@ -229,7 +229,7 @@ export default class PaintingDetail extends Component {
               </div>
               <div className="infoGroup">
                 <label> 标签 </label>
-                {(painting && painting.tags ?
+                {(painting && painting.tags && painting.tags.length ?
                   tagsArray.map((id) => (
                     <div className="tagLabel" key={'tags' + id}>
                       <Link to={"/tag/"+tags[id].type+'/'+tags[id].name}>
