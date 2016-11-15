@@ -15,7 +15,7 @@ import {AUTH0_CLIENT, AUTH0_DOMAIN} from "../../utils/common.js";
 import {setItem, removeItem, getItem} from "../../helpers/storage";
 import {checkTokenValid} from "../../utils/common";
 
-const defaultOptions = {
+const defaultOptions = ()=> ({
   avatar: null,
   autoclose: true,
   language: 'zh',
@@ -26,13 +26,14 @@ const defaultOptions = {
   },
   auth: {
     redirect: true,
-    redirectUrl: `${window.location.protocol}//${window.location.host}`
+    redirectUrl: window.location.href,
+    responseType: `token`
   },
   languageDictionary: {
     //signUpTerms: "I agree to the <a href='/terms' target='_new'>terms of service</a> and <a href='/privacy' target='_new'>privacy policy</a>.",
     title: "恋绘·星祈",
   },
-};
+});
 
 @connect(
   (state, ownProps) => ({
@@ -79,7 +80,7 @@ export default class TopNav extends Component {
     this.handleModalClose = this.handleModalClose.bind(this);
     this.getAuth0Profile = this.getAuth0Profile.bind(this);
     this.lock = null;
-    this.createLoginOrSignupModal();
+    this.checkAuth0LoginToken();
   }
 
   componentDidMount(){
@@ -94,16 +95,24 @@ export default class TopNav extends Component {
     }
   }
 
+  async checkAuth0LoginToken(){
+    const matches = location.hash.match(/id_token=([^&]*)&/);
+    if(matches && matches[1]){
+      await setItem("preAuth", matches[1]);
+      this.getAuth0Profile(matches[1]);
+    }
+  }
+
   createLoginOrSignupModal(){
     if(!this.lock){
-      this.lock = new Auth0Lock(AUTH0_CLIENT, AUTH0_DOMAIN, defaultOptions);
-
+      this.lock = new Auth0Lock(AUTH0_CLIENT, AUTH0_DOMAIN, defaultOptions());
       this.lock
         .on('authenticated', async(authResult) => {
           await setItem("preAuth", authResult.idToken);
           this.getAuth0Profile(authResult.idToken);
         })
         .on('hide', () => {
+          delete this.lock;
           this.handleModalClose()
         })
     }
@@ -111,6 +120,7 @@ export default class TopNav extends Component {
 
   async getAuth0Profile(idToken) {
     let token = idToken || await getItem("preAuth");
+    this.createLoginOrSignupModal();
     this.lock.getProfile(token, (err, profile)=> {
       if(err) {
         removeItem("preAuth")
@@ -144,10 +154,12 @@ export default class TopNav extends Component {
     const currentComponent = this.props.component;
     const nextComponent = nextProps.component;
     if(!currentComponent.isLoginModalOpened && nextComponent.isLoginModalOpened) {
+      this.createLoginOrSignupModal();
       this.lock.show({initialScreen: 'login'});
     }
 
     if(!currentComponent.isRegisterModalOpened && nextComponent.isRegisterModalOpened) {
+      this.createLoginOrSignupModal();
       this.lock.show({initialScreen: 'signUp'});
     }
 
