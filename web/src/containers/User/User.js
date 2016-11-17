@@ -82,18 +82,19 @@ export default class Tags extends Component {
       <div> {component.loaded ?
         <div className="collections">
           { component.indexes.map((userId)=>
-            <Link  to={'/u/' +userId} className="paintingCollection" key={userId}>
-              {user[userId].banner ?
-                <span className="img" style={{backgroundImage: `url(${resize(user[userId].banner, 240)})`}}/> :
-                <InlineSVG className="svg" src={require("../../utils/assets/default_banner.svg")}/>}
-              <Link className="name" to={'/u/' +userId}>
-                <h2>{user[userId].nickname}</h2>
-              </Link>
-              <h4 className="type"/>
-              <h2 className="heat">
-                <i className="zmdi zmdi-fire"/> {calculateHeat(profileHeat[user[userId].heat])}°
-              </h2>
-            </Link>
+            user[userId].first_painting?
+              <Link to={'/u/' + userId} className="paintingCollection" key={userId}>
+                {user[userId].banner ?
+                  <span className="img" style={{backgroundImage: `url(${resize(user[userId].banner, 240)})`}}/> :
+                  <InlineSVG className="svg" src={require("../../utils/assets/default_banner.svg")}/>}
+                <Link className="name" to={'/u/' + userId}>
+                  <h2>{user[userId].nickname}</h2>
+                </Link>
+                <h4 className="type"/>
+                <h2 className="heat">
+                  <i className="zmdi zmdi-fire"/> {calculateHeat(profileHeat[user[userId].heat])}°
+                </h2>
+              </Link> :''
           )}
           <button
             onClick={this.loadMore}
