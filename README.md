@@ -5,7 +5,9 @@
 
 ## 使用技术
 Web 主要是 React，Webpack，Docker（部署）
+
 Mobile 主要是 React Native
+
 共用技术有 Redux，Redux saga。web 和 mobile 这两端是基本上共用数据层的逻辑的
 
 ## 启动项目
