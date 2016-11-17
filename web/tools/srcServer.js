@@ -1,6 +1,5 @@
 // This file configures the development web server
 // which supports hot reloading and synchronized testing.
-
 // Require Browsersync along with webpack and middleware for it
 import browserSync from "browser-sync";
 import historyApiFallback from "connect-history-api-fallback";
@@ -29,7 +28,7 @@ browserSync({
         publicPath: config.output.publicPath,
 
         // pretty colored output
-        stats: { colors: true },
+        stats: {colors: true},
 
         // Set to false to display a list of each file that is being bundled.
         noInfo: true
