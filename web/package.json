@@ -16,7 +16,8 @@
     "build": "babel-node tools/build.js",
     "build:watch": "npm run prebuild && babel-node tools/build.js && npm run open:dist",
     "test": "mocha tools/testSetup.js src/**/*.spec.js --reporter progress",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "prepare": "shx cp .babelrc.bak .babelrc"
   },
   "author": "akistar",
   "license": "GPL",
@@ -101,6 +102,7 @@
     "react-addons-test-utils": "15.3.2",
     "rimraf": "2.5.4",
     "sass-loader": "4.0.2",
+    "shx": "0.2.0",
     "sinon": "1.17.6",
     "sinon-chai": "2.8.0",
     "style-loader": "0.13.1",
