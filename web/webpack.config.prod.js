@@ -4,8 +4,7 @@ import ExtractTextPlugin from "extract-text-webpack-plugin";
 import autoprefixer from "autoprefixer";
 import FileSystem from "fs";
 
-//const publicPath = 'https://dn-mono-front.qbox.me/';
-const publicPath = '';
+const publicPath = 'https://static.6koi.com/';
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
