@@ -21,7 +21,13 @@ const getEntry = function () {
     'classnames',
     'react-masonry-component',
     'react-dom',
-    'react-dropzone'];
+    'react-dropzone',
+    'react-router',
+    'redux-form',
+    'immutable',
+    'lodash',
+    'auth0-lock',
+  ];
 
   return entry;
 };
@@ -42,13 +48,12 @@ export default {
     new webpack.optimize.CommonsChunkPlugin('vendors', 'bumo.vendors.js'),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /cn/),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
   ],
   module: {
     loaders: [
       {test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel', 'eslint']},
       {test: /(\.css|\.scss)$/, loaders: ['style', 'css?sourceMap', 'postcss?sourceMap', 'sass?sourceMap']},
-      
       {test: /masonry|imagesloaded|fizzy\-ui\-utils|desandro\-|outlayer|get\-size|doc\-ready|eventie|eventemitter/, loader: 'imports?define=>false&this=>window'},
       { test: /\.svg$/, loader: 'svg-inline' },
       { test: /\.((woff2?)(\?v=[0-9]\.[0-9]\.[0-9]))|(woff2?|ico)$/, loader: 'url?limit=100000' },

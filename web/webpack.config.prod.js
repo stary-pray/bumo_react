@@ -23,7 +23,13 @@ const getEntry = function () {
     'classnames',
     'react-masonry-component',
     'react-dom',
-    'react-dropzone'];
+    'react-dropzone',
+    'react-router',
+    'redux-form',
+    'immutable',
+    'lodash',
+    'auth0-lock',
+  ];
 
   return entry;
 };
