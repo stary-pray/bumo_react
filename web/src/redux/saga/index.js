@@ -2,7 +2,7 @@
 import {fork, take, put, select, call} from "redux-saga/effects";
 import * as authModule from "../modules/auth";
 import * as meModule from "../modules/me";
-import * as userPaintingModule from "../modules/containers/UserPainting";
+import * as userPaintingModule from "../modules/models/UserPainting";
 import * as depositModule from "../modules/containers/Deposit";
 import * as getChargeModule from "../modules/models/Deposit";
 import * as PaintingUploadModule from "../modules/PaintingUpload";
