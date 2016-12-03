@@ -5,6 +5,7 @@ import {getItem, removeItem} from "../helpers/storage";
 export const AUTH0_DOMAIN = 'akinoniku.auth0.com';
 export const AUTH0_CLIENT = 'auspnqFnkHXFpXEEt3ekP4Ht87fW6HLD';
 const HEAT_HALF_LIFE = 30; // days
+const isDev = process.env.NODE_ENV === 'development';
 
 let webpSupported = false;
 
@@ -12,7 +13,7 @@ export const resize = (url, minWidth)=> {
   let width;
   if (url && !url.match(/\.svg$/)) {
     width = minWidth * (window.devicePixelRatio || 1);
-    return url + `!/format/${webpSupported ? 'webp' : 'jpg'}/fw/${width}/quality/75`;
+    return isDev ? url : url + `!/format/${webpSupported ? 'webp' : 'jpg'}/fw/${width}/quality/75`;
   } else {
     return url;
   }
@@ -22,7 +23,7 @@ export const resizeWidthSquare = (url, minWidth)=> {
   let width;
   if (url && !url.match(/\.svg$/)) {
     width = minWidth * (window.devicePixelRatio || 1);
-    return url + `!/format/${webpSupported ? 'webp' : 'jpg'}/fw/${width}/clip/${width}x${width}a0s0/gravity/center/quality/75`;
+    return isDev ? url : url + `!/format/${webpSupported ? 'webp' : 'jpg'}/fw/${width}/clip/${width}x${width}a0s0/gravity/center/quality/75`;
   } else {
     return url;
   }
@@ -32,7 +33,7 @@ export const resizeHeight = (url, minHeight)=> {
   let height;
   if (url && !url.match(/\.svg$/)) {
     height = minHeight * (window.devicePixelRatio || 1);
-    return url + `!/format/${webpSupported ? 'webp' : 'jpg'}/fh/${height}/quality/75`;
+    return isDev ? url : url + `!/format/${webpSupported ? 'webp' : 'jpg'}/fh/${height}/quality/75`;
   } else {
     return url;
   }
