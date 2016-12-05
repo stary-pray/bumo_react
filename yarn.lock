@@ -3130,11 +3130,21 @@ react-deep-force-update@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-1.0.1.tgz#f911b5be1d2a6fe387507dd6e9a767aa2924b4c7"
 
+react-native-auth0@^0.0.1:
+  version "0.0.1"
+  resolved "http://registry.npm.taobao.org/react-native-auth0/download/react-native-auth0-0.0.1.tgz#6a712cc0f00740337396205bc3da453f52d25026"
+
 react-native-lightbox@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/react-native-lightbox/-/react-native-lightbox-0.6.0.tgz#291701fb3dd0d7eaf88cebb5f105d7891bea5452"
   dependencies:
     react-timer-mixin "^0.13.3"
+
+react-native-lock:
+  version "0.4.0"
+  resolved "http://registry.npm.taobao.org/react-native-lock/download/react-native-lock-0.4.0.tgz#6c6df838cab6ffaa47fd561c42e254e5160868c9"
+  dependencies:
+    react-native-auth0 "^0.0.1"
 
 react-native-navigation@next:
   version "2.0.0-experimental.133"

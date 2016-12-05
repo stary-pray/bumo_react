@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 import {load as loadPainting, loadHot as loadHotPainting} from "../redux/modules/models/Painting";
 import PureListView from "./PureListView";
 import {initialApp} from "../redux/modules/auth";
+import Auth0Lock from "react-native-lock";
+import {AUTH0_DOMAIN, AUTH0_CLIENT} from "../utils/common";
 
 
 class Home extends Component {
@@ -16,6 +18,12 @@ class Home extends Component {
 
   componentWillMount() {
     this.props.initialApp();
+    const lock = new Auth0Lock({clientId: AUTH0_CLIENT, domain: AUTH0_DOMAIN});
+    setTimeout(()=> {
+      lock.show({}, (err, profile, token) => {
+        console.log('Logged in!', err, profile);
+      });
+    }, 3000);
   }
 
 
