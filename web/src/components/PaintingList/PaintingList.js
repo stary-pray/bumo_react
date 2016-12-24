@@ -73,7 +73,7 @@ export default class PaintingList extends Component {
     }
   }
 
-  renderPaintingInfo(openModal, paintingId) {
+  renderPaintingInfo(openModal, paintingId, heatOrder) {
     const {painting, paintingHeat, profile, isMe, preferences} = this.props;
     const paintingBody = painting[paintingId];
     const paintingWidth = paintingBody.width / paintingBody.height > 1.25 ? defaultWidth * 2 + 15 : defaultWidth;
@@ -83,6 +83,7 @@ export default class PaintingList extends Component {
         heat={paintingHeat[paintingBody.heat]}
         owner={profile[paintingBody.profile]}
         painting={paintingBody}
+        heatOrder={heatOrder}
         openModal={openModal}
         width={paintingWidth}
         openTamashi={this.props.openTamashi}
@@ -106,7 +107,7 @@ export default class PaintingList extends Component {
         { (component.loaded && tagName && tagType) ?
           <PainterContribute className="PaintingInfo__container" tagName={tagName} tagType={tagType}/> : '' }
         {component.loaded ?
-          component.indexes.map((paintingId)=> this.renderPaintingInfo(openModal, paintingId))
+          component.indexes.map((paintingId)=> this.renderPaintingInfo(openModal, paintingId, (component.indexes.indexOf(paintingId)+1)))
           : ''}
       </Masonry>
     );
@@ -120,7 +121,7 @@ export default class PaintingList extends Component {
           { (component.loaded && tagName && tagType) ?
             <PainterContribute className="PaintingInfo__container is-card" tagName={tagName} tagType={tagType}/> : '' }
           {component.loaded ?
-            component.indexes.map((paintingId)=> this.renderPaintingInfo(openModal, paintingId))
+            component.indexes.map((paintingId)=> this.renderPaintingInfo(openModal, paintingId, (component.indexes.indexOf(paintingId)+1)))
             : ''}
       </ul>
     );

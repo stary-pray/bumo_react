@@ -19,6 +19,7 @@ export default class PaintingInfo extends Component {
     loginModalOpen: PropTypes.func,
     openModal: PropTypes.func,
     openTamashi: PropTypes.func.isRequired,
+    heatOrder: PropTypes.number
   };
 
   constructor() {
@@ -57,13 +58,14 @@ export default class PaintingInfo extends Component {
   }
 
   renderCard() {
-    const {painting, heat, owner, isMe} = this.props;
+    const {painting, heat, owner, isMe, heatOrder} = this.props;
     const width = this.props.width || 320;
     const isOpenedTamashi = this.props.openedTamashiId === painting.id;
 
     return (
       <li onClick={this.handleClickMain} className={"PaintingInfo__container PaintingInfo__card " + (isOpenedTamashi ? 'isOpened' : "") }>
         <div className="PaintingInfo__image-thumbnail">
+          <div>{heatOrder}</div>
           <img
             onClick={this.openModal}
             className="PaintingInfo__image-thumbnail_image"
@@ -87,14 +89,16 @@ export default class PaintingInfo extends Component {
   }
 
   renderMasonry() {
-    const {painting, heat, owner, isMe} = this.props;
+    const {painting, heat, owner, isMe, heatOrder} = this.props;
     const width = this.props.width || 320;
     const isOpenedTamashi = this.props.openedTamashiId === painting.id;
     return (
       <li onClick={this.handleClickMain} style={{width: width, height: imageHeight(painting.width, painting.height, width) }}
           className={"PaintingInfo__container PaintingInfo__thumbnail " + (isOpenedTamashi ? 'isOpened' : "") }>
         <div className="PaintingInfo__inner">
-        <div className="topInfo">
+          <div>{heatOrder}</div>
+
+          <div className="topInfo">
           {painting.status !== 2 ? <div>审核中...</div> :
             <a onClick={isMe? this.openTamashi:this.handleLoginModalOpen} className="heat">
               <i className="zmdi zmdi-fire"/>

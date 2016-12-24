@@ -1,5 +1,6 @@
 // import {fork, call, take, put} from 'redux-saga'
 import {fork, take, put, select, call} from "redux-saga/effects";
+import {browserHistory} from "react-router";
 import * as authModule from "../modules/auth";
 import * as meModule from "../modules/me";
 import * as userPaintingModule from "../modules/models/UserPainting";
@@ -9,11 +10,13 @@ import * as PaintingUploadModule from "../modules/PaintingUpload";
 import * as MainHeaderModule from "../modules/containers/MainHeader";
 import * as LikeActionModule from "../modules/containers/LikeAction";
 import * as PaintingDetailModule from "../modules/models/PaintingDetail";
+import * as ChargeWindowModule from "../modules/containers/ChargeWindow";
 import {createNotification} from "../../redux/modules/notification";
+import * as DepositCreateModule from "../modules/containers/CreateCharge";
 import {checkTokenValid} from "../../utils/common";
 import {setItem, removeItem} from "../../helpers/storage";
 
-let browserHistory = {push: ()=> ''};
+//let browserHistory = {push: ()=> ''};
 
 const TRULY = true;
 
@@ -117,6 +120,31 @@ function* registerSuccess() {
   }
 }
 
+//交易对象成功建立时
+function* depositCreateSuccess() {
+  while (TRULY) {
+    const {result} =yield take(DepositCreateModule.CREATE_CHARGE_SUCCESS);
+    const chargeChannel = yield select(state => state.containers.CreateCharge.channel);
+    const chargeLink = yield select(state => state.containers.CreateCharge.credential[chargeChannel]);
+    yield put(ChargeWindowModule.openPayCharge(chargeLink));
+  }
+}
+
+function* depositCreate() {
+  while (TRULY) {
+    const {result} =yield take(DepositCreateModule.OPEN_CHARGE);
+    browserHistory.push('/me/depositList');
+  }
+}
+
+function* chargeClose() {
+  while (TRULY) {
+    const {result} =yield take(ChargeWindowModule.CLOSE_PAY_CHARGE);
+    browserHistory.push('/me/depositList');
+  }
+}
+
+
 function* logout() {
   while (TRULY) {
     yield take(authModule.LOGOUT);
@@ -150,6 +178,39 @@ function* depositLastPageLoaded() {
   }
 }
 
+function* checkPayCharge() {
+  while (TRULY) {
+    const {result} = yield take(DepositCreateModule.CREATE_CHARGE_SUCCESS);
+    yield delay(5000);
+    yield put(getChargeModule.checkCharge(result.id))
+  }
+}
+
+//每5秒检查是否支付成功,1小时之后失效
+function* checkCharge() {
+  while (TRULY) {
+    yield take(getChargeModule.CHECK_CHARGE_FAIL);
+    const chargerId = yield select(state => state.containers.CreateCharge.id);
+    const chargeTime = yield select(state => state.containers.CreateCharge.createTime);
+    const nowTime = new Date();
+    const gapTime= (nowTime- new Date(chargeTime))/1000/3600;
+    console.log('gatTime', gapTime);
+    if(gapTime <= 1) {
+      yield delay(5000);
+      yield put(getChargeModule.checkCharge(chargerId))
+    }
+  }
+}
+
+function* checkChargeSuccess() {
+  while (TRULY) {
+    yield take(getChargeModule.CHECK_CHARGE_SUCCESS);
+    yield put(ChargeWindowModule.closePayCharge());
+    yield put(getChargeModule.getCharge())
+  }
+
+}
+
 
 function* loadPaintingChecking() {
   while (TRULY) {
@@ -160,6 +221,14 @@ function* loadPaintingChecking() {
         level: 'warning'
       }));
     }
+  }
+}
+
+function* createChargeFail () {
+  while (TRULY) {
+    yield take(DepositCreateModule.CREATE_CHARGE_FAIL);
+    yield put(DepositCreateModule.cancelCreateCharge());
+    yield put(DepositCreateModule.openCharge());
   }
 }
 
@@ -180,5 +249,12 @@ export default function* root() {
     fork(initialApp),
     fork(intialUpdateMe),
     fork(loadPaintingChecking),
+    fork(depositCreateSuccess),
+    fork(chargeClose),
+    fork(depositCreate),
+    fork(checkPayCharge),
+    fork(checkCharge),
+    fork(checkChargeSuccess),
+    fork(createChargeFail)
   ];
 }

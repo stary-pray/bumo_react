@@ -8,12 +8,15 @@ import MainFooter from "../../components/MainFooter/MainFooter";
 import ScrollToTopButton from "../../components/ScrollToTopButton/ScrollToTopButton";
 import NotificationSystem from "react-notification-system";
 import PaintingModal from "../PaintingModal/PaintingModal";
+import CreateCharge from "../Deposit/CreateCharge";
+import PayCharge from "../Deposit/PayCharge";
 import SearchResult from "../SearchResult/SearchResult";
 import {createNotification, createNotificationSuccess} from "../../redux/modules/notification";
 import {positionChange} from "../../redux/modules/waypoint";
 import {getScrollBarWidth} from "../../utils/common";
 import Waypoint from "react-waypoint";
 import "./App.scss";
+
 
 // import Pref from 'react-addons-perf';
 // window['Pref'] = Pref;
@@ -122,6 +125,8 @@ export default class App extends Component {
         <MainFooter />
         <NotificationSystem ref="notificationSystem"/>
         <PaintingModal/>
+        <CreateCharge/>
+        <PayCharge/>
         <SearchResult/>
         <ScrollToTopButton />
       </div>

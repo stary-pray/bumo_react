@@ -2,8 +2,10 @@ import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {getCharge, checkCharge} from "../../redux/modules/models/Deposit";
-import {Link} from "react-router";
 import classNames from "classnames";
+import "./DepositList.scss";
+import moment from "moment";
+import {openPayCharge} from "../../redux/modules/containers/ChargeWindow";
 
 @connect(
   state => ({
@@ -13,7 +15,8 @@ import classNames from "classnames";
   }),
   dispatch => bindActionCreators({
     getCharge,
-    checkCharge
+    checkCharge,
+    openPayCharge
   }, dispatch)
 )
 
@@ -63,31 +66,35 @@ export default class DepositList extends Component {
     }
   }
 
-  checkCharge(depositId) {
-    this.props.checkCharge(depositId);
+  handleOpenPayCharge(link){
+    this.props.openPayCharge(link)
   }
+
   render() {
     const{deposit,component}=this.props;
     const {pageMeta, loading}=this.props.component;
     const isLastPage = !pageMeta.next;
 
-    return(<div>
-      <div>
+    return(
+      <div className="DepositList">
+        <h2 className="DepositList_title">为画手注入的魂 <span className="DepositList__heat"><i className="zmdi zmdi-fire"/></span></h2>
         {component.loaded ?
           (component.indexes.map((depositId)=>(
-          <div key={'depositId"'+ depositId}>
-            <h3>订单号{deposit[depositId].charge_obj.order_no}</h3>
-            <div>金额{deposit[depositId].amount}元</div>
-            <div>创建时间{deposit[depositId].created}</div>
-            <button onClick={this.checkCharge.bind(this,depositId)}>我已付款</button>
+          <div key={'depositId"'+ depositId} className="DepositList_rowContainer">
+            <div className="DepositList_date">{moment(deposit[depositId].created).format('L')}</div>
+            <div className="DepositList_number">订单号: {deposit[depositId].charge_obj.order_no}</div>
+            <div className="DepositList_money">金额: ￥{deposit[depositId].amount}.00</div>
             {deposit[depositId].status == 0 ?
-            <div>
-              <a href={deposit[depositId].charge_obj.credential[deposit[depositId].charge_obj.channel]}>未付款</a>
+            <div className="DepositList_status">
+              {(new Date() - new Date(deposit[depositId].created))/1000/3600 > 1 ?
+                <div>交易关闭</div>:
+                <a onClick={this.handleOpenPayCharge.bind(this, deposit[depositId].charge_obj.credential[deposit[depositId].charge_obj.channel])}>未付款</a>
+              }
             </div>:
               deposit[depositId].status == 2 ?
-                <div>付款成功</div>:<div>未知错误</div>}
-            <div></div>
-          </div>)))
+                <div className="DepositList_status">交易成功</div>:<div className="DepositList_status">未知错误</div>}
+            </div>
+          )))
           :
           ''}
         <button
@@ -96,6 +103,6 @@ export default class DepositList extends Component {
           { loading ? '载入中...' : (isLastPage ? '已到最后一页' : '载入更多') }
         </button>
       </div>
-    </div>)
+    )
   }
 }

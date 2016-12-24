@@ -5,6 +5,7 @@ import {Link} from "react-router";
 import {reduxForm} from "redux-form";
 import {createNotification} from "../../redux/modules/notification";
 import "./EditMe.scss";
+import {openCharge} from "../../redux/modules/containers/CreateCharge";
 
 @reduxForm({
     form: 'updateMe',
@@ -22,7 +23,8 @@ import "./EditMe.scss";
   dispatch => bindActionCreators({
     loadMe,
     updateMe,
-    createNotification
+    createNotification,
+    openCharge
   }, dispatch)
 )
 
@@ -64,6 +66,9 @@ export default class updateMeForm extends Component {
     });
   };
 
+  createCharge(){
+    this.props.openCharge();
+  }
 
   render() {
     const {component, fields:{nickname, introduction, description}, me} = this.props;
@@ -102,7 +107,9 @@ export default class updateMeForm extends Component {
               </div>
               <div className="EditMe__balance_mp">
                 <span><i className="zmdi zmdi-star"/>MP {(me.balance ? me.balance.charged_qb : '')}</span>
-                <Link className="EditMe__balance_add-mp button small disabled" to="me/depositList"> 补充MP(暂未开放) </Link>
+                <a className="EditMe__balance_add-mp button small" onClick={this.createCharge.bind(this)}> 补充MP(暂未开放) </a>
+                <Link className="EditMe__balance_add-mp button small" to="/me/depositList"> 支付历史 </Link>
+
               </div>
               <Link className="hide" to="me/createCharge">
                 <div className="button">充值</div>

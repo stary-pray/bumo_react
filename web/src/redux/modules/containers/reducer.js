@@ -17,7 +17,7 @@ import TamashiPopup from "./TamashiPopup";
 import TagPaintingDetail from "./TagPaintingDetail";
 import Comments from "./Comments";
 import PainterContribute from "./PainterContribute";
-
+import ChargeWindow from "./ChargeWindow";
 export default combineReducers({
   Home,
   PaintingDetail,
@@ -36,5 +36,6 @@ export default combineReducers({
   TamashiPopup,
   TagPaintingDetail,
   Comments,
-  PainterContribute
+  PainterContribute,
+  ChargeWindow
 });
