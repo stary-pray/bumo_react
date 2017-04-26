@@ -1,12 +1,10 @@
 // import {fork, call, take, put} from 'redux-saga'
-import {fork, take, put, select, call} from "redux-saga/effects";
-import {browserHistory} from "react-router";
+import {call, fork, put, select, take} from "redux-saga/effects";
 import * as authModule from "../modules/auth";
 import * as meModule from "../modules/me";
 import * as userPaintingModule from "../modules/models/UserPainting";
 import * as depositModule from "../modules/containers/Deposit";
 import * as getChargeModule from "../modules/models/Deposit";
-import * as PaintingUploadModule from "../modules/PaintingUpload";
 import * as MainHeaderModule from "../modules/containers/MainHeader";
 import * as LikeActionModule from "../modules/containers/LikeAction";
 import * as PaintingDetailModule from "../modules/models/PaintingDetail";
@@ -14,9 +12,7 @@ import * as ChargeWindowModule from "../modules/containers/ChargeWindow";
 import {createNotification} from "../../redux/modules/notification";
 import * as DepositCreateModule from "../modules/containers/CreateCharge";
 import {checkTokenValid} from "../../utils/common";
-import {setItem, removeItem} from "../../helpers/storage";
-
-//let browserHistory = {push: ()=> ''};
+import {removeItem, setItem} from "../../helpers/storage";
 
 const TRULY = true;
 
@@ -72,13 +68,6 @@ function* loginFail() {
   }
 }
 
-function* paintingUploadSuccess() {
-  while (TRULY) {
-    const {result} =yield take(PaintingUploadModule.UPLOAD_SUCCESS);
-    browserHistory.push('/p/' + result.id);
-  }
-}
-
 function* updateAvatarOrBanner() {
   while (TRULY) {
     yield take([meModule.UPLOAD_AVATAR_SUCCESS, meModule.UPLOAD_BANNER_SUCCESS]);
@@ -130,20 +119,6 @@ function* depositCreateSuccess() {
   }
 }
 
-function* depositCreate() {
-  while (TRULY) {
-    const {result} =yield take(DepositCreateModule.OPEN_CHARGE);
-    browserHistory.push('/me/depositList');
-  }
-}
-
-function* chargeClose() {
-  while (TRULY) {
-    const {result} =yield take(ChargeWindowModule.CLOSE_PAY_CHARGE);
-    browserHistory.push('/me/depositList');
-  }
-}
-
 
 function* logout() {
   while (TRULY) {
@@ -151,14 +126,6 @@ function* logout() {
     yield removeItem('token');
     yield removeItem('preAuth');
     yield put({type: authModule.LOGOUT_SUCCESS});
-  }
-}
-
-function* logoutSuccess() {
-  while (TRULY) {
-    yield take(authModule.LOGOUT_SUCCESS);
-    browserHistory.push('');
-    setTimeout(() => location.reload(), 1500);
   }
 }
 
@@ -238,20 +205,16 @@ export default function* root() {
     fork(loginSuccess),
     fork(loginFail),
     fork(logout),
-    fork(logoutSuccess),
     fork(registerSuccess),
     fork(updateMe),
     fork(updateMeEveryQuarterHour),
     fork(depositNextPageLoaded),
     fork(depositLastPageLoaded),
-    fork(paintingUploadSuccess),
     fork(updateAvatarOrBanner),
     fork(initialApp),
     fork(intialUpdateMe),
     fork(loadPaintingChecking),
     fork(depositCreateSuccess),
-    fork(chargeClose),
-    fork(depositCreate),
     fork(checkPayCharge),
     fork(checkCharge),
     fork(checkChargeSuccess),

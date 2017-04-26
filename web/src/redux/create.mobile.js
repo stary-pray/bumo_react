@@ -1,7 +1,7 @@
-import {createStore as _createStore, applyMiddleware, compose} from "redux";
+import {applyMiddleware, compose, createStore as _createStore} from "redux";
 import createMiddleware from "./middleware/clientMiddleware";
 import normailzeMiddleware from "./middleware/normailzeMiddleware";
-import rootSaga from "./saga";
+import rootSaga from "./saga/index.mobile";
 import reducer from "./modules/reducer.mobile";
 import createSagaMiddleware, {END} from "redux-saga";
 import {AsyncStorage} from "react-native";
