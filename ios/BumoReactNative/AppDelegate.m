@@ -9,13 +9,8 @@
 
 #import "AppDelegate.h"
 
-// **********************************************
-// *** DON'T MISS: THE NEXT LINE IS IMPORTANT ***
-// **********************************************
-#import "RCCManager.h"
-
-#import "RCTBundleURLProvider.h"
-#import "RCTRootView.h"
+#import <React/RCTBundleURLProvider.h>
+#import <React/RCTRootView.h>
 
 @implementation AppDelegate
 
@@ -24,17 +19,7 @@
   NSURL *jsCodeLocation;
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
-  //jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.66:8081/index.ios.bundle?platform=ios&dev=true"];
 
-
-  // **********************************************
-  // *** DON'T MISS: THIS IS HOW WE BOOTSTRAP *****
-  // **********************************************
-  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  self.window.backgroundColor = [UIColor whiteColor];
-  [[RCCManager sharedInstance] initBridgeWithBundleURL:jsCodeLocation];
-
-  /*
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"BumoReactNative"
                                                initialProperties:nil
@@ -46,7 +31,6 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  */
   return YES;
 }
 

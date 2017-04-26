@@ -1,5 +1,5 @@
-import React, {Component, PropTypes} from "react";
-import {StyleSheet, Text, View, ListView, TouchableHighlight, Image} from "react-native";
+import React, {Component} from "react";
+import {Image, StyleSheet, Text, TouchableHighlight, View} from "react-native";
 import {connect} from "react-redux";
 import {logout} from "../redux/modules/auth";
 
@@ -19,10 +19,8 @@ class Me extends Component {
   }
 
   handleLogin() {
-    this.props.navigator.showModal({
-      screen: "bumo.Login",
-      title: "登录",
-      animationType: 'slide-up'
+    lock.show({}, (err, profile, token) => {
+      console.log('Logged in!', profile, token, err);
     });
   }
   handleRegister() {

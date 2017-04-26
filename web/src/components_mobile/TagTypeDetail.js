@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from "react";
-import {AppRegistry, StyleSheet, Text, View, ListView, TouchableHighlight, Image, Dimensions} from "react-native";
+import {Dimensions, Image, ListView, StyleSheet, Text, TouchableHighlight, View} from "react-native";
 import {loadTagTypeDetail} from "../redux/modules/models/TagDetail";
 import {connect} from "react-redux";
 import lodash from "lodash";
@@ -55,13 +55,16 @@ class TagTypeDetail extends Component {
   renderRow(rowData, sectionID, rowID) {
     const {painting, tagHeat, tags, tagType}= this.props;
     const topPainting = rowData.paintings ? lodash.find(painting, {id: rowData.paintings[0]}) : '';
-    console.log(topPainting);
+    console.log('rowData', rowData.name);
+    console.log('topPainting', topPainting);
     return (
-        topPainting ?
-          (<TouchableHighlight style={styles.rowContainer} onPress={this.handleTagDetail.bind(this, rowData.type, rowData.name)} underlayColor='#dddddd'>
+      topPainting ?
+        (<TouchableHighlight style={styles.rowContainer}
+                             onPress={this.handleTagDetail.bind(this, rowData.type, rowData.name)}
+                             underlayColor='#dddddd'>
           <View>
             <Image style={{
-              width:(windowWidth - 40)/2,
+              width: (windowWidth - 40) / 2,
               height: 150
             }}
                    resizeMode={Image.resizeMode.cover}
@@ -75,12 +78,13 @@ class TagTypeDetail extends Component {
               {
                 tagType == "all" ? <Text style={styles.type}>
                   {rowData.type}
-                </Text>:<View/>
+                </Text> : <View/>
+
               }
             </View>
           </View>
-          </TouchableHighlight>)
-         : <View/>
+        </TouchableHighlight>)
+        : <View/>
     );
   }
 
@@ -92,7 +96,9 @@ class TagTypeDetail extends Component {
       : [];
     const source = dataSource.cloneWithRows(orderTags);
     return (
+
       <ListView contentContainerStyle={styles.list}
+                initialListSize={12}
                 dataSource={source}
                 renderRow={this.renderRow.bind(this)}
                 onEndReached={this.loadMore.bind(this)}
@@ -104,16 +110,16 @@ class TagTypeDetail extends Component {
 }
 
 const styles = StyleSheet.create({
-  list:{
-    flex:1,
-    backgroundColor:'#EFEFF4',
+  list: {
+    backgroundColor: '#EFEFF4',
+    justifyContent: 'space-around',
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   },
   rowContainer: {
-    marginHorizontal:10,
-    marginTop:10,
-    width:(windowWidth - 40)/2,
+    marginHorizontal: 10,
+    marginTop: 10,
+    width: (windowWidth - 40) / 2,
     height: 200,
     backgroundColor: '#FFFFFF',
     shadowColor: '#8F8E94',
@@ -134,8 +140,8 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: '#EE634C'
   },
-  type:{
-    fontSize:10,
+  type: {
+    fontSize: 10,
     color: '#C7C7CD'
 
   }

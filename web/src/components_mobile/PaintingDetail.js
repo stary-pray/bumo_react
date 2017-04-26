@@ -1,4 +1,4 @@
-import {StyleSheet, Image, View, TouchableHighlight, ListView, Text, ScrollView} from "react-native";
+import {Image, StyleSheet, Text, TouchableHighlight, View} from "react-native";
 import React, {Component, PropTypes} from "react";
 import {load as loadPaintingDetail} from "../redux/modules/models/PaintingDetail";
 import {connect} from "react-redux";
@@ -17,41 +17,47 @@ class PaintingDetail extends Component {
     navBarButtonColor: '#05AD97',
   };
 
+  static navigationOptions = ({navigation, screenProps}) => {
+    return {
+      title: navigation.state.params.title,
+    }
+  };
+
 
   componentWillMount() {
-
     this.props.loadPaintingDetail(this.props.paintingId)
   }
 
-  handleUserPainting(ownerProfile){
-
+  handleUserPainting(ownerProfile) {
     this.props.navigator.push({
       title: ownerProfile.nickname,
       name: ownerProfile.nickname,
       screen: 'bumo.UserPainting',
-      passProps:{UserId: ownerProfile.id}
+      passProps: {UserId: ownerProfile.id}
     })
   }
-  handleComment(paintingId){
+
+  handleComment(paintingId) {
     this.props.navigator.push({
       title: '评论',
       name: '评论',
       screen: 'bumo.Comment',
-      passProps:{paintingId: paintingId}
+      passProps: {paintingId: paintingId}
     })
   }
-  handleLike(paintingId){
+
+  handleLike(paintingId) {
     this.props.navigator.push({
       title: '支持作者',
       name: '支持作者',
       screen: 'bumo.Like',
-      passProps:{paintingId: paintingId}
+      passProps: {paintingId: paintingId}
     })
   }
 
 
   render() {
-    const {paintingDetail, paintingId, profile, profileHeat, tags, component, paintingHeat}=this.props;
+    const {paintingDetail, paintingId, profile, profileHeat, tags, component, paintingHeat} = this.props;
     const painting = paintingDetail[paintingId];
     const profileId = painting ? painting.profile : -1;
     const ownerProfile = painting ? profile[profileId] : -1;
@@ -62,32 +68,33 @@ class PaintingDetail extends Component {
       painting ?
         <View style={styles.container}>
           <TouchableHighlight onPress={this.handleUserPainting.bind(this, ownerProfile)}>
-          <View style={styles.profile}>
-            <Image style={styles.avatar}
-                   source={{uri: ownerProfile.avatar}}/>
-            <Text style={styles.description}>{ownerProfile.nickname}</Text>
-            <Text style={styles.description}>{ownerProfileHeat && calculateHeat(ownerProfileHeat)}</Text>
-            <Text style={styles.description}>{moment(painting.created).fromNow()}</Text>
-          </View>
-            </TouchableHighlight>
+            <View style={styles.profile}>
+              <Image style={styles.avatar}
+                     source={ownerProfile.avatar ? {uri: ownerProfile.avatar} : require("../utils/assets_mobile/default_avatar.png") }/>
+              <Text style={styles.description}>{ownerProfile.nickname}</Text>
+              <Text style={styles.description}>{ownerProfileHeat && calculateHeat(ownerProfileHeat)}</Text>
+              <Text style={styles.description}>{moment(painting.created).fromNow()}</Text>
+            </View>
+          </TouchableHighlight>
           <Lightbox>
-          <Image style={styles.image}
-                 source={{uri: painting.attachment}}/>
+            <Image style={styles.image}
+                   source={{uri: painting.attachment}}/>
           </Lightbox>
 
           <View style={styles.paintingDetail}>
             <View style={styles.paintingTop}>
-            <Text style={styles.title}>{painting.title}</Text>
-            <Text style={styles.heat}>{paintingHeat && paintingHeat[paintingId] && calculateHeat(paintingHeat[paintingId])}</Text>
+              <Text style={styles.title}>{painting.title}</Text>
+              <Text
+                style={styles.heat}>{paintingHeat && paintingHeat[paintingId] && calculateHeat(paintingHeat[paintingId])}</Text>
             </View>
             {(painting && painting.tags ?
-              <View style={styles.tag} >
+              <View style={styles.tag}>
                 <Text style={styles.tagSign}>#</Text>
                 {painting.tags.map((id) => (
-                      <Text style={styles.tagName} key={id}>{tags[id].name}</Text>
-                  ))}
-                  </View>:
-                  <Text>没有标签 =A=</Text>)}
+                  <Text style={styles.tagName} key={id}>{tags[id].name}</Text>
+                ))}
+              </View> :
+              <Text>没有标签 =A=</Text>)}
             <View style={styles.separator}/>
           </View>
           <TouchableHighlight onPress={this.handleComment.bind(this, paintingId)}>
@@ -96,7 +103,7 @@ class PaintingDetail extends Component {
           <TouchableHighlight onPress={this.handleLike.bind(this, paintingId)}>
             <Text>点赞</Text>
           </TouchableHighlight>
-          <Comments paintingId = {paintingId}/>
+          <Comments paintingId={paintingId}/>
         </View> : <View/>
 
     )
@@ -106,7 +113,7 @@ class PaintingDetail extends Component {
 
 var styles = StyleSheet.create({
   container: {
-    flex:1
+    flex: 1
   },
   profile: {
     flex: 1,
@@ -146,14 +153,14 @@ var styles = StyleSheet.create({
     margin: 5,
     color: '#656565'
   },
-  tag:{
+  tag: {
     flexDirection: 'row',
     flexWrap: 'wrap'
-},
-  tagSign:{
+  },
+  tagSign: {
     color: '#656565'
   },
-  tagName:{
+  tagName: {
     color: '#656565',
     margin: 5
   }
@@ -162,6 +169,7 @@ var styles = StyleSheet.create({
 
 export default connect(
   (state, ownProps) => ({
+    paintingId: ownProps.navigation.state.params.paintingId,
     paintingDetail: state.models.paintingDetail,
     profile: state.models.profile,
     paintingHeat: state.models.paintingHeat,

@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from "react";
-import {AppRegistry, StyleSheet, Text, View, ListView, TouchableHighlight, Image, Dimensions} from "react-native";
+import {Dimensions, Image, ListView, StyleSheet, Text, TouchableHighlight, View} from "react-native";
 import {connect} from "react-redux";
 import {loadUser} from "../redux/modules/models/User";
 import {calculateHeat} from "../utils/common";
@@ -25,7 +25,6 @@ class User extends Component {
 
   renderRow(rowData, sectionID, rowID) {
     const {profileHeat} = this.props;
-    console.log(rowData.avatar);
     const windowWidth = Dimensions.get('window').width;
     const heatObj = profileHeat[rowData.heat];
     return (

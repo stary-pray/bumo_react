@@ -1,7 +1,8 @@
-import {View, ListView, StyleSheet, Text, TextInput, TouchableHighlight} from "react-native";
+import {Dimensions, StyleSheet, Text, TouchableHighlight, View} from "react-native";
 import React, {Component, PropTypes} from "react";
 import {connect} from "react-redux";
 import {freeLike, payLike} from "../redux/modules/containers/LikeAction";
+const windowWidth = Dimensions.get('window').width;
 
 class Like extends Component {
 
@@ -22,7 +23,7 @@ class Like extends Component {
 
   render(){
     return(
-      <View>
+      <View style={styles.container}>
       <Text>单纯的支持作品</Text>
         <TouchableHighlight style={styles.button}
                             underlayColor='#99d9f4' onPress={this.handleFreeLike.bind(this)}>
@@ -51,7 +52,12 @@ class Like extends Component {
 
 }
 const styles = StyleSheet.create({
-
+  container:{
+    backgroundColor: '#7A797B',
+    width: windowWidth/3,
+    height: 300,
+    opacity: 3
+  },
   button: {
     height: 36,
     backgroundColor: '#48BBEC',

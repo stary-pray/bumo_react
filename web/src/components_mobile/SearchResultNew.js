@@ -1,16 +1,5 @@
 import React, {Component, PropTypes} from "react";
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  ListView,
-  TouchableHighlight,
-  Image,
-  TextInput,
-  ScrollView,
-  Dimensions
-} from "react-native";
+import {Dimensions, StyleSheet, Text, TextInput, TouchableHighlight, View} from "react-native";
 import {connect} from "react-redux";
 import {logSearch} from "../redux/modules/containers_mobile/searchInfo";
 import {doSearch, initSearch} from "../redux/modules/containers_mobile/searchResult";
@@ -22,7 +11,7 @@ import ResultListView from "./ResultListView";
 class SearchResultNew extends Component {
 
   static propTypes = {
-    logSearch: PropTypes.func
+    logSearch: PropTypes.func,
   };
 
   componentWillMount() {

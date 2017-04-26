@@ -1,7 +1,6 @@
-import React, {Component, PropTypes} from "react";
-import {AppRegistry, StyleSheet, Text, View, ListView, TouchableHighlight, Image, Dimensions} from "react-native";
+import React, {PropTypes} from "react";
+import {Dimensions, Image, ListView, StyleSheet, Text, TouchableHighlight, View} from "react-native";
 import Lightbox from "react-native-lightbox";
-import shallowCompare from "react-addons-shallow-compare";
 import OrderPainting from "./OrderPainting";
 import moment from "moment";
 import "moment/locale/zh-cn";
@@ -12,13 +11,14 @@ moment.locale('zh-cn');
 
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-export default class PureListView extends Component {
+export default class PureListView extends React.PureComponent {
 
   static propTypes = {
     painting: PropTypes.object,
     loadPainting: PropTypes.func,
     component: PropTypes.object,
     navigator: PropTypes.object,
+    navigation: PropTypes.object,
     profile: PropTypes.object,
     orderType: PropTypes.string,
     tagType: PropTypes.string,
@@ -27,10 +27,6 @@ export default class PureListView extends Component {
 
   componentWillMount() {
     this.loadMore(this.props);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -50,14 +46,23 @@ export default class PureListView extends Component {
 
   }
 
-  handleLike(paintingId) {
-    this.props.navigator.push({
+ /*
+    this.props.navigator.showModal({
       title: '支持作者',
       name: '支持作者',
       screen: 'bumo.Like',
-      passProps: {paintingId: paintingId}
+      passProps: {paintingId: paintingId},
+      animationType: 'slide-up'
     })
-  }
+  }*/
+  handleLike(paintingId) {
+  this.props.navigator.showLightBox({
+    screen: "bumo.Like", // unique ID registered with Navigation.registerScreen
+    passProps: {paintingId: paintingId}, // simple serializable object that will pass as props to the lightbox (optional)
+    style: {
+      backgroundBlur: "light", // 'dark' / 'light' / 'xlight' / 'none' - the type of blur on the background
+    }
+  })};
 
   renderRow(rowData, sectionID, rowID) {
     const {profile, paintingHeat} = this.props;
@@ -76,8 +81,8 @@ export default class PureListView extends Component {
             resizeMode: 'contain'
           }
           }>
-          <Image style={{width: windowWidth,
-            height: windowWidth / rowData.width * rowData.height}}
+          <Image style={{width: windowWidth, height: windowWidth / rowData.width * rowData.height}}
+                 cache="force-cache"
                  resizeMode={Image.resizeMode.cover}
                  source={{uri: `${rowData.attachment}?imageMogr2/format/webp/thumbnail/${windowWidth * 2}x/interlace/1`}}/>
         </Lightbox>
@@ -92,7 +97,7 @@ export default class PureListView extends Component {
                 <Text style={styles.title}>{rowData.title}</Text>
               </View>
               <View style={styles.ownerInfo}>
-                <Image style={styles.avatar} source={{uri: OwnerObj.avatar}}/>
+                <Image style={styles.avatar} source={OwnerObj.avatar ? {uri: OwnerObj.avatar} : require("../utils/assets_mobile/default_avatar.png")}/>
                 <View>
                   <Text style={styles.nickname}>{OwnerObj.nickname}</Text>
                   <Text style={styles.created}>{moment(rowData.created).fromNow()}</Text>
@@ -119,15 +124,8 @@ export default class PureListView extends Component {
 
   rowPressed(paintingId) {
     const {painting}=this.props;
-    var paintingTitle = painting[paintingId].title;
-    console.log('1', this.props.navigator
-    );
-    this.props.navigator.push({
-      title: paintingTitle,
-      name: paintingTitle,
-      screen: 'bumo.PaintingDetail',
-      passProps: {paintingId: paintingId}
-    })
+    const paintingTitle = painting[paintingId].title;
+    this.props.navigation.navigate('PaintingDetail', {paintingId: paintingId, title: paintingTitle})
   }
 
   renderHeader() {
